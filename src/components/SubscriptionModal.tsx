@@ -121,7 +121,11 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               })
             });
 
-            const verifyResult = await verifyResponse.json();
+            const verifyResult = await verifyResponse.json().catch(() => ({}));
+
+            if (!verifyResponse.ok) {
+              throw new Error(verifyResult.message || verifyResult.error || `Verification failed: ${verifyResponse.status}`);
+            }
 
             if (verifyResult.success) {
               // Calculate expiry
@@ -134,11 +138,11 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               showToast('Subscription activated successfully!', 'success');
               onClose();
             } else {
-              showToast('Payment verification failed', 'error');
+              showToast(verifyResult.message || 'Payment verification failed', 'error');
             }
-          } catch (err) {
+          } catch (err: any) {
             console.error(err);
-            showToast('Error verifying payment', 'error');
+            showToast(err.message || 'Error verifying payment', 'error');
           }
         },
         prefill: {

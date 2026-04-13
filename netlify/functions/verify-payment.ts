@@ -36,13 +36,14 @@ export const handler = async (event: any) => {
         body: JSON.stringify({ success: true, message: "Payment verified successfully" }),
       };
     } else {
+      console.error("Signature mismatch", { received: razorpay_signature, expected: expectedSign });
       return {
         statusCode: 400,
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ success: false, message: "Invalid signature" }),
+        body: JSON.stringify({ success: false, message: "Invalid signature. Please check RAZORPAY_KEY_SECRET in Netlify." }),
       };
     }
   } catch (error: any) {
