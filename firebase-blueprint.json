@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user profile in the application.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "isPremium": { "type": "boolean", "description": "Whether the user has paid the ₹1 premium fee" },
+        "subscriptionTier": { "type": "string", "description": "none, daily, monthly, yearly" },
+        "subscriptionExpiry": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "MedicationSchedule": {
+      "title": "MedicationSchedule",
+      "description": "A user's medication timetable entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The UID of the user who owns this schedule" },
+        "medicineName": { "type": "string" },
+        "dosage": { "type": "string" },
+        "time": { "type": "string", "description": "Time of day to take the medication, e.g., '08:00'" },
+        "days": { "type": "array", "items": { "type": "string" }, "description": "Days of the week, e.g., ['Mon', 'Wed', 'Fri']" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "medicineName", "dosage", "time", "days", "createdAt"]
+    },
+    "SearchAnalytics": {
+      "title": "SearchAnalytics",
+      "description": "Aggregated search data for popular medications.",
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" },
+        "count": { "type": "number" },
+        "lastSearchedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["query", "count", "lastSearchedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles and premium status."
+    },
+    "/schedules/{scheduleId}": {
+      "schema": { "$ref": "#/entities/MedicationSchedule" },
+      "description": "Stores medication timetables for users."
+    },
+    "/searchAnalytics/{queryId}": {
+      "schema": { "$ref": "#/entities/SearchAnalytics" },
+      "description": "Stores aggregated search counts."
+    }
+  }
+}

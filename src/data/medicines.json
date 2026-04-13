@@ -1,0 +1,4417 @@
+[
+  {
+    "id": "pantoprazole_domperidone",
+    "category": "Antacid & Antiemetic",
+    "drug_name": "Pantoprazole + Domperidone",
+    "brand_names_india": [
+      "Pantocid DSR",
+      "Pan-D",
+      "Pantop-D",
+      "Pensec DSR"
+    ],
+    "drug_class": "Proton Pump Inhibitor & Dopamine Antagonist",
+    "mechanism_of_action": "Pantoprazole reduces stomach acid. Domperidone increases movement of the stomach and intestines, allowing food to move more easily.",
+    "uses": [
+      "GERD (Acid reflux)",
+      "Peptic ulcer disease",
+      "Acidity",
+      "Heartburn"
+    ],
+    "dosage_common": "1 capsule once daily, 30 minutes before breakfast",
+    "side_effects_common": [
+      "Diarrhea",
+      "Stomach pain",
+      "Flatulence",
+      "Dry mouth",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Bone fractures (long term use)",
+      "Vitamin B12 deficiency",
+      "Irregular heartbeat"
+    ],
+    "overdose_effects": "Confusion, tremors, irregular heartbeat.",
+    "contraindications": [
+      "Severe liver disease",
+      "Known allergy to PPIs"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Digoxin",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Category C - Consult doctor before use.",
+    "kidney_liver_warning": "Dose adjustment needed in severe liver disease.",
+    "how_it_works_in_body": "Decreases the amount of acid produced in the stomach and prevents nausea/vomiting.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used for severe acidity, acid reflux, and heartburn.",
+    "who_should_take": "Patients with GERD or chronic acidity.",
+    "who_should_not_take": "Patients with severe liver impairment.",
+    "food_interactions": [
+      "Take on an empty stomach."
+    ],
+    "alcohol_warning": "Avoid alcohol as it increases stomach acid and worsens symptoms."
+  },
+  {
+    "id": "paracetamol_650",
+    "category": "Analgesic & Antipyretic",
+    "drug_name": "Paracetamol 650mg",
+    "brand_names_india": [
+      "Dolo 650",
+      "Calpol 650",
+      "Crocin 650",
+      "P-650",
+      "Macfast 650"
+    ],
+    "drug_class": "Analgesic and Antipyretic",
+    "mechanism_of_action": "Inhibits prostaglandin synthesis in the central nervous system to reduce pain and fever.",
+    "uses": [
+      "Fever",
+      "Headache",
+      "Body ache",
+      "Mild to moderate pain"
+    ],
+    "dosage_common": "1 tablet every 6-8 hours as needed (Max 4000mg/day)",
+    "side_effects_common": [
+      "Nausea",
+      "Stomach upset",
+      "Skin rash (rare)"
+    ],
+    "side_effects_serious": [
+      "Severe liver damage (in overdose)",
+      "Allergic reactions"
+    ],
+    "overdose_effects": "Liver failure, yellowing of eyes/skin, severe nausea, dark urine.",
+    "contraindications": [
+      "Severe liver disease",
+      "Alcoholism"
+    ],
+    "drug_interactions": [
+      "Blood thinners (Warfarin)",
+      "Ketoconazole",
+      "Carbamazepine"
+    ],
+    "pregnancy_safety": "Category B - Generally safe during pregnancy.",
+    "kidney_liver_warning": "Use with extreme caution in liver disease.",
+    "how_it_works_in_body": "Acts on the brain's temperature control center to lower fever and elevates the pain threshold.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A widely used, safe medication for reducing fever and relieving mild pain.",
+    "who_should_take": "People with fever, headache, or mild body aches.",
+    "who_should_not_take": "People with severe liver disease.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Strictly avoid heavy alcohol use; significantly increases risk of liver damage."
+  },
+  {
+    "id": "cetirizine_paracetamol_phenylephrine",
+    "category": "Cold & Cough",
+    "drug_name": "Cetirizine + Paracetamol + Phenylephrine",
+    "brand_names_india": [
+      "Cheston Cold",
+      "Okacet Cold",
+      "Sinarest",
+      "Wikoryl",
+      "Solvin Cold"
+    ],
+    "drug_class": "Antihistamine, Analgesic, and Decongestant",
+    "mechanism_of_action": "Cetirizine blocks histamine (allergy symptoms). Paracetamol reduces fever/pain. Phenylephrine narrows blood vessels to relieve nasal congestion.",
+    "uses": [
+      "Common cold",
+      "Allergic rhinitis",
+      "Nasal congestion",
+      "Fever with cold"
+    ],
+    "dosage_common": "1 tablet twice daily",
+    "side_effects_common": [
+      "Sleepiness",
+      "Dry mouth",
+      "Dizziness",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "High blood pressure",
+      "Liver damage (rare)",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Severe drowsiness, rapid heartbeat, liver damage.",
+    "contraindications": [
+      "Severe hypertension",
+      "Severe liver disease",
+      "Glaucoma"
+    ],
+    "drug_interactions": [
+      "MAO inhibitors",
+      "Antidepressants",
+      "Other cold medicines"
+    ],
+    "pregnancy_safety": "Category C - Avoid unless prescribed by a doctor.",
+    "kidney_liver_warning": "Use with caution in liver and kidney disease.",
+    "how_it_works_in_body": "Provides multi-symptom relief from cold, fever, and allergies.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Combination medicine used to treat common cold symptoms like blocked nose, runny nose, and fever.",
+    "who_should_take": "Patients suffering from cold, flu, or severe nasal allergy symptoms.",
+    "who_should_not_take": "Patients with high blood pressure or severe liver issues.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Avoid alcohol; increases drowsiness and risk of liver damage."
+  },
+  {
+    "id": "azithromycin",
+    "category": "Antibiotic",
+    "drug_name": "Azithromycin",
+    "brand_names_india": [
+      "Azithral",
+      "Azee",
+      "Zithrox",
+      "Azax",
+      "ATM"
+    ],
+    "drug_class": "Macrolide Antibiotic",
+    "mechanism_of_action": "Stops bacterial growth by inhibiting their protein synthesis.",
+    "uses": [
+      "Throat infections",
+      "Respiratory tract infections",
+      "Ear infections",
+      "Typhoid fever"
+    ],
+    "dosage_common": "500mg once daily for 3-5 days",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Irregular heartbeat (QT prolongation)",
+      "Liver toxicity",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Severe nausea, vomiting, diarrhea, temporary hearing loss.",
+    "contraindications": [
+      "Known allergy to macrolides",
+      "History of liver problems with this drug"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Digoxin",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe.",
+    "kidney_liver_warning": "Use with caution in severe liver disease.",
+    "how_it_works_in_body": "Prevents bacteria from multiplying, allowing the immune system to clear the infection.",
+    "onset_of_action": "2-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A widely used antibiotic for throat, ear, and respiratory infections.",
+    "who_should_take": "Patients with bacterial infections prescribed by a doctor.",
+    "who_should_not_take": "Patients with a history of severe liver problems or irregular heartbeats.",
+    "food_interactions": [
+      "Take 1 hour before or 2 hours after meals (for some brands/forms), though many tablets can be taken with food."
+    ],
+    "alcohol_warning": "Alcohol does not directly interact but can worsen side effects like dizziness and stomach upset."
+  },
+  {
+    "id": "telmisartan",
+    "category": "Antihypertensive",
+    "drug_name": "Telmisartan",
+    "brand_names_india": [
+      "Telma",
+      "Telmikind",
+      "Tazloc",
+      "Cresar",
+      "Tsart"
+    ],
+    "drug_class": "Angiotensin II Receptor Blocker (ARB)",
+    "mechanism_of_action": "Blocks the action of angiotensin II, a chemical that tightens blood vessels, thereby relaxing them and lowering blood pressure.",
+    "uses": [
+      "Hypertension (High blood pressure)",
+      "Heart attack prevention",
+      "Stroke prevention"
+    ],
+    "dosage_common": "40mg once daily",
+    "side_effects_common": [
+      "Back pain",
+      "Sinus infection",
+      "Diarrhea",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Kidney impairment",
+      "High blood potassium levels",
+      "Low blood pressure"
+    ],
+    "overdose_effects": "Dizziness, fainting, fast or slow heartbeat.",
+    "contraindications": [
+      "Severe liver impairment",
+      "Biliary obstructive disorders",
+      "Pregnancy (2nd and 3rd trimesters)"
+    ],
+    "drug_interactions": [
+      "Lithium",
+      "NSAIDs",
+      "Potassium supplements",
+      "Other blood pressure medicines"
+    ],
+    "pregnancy_safety": "Category D - STRICTLY AVOID during pregnancy.",
+    "kidney_liver_warning": "Use with caution in severe kidney or liver disease.",
+    "how_it_works_in_body": "Relaxes blood vessels, allowing blood to flow more smoothly and the heart to pump more efficiently.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A widely prescribed medicine to lower high blood pressure and protect the heart.",
+    "who_should_take": "Patients with high blood pressure or at high risk of cardiovascular events.",
+    "who_should_not_take": "Pregnant women and patients with severe liver disease.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Avoid alcohol; it can excessively lower blood pressure and increase dizziness."
+  },
+  {
+    "id": "drotaverine_mefenamic_acid",
+    "category": "Antispasmodic & Analgesic",
+    "drug_name": "Drotaverine + Mefenamic Acid",
+    "brand_names_india": [
+      "Drotin M",
+      "Drotin-M",
+      "Drotikind-M",
+      "Euvarin-M"
+    ],
+    "drug_class": "Antispasmodic and NSAID",
+    "mechanism_of_action": "Drotaverine relieves smooth muscle spasms. Mefenamic acid blocks chemical messengers that cause pain and inflammation.",
+    "uses": [
+      "Abdominal pain",
+      "Menstrual cramps (Dysmenorrhea)",
+      "Stomach pain",
+      "Muscle spasms"
+    ],
+    "dosage_common": "1 tablet twice or thrice a day as prescribed",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Dry mouth",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions",
+      "Stomach bleeding",
+      "Kidney problems"
+    ],
+    "overdose_effects": "Severe stomach pain, vomiting blood, extreme dizziness.",
+    "contraindications": [
+      "Asthma",
+      "Severe liver or kidney disease",
+      "Active stomach ulcers"
+    ],
+    "drug_interactions": [
+      "Blood thinners (Warfarin)",
+      "Other NSAIDs",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Category C/D - Avoid during late pregnancy.",
+    "kidney_liver_warning": "Use with caution; dose adjustment may be needed.",
+    "how_it_works_in_body": "Relaxes the smooth muscles of the stomach and intestines while reducing pain-causing prostaglandins.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A combination medicine used to treat severe stomach pain and menstrual cramps.",
+    "who_should_take": "Adults suffering from acute abdominal spasms or severe period pain.",
+    "who_should_not_take": "Patients with active stomach ulcers or severe kidney/liver issues.",
+    "food_interactions": [
+      "Take with food to avoid stomach upset."
+    ],
+    "alcohol_warning": "Avoid alcohol as it increases the risk of stomach bleeding."
+  },
+  {
+    "id": "dicyclomine",
+    "category": "Antispasmodic",
+    "drug_name": "Dicyclomine",
+    "brand_names_india": [
+      "Spasmonil",
+      "Cyclopam",
+      "Meftal Spas",
+      "Colimex"
+    ],
+    "drug_class": "Anticholinergic / Antispasmodic",
+    "mechanism_of_action": "Relaxes the smooth muscles of the gastrointestinal tract by blocking acetylcholine.",
+    "uses": [
+      "Irritable Bowel Syndrome (IBS)",
+      "Stomach cramps",
+      "Intestinal spasms"
+    ],
+    "dosage_common": "10-20mg up to 4 times a day",
+    "side_effects_common": [
+      "Dry mouth",
+      "Dizziness",
+      "Blurred vision",
+      "Nausea",
+      "Sleepiness"
+    ],
+    "side_effects_serious": [
+      "Decreased sweating leading to heat stroke",
+      "Confusion",
+      "Difficulty urinating"
+    ],
+    "overdose_effects": "Dilated pupils, hot/dry skin, severe confusion, difficulty swallowing.",
+    "contraindications": [
+      "Glaucoma",
+      "Myasthenia gravis",
+      "Severe ulcerative colitis",
+      "Obstructive uropathy"
+    ],
+    "drug_interactions": [
+      "Antihistamines",
+      "MAO inhibitors",
+      "Other anticholinergic drugs"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe, but consult a doctor.",
+    "kidney_liver_warning": "Use with caution in patients with liver or kidney impairment.",
+    "how_it_works_in_body": "Blocks the action of a chemical messenger (acetylcholine) to relax stomach and gut muscles.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Used to relieve stomach and intestinal cramps, especially in IBS.",
+    "who_should_take": "Patients experiencing painful gut spasms or IBS symptoms.",
+    "who_should_not_take": "Patients with glaucoma, severe ulcerative colitis, or difficulty urinating.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase dizziness and drowsiness."
+  },
+  {
+    "id": "paracetamol_mefenamic_acid",
+    "category": "Analgesic & Antipyretic",
+    "drug_name": "Mefenamic Acid + Paracetamol",
+    "brand_names_india": [
+      "Meftal Forte",
+      "Meftal-P",
+      "Mefkind-P",
+      "Ponstan"
+    ],
+    "drug_class": "NSAID and Analgesic",
+    "mechanism_of_action": "Blocks the release of certain chemical messengers that cause fever, pain, and inflammation.",
+    "uses": [
+      "Fever",
+      "Mild to moderate pain",
+      "Menstrual cramps",
+      "Toothache"
+    ],
+    "dosage_common": "1 tablet every 6-8 hours as needed",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Indigestion",
+      "Heartburn"
+    ],
+    "side_effects_serious": [
+      "Stomach ulcers",
+      "Bleeding",
+      "Liver damage (in high doses)"
+    ],
+    "overdose_effects": "Liver failure, severe stomach pain, dark urine.",
+    "contraindications": [
+      "Active peptic ulcer",
+      "Severe liver/kidney disease",
+      "Asthma triggered by NSAIDs"
+    ],
+    "drug_interactions": [
+      "Blood thinners",
+      "Other NSAIDs",
+      "Corticosteroids"
+    ],
+    "pregnancy_safety": "Category C - Avoid in 3rd trimester.",
+    "kidney_liver_warning": "Strict caution required; avoid in severe liver/kidney disease.",
+    "how_it_works_in_body": "Reduces pain and fever by inhibiting prostaglandin synthesis in the brain and body.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A common painkiller and fever reducer used for various types of mild to moderate pain.",
+    "who_should_take": "People with fever, body ache, or menstrual pain.",
+    "who_should_not_take": "People with a history of stomach ulcers or severe liver issues.",
+    "food_interactions": [
+      "Take with food or milk to prevent stomach upset."
+    ],
+    "alcohol_warning": "Strictly avoid alcohol; increases risk of severe liver damage and stomach bleeding."
+  },
+  {
+    "id": "levocetirizine_montelukast",
+    "category": "Antihistamine & Leukotriene Antagonist",
+    "drug_name": "Levocetirizine + Montelukast",
+    "brand_names_india": [
+      "Montair LC",
+      "Montek LC",
+      "Telekast L",
+      "Levocet M"
+    ],
+    "drug_class": "Antiallergic",
+    "mechanism_of_action": "Levocetirizine blocks histamine to reduce allergy symptoms. Montelukast blocks leukotrienes to reduce airway inflammation.",
+    "uses": [
+      "Allergic rhinitis",
+      "Sneezing and runny nose",
+      "Asthma prevention",
+      "Hay fever"
+    ],
+    "dosage_common": "1 tablet daily, usually in the evening",
+    "side_effects_common": [
+      "Sleepiness",
+      "Dry mouth",
+      "Headache",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Mood changes",
+      "Agitation",
+      "Depression (rare but possible with Montelukast)"
+    ],
+    "overdose_effects": "Severe drowsiness, restlessness, stomach pain.",
+    "contraindications": [
+      "Severe kidney impairment",
+      "Allergy to either component"
+    ],
+    "drug_interactions": [
+      "Phenytoin",
+      "Phenobarbital",
+      "Rifampin"
+    ],
+    "pregnancy_safety": "Category B - Consult doctor before use.",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease.",
+    "how_it_works_in_body": "Reduces allergic response and keeps airways open by blocking specific inflammatory chemicals.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Highly effective combination for treating severe allergies, runny nose, and preventing asthma attacks.",
+    "who_should_take": "Patients suffering from chronic allergies or allergic asthma.",
+    "who_should_not_take": "Patients with end-stage renal disease.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase drowsiness and dizziness."
+  },
+  {
+    "id": "ofloxacin_ornidazole",
+    "category": "Antibiotic & Antiamoebic",
+    "drug_name": "Ofloxacin + Ornidazole",
+    "brand_names_india": [
+      "O2",
+      "Zenflox-OZ",
+      "Oflox OZ",
+      "Ornof"
+    ],
+    "drug_class": "Fluoroquinolone and Nitroimidazole",
+    "mechanism_of_action": "Ofloxacin kills bacteria by preventing them from reproducing. Ornidazole kills parasites and anaerobic bacteria by damaging their DNA.",
+    "uses": [
+      "Diarrhea",
+      "Dysentery",
+      "Gastrointestinal infections",
+      "Pelvic inflammatory disease"
+    ],
+    "dosage_common": "1 tablet twice a day for 3-5 days",
+    "side_effects_common": [
+      "Nausea",
+      "Metallic taste",
+      "Headache",
+      "Dizziness",
+      "Stomach upset"
+    ],
+    "side_effects_serious": [
+      "Tendon rupture",
+      "Seizures",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Confusion, dizziness, severe nausea, seizures.",
+    "contraindications": [
+      "Epilepsy",
+      "Myasthenia gravis",
+      "Tendon disorders",
+      "Pregnancy"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Blood thinners",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Category C - Avoid during pregnancy, especially first trimester.",
+    "kidney_liver_warning": "Use with caution in severe liver or kidney disease.",
+    "how_it_works_in_body": "Eradicates both bacterial and parasitic infections in the gut.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A strong dual-action antibiotic used primarily for stomach infections and severe diarrhea.",
+    "who_should_take": "Patients with confirmed bacterial or parasitic gastrointestinal infections.",
+    "who_should_not_take": "Pregnant women, children (unless specifically prescribed), and patients with epilepsy.",
+    "food_interactions": [
+      "Take with food to minimize stomach upset. Avoid dairy products at the exact time of taking the pill."
+    ],
+    "alcohol_warning": "STRICTLY AVOID alcohol during treatment and for 3 days after; can cause severe nausea, vomiting, and headache (Disulfiram-like reaction)."
+  },
+  {
+    "id": "amoxicillin_clavulanic_acid",
+    "category": "Antibiotic",
+    "drug_name": "Amoxicillin + Clavulanic Acid",
+    "brand_names_india": [
+      "Augmentin",
+      "Moxikind-CV",
+      "Clavam",
+      "Advent"
+    ],
+    "drug_class": "Penicillin Antibiotic & Beta-lactamase inhibitor",
+    "mechanism_of_action": "Amoxicillin kills bacteria. Clavulanic acid prevents bacteria from destroying Amoxicillin, making it effective against resistant strains.",
+    "uses": [
+      "Ear infections",
+      "Sinus infections",
+      "Pneumonia",
+      "Skin infections",
+      "UTI"
+    ],
+    "dosage_common": "625mg twice a day for 5-7 days",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Vomiting",
+      "Skin rash"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction (anaphylaxis)",
+      "Liver toxicity",
+      "Severe diarrhea (C. diff)"
+    ],
+    "overdose_effects": "Severe stomach pain, vomiting, diarrhea, hyperactivity.",
+    "contraindications": [
+      "Penicillin allergy",
+      "History of liver problems with this drug"
+    ],
+    "drug_interactions": [
+      "Allopurinol",
+      "Probenecid",
+      "Oral contraceptives (may reduce effectiveness)"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe.",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease. Monitor liver function.",
+    "how_it_works_in_body": "Destroys the bacterial cell wall, killing the bacteria causing the infection.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A broad-spectrum antibiotic used to treat a wide variety of bacterial infections.",
+    "who_should_take": "Patients with bacterial infections prescribed by a doctor.",
+    "who_should_not_take": "Anyone with a known allergy to penicillin.",
+    "food_interactions": [
+      "Take with a meal or snack to reduce stomach upset and improve absorption."
+    ],
+    "alcohol_warning": "Alcohol does not directly interact, but it can worsen side effects like dizziness and stomach upset."
+  },
+  {
+    "id": "aceclofenac_paracetamol_serratiopeptidase",
+    "category": "Analgesic & Anti-inflammatory",
+    "drug_name": "Aceclofenac + Paracetamol + Serratiopeptidase",
+    "brand_names_india": [
+      "Zerodol-SP",
+      "Signoflam",
+      "Flozen-AA",
+      "Hifenac-D"
+    ],
+    "drug_class": "NSAID, Analgesic, and Enzyme",
+    "mechanism_of_action": "Reduces pain and fever (Paracetamol/Aceclofenac) and breaks down abnormal proteins at the site of inflammation to promote healing (Serratiopeptidase).",
+    "uses": [
+      "Severe pain",
+      "Swelling",
+      "Post-operative inflammation",
+      "Joint pain",
+      "Muscle pain"
+    ],
+    "dosage_common": "1 tablet twice a day after meals",
+    "side_effects_common": [
+      "Nausea",
+      "Indigestion",
+      "Stomach pain",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Stomach bleeding",
+      "Liver damage",
+      "Severe skin reactions"
+    ],
+    "overdose_effects": "Liver failure, severe stomach pain, dizziness.",
+    "contraindications": [
+      "Active stomach ulcers",
+      "Severe liver/kidney disease",
+      "Bleeding disorders"
+    ],
+    "drug_interactions": [
+      "Blood thinners",
+      "Other NSAIDs",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Category C/D - Avoid during pregnancy.",
+    "kidney_liver_warning": "Use with extreme caution in liver or kidney impairment.",
+    "how_it_works_in_body": "Provides triple action: relieves pain, reduces fever, and actively reduces swelling at the injury site.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A powerful combination used for relieving severe pain and swelling, especially after surgery or injury.",
+    "who_should_take": "Patients with acute pain accompanied by significant swelling.",
+    "who_should_not_take": "Patients with stomach ulcers or bleeding disorders.",
+    "food_interactions": [
+      "Must be taken with or after food to prevent stomach bleeding and irritation."
+    ],
+    "alcohol_warning": "Strictly avoid alcohol; significantly increases the risk of severe liver damage and stomach bleeding."
+  },
+  {
+    "id": "imatinib",
+    "category": "Anti-cancer drugs",
+    "drug_name": "Imatinib",
+    "brand_names_india": [
+      "Gleevec",
+      "Veenat",
+      "Imatib"
+    ],
+    "drug_class": "Tyrosine Kinase Inhibitor",
+    "mechanism_of_action": "Blocks specific abnormal proteins that signal cancer cells to multiply",
+    "uses": [
+      "Chronic Myeloid Leukemia",
+      "Gastrointestinal Stromal Tumors"
+    ],
+    "dosage_common": "400mg to 600mg once daily with a meal",
+    "side_effects_common": [
+      "Nausea",
+      "Fluid retention",
+      "Muscle cramps",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Severe neutropenia",
+      "Liver toxicity",
+      "Hemorrhage"
+    ],
+    "overdose_effects": "Severe muscle pain, severe nausea, and vomiting",
+    "contraindications": [
+      "Hypersensitivity to Imatinib"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Rifampin",
+      "St. John's Wort"
+    ],
+    "pregnancy_safety": "Category D - Avoid during pregnancy unless absolutely necessary",
+    "kidney_liver_warning": "Dose adjustment required in liver or kidney impairment",
+    "how_it_works_in_body": "It binds to the ATP-binding site of the BCR-ABL protein, preventing it from activating other proteins that cause cancer cell growth.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Targeted therapy for specific types of leukemia and stomach tumors.",
+    "who_should_take": "Patients with BCR-ABL positive leukemia or specific stomach tumors.",
+    "who_should_not_take": "Pregnant women or those with severe liver disease without monitoring.",
+    "food_interactions": [
+      "Avoid grapefruit juice"
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase liver toxicity risk."
+  },
+  {
+    "id": "pantoprazole",
+    "category": "Proton Pump Inhibitors (PPIs)",
+    "drug_name": "Pantoprazole",
+    "brand_names_india": [
+      "Pan",
+      "Pantocid",
+      "Pantodac"
+    ],
+    "drug_class": "Proton Pump Inhibitor",
+    "mechanism_of_action": "Reduces the amount of acid produced in the stomach",
+    "uses": [
+      "Acidity",
+      "Heartburn",
+      "Gastroesophageal Reflux Disease (GERD)",
+      "Stomach Ulcers"
+    ],
+    "dosage_common": "40mg once daily, usually 30-60 minutes before breakfast",
+    "side_effects_common": [
+      "Headache",
+      "Diarrhea",
+      "Stomach pain",
+      "Flatulence"
+    ],
+    "side_effects_serious": [
+      "Severe diarrhea (C. diff infection)",
+      "Bone fractures (long-term use)",
+      "Kidney problems"
+    ],
+    "overdose_effects": "No specific symptoms; usually well-tolerated even in high doses",
+    "contraindications": [
+      "Hypersensitivity to Pantoprazole"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Methotrexate",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Safe in kidney disease; use with caution in severe liver disease",
+    "how_it_works_in_body": "It blocks the 'proton pumps' in the stomach lining that secrete acid, thereby reducing stomach acidity.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Common medicine for acidity, heartburn, and stomach ulcers.",
+    "who_should_take": "People with excessive stomach acid or acid reflux.",
+    "who_should_not_take": "People with known allergy to PPIs.",
+    "food_interactions": [
+      "Best taken on an empty stomach"
+    ],
+    "alcohol_warning": "Alcohol can increase stomach acid production, worsening symptoms."
+  },
+  {
+    "id": "amoxicillin_clavulanic",
+    "category": "Antibiotics",
+    "drug_name": "Amoxicillin + Clavulanic Acid",
+    "brand_names_india": [
+      "Augmentin",
+      "Moxikind-CV",
+      "Advent"
+    ],
+    "drug_class": "Penicillin-type Antibiotic + Beta-lactamase Inhibitor",
+    "mechanism_of_action": "Amoxicillin kills bacteria; Clavulanic acid prevents bacteria from destroying Amoxicillin",
+    "uses": [
+      "Bacterial infections",
+      "Sinusitis",
+      "Pneumonia",
+      "Ear infections",
+      "Urinary tract infections"
+    ],
+    "dosage_common": "625mg twice daily for 5-7 days",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Vomiting",
+      "Skin rash"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction (Anaphylaxis)",
+      "Liver problems",
+      "Severe diarrhea"
+    ],
+    "overdose_effects": "Stomach pain, vomiting, and diarrhea",
+    "contraindications": [
+      "Penicillin allergy",
+      "History of jaundice with this drug"
+    ],
+    "drug_interactions": [
+      "Allopurinol",
+      "Probenecid",
+      "Oral contraceptives"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease",
+    "how_it_works_in_body": "Amoxicillin attacks the bacterial cell wall, while Clavulanic acid protects Amoxicillin from being broken down by bacterial enzymes.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Strong antibiotic combination for various bacterial infections.",
+    "who_should_take": "People with bacterial infections as prescribed.",
+    "who_should_not_take": "People with a known allergy to Penicillin.",
+    "food_interactions": [
+      "Take with food to reduce stomach upset"
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase side effects like dizziness."
+  },
+  {
+    "id": "telmisartan",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Telmisartan",
+    "brand_names_india": [
+      "Telma",
+      "Tazloc",
+      "Telvas"
+    ],
+    "drug_class": "Angiotensin II Receptor Blocker (ARB)",
+    "mechanism_of_action": "Blocks the action of a substance that narrows blood vessels",
+    "uses": [
+      "High Blood Pressure",
+      "Prevention of heart attack and stroke"
+    ],
+    "dosage_common": "40mg once daily",
+    "side_effects_common": [
+      "Dizziness",
+      "Back pain",
+      "Sinusitis",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Low blood pressure",
+      "Kidney problems",
+      "High potassium levels"
+    ],
+    "overdose_effects": "Low blood pressure, rapid or slow heartbeat, and dizziness",
+    "contraindications": [
+      "Pregnancy",
+      "Severe liver or kidney disease",
+      "Biliary obstruction"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Lithium",
+      "Potassium supplements"
+    ],
+    "pregnancy_safety": "Category D - Strictly avoid during pregnancy; can harm the fetus",
+    "kidney_liver_warning": "Use with caution in liver and kidney disease",
+    "how_it_works_in_body": "It blocks the binding of angiotensin II to its receptors, which prevents blood vessels from constricting and lowers blood pressure.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Long-acting medicine to control high blood pressure and protect the heart.",
+    "who_should_take": "Adults with hypertension or high cardiovascular risk.",
+    "who_should_not_take": "Pregnant women or those with severe bile duct blockage.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can further lower blood pressure, causing fainting."
+  },
+  {
+    "id": "atorvastatin",
+    "category": "Cholesterol-lowering drugs",
+    "drug_name": "Atorvastatin",
+    "brand_names_india": [
+      "Atorva",
+      "Lipvas",
+      "Storvas"
+    ],
+    "drug_class": "HMG-CoA Reductase Inhibitor (Statin)",
+    "mechanism_of_action": "Blocks the enzyme in the liver that produces cholesterol",
+    "uses": [
+      "High Cholesterol",
+      "Prevention of heart attack and stroke"
+    ],
+    "dosage_common": "10mg to 40mg once daily",
+    "side_effects_common": [
+      "Muscle pain",
+      "Diarrhea",
+      "Joint pain",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Liver damage",
+      "Severe muscle breakdown (Rhabdomyolysis)",
+      "Increased blood sugar"
+    ],
+    "overdose_effects": "No specific symptoms; risk of liver and muscle damage increases",
+    "contraindications": [
+      "Active liver disease",
+      "Pregnancy",
+      "Breastfeeding"
+    ],
+    "drug_interactions": [
+      "Clarithromycin",
+      "Itraconazole",
+      "Cyclosporine"
+    ],
+    "pregnancy_safety": "Category X - Strictly prohibited; causes birth defects",
+    "kidney_liver_warning": "Avoid in active liver disease; regular liver tests recommended",
+    "how_it_works_in_body": "It reduces the production of LDL (bad) cholesterol in the liver and increases the liver's ability to remove LDL from the blood.",
+    "onset_of_action": "3-5 days for effect to start; 2-4 weeks for full effect",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used medicine to lower bad cholesterol and prevent heart disease.",
+    "who_should_take": "People with high cholesterol or high risk of heart disease.",
+    "who_should_not_take": "Pregnant women or those with active liver problems.",
+    "food_interactions": [
+      "Avoid large amounts of grapefruit juice"
+    ],
+    "alcohol_warning": "Limit alcohol consumption to avoid liver toxicity."
+  },
+  {
+    "id": "levocetirizine",
+    "category": "Antihistamines",
+    "drug_name": "Levocetirizine",
+    "brand_names_india": [
+      "Levocet",
+      "Vozet",
+      "Tyzine"
+    ],
+    "drug_class": "Third-generation Antihistamine",
+    "mechanism_of_action": "Blocks histamine receptors to prevent allergic symptoms",
+    "uses": [
+      "Allergic Rhinitis",
+      "Hives",
+      "Itching",
+      "Sneezing",
+      "Runny nose"
+    ],
+    "dosage_common": "5mg once daily, usually in the evening",
+    "side_effects_common": [
+      "Drowsiness",
+      "Dry mouth",
+      "Fatigue",
+      "Sore throat"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction",
+      "Difficulty urinating",
+      "Vision problems"
+    ],
+    "overdose_effects": "Extreme sleepiness and agitation",
+    "contraindications": [
+      "Severe kidney disease",
+      "Hypersensitivity"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Theophylline",
+      "Ritonavir"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment required in kidney disease",
+    "how_it_works_in_body": "It is the active form of cetirizine and works by blocking H1 histamine receptors more effectively with less sedation.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective medicine for allergies with less drowsiness than older antihistamines.",
+    "who_should_take": "Adults and children with allergic symptoms.",
+    "who_should_not_take": "People with end-stage kidney disease.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Avoid alcohol as it increases drowsiness."
+  },
+  {
+    "id": "montelukast",
+    "category": "Anti-asthmatic drugs",
+    "drug_name": "Montelukast",
+    "brand_names_india": [
+      "Montair",
+      "Romilast",
+      "Telekast"
+    ],
+    "drug_class": "Leukotriene Receptor Antagonist",
+    "mechanism_of_action": "Blocks leukotrienes, which cause swelling in the lungs and tightening of the muscles around the airways",
+    "uses": [
+      "Asthma",
+      "Allergic Rhinitis",
+      "Exercise-induced bronchoconstriction"
+    ],
+    "dosage_common": "10mg once daily in the evening",
+    "side_effects_common": [
+      "Headache",
+      "Stomach pain",
+      "Thirst",
+      "Cough"
+    ],
+    "side_effects_serious": [
+      "Mood or behavior changes (Suicidal thoughts)",
+      "Severe skin rash",
+      "Numbness in arms/legs"
+    ],
+    "overdose_effects": "Abdominal pain, sleepiness, thirst, headache, and vomiting",
+    "contraindications": [
+      "Hypersensitivity to Montelukast"
+    ],
+    "drug_interactions": [
+      "Phenobarbital",
+      "Phenytoin",
+      "Rifampin"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Safe in kidney disease; use with caution in severe liver disease",
+    "how_it_works_in_body": "It blocks the action of leukotriene D4 in the lungs, which reduces inflammation and keeps the airways open.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Medicine to prevent asthma attacks and treat year-round allergies.",
+    "who_should_take": "People with asthma or chronic allergies.",
+    "who_should_not_take": "People with a history of severe mental health issues related to this drug.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "No specific interaction, but monitor for mood changes."
+  },
+  {
+    "id": "diclofenac",
+    "category": "Painkillers",
+    "drug_name": "Diclofenac",
+    "brand_names_india": [
+      "Voveran",
+      "Diclowin",
+      "Reactin"
+    ],
+    "drug_class": "NSAID",
+    "mechanism_of_action": "Inhibits prostaglandin synthesis to reduce pain and inflammation",
+    "uses": [
+      "Joint pain",
+      "Arthritis",
+      "Muscle pain",
+      "Post-surgery pain"
+    ],
+    "dosage_common": "50mg twice or thrice daily",
+    "side_effects_common": [
+      "Stomach upset",
+      "Nausea",
+      "Dizziness",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Stomach bleeding",
+      "Liver damage",
+      "Kidney problems",
+      "Heart attack risk"
+    ],
+    "overdose_effects": "Vomiting, gastrointestinal bleeding, diarrhea, and dizziness",
+    "contraindications": [
+      "Active stomach ulcers",
+      "Severe heart failure",
+      "Aspirin-sensitive asthma"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Lithium",
+      "Digoxin",
+      "Other NSAIDs"
+    ],
+    "pregnancy_safety": "Avoid in the third trimester",
+    "kidney_liver_warning": "Can cause kidney damage with long-term use",
+    "how_it_works_in_body": "It inhibits the COX-2 enzyme, which is responsible for producing inflammatory chemicals in the body.",
+    "onset_of_action": "20-30 mins",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Powerful painkiller for joint and muscle inflammation.",
+    "who_should_take": "People with inflammatory pain or arthritis.",
+    "who_should_not_take": "People with heart disease or stomach ulcers.",
+    "food_interactions": [
+      "Take with food to protect the stomach"
+    ],
+    "alcohol_warning": "Increases the risk of stomach ulcers and bleeding."
+  },
+  {
+    "id": "domperidone",
+    "category": "Anti-emetics",
+    "drug_name": "Domperidone",
+    "brand_names_india": [
+      "Domstal",
+      "Motinorm",
+      "Domperi"
+    ],
+    "drug_class": "Dopamine Antagonist",
+    "mechanism_of_action": "Increases the movements of the stomach and intestines",
+    "uses": [
+      "Nausea",
+      "Vomiting",
+      "Indigestion",
+      "Fullness after meals"
+    ],
+    "dosage_common": "10mg thrice daily, 15-30 mins before meals",
+    "side_effects_common": [
+      "Dry mouth",
+      "Headache",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Irregular heartbeat (QT prolongation)",
+      "Breast swelling or discharge"
+    ],
+    "overdose_effects": "Sleepiness, confusion, and irregular heartbeat",
+    "contraindications": [
+      "Heart rhythm problems",
+      "Intestinal blockage",
+      "Prolactin-releasing tumor"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Erythromycin",
+      "Amiodarone"
+    ],
+    "pregnancy_safety": "Consult doctor; only if clearly needed",
+    "kidney_liver_warning": "Use with caution in liver and kidney disease",
+    "how_it_works_in_body": "It blocks dopamine receptors in the gut and the brain's vomiting center, helping food move faster through the stomach.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Medicine to stop vomiting and help with heavy stomach feeling.",
+    "who_should_take": "People with nausea or slow stomach emptying.",
+    "who_should_not_take": "People with heart rhythm issues or history of heart failure.",
+    "food_interactions": [
+      "Best taken before meals"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen nausea."
+  },
+  {
+    "id": "albendazole",
+    "category": "Anti-parasitic drugs",
+    "drug_name": "Albendazole",
+    "brand_names_india": [
+      "Zentel",
+      "Bandy",
+      "Noworm"
+    ],
+    "drug_class": "Anthelmintic",
+    "mechanism_of_action": "Prevents worms from absorbing sugar (glucose), so they lose energy and die",
+    "uses": [
+      "Intestinal worm infections",
+      "Neurocysticercosis",
+      "Hydatid disease"
+    ],
+    "dosage_common": "400mg as a single dose for most intestinal worms",
+    "side_effects_common": [
+      "Stomach pain",
+      "Nausea",
+      "Dizziness",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Liver enzyme elevation",
+      "Low white blood cell count",
+      "Hair loss (with long-term use)"
+    ],
+    "overdose_effects": "No specific symptoms reported for single high doses",
+    "contraindications": [
+      "Pregnancy",
+      "Hypersensitivity"
+    ],
+    "drug_interactions": [
+      "Dexamethasone",
+      "Praziquantel",
+      "Cimetidine"
+    ],
+    "pregnancy_safety": "Category C - Avoid during pregnancy; can cause fetal harm",
+    "kidney_liver_warning": "Requires monitoring of liver function during long-term therapy",
+    "how_it_works_in_body": "It causes degenerative changes in the tegument and intestinal cells of the worm by binding to the colchicine-sensitive site of tubulin.",
+    "onset_of_action": "Several hours to days for worms to be expelled",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Common deworming medicine used to treat various parasitic infections.",
+    "who_should_take": "People with diagnosed worm infections.",
+    "who_should_not_take": "Pregnant women.",
+    "food_interactions": [
+      "Take with a fatty meal to increase absorption for systemic infections"
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase liver stress."
+  },
+  {
+    "id": "ondansetron",
+    "category": "Anti-emetics",
+    "drug_name": "Ondansetron",
+    "brand_names_india": [
+      "Ondem",
+      "Zofran",
+      "Emset"
+    ],
+    "drug_class": "5-HT3 Receptor Antagonist",
+    "mechanism_of_action": "Blocks the action of serotonin, which can cause nausea and vomiting",
+    "uses": [
+      "Nausea and vomiting caused by chemotherapy",
+      "Post-operative nausea",
+      "Gastroenteritis in children"
+    ],
+    "dosage_common": "4mg to 8mg twice or thrice daily",
+    "side_effects_common": [
+      "Headache",
+      "Constipation",
+      "Fatigue",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Irregular heartbeat (QT prolongation)",
+      "Severe allergic reaction",
+      "Serotonin syndrome"
+    ],
+    "overdose_effects": "Sudden blindness (short-lived), severe constipation, and low blood pressure",
+    "contraindications": [
+      "Hypersensitivity",
+      "Use with Apomorphine"
+    ],
+    "drug_interactions": [
+      "Apomorphine",
+      "Tramadol",
+      "Phenytoin"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in severe liver disease",
+    "how_it_works_in_body": "It works by blocking serotonin receptors in the brain and the gut, which are responsible for triggering the vomiting reflex.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Highly effective medicine to prevent and treat nausea and vomiting.",
+    "who_should_take": "People undergoing chemotherapy or surgery, or those with severe vomiting.",
+    "who_should_not_take": "People with congenital long QT syndrome.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen nausea."
+  },
+  {
+    "id": "ivermectin",
+    "category": "Anti-parasitic drugs",
+    "drug_name": "Ivermectin",
+    "brand_names_india": [
+      "Ivermectol",
+      "Vermact",
+      "Ivecop"
+    ],
+    "drug_class": "Anthelmintic",
+    "mechanism_of_action": "Paralyzes and kills the parasites by interfering with their nervous system",
+    "uses": [
+      "Scabies",
+      "Strongyloidiasis",
+      "Onchocerciasis (River blindness)",
+      "Head lice"
+    ],
+    "dosage_common": "12mg as a single dose (depending on weight)",
+    "side_effects_common": [
+      "Dizziness",
+      "Nausea",
+      "Diarrhea",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Severe skin reaction",
+      "Neurological issues (confusion, seizures)",
+      "Liver inflammation"
+    ],
+    "overdose_effects": "Vomiting, diarrhea, stomach pain, dizziness, and seizures",
+    "contraindications": [
+      "Hypersensitivity",
+      "Meningitis or other CNS disorders"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Valproic acid"
+    ],
+    "pregnancy_safety": "Category C - Avoid unless clearly needed; consult doctor",
+    "kidney_liver_warning": "Use with caution in liver disease",
+    "how_it_works_in_body": "It binds to glutamate-gated chloride channels in the nerve and muscle cells of the parasite, leading to paralysis and death of the parasite.",
+    "onset_of_action": "Peak levels in 4 hours",
+    "duration_of_effect": "Stays in the body for several days",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective medicine for treating various parasitic infections like scabies and worms.",
+    "who_should_take": "People with diagnosed parasitic infections.",
+    "who_should_not_take": "Pregnant women or children weighing less than 15kg.",
+    "food_interactions": [
+      "Best taken on an empty stomach with water"
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase the side effects of Ivermectin."
+  },
+  {
+    "id": "doxycycline",
+    "category": "Antibiotics",
+    "drug_name": "Doxycycline",
+    "brand_names_india": [
+      "Doxiv-S",
+      "Microdox",
+      "Doxy-1 L-DR"
+    ],
+    "drug_class": "Tetracycline Antibiotic",
+    "mechanism_of_action": "Inhibits bacterial protein synthesis",
+    "uses": [
+      "Acne",
+      "Malaria prevention",
+      "Respiratory tract infections",
+      "Cholera",
+      "Syphilis"
+    ],
+    "dosage_common": "100mg once or twice daily",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Sun sensitivity (Photosensitivity)"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction",
+      "Esophageal ulcers",
+      "Increased intracranial pressure"
+    ],
+    "overdose_effects": "Nausea, vomiting, and diarrhea",
+    "contraindications": [
+      "Pregnancy",
+      "Children under 8 years (can stain teeth)",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Iron supplements",
+      "Oral contraceptives",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Category D - Strictly avoid; can cause permanent tooth discoloration in the fetus",
+    "kidney_liver_warning": "Generally safe in kidney disease; use with caution in liver disease",
+    "how_it_works_in_body": "It prevents bacteria from growing by interfering with their ability to produce essential proteins.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Versatile antibiotic used for acne, infections, and malaria prevention.",
+    "who_should_take": "Adults with bacterial infections or those traveling to malaria-prone areas.",
+    "who_should_not_take": "Pregnant women and children under 8 years old.",
+    "food_interactions": [
+      "Avoid taking with milk or dairy products as they reduce absorption"
+    ],
+    "alcohol_warning": "Alcohol can reduce the effectiveness of Doxycycline in chronic drinkers."
+  },
+  {
+    "id": "azithromycin",
+    "category": "Antibiotics",
+    "drug_name": "Azithromycin",
+    "brand_names_india": [
+      "Azithral",
+      "Zady",
+      "Azee"
+    ],
+    "drug_class": "Macrolide Antibiotic",
+    "mechanism_of_action": "Inhibits bacterial protein synthesis by binding to the 50S ribosomal subunit",
+    "uses": [
+      "Throat infections",
+      "Sinusitis",
+      "Bronchitis",
+      "Skin infections",
+      "Typhoid fever"
+    ],
+    "dosage_common": "500mg once daily for 3-5 days",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Abdominal pain",
+      "Vomiting"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction",
+      "Liver problems",
+      "Irregular heartbeat (QT prolongation)"
+    ],
+    "overdose_effects": "Nausea, vomiting, diarrhea, and hearing loss",
+    "contraindications": [
+      "Hypersensitivity",
+      "History of jaundice with Azithromycin"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Warfarin",
+      "Nelfinavir"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Use with caution in patients with liver disease",
+    "how_it_works_in_body": "It stops the growth of bacteria by interfering with their protein synthesis, which is essential for their survival.",
+    "onset_of_action": "2-3 hours",
+    "duration_of_effect": "24-48 hours (long half-life)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used antibiotic for respiratory and skin infections.",
+    "who_should_take": "People with bacterial infections as prescribed.",
+    "who_should_not_take": "People with a history of liver problems caused by Azithromycin.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen stomach upset."
+  },
+  {
+    "id": "rabeprazole",
+    "category": "Proton Pump Inhibitors (PPIs)",
+    "drug_name": "Rabeprazole",
+    "brand_names_india": [
+      "Rabeloc",
+      "Cyra",
+      "Happi"
+    ],
+    "drug_class": "Proton Pump Inhibitor",
+    "mechanism_of_action": "Suppresses gastric acid secretion by inhibiting the H+/K+ ATPase enzyme",
+    "uses": [
+      "Acid reflux",
+      "Peptic ulcers",
+      "Zollinger-Ellison syndrome",
+      "H. pylori eradication"
+    ],
+    "dosage_common": "20mg once daily in the morning",
+    "side_effects_common": [
+      "Headache",
+      "Dizziness",
+      "Diarrhea",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction",
+      "Bone fractures (long-term use)",
+      "Vitamin B12 deficiency"
+    ],
+    "overdose_effects": "No specific symptoms; usually well-tolerated",
+    "contraindications": [
+      "Hypersensitivity to Rabeprazole"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Atazanavir",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Consult doctor; only if clearly needed",
+    "kidney_liver_warning": "Safe in kidney disease; use with caution in severe liver disease",
+    "how_it_works_in_body": "It blocks the final step of acid production in the stomach, providing relief from acidity and allowing ulcers to heal.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Fast-acting medicine for severe acidity and stomach ulcers.",
+    "who_should_take": "People with chronic acid reflux or stomach ulcers.",
+    "who_should_not_take": "People with known allergy to PPIs.",
+    "food_interactions": [
+      "Best taken 30 minutes before breakfast"
+    ],
+    "alcohol_warning": "Alcohol can increase acid production, reducing the drug's effectiveness."
+  },
+  {
+    "id": "glimepiride",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Glimepiride",
+    "brand_names_india": [
+      "Amaryl",
+      "Glimy",
+      "Euglim"
+    ],
+    "drug_class": "Sulfonylurea",
+    "mechanism_of_action": "Stimulates the pancreas to release more insulin",
+    "uses": [
+      "Type 2 Diabetes Mellitus"
+    ],
+    "dosage_common": "1mg to 4mg once daily with breakfast",
+    "side_effects_common": [
+      "Low blood sugar (Hypoglycemia)",
+      "Nausea",
+      "Headache",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Severe hypoglycemia",
+      "Liver problems",
+      "Low blood cell counts"
+    ],
+    "overdose_effects": "Severe low blood sugar, which can lead to seizures or coma",
+    "contraindications": [
+      "Type 1 Diabetes",
+      "Diabetic ketoacidosis",
+      "Severe liver or kidney disease"
+    ],
+    "drug_interactions": [
+      "Insulin",
+      "Alcohol",
+      "Beta-blockers"
+    ],
+    "pregnancy_safety": "Category C - Avoid; consult doctor for insulin alternatives",
+    "kidney_liver_warning": "Use with extreme caution in kidney and liver disease",
+    "how_it_works_in_body": "It binds to ATP-sensitive potassium channels on pancreatic beta cells, causing them to release insulin into the bloodstream.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Medicine to lower blood sugar in people with Type 2 diabetes.",
+    "who_should_take": "Adults with Type 2 diabetes whose blood sugar is not controlled by diet alone.",
+    "who_should_not_take": "People with Type 1 diabetes or those prone to ketoacidosis.",
+    "food_interactions": [
+      "Must be taken with a meal to avoid low blood sugar"
+    ],
+    "alcohol_warning": "Alcohol can severely increase the risk of low blood sugar."
+  },
+  {
+    "id": "ranitidine",
+    "category": "H2 Blockers",
+    "drug_name": "Ranitidine",
+    "brand_names_india": [
+      "Rantac",
+      "Zinetac",
+      "Aciloc"
+    ],
+    "drug_class": "H2 Receptor Antagonist",
+    "mechanism_of_action": "Blocks histamine at the H2 receptors in the stomach, reducing acid production",
+    "uses": [
+      "Acidity",
+      "Heartburn",
+      "Stomach ulcers",
+      "GERD"
+    ],
+    "dosage_common": "150mg twice daily or 300mg at bedtime",
+    "side_effects_common": [
+      "Headache",
+      "Dizziness",
+      "Constipation",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Liver problems",
+      "Confusion (especially in elderly)",
+      "Irregular heartbeat"
+    ],
+    "overdose_effects": "Drowsiness, vomiting, and rapid heartbeat",
+    "contraindications": [
+      "Hypersensitivity",
+      "Porphyria"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Phenytoin",
+      "Theophylline"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in kidney disease",
+    "how_it_works_in_body": "It reduces the amount of acid your stomach makes by blocking histamine, a natural chemical that signals the stomach to produce acid.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Note: Use with caution due to NDMA concerns)",
+    "quick_summary": "Classic medicine for acidity and heartburn relief.",
+    "who_should_take": "People with occasional acidity or stomach ulcers.",
+    "who_should_not_take": "People with a history of porphyria.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can increase stomach acid and worsen symptoms."
+  },
+  {
+    "id": "amlodipine",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Amlodipine",
+    "brand_names_india": [
+      "Amlokind",
+      "Stamlo",
+      "Amlopres"
+    ],
+    "drug_class": "Calcium Channel Blocker",
+    "mechanism_of_action": "Relaxes blood vessels so blood can flow more easily",
+    "uses": [
+      "High Blood Pressure",
+      "Angina (Chest Pain)",
+      "Hypertension"
+    ],
+    "dosage_common": "5mg to 10mg once daily",
+    "side_effects_common": [
+      "Swelling of ankles",
+      "Dizziness",
+      "Fatigue",
+      "Palpitations"
+    ],
+    "side_effects_serious": [
+      "Worsening chest pain",
+      "Severe low blood pressure"
+    ],
+    "overdose_effects": "Severe dizziness, fainting, and rapid heartbeat",
+    "contraindications": [
+      "Severe aortic stenosis",
+      "Severe hypotension"
+    ],
+    "drug_interactions": [
+      "Simvastatin",
+      "Cyclosporine"
+    ],
+    "pregnancy_safety": "Consult doctor; generally avoided unless benefits outweigh risks",
+    "kidney_liver_warning": "Use with caution in patients with liver failure",
+    "how_it_works_in_body": "It prevents calcium from entering the muscle cells of the heart and blood vessels, which causes them to relax and widen.",
+    "onset_of_action": "6-12 hours",
+    "duration_of_effect": "24-48 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used medicine to lower high blood pressure and prevent chest pain.",
+    "who_should_take": "Adults with hypertension or chronic stable angina.",
+    "who_should_not_take": "People with very low blood pressure or severe heart valve issues.",
+    "food_interactions": [
+      "Avoid large amounts of grapefruit juice"
+    ],
+    "alcohol_warning": "Alcohol can further lower blood pressure, causing dizziness."
+  },
+  {
+    "id": "metformin",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Metformin",
+    "brand_names_india": [
+      "Glycomet",
+      "Metsmall",
+      "Cetapin"
+    ],
+    "drug_class": "Biguanide",
+    "mechanism_of_action": "Reduces glucose production in the liver and improves insulin sensitivity",
+    "uses": [
+      "Type 2 Diabetes Mellitus",
+      "Polycystic Ovary Syndrome (PCOS)"
+    ],
+    "dosage_common": "500mg to 1000mg twice daily with meals",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Stomach upset",
+      "Metallic taste"
+    ],
+    "side_effects_serious": [
+      "Lactic acidosis (rare but serious)",
+      "Vitamin B12 deficiency"
+    ],
+    "overdose_effects": "Hypoglycemia (low blood sugar) and lactic acidosis",
+    "contraindications": [
+      "Severe kidney disease",
+      "Metabolic acidosis"
+    ],
+    "drug_interactions": [
+      "Cimetidine",
+      "Iodinated contrast dyes"
+    ],
+    "pregnancy_safety": "Generally considered safe under medical supervision",
+    "kidney_liver_warning": "Not recommended for patients with severe kidney impairment (eGFR < 30)",
+    "how_it_works_in_body": "It tells the liver to stop making too much sugar and helps the body's cells use the sugar that's already in the blood.",
+    "onset_of_action": "2-3 hours",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "First-line medication for managing Type 2 Diabetes.",
+    "who_should_take": "People with Type 2 Diabetes or PCOS as prescribed.",
+    "who_should_not_take": "People with severe kidney failure or those in a state of diabetic ketoacidosis.",
+    "food_interactions": [
+      "Take with meals to reduce stomach upset"
+    ],
+    "alcohol_warning": "Avoid excessive alcohol as it increases the risk of lactic acidosis."
+  },
+  {
+    "id": "methotrexate",
+    "category": "Autoimmune therapy drugs",
+    "drug_name": "Methotrexate",
+    "brand_names_india": [
+      "Folitrax",
+      "Mexate",
+      "Imutrex"
+    ],
+    "drug_class": "Antimetabolite / Immunosuppressant",
+    "mechanism_of_action": "Slows down the body's immune system and reduces inflammation",
+    "uses": [
+      "Rheumatoid Arthritis",
+      "Psoriasis",
+      "Certain Cancers"
+    ],
+    "dosage_common": "7.5mg to 25mg ONCE WEEKLY (Critical: Not daily)",
+    "side_effects_common": [
+      "Nausea",
+      "Mouth sores",
+      "Fatigue",
+      "Hair thinning"
+    ],
+    "side_effects_serious": [
+      "Liver damage",
+      "Lung inflammation",
+      "Low blood cell counts"
+    ],
+    "overdose_effects": "Severe bone marrow suppression and gastrointestinal bleeding",
+    "contraindications": [
+      "Pregnancy",
+      "Breastfeeding",
+      "Alcoholism",
+      "Chronic liver disease"
+    ],
+    "drug_interactions": [
+      "NSAIDs (like Ibuprofen)",
+      "Penicillin",
+      "Sulfonamides"
+    ],
+    "pregnancy_safety": "Category X - Strictly prohibited; causes birth defects",
+    "kidney_liver_warning": "Requires regular monitoring of liver and kidney function",
+    "how_it_works_in_body": "It interferes with the growth of certain cells in the body, especially cells that reproduce quickly, like immune cells causing inflammation.",
+    "onset_of_action": "3-6 weeks for arthritis",
+    "duration_of_effect": "1 week",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Powerful medicine for rheumatoid arthritis and severe psoriasis, taken weekly.",
+    "who_should_take": "Patients with severe autoimmune conditions not responding to other treatments.",
+    "who_should_not_take": "Pregnant women or those planning pregnancy; people with severe liver disease.",
+    "food_interactions": [
+      "Avoid excessive caffeine"
+    ],
+    "alcohol_warning": "STRICTLY AVOID ALCOHOL; high risk of severe liver damage."
+  },
+  {
+    "id": "oseltamivir",
+    "category": "Anti-viral drugs",
+    "drug_name": "Oseltamivir",
+    "brand_names_india": [
+      "Antiflu",
+      "Tamiflu",
+      "Fluvir"
+    ],
+    "drug_class": "Neuraminidase Inhibitor",
+    "mechanism_of_action": "Prevents the flu virus from spreading inside the body",
+    "uses": [
+      "Influenza A",
+      "Influenza B (Flu)"
+    ],
+    "dosage_common": "75mg twice daily for 5 days",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Severe skin reactions",
+      "Confusion or abnormal behavior (rare)"
+    ],
+    "overdose_effects": "Severe nausea and vomiting",
+    "contraindications": [
+      "Hypersensitivity to Oseltamivir"
+    ],
+    "drug_interactions": [
+      "Probenecid",
+      "Live flu vaccine (nasal)"
+    ],
+    "pregnancy_safety": "Can be used if benefits outweigh risks; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed for severe kidney impairment",
+    "how_it_works_in_body": "It blocks an enzyme called neuraminidase that the flu virus needs to escape from infected cells and infect new ones.",
+    "onset_of_action": "Within 24 hours of first dose",
+    "duration_of_effect": "12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Antiviral medicine used to treat and prevent the flu.",
+    "who_should_take": "People with flu symptoms within 48 hours of onset.",
+    "who_should_not_take": "People with known allergy to the drug.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "No specific interaction, but alcohol can weaken the immune system."
+  },
+  {
+    "id": "azithromycin",
+    "category": "Antibiotics",
+    "drug_name": "Azithromycin",
+    "brand_names_india": [
+      "Azithral",
+      "Azee",
+      "Zady"
+    ],
+    "drug_class": "Macrolide Antibiotic",
+    "mechanism_of_action": "Stops the growth of bacteria by interfering with their protein production",
+    "uses": [
+      "Throat infections",
+      "Pneumonia",
+      "Skin infections",
+      "Typhoid",
+      "Cold & Cough"
+    ],
+    "dosage_common": "500mg once daily for 3 to 5 days",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Abdominal pain"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions",
+      "Irregular heartbeat (QT prolongation)"
+    ],
+    "overdose_effects": "Severe diarrhea and hearing loss (temporary)",
+    "contraindications": [
+      "History of jaundice or liver problems with previous use"
+    ],
+    "drug_interactions": [
+      "Antacids containing aluminum or magnesium",
+      "Digoxin"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Use with caution in patients with liver disease",
+    "how_it_works_in_body": "It binds to the bacteria's 'protein factory' (ribosome) and prevents it from making essential proteins, causing the bacteria to die.",
+    "onset_of_action": "2-3 hours",
+    "duration_of_effect": "24-48 hours (long half-life)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Popular antibiotic for respiratory and skin infections, often taken for 3 days.",
+    "who_should_take": "People with bacterial infections as prescribed by a doctor.",
+    "who_should_not_take": "People with viral infections (like common cold) or history of liver issues.",
+    "food_interactions": [
+      "Avoid taking with antacids"
+    ],
+    "alcohol_warning": "Alcohol can increase side effects like dizziness and stomach upset."
+  },
+  {
+    "id": "bisacodyl",
+    "category": "Laxatives",
+    "drug_name": "Bisacodyl",
+    "brand_names_india": [
+      "Dulcolax",
+      "Gerbisa",
+      "Laxidyl"
+    ],
+    "drug_class": "Stimulant Laxative",
+    "mechanism_of_action": "Stimulates the muscles in the intestine to move stool along",
+    "uses": [
+      "Constipation",
+      "Bowel clearing before surgery"
+    ],
+    "dosage_common": "5mg to 10mg once daily at bedtime",
+    "side_effects_common": [
+      "Abdominal cramps",
+      "Diarrhea",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Electrolyte imbalance",
+      "Dehydration"
+    ],
+    "overdose_effects": "Severe diarrhea, abdominal pain, and muscle weakness",
+    "contraindications": [
+      "Appendicitis",
+      "Intestinal obstruction",
+      "Severe dehydration"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Milk",
+      "Proton pump inhibitors"
+    ],
+    "pregnancy_safety": "Consult doctor; short-term use only",
+    "kidney_liver_warning": "No major warnings for short-term use",
+    "how_it_works_in_body": "It acts directly on the colon to increase movement (peristalsis) and also increases water content in the stool.",
+    "onset_of_action": "6-12 hours (oral), 15-60 mins (suppository)",
+    "duration_of_effect": "Until bowel movement occurs",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective medicine for overnight relief from constipation.",
+    "who_should_take": "Adults and children (over 6) with occasional constipation.",
+    "who_should_not_take": "People with severe stomach pain, nausea, or vomiting.",
+    "food_interactions": [
+      "Do not take within 1 hour of milk or antacids"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can cause dehydration."
+  },
+  {
+    "id": "magnesium_citrate",
+    "category": "Purgatives",
+    "drug_name": "Magnesium Citrate",
+    "brand_names_india": [
+      "Citroma",
+      "Mag-Citrate"
+    ],
+    "drug_class": "Osmotic Laxative / Purgative",
+    "mechanism_of_action": "Draws water into the intestines to cause a bowel movement",
+    "uses": [
+      "Severe constipation",
+      "Bowel preparation for colonoscopy"
+    ],
+    "dosage_common": "240ml (one bottle) as a single dose",
+    "side_effects_common": [
+      "Loose stools",
+      "Stomach cramps",
+      "Gas"
+    ],
+    "side_effects_serious": [
+      "High magnesium levels",
+      "Kidney problems"
+    ],
+    "overdose_effects": "Extreme diarrhea, low blood pressure, and confusion",
+    "contraindications": [
+      "Severe kidney disease",
+      "Heart block"
+    ],
+    "drug_interactions": [
+      "Tetracycline antibiotics",
+      "Digoxin"
+    ],
+    "pregnancy_safety": "Consult doctor; generally avoided unless necessary",
+    "kidney_liver_warning": "STRICTLY AVOID in patients with severe kidney disease",
+    "how_it_works_in_body": "It works by osmosis, pulling water from the body into the colon, which softens the stool and triggers the urge to go.",
+    "onset_of_action": "30 mins to 6 hours",
+    "duration_of_effect": "Until bowel is cleared",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Strong purgative used to clear the bowels before medical procedures.",
+    "who_should_take": "People needing complete bowel clearing as advised by a doctor.",
+    "who_should_not_take": "People with kidney failure or those on a low-salt diet.",
+    "food_interactions": [
+      "Drink plenty of clear liquids"
+    ],
+    "alcohol_warning": "Avoid alcohol as it increases dehydration risk."
+  },
+  {
+    "id": "ashwagandha",
+    "category": "Herbal drugs (Ayurvedic / natural)",
+    "drug_name": "Ashwagandha",
+    "brand_names_india": [
+      "Himalaya Ashwagandha",
+      "Dabur Ashwagandha",
+      "Patanjali Ashwagandha"
+    ],
+    "drug_class": "Adaptogen",
+    "mechanism_of_action": "Helps the body manage stress and improves energy levels",
+    "uses": [
+      "Stress",
+      "Anxiety",
+      "Fatigue",
+      "General Wellness"
+    ],
+    "dosage_common": "250mg to 500mg twice daily",
+    "side_effects_common": [
+      "Drowsiness",
+      "Stomach upset (if taken in large amounts)"
+    ],
+    "side_effects_serious": [
+      "Thyroid hormone changes",
+      "Autoimmune flare-ups"
+    ],
+    "overdose_effects": "Vomiting and diarrhea",
+    "contraindications": [
+      "Pregnancy",
+      "Autoimmune diseases",
+      "Upcoming surgery"
+    ],
+    "drug_interactions": [
+      "Sedatives",
+      "Thyroid medications",
+      "Immunosuppressants"
+    ],
+    "pregnancy_safety": "Avoid; may cause miscarriage",
+    "kidney_liver_warning": "Generally safe, but consult doctor if you have liver issues",
+    "how_it_works_in_body": "It contains chemicals that might help calm the brain, reduce swelling, lower blood pressure, and alter the immune system.",
+    "onset_of_action": "2-4 weeks of consistent use",
+    "duration_of_effect": "Several hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Ayurvedic",
+    "india_regulatory_status": "AYUSH Approved",
+    "quick_summary": "Popular Ayurvedic herb for reducing stress and increasing vitality.",
+    "who_should_take": "People looking for natural stress relief and energy support.",
+    "who_should_not_take": "Pregnant women or those with hyperthyroidism.",
+    "food_interactions": [
+      "No major interactions"
+    ],
+    "alcohol_warning": "May increase drowsiness when combined with alcohol."
+  },
+  {
+    "id": "pregabalin",
+    "category": "Neuropathic drugs",
+    "drug_name": "Pregabalin",
+    "brand_names_india": [
+      "Lyrica",
+      "Pregalin",
+      "Maxgalin"
+    ],
+    "drug_class": "Anticonvulsant / Gabapentinoid",
+    "mechanism_of_action": "Calms overactive nerves in the body to reduce pain",
+    "uses": [
+      "Diabetic Nerve Pain",
+      "Shingles Pain",
+      "Fibromyalgia",
+      "Anxiety"
+    ],
+    "dosage_common": "75mg to 150mg twice daily",
+    "side_effects_common": [
+      "Dizziness",
+      "Sleepiness",
+      "Dry mouth",
+      "Weight gain"
+    ],
+    "side_effects_serious": [
+      "Suicidal thoughts",
+      "Severe allergic reactions",
+      "Swelling of hands/feet"
+    ],
+    "overdose_effects": "Extreme sleepiness, confusion, and agitation",
+    "contraindications": [
+      "Hypersensitivity to Pregabalin"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Lorazepam",
+      "Opioids"
+    ],
+    "pregnancy_safety": "Consult doctor; only if benefits outweigh risks",
+    "kidney_liver_warning": "Dose must be reduced in patients with kidney disease",
+    "how_it_works_in_body": "It binds to calcium channels in the central nervous system, which reduces the release of neurotransmitters that send pain signals.",
+    "onset_of_action": "1-2 weeks for full effect",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H1)",
+    "quick_summary": "Medicine used to treat chronic nerve pain and certain types of anxiety.",
+    "who_should_take": "Patients with chronic nerve pain from diabetes or shingles.",
+    "who_should_not_take": "People with a history of drug abuse or severe kidney issues without monitoring.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "STRICTLY AVOID; increases risk of severe dizziness and breathing problems."
+  },
+  {
+    "id": "cetirizine",
+    "category": "Histamine blockers (H1, H2)",
+    "drug_name": "Cetirizine",
+    "brand_names_india": [
+      "Okacet",
+      "Cetzine",
+      "Zyrtec"
+    ],
+    "drug_class": "Second-generation Antihistamine (H1 blocker)",
+    "mechanism_of_action": "Blocks histamine, a substance in the body that causes allergic symptoms",
+    "uses": [
+      "Allergic Rhinitis",
+      "Hives",
+      "Itching",
+      "Sneezing",
+      "Cold & Cough",
+      "Allergies"
+    ],
+    "dosage_common": "5mg to 10mg once daily",
+    "side_effects_common": [
+      "Drowsiness (less than older drugs)",
+      "Dry mouth",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reaction",
+      "Fast heartbeat"
+    ],
+    "overdose_effects": "Extreme sleepiness and restlessness in children",
+    "contraindications": [
+      "Severe kidney disease",
+      "Hypersensitivity"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Theophylline"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in moderate to severe kidney disease",
+    "how_it_works_in_body": "It prevents histamine from attaching to its receptors on cells, which stops the allergic response like swelling and itching.",
+    "onset_of_action": "20-60 mins",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used medicine for quick relief from allergies and itching.",
+    "who_should_take": "Adults and children with seasonal or year-round allergies.",
+    "who_should_not_take": "People with end-stage kidney disease.",
+    "food_interactions": [
+      "No major interactions"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase drowsiness."
+  },
+  {
+    "id": "ibuprofen",
+    "category": "Anti-inflammatory drugs",
+    "drug_name": "Ibuprofen",
+    "brand_names_india": [
+      "Brufen",
+      "Ibugesic",
+      "Combiflam (with Paracetamol)"
+    ],
+    "drug_class": "NSAID (Non-Steroidal Anti-Inflammatory Drug)",
+    "mechanism_of_action": "Blocks enzymes that produce chemicals causing pain and inflammation",
+    "uses": [
+      "Pain relief",
+      "Fever",
+      "Arthritis",
+      "Menstrual cramps",
+      "Cold & Cough",
+      "Headache"
+    ],
+    "dosage_common": "200mg to 400mg every 4-6 hours",
+    "side_effects_common": [
+      "Stomach pain",
+      "Heartburn",
+      "Nausea",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Stomach ulcers",
+      "Kidney damage",
+      "Increased heart attack risk"
+    ],
+    "overdose_effects": "Vomiting, stomach pain, and ringing in the ears",
+    "contraindications": [
+      "Active stomach ulcers",
+      "Severe heart failure",
+      "Aspirin-sensitive asthma"
+    ],
+    "drug_interactions": [
+      "Aspirin",
+      "Warfarin",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Avoid in the third trimester (last 3 months)",
+    "kidney_liver_warning": "Can cause kidney damage with long-term use",
+    "how_it_works_in_body": "It stops the body from making prostaglandins, which are the chemicals that signal pain and cause swelling and fever.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Versatile medicine for pain, swelling, and fever relief.",
+    "who_should_take": "People with mild to moderate pain or inflammation.",
+    "who_should_not_take": "People with a history of stomach ulcers or severe kidney disease.",
+    "food_interactions": [
+      "Take with food or milk to reduce stomach upset"
+    ],
+    "alcohol_warning": "Increases the risk of stomach bleeding."
+  },
+  {
+    "id": "fluconazole",
+    "category": "Anti-fungal drugs",
+    "drug_name": "Fluconazole",
+    "brand_names_india": [
+      "Forcan",
+      "Syscan",
+      "Zocon"
+    ],
+    "drug_class": "Azole Antifungal",
+    "mechanism_of_action": "Stops the growth of fungi by damaging their cell membranes",
+    "uses": [
+      "Vaginal yeast infections",
+      "Oral thrush",
+      "Fungal nail infections"
+    ],
+    "dosage_common": "150mg as a single dose for yeast infections",
+    "side_effects_common": [
+      "Headache",
+      "Nausea",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Liver toxicity",
+      "Severe skin rash",
+      "Irregular heart rhythm"
+    ],
+    "overdose_effects": "Hallucinations and paranoid behavior (rare)",
+    "contraindications": [
+      "Hypersensitivity",
+      "Coadministration with certain heart drugs"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Phenytoin",
+      "Rifampin"
+    ],
+    "pregnancy_safety": "Avoid single high doses or long-term use during pregnancy",
+    "kidney_liver_warning": "Requires dose adjustment in kidney disease",
+    "how_it_works_in_body": "It prevents the fungus from making ergosterol, a vital component of its cell wall, causing the fungus to leak and die.",
+    "onset_of_action": "1-2 days for symptom relief",
+    "duration_of_effect": "2-3 days (long half-life)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective medicine for treating various fungal and yeast infections.",
+    "who_should_take": "People with diagnosed fungal infections.",
+    "who_should_not_take": "People with severe liver disease or heart rhythm problems.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase the risk of liver side effects."
+  },
+  {
+    "id": "vitamin_d3",
+    "category": "Vitamins & related drugs",
+    "drug_name": "Vitamin D3 (Cholecalciferol)",
+    "brand_names_india": [
+      "Uprise-D3",
+      "Calcirol",
+      "D3-Must"
+    ],
+    "drug_class": "Vitamin",
+    "mechanism_of_action": "Helps the body absorb calcium for strong bones",
+    "uses": [
+      "Vitamin D deficiency",
+      "Osteoporosis",
+      "Bone health"
+    ],
+    "dosage_common": "60,000 IU once a week for 8 weeks (for deficiency)",
+    "side_effects_common": [
+      "Constipation",
+      "Nausea (rare at normal doses)"
+    ],
+    "side_effects_serious": [
+      "High calcium levels (Hypercalcemia)",
+      "Kidney stones"
+    ],
+    "overdose_effects": "Loss of appetite, excessive thirst, and frequent urination",
+    "contraindications": [
+      "High calcium levels",
+      "High Vitamin D levels"
+    ],
+    "drug_interactions": [
+      "Orlistat",
+      "Steroids",
+      "Cholestyramine"
+    ],
+    "pregnancy_safety": "Safe and often recommended; consult doctor for dose",
+    "kidney_liver_warning": "Use with caution in patients with kidney stones",
+    "how_it_works_in_body": "It travels to the intestines to help absorb calcium from food and to the bones to help build and maintain their structure.",
+    "onset_of_action": "Several days to weeks to raise levels",
+    "duration_of_effect": "Weeks to months",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved / FSSAI",
+    "quick_summary": "Essential vitamin for bone health and immune support.",
+    "who_should_take": "People with low sun exposure or diagnosed deficiency.",
+    "who_should_not_take": "People with already high calcium or Vitamin D levels.",
+    "food_interactions": [
+      "Take with a fatty meal for best absorption"
+    ],
+    "alcohol_warning": "No major interaction."
+  },
+  {
+    "id": "omega_3",
+    "category": "Supplements (all types)",
+    "drug_name": "Omega-3 Fatty Acids (Fish Oil)",
+    "brand_names_india": [
+      "Seven Seas",
+      "Maxepa",
+      "Sea-Cod"
+    ],
+    "drug_class": "Dietary Supplement",
+    "mechanism_of_action": "Reduces inflammation and lowers triglyceride levels",
+    "uses": [
+      "Heart health",
+      "High triglycerides",
+      "Joint health"
+    ],
+    "dosage_common": "1000mg to 2000mg daily",
+    "side_effects_common": [
+      "Fishy aftertaste",
+      "Burping",
+      "Loose stools"
+    ],
+    "side_effects_serious": [
+      "Increased bleeding risk (at high doses)"
+    ],
+    "overdose_effects": "Stomach upset and thin blood",
+    "contraindications": [
+      "Allergy to fish or shellfish"
+    ],
+    "drug_interactions": [
+      "Blood thinners (Warfarin)",
+      "Aspirin"
+    ],
+    "pregnancy_safety": "Generally safe and beneficial; consult doctor",
+    "kidney_liver_warning": "Generally safe",
+    "how_it_works_in_body": "These healthy fats are incorporated into cell membranes throughout the body, helping to reduce inflammation and improve heart rhythm.",
+    "onset_of_action": "Weeks of consistent use",
+    "duration_of_effect": "Several hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Nutraceutical",
+    "india_regulatory_status": "FSSAI Approved",
+    "quick_summary": "Healthy fats that support heart, brain, and joint health.",
+    "who_should_take": "People looking to improve heart health or reduce inflammation.",
+    "who_should_not_take": "People with severe fish allergies or those on high-dose blood thinners.",
+    "food_interactions": [
+      "Take with meals to reduce fishy burps"
+    ],
+    "alcohol_warning": "No major interaction."
+  },
+  {
+    "id": "furosemide",
+    "category": "Diuretics",
+    "drug_name": "Furosemide",
+    "brand_names_india": [
+      "Lasix",
+      "Fruselac (with Spironolactone)"
+    ],
+    "drug_class": "Loop Diuretic",
+    "mechanism_of_action": "Helps the kidneys get rid of extra salt and water through urine",
+    "uses": [
+      "Edema (Swelling)",
+      "Heart failure",
+      "High blood pressure",
+      "Hypertension"
+    ],
+    "dosage_common": "20mg to 40mg once daily in the morning",
+    "side_effects_common": [
+      "Frequent urination",
+      "Dizziness",
+      "Thirst",
+      "Muscle cramps"
+    ],
+    "side_effects_serious": [
+      "Severe dehydration",
+      "Low potassium levels",
+      "Hearing loss"
+    ],
+    "overdose_effects": "Severe dizziness, fainting, and extreme weakness",
+    "contraindications": [
+      "Inability to urinate (Anuria)",
+      "Severe electrolyte depletion"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Lithium",
+      "Gentamicin"
+    ],
+    "pregnancy_safety": "Consult doctor; only if clearly needed",
+    "kidney_liver_warning": "Requires careful monitoring in kidney or liver disease",
+    "how_it_works_in_body": "It blocks the absorption of salt and chloride in the kidneys, which forces more water to stay in the urine and leave the body.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Powerful 'water pill' used to reduce swelling and fluid buildup.",
+    "who_should_take": "People with fluid retention due to heart, kidney, or liver issues.",
+    "who_should_not_take": "People who cannot pass urine or are severely dehydrated.",
+    "food_interactions": [
+      "May be taken with food if stomach upset occurs"
+    ],
+    "alcohol_warning": "Increases the risk of dizziness and fainting."
+  },
+  {
+    "id": "atorvastatin",
+    "category": "Statins",
+    "drug_name": "Atorvastatin",
+    "brand_names_india": [
+      "Lipivas",
+      "Atorva",
+      "Storvas"
+    ],
+    "drug_class": "HMG-CoA Reductase Inhibitor",
+    "mechanism_of_action": "Blocks the enzyme in the liver that makes cholesterol",
+    "uses": [
+      "High Cholesterol",
+      "Prevention of Heart Attack and Stroke"
+    ],
+    "dosage_common": "10mg to 40mg once daily at night",
+    "side_effects_common": [
+      "Muscle aches",
+      "Joint pain",
+      "Diarrhea",
+      "Cold-like symptoms"
+    ],
+    "side_effects_serious": [
+      "Liver damage",
+      "Severe muscle breakdown (Rhabdomyolysis)"
+    ],
+    "overdose_effects": "Severe muscle pain and liver problems",
+    "contraindications": [
+      "Active liver disease",
+      "Pregnancy",
+      "Breastfeeding"
+    ],
+    "drug_interactions": [
+      "Clarithromycin",
+      "Cyclosporine",
+      "Gemfibrozil"
+    ],
+    "pregnancy_safety": "Category X - Strictly prohibited; causes birth defects",
+    "kidney_liver_warning": "Avoid in active liver disease; monitor liver enzymes",
+    "how_it_works_in_body": "It stops the liver from producing 'bad' cholesterol (LDL) and helps the liver remove existing LDL from the blood.",
+    "onset_of_action": "2 weeks for full effect",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Commonly used medicine to lower cholesterol and protect the heart.",
+    "who_should_take": "People with high cholesterol or high risk of heart disease.",
+    "who_should_not_take": "Pregnant women or those with active liver disease.",
+    "food_interactions": [
+      "Avoid large amounts of grapefruit juice"
+    ],
+    "alcohol_warning": "Limit alcohol to reduce the risk of liver damage."
+  },
+  {
+    "id": "rosuvastatin",
+    "category": "Statins",
+    "drug_name": "Rosuvastatin",
+    "brand_names_india": [
+      "Rosuvas",
+      "Razel",
+      "Crestor"
+    ],
+    "drug_class": "HMG-CoA Reductase Inhibitor",
+    "mechanism_of_action": "Highly potent statin that blocks cholesterol production in the liver",
+    "uses": [
+      "High Cholesterol",
+      "Atherosclerosis"
+    ],
+    "dosage_common": "5mg to 20mg once daily",
+    "side_effects_common": [
+      "Headache",
+      "Muscle pain",
+      "Weakness",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Kidney problems",
+      "Liver enzyme elevation"
+    ],
+    "overdose_effects": "Severe muscle weakness and liver dysfunction",
+    "contraindications": [
+      "Liver disease",
+      "Severe kidney impairment",
+      "Pregnancy"
+    ],
+    "drug_interactions": [
+      "Cyclosporine",
+      "Gemfibrozil",
+      "Antacids"
+    ],
+    "pregnancy_safety": "Category X - Strictly prohibited",
+    "kidney_liver_warning": "Use with caution in patients with kidney disease",
+    "how_it_works_in_body": "It is more potent than other statins at lowering LDL and raising HDL (good cholesterol).",
+    "onset_of_action": "1-2 weeks",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A potent medicine to lower bad cholesterol and increase good cholesterol.",
+    "who_should_take": "Patients needing significant cholesterol reduction.",
+    "who_should_not_take": "Pregnant women or those with liver issues.",
+    "food_interactions": [
+      "No major food interactions"
+    ],
+    "alcohol_warning": "Limit alcohol intake."
+  },
+  {
+    "id": "telmisartan",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Telmisartan",
+    "brand_names_india": [
+      "Telma",
+      "Telmikind",
+      "Telsar"
+    ],
+    "drug_class": "Angiotensin II Receptor Blocker (ARB)",
+    "mechanism_of_action": "Blocks a substance that tightens blood vessels, allowing them to relax",
+    "uses": [
+      "High Blood Pressure",
+      "Prevention of Heart Attack",
+      "Hypertension"
+    ],
+    "dosage_common": "40mg to 80mg once daily",
+    "side_effects_common": [
+      "Dizziness",
+      "Back pain",
+      "Sinus inflammation"
+    ],
+    "side_effects_serious": [
+      "Low blood pressure",
+      "Kidney dysfunction",
+      "High potassium"
+    ],
+    "overdose_effects": "Low blood pressure and rapid or slow heartbeat",
+    "contraindications": [
+      "Pregnancy",
+      "Biliary obstruction",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Lithium",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Category D - Strictly avoid in 2nd and 3rd trimesters",
+    "kidney_liver_warning": "Use with caution in patients with kidney artery stenosis",
+    "how_it_works_in_body": "It blocks the action of angiotensin II, a hormone that causes blood vessels to constrict, thereby lowering blood pressure.",
+    "onset_of_action": "3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective long-acting medicine for blood pressure control.",
+    "who_should_take": "Adults with hypertension or high cardiovascular risk.",
+    "who_should_not_take": "Pregnant women or those with severe liver/gallbladder issues.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can increase the blood pressure-lowering effect."
+  },
+  {
+    "id": "sitagliptin",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Sitagliptin",
+    "brand_names_india": [
+      "Januvia",
+      "Istavel",
+      "Zita"
+    ],
+    "drug_class": "DPP-4 Inhibitor",
+    "mechanism_of_action": "Increases insulin release and decreases sugar production in the liver",
+    "uses": [
+      "Type 2 Diabetes Mellitus"
+    ],
+    "dosage_common": "100mg once daily",
+    "side_effects_common": [
+      "Upper respiratory infection",
+      "Headache",
+      "Sore throat"
+    ],
+    "side_effects_serious": [
+      "Pancreatitis",
+      "Severe joint pain",
+      "Allergic reactions"
+    ],
+    "overdose_effects": "Mild hypoglycemia when used with other diabetes drugs",
+    "contraindications": [
+      "Type 1 Diabetes",
+      "Diabetic ketoacidosis"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Insulin"
+    ],
+    "pregnancy_safety": "Consult doctor; generally avoided unless necessary",
+    "kidney_liver_warning": "Dose adjustment required in moderate to severe kidney disease",
+    "how_it_works_in_body": "It prevents the breakdown of 'incretin' hormones, which tell the body to release more insulin after a meal.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A modern diabetes medicine that helps control blood sugar after meals.",
+    "who_should_take": "Patients with Type 2 Diabetes as an add-on to diet and exercise.",
+    "who_should_not_take": "People with a history of pancreatitis.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Moderate alcohol is usually fine, but avoid excessive drinking."
+  },
+  {
+    "id": "amoxicillin_clavulanate",
+    "category": "Antibiotics",
+    "drug_name": "Amoxicillin + Clavulanic Acid",
+    "brand_names_india": [
+      "Augmentin",
+      "Moxikind-CV",
+      "Advent"
+    ],
+    "drug_class": "Penicillin-type Antibiotic + Beta-lactamase Inhibitor",
+    "mechanism_of_action": "Kills bacteria and prevents them from destroying the antibiotic",
+    "uses": [
+      "Sinusitis",
+      "Pneumonia",
+      "Ear infections",
+      "Urinary tract infections",
+      "Cold & Cough"
+    ],
+    "dosage_common": "625mg twice daily for 5-7 days",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Vaginal yeast infection"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (Anaphylaxis)",
+      "Liver problems",
+      "Colitis"
+    ],
+    "overdose_effects": "Stomach pain, vomiting, and diarrhea",
+    "contraindications": [
+      "Penicillin allergy",
+      "History of liver problems with this drug"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Methotrexate",
+      "Allopurinol"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease",
+    "how_it_works_in_body": "Amoxicillin kills the bacteria, while Clavulanic acid stops the bacteria from producing enzymes that would otherwise neutralize the Amoxicillin.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A powerful broad-spectrum antibiotic for various infections.",
+    "who_should_take": "People with bacterial infections as prescribed.",
+    "who_should_not_take": "People with a known allergy to Penicillin.",
+    "food_interactions": [
+      "Take at the start of a meal to reduce stomach upset"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase side effects and slow recovery."
+  },
+  {
+    "id": "pantoprazole",
+    "category": "Acidity / Gastric drugs",
+    "drug_name": "Pantoprazole",
+    "brand_names_india": [
+      "Pan 40",
+      "Pantocid",
+      "Pantodac"
+    ],
+    "drug_class": "Proton Pump Inhibitor (PPI)",
+    "mechanism_of_action": "Reduces the amount of acid produced in the stomach",
+    "uses": [
+      "Acidity",
+      "Stomach ulcers",
+      "GERD"
+    ],
+    "dosage_common": "40mg once daily, 30 mins before breakfast",
+    "side_effects_common": [
+      "Headache",
+      "Diarrhea",
+      "Stomach pain",
+      "Gas"
+    ],
+    "side_effects_serious": [
+      "Vitamin B12 deficiency (long-term)",
+      "Bone fractures (long-term)",
+      "Kidney issues"
+    ],
+    "overdose_effects": "No specific symptoms, but may increase side effects",
+    "contraindications": [
+      "Hypersensitivity to Pantoprazole"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Methotrexate",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Consult doctor; generally safe for short-term use",
+    "kidney_liver_warning": "Generally safe, but use with caution in severe liver disease",
+    "how_it_works_in_body": "It shuts down the 'acid pumps' in the stomach lining, providing long-lasting relief from acid reflux.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Highly effective medicine for acidity and heartburn relief.",
+    "who_should_take": "People with frequent acidity or stomach ulcers.",
+    "who_should_not_take": "People with known allergy to PPIs.",
+    "food_interactions": [
+      "Must be taken on an empty stomach"
+    ],
+    "alcohol_warning": "Alcohol can increase stomach acid and worsen symptoms."
+  },
+  {
+    "id": "famotidine",
+    "category": "Histamine blockers (H1, H2)",
+    "drug_name": "Famotidine",
+    "brand_names_india": [
+      "Famocid",
+      "Facid",
+      "Famotin"
+    ],
+    "drug_class": "H2 Receptor Antagonist",
+    "mechanism_of_action": "Blocks histamine receptors in the stomach to reduce acid production",
+    "uses": [
+      "Acidity",
+      "Heartburn",
+      "Stomach ulcers"
+    ],
+    "dosage_common": "20mg to 40mg once or twice daily",
+    "side_effects_common": [
+      "Headache",
+      "Dizziness",
+      "Constipation",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Confusion (in elderly)",
+      "Irregular heartbeat",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Vomiting, rapid heart rate, and restlessness",
+    "contraindications": [
+      "Hypersensitivity to H2 blockers"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Atazanavir"
+    ],
+    "pregnancy_safety": "Consult doctor; generally safe if needed",
+    "kidney_liver_warning": "Dose adjustment required in severe kidney disease",
+    "how_it_works_in_body": "It blocks the H2 receptors on the acid-producing cells in the stomach, preventing them from responding to histamine signals to make acid.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "10-12 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A reliable medicine for reducing stomach acid and treating heartburn.",
+    "who_should_take": "People with occasional acidity or diagnosed stomach ulcers.",
+    "who_should_not_take": "People with severe kidney failure without medical supervision.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can worsen stomach irritation and acid production."
+  },
+  {
+    "id": "paclitaxel",
+    "category": "Anti-cancer drugs",
+    "drug_name": "Paclitaxel",
+    "brand_names_india": [
+      "Taxol",
+      "Paclitax",
+      "Cytotax"
+    ],
+    "drug_class": "Taxane / Antineoplastic",
+    "mechanism_of_action": "Interferes with the growth of cancer cells by stabilizing microtubules",
+    "uses": [
+      "Ovarian Cancer",
+      "Breast Cancer",
+      "Lung Cancer"
+    ],
+    "dosage_common": "Administered by IV infusion in a hospital setting",
+    "side_effects_common": [
+      "Hair loss",
+      "Numbness in hands/feet",
+      "Joint pain",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions",
+      "Low blood cell counts",
+      "Heart rhythm changes"
+    ],
+    "overdose_effects": "Severe bone marrow suppression and nerve damage",
+    "contraindications": [
+      "Low neutrophil counts",
+      "Hypersensitivity to castor oil (Cremophor EL)"
+    ],
+    "drug_interactions": [
+      "Cisplatin",
+      "Ketoconazole",
+      "Doxorubicin"
+    ],
+    "pregnancy_safety": "Category D - Avoid during pregnancy; high risk to fetus",
+    "kidney_liver_warning": "Use with caution in patients with liver impairment",
+    "how_it_works_in_body": "It acts like a 'glue' that prevents cancer cells from dividing and multiplying, eventually causing them to die.",
+    "onset_of_action": "Immediate (IV)",
+    "duration_of_effect": "Several days",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A chemotherapy medication used to treat various types of advanced cancers.",
+    "who_should_take": "Patients with specific types of solid tumors as prescribed by an oncologist.",
+    "who_should_not_take": "People with very low white blood cell counts.",
+    "food_interactions": [
+      "No specific food interactions (IV administration)"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can worsen side effects and liver strain."
+  },
+  {
+    "id": "losartan",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Losartan",
+    "brand_names_india": [
+      "Losakind",
+      "Repace",
+      "Cosart"
+    ],
+    "drug_class": "Angiotensin II Receptor Blocker (ARB)",
+    "mechanism_of_action": "Relaxes blood vessels to lower blood pressure and protect kidneys",
+    "uses": [
+      "High Blood Pressure",
+      "Diabetic Kidney Disease",
+      "Hypertension"
+    ],
+    "dosage_common": "25mg to 100mg once daily",
+    "side_effects_common": [
+      "Dizziness",
+      "Fatigue",
+      "Upper respiratory infection"
+    ],
+    "side_effects_serious": [
+      "High potassium levels",
+      "Kidney failure",
+      "Angioedema (swelling)"
+    ],
+    "overdose_effects": "Low blood pressure and fast or slow heart rate",
+    "contraindications": [
+      "Pregnancy",
+      "Severe liver disease",
+      "Use with Aliskiren in diabetics"
+    ],
+    "drug_interactions": [
+      "Lithium",
+      "Potassium supplements",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Category D - Strictly avoid; causes fetal injury",
+    "kidney_liver_warning": "Use with caution in patients with kidney artery stenosis",
+    "how_it_works_in_body": "It blocks the action of a hormone that narrows blood vessels, helping them stay open and reducing the heart's workload.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A common medicine for blood pressure and kidney protection in diabetics.",
+    "who_should_take": "Adults with hypertension or diabetic nephropathy.",
+    "who_should_not_take": "Pregnant women or those with a history of severe allergic swelling.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can increase the risk of dizziness and fainting."
+  },
+  {
+    "id": "glimepiride",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Glimepiride",
+    "brand_names_india": [
+      "Amaryl",
+      "Glimy",
+      "Glimer"
+    ],
+    "drug_class": "Sulfonylurea",
+    "mechanism_of_action": "Stimulates the pancreas to release more insulin",
+    "uses": [
+      "Type 2 Diabetes Mellitus"
+    ],
+    "dosage_common": "1mg to 4mg once daily with breakfast",
+    "side_effects_common": [
+      "Low blood sugar (Hypoglycemia)",
+      "Nausea",
+      "Weight gain",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Severe hypoglycemia",
+      "Liver dysfunction",
+      "Allergic skin reactions"
+    ],
+    "overdose_effects": "Severe low blood sugar, confusion, and seizures",
+    "contraindications": [
+      "Type 1 Diabetes",
+      "Diabetic ketoacidosis",
+      "Severe liver/kidney disease"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Beta-blockers",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Consult doctor; usually replaced by insulin during pregnancy",
+    "kidney_liver_warning": "Use with extreme caution in kidney or liver impairment",
+    "how_it_works_in_body": "It acts on the beta cells in the pancreas, 'nudging' them to produce more insulin to help clear sugar from the blood.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A medicine that helps the body produce more insulin to control blood sugar.",
+    "who_should_take": "Patients with Type 2 Diabetes whose sugar is not controlled by diet alone.",
+    "who_should_not_take": "People with Type 1 Diabetes or those prone to severe low blood sugar.",
+    "food_interactions": [
+      "Must be taken with the first main meal of the day"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can cause unpredictable and severe low blood sugar."
+  },
+  {
+    "id": "cyclosporine",
+    "category": "Autoimmune therapy drugs",
+    "drug_name": "Cyclosporine",
+    "brand_names_india": [
+      "Panimun Bioral",
+      "Sandimmun",
+      "Arpimune"
+    ],
+    "drug_class": "Calcineurin Inhibitor / Immunosuppressant",
+    "mechanism_of_action": "Suppresses the immune system to prevent organ rejection or treat autoimmune diseases",
+    "uses": [
+      "Organ Transplant Rejection",
+      "Psoriasis",
+      "Rheumatoid Arthritis",
+      "Dry Eye"
+    ],
+    "dosage_common": "2.5mg/kg to 5mg/kg daily in two divided doses",
+    "side_effects_common": [
+      "Tremors",
+      "Increased hair growth",
+      "Gum swelling",
+      "High blood pressure"
+    ],
+    "side_effects_serious": [
+      "Kidney toxicity",
+      "Increased risk of infections",
+      "Liver damage"
+    ],
+    "overdose_effects": "Severe kidney failure and severe high blood pressure",
+    "contraindications": [
+      "Kidney disease",
+      "Uncontrolled hypertension",
+      "Cancer"
+    ],
+    "drug_interactions": [
+      "Grapefruit juice",
+      "St. John's Wort",
+      "Many antibiotics and antifungals"
+    ],
+    "pregnancy_safety": "Consult doctor; used only if essential",
+    "kidney_liver_warning": "High risk of kidney damage; requires frequent blood level monitoring",
+    "how_it_works_in_body": "It blocks the activity of T-cells, which are the 'soldiers' of the immune system that cause inflammation or attack transplanted organs.",
+    "onset_of_action": "Several days to weeks",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A strong immunosuppressant used for transplants and severe autoimmune conditions.",
+    "who_should_take": "Transplant recipients or patients with severe psoriasis/arthritis.",
+    "who_should_not_take": "People with active infections or severe kidney disease.",
+    "food_interactions": [
+      "STRICTLY AVOID grapefruit and its juice"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase the risk of liver and kidney issues."
+  },
+  {
+    "id": "acyclovir",
+    "category": "Anti-viral drugs",
+    "drug_name": "Acyclovir",
+    "brand_names_india": [
+      "Zovirax",
+      "Herperax",
+      "Acivir"
+    ],
+    "drug_class": "Antiviral (Nucleoside Analog)",
+    "mechanism_of_action": "Stops the herpes virus from multiplying in the body",
+    "uses": [
+      "Herpes Simplex",
+      "Chickenpox",
+      "Shingles"
+    ],
+    "dosage_common": "200mg to 800mg five times daily (depending on condition)",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Headache",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Kidney failure",
+      "Confusion or tremors (in elderly)",
+      "Low blood cell counts"
+    ],
+    "overdose_effects": "Kidney damage and seizures",
+    "contraindications": [
+      "Hypersensitivity to Acyclovir or Valacyclovir"
+    ],
+    "drug_interactions": [
+      "Probenecid",
+      "Tenofovir"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Must drink plenty of water to prevent kidney damage",
+    "how_it_works_in_body": "It mimics a building block of DNA. When the virus tries to use it to copy itself, the process is 'broken', stopping the virus from spreading.",
+    "onset_of_action": "Within 24-48 hours of starting",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A standard antiviral medicine for treating herpes and chickenpox.",
+    "who_should_take": "People with active herpes or shingles infections.",
+    "who_should_not_take": "People with severe kidney disease without dose adjustment.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "No major interaction, but stay hydrated."
+  },
+  {
+    "id": "ciprofloxacin",
+    "category": "Antibiotics",
+    "drug_name": "Ciprofloxacin",
+    "brand_names_india": [
+      "Cifran",
+      "Ciplox",
+      "Ciprobid"
+    ],
+    "drug_class": "Fluoroquinolone Antibiotic",
+    "mechanism_of_action": "Kills bacteria by preventing them from repairing their DNA",
+    "uses": [
+      "Urinary Tract Infections (UTI)",
+      "Typhoid",
+      "Bone infections",
+      "Diarrhea"
+    ],
+    "dosage_common": "250mg to 750mg twice daily",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Dizziness",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Tendon rupture",
+      "Nerve damage",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Kidney damage and seizures",
+    "contraindications": [
+      "History of tendon problems",
+      "Use with Tizanidine"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Dairy products",
+      "Warfarin",
+      "Theophylline"
+    ],
+    "pregnancy_safety": "Avoid during pregnancy; can affect fetal bone development",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease",
+    "how_it_works_in_body": "It blocks an enzyme called DNA gyrase, which bacteria need to untangle and copy their DNA, effectively stopping them from multiplying.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A powerful antibiotic for serious bacterial infections, especially UTIs.",
+    "who_should_take": "Adults with bacterial infections as prescribed.",
+    "who_should_not_take": "Children (unless essential), pregnant women, or those with tendon issues.",
+    "food_interactions": [
+      "Avoid taking with dairy products or calcium-fortified juices"
+    ],
+    "alcohol_warning": "Avoid alcohol as it can increase dizziness and stomach upset."
+  },
+  {
+    "id": "lactulose",
+    "category": "Laxatives",
+    "drug_name": "Lactulose",
+    "brand_names_india": [
+      "Duphalac",
+      "Looz",
+      "Cremaffin Fresh"
+    ],
+    "drug_class": "Osmotic Laxative",
+    "mechanism_of_action": "Draws water into the colon to soften stool and stimulate movement",
+    "uses": [
+      "Chronic Constipation",
+      "Hepatic Encephalopathy (Liver disease complication)"
+    ],
+    "dosage_common": "15ml to 30ml once or twice daily",
+    "side_effects_common": [
+      "Gas (flatulence)",
+      "Bloating",
+      "Stomach cramps",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Severe dehydration",
+      "Electrolyte imbalance"
+    ],
+    "overdose_effects": "Severe diarrhea and abdominal pain",
+    "contraindications": [
+      "Galactosemia",
+      "Intestinal obstruction"
+    ],
+    "drug_interactions": [
+      "Antacids (may reduce effect)"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Safe for liver patients; used to treat liver-related confusion",
+    "how_it_works_in_body": "It is a synthetic sugar that is not absorbed by the body. It stays in the colon and pulls water in, making the stool soft and easy to pass.",
+    "onset_of_action": "24-48 hours",
+    "duration_of_effect": "Until bowel movement",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A gentle, sugar-based syrup for chronic constipation relief.",
+    "who_should_take": "People with long-term constipation or certain liver conditions.",
+    "who_should_not_take": "People on a low-galactose diet or with bowel blockage.",
+    "food_interactions": [
+      "Can be mixed with water, juice, or milk"
+    ],
+    "alcohol_warning": "No major interaction."
+  },
+  {
+    "id": "brahmi",
+    "category": "Herbal drugs (Ayurvedic / natural)",
+    "drug_name": "Brahmi (Bacopa monnieri)",
+    "brand_names_india": [
+      "Himalaya Brahmi",
+      "Baidyanath Brahmi",
+      "Patanjali Brahmi"
+    ],
+    "drug_class": "Nootropic / Nerve Tonic",
+    "mechanism_of_action": "Improves memory, focus, and reduces mental fatigue",
+    "uses": [
+      "Memory enhancement",
+      "Anxiety",
+      "Focus and Concentration"
+    ],
+    "dosage_common": "250mg to 500mg twice daily",
+    "side_effects_common": [
+      "Dry mouth",
+      "Increased bowel movements",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Slow heart rate (rare)",
+      "Thyroid hormone changes"
+    ],
+    "overdose_effects": "Stomach cramps and nausea",
+    "contraindications": [
+      "Slow heart rate (Bradycardia)",
+      "Stomach ulcers",
+      "Lung conditions like asthma"
+    ],
+    "drug_interactions": [
+      "Sedatives",
+      "Thyroid medications",
+      "Alzheimer's drugs"
+    ],
+    "pregnancy_safety": "Avoid; insufficient safety data",
+    "kidney_liver_warning": "Generally safe",
+    "how_it_works_in_body": "It contains bacosides, which help repair damaged neurons and improve the transmission of signals in the brain.",
+    "onset_of_action": "4-12 weeks of consistent use",
+    "duration_of_effect": "Several hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Ayurvedic",
+    "india_regulatory_status": "AYUSH Approved",
+    "quick_summary": "A traditional Ayurvedic herb known for boosting memory and brain function.",
+    "who_should_take": "Students or adults looking for natural cognitive support.",
+    "who_should_not_take": "People with very slow heart rates or active stomach ulcers.",
+    "food_interactions": [
+      "Best taken with a meal containing some fat"
+    ],
+    "alcohol_warning": "May increase the sedative effect of alcohol."
+  },
+  {
+    "id": "gabapentin",
+    "category": "Neuropathic drugs",
+    "drug_name": "Gabapentin",
+    "brand_names_india": [
+      "Neurontin",
+      "Gabapin",
+      "Gabaforce"
+    ],
+    "drug_class": "Anticonvulsant / Gabapentinoid",
+    "mechanism_of_action": "Changes the way the body senses pain by affecting nerve signals",
+    "uses": [
+      "Nerve pain",
+      "Postherpetic neuralgia",
+      "Seizures"
+    ],
+    "dosage_common": "300mg to 600mg three times daily",
+    "side_effects_common": [
+      "Dizziness",
+      "Sleepiness",
+      "Coordination problems",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Suicidal thoughts",
+      "Severe allergic reactions",
+      "Swelling of legs"
+    ],
+    "overdose_effects": "Double vision, slurred speech, and extreme drowsiness",
+    "contraindications": [
+      "Hypersensitivity to Gabapentin"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Opioids",
+      "Alcohol"
+    ],
+    "pregnancy_safety": "Consult doctor; only if clearly needed",
+    "kidney_liver_warning": "Dose must be significantly reduced in kidney disease",
+    "how_it_works_in_body": "It is thought to work by calming down overexcited nerves in the brain and spine, which reduces pain and prevents seizures.",
+    "onset_of_action": "1-2 weeks for pain relief",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H1)",
+    "quick_summary": "A widely used medicine for chronic nerve pain and epilepsy.",
+    "who_should_take": "Patients with nerve pain from shingles or diabetes.",
+    "who_should_not_take": "People with severe kidney failure without dose adjustment.",
+    "food_interactions": [
+      "Do not take within 2 hours of an antacid"
+    ],
+    "alcohol_warning": "STRICTLY AVOID; increases risk of severe drowsiness and breathing issues."
+  },
+  {
+    "id": "ranitidine",
+    "category": "Histamine blockers (H1, H2)",
+    "drug_name": "Ranitidine",
+    "brand_names_india": [
+      "Rantac",
+      "Zinetac",
+      "Aciloc"
+    ],
+    "drug_class": "H2 Receptor Antagonist",
+    "mechanism_of_action": "Reduces stomach acid production by blocking histamine",
+    "uses": [
+      "Acidity",
+      "Heartburn",
+      "Stomach ulcers"
+    ],
+    "dosage_common": "150mg twice daily or 300mg at bedtime",
+    "side_effects_common": [
+      "Headache",
+      "Constipation",
+      "Diarrhea",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Liver problems",
+      "Low blood cell counts",
+      "Confusion"
+    ],
+    "overdose_effects": "Dizziness, headache, and fainting",
+    "contraindications": [
+      "Hypersensitivity to Ranitidine"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Ketoconazole"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor",
+    "kidney_liver_warning": "Dose adjustment needed in kidney disease",
+    "how_it_works_in_body": "It blocks the H2 receptors in the stomach lining, which are responsible for triggering acid production.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A classic medicine for quick and reliable relief from acidity.",
+    "who_should_take": "People with occasional acidity or gastric ulcers.",
+    "who_should_not_take": "People with a history of liver or kidney issues without consulting a doctor.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Alcohol can worsen stomach irritation."
+  },
+  {
+    "id": "diclofenac",
+    "category": "Anti-inflammatory drugs",
+    "drug_name": "Diclofenac",
+    "brand_names_india": [
+      "Voveran",
+      "Reactin",
+      "Diclowin"
+    ],
+    "drug_class": "NSAID (Non-Steroidal Anti-Inflammatory Drug)",
+    "mechanism_of_action": "Reduces pain and inflammation by blocking prostaglandins",
+    "uses": [
+      "Joint pain",
+      "Arthritis",
+      "Muscle pain",
+      "Post-surgery pain",
+      "Headache",
+      "Fever"
+    ],
+    "dosage_common": "50mg to 75mg twice daily",
+    "side_effects_common": [
+      "Stomach upset",
+      "Nausea",
+      "Heartburn",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Stomach ulcers",
+      "Liver damage",
+      "Heart attack risk (long-term)"
+    ],
+    "overdose_effects": "Severe stomach pain, vomiting, and kidney failure",
+    "contraindications": [
+      "Active stomach ulcers",
+      "Severe heart disease",
+      "Aspirin-sensitive asthma"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Lithium",
+      "Digoxin",
+      "Other NSAIDs"
+    ],
+    "pregnancy_safety": "Avoid in the third trimester",
+    "kidney_liver_warning": "Can affect kidney and liver function with prolonged use",
+    "how_it_works_in_body": "It stops the production of chemicals in the body that cause pain, fever, and swelling at the site of injury or inflammation.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A powerful pain reliever used for joint and muscle inflammation.",
+    "who_should_take": "People with moderate to severe inflammatory pain.",
+    "who_should_not_take": "People with a history of stomach bleeding or severe heart issues.",
+    "food_interactions": [
+      "Take with food to minimize stomach irritation"
+    ],
+    "alcohol_warning": "Increases the risk of stomach ulcers and bleeding."
+  },
+  {
+    "id": "clotrimazole",
+    "category": "Anti-fungal drugs",
+    "drug_name": "Clotrimazole",
+    "brand_names_india": [
+      "Candid",
+      "Abzorb",
+      "Surfaz"
+    ],
+    "drug_class": "Azole Antifungal",
+    "mechanism_of_action": "Kills fungi by damaging their protective outer layer",
+    "uses": [
+      "Skin fungal infections",
+      "Ringworm",
+      "Athlete's foot",
+      "Mouth thrush"
+    ],
+    "dosage_common": "Apply cream 2-3 times daily to affected area",
+    "side_effects_common": [
+      "Skin irritation",
+      "Redness",
+      "Itching",
+      "Burning sensation"
+    ],
+    "side_effects_serious": [
+      "Severe allergic skin reaction"
+    ],
+    "overdose_effects": "Not applicable for topical use",
+    "contraindications": [
+      "Hypersensitivity to Clotrimazole"
+    ],
+    "drug_interactions": [
+      "No major interactions for topical use"
+    ],
+    "pregnancy_safety": "Generally safe for topical use; consult doctor",
+    "kidney_liver_warning": "Safe for topical use",
+    "how_it_works_in_body": "It creates holes in the fungal cell membrane, causing the contents to leak out and the fungus to die.",
+    "onset_of_action": "Several days for visible improvement",
+    "duration_of_effect": "Several hours after application",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A common antifungal cream for skin infections like ringworm and itching.",
+    "who_should_take": "People with fungal skin infections or itching.",
+    "who_should_not_take": "People with known allergy to azole antifungals.",
+    "food_interactions": [
+      "No interactions for topical use"
+    ],
+    "alcohol_warning": "No major interaction."
+  },
+  {
+    "id": "vitamin_b12",
+    "category": "Vitamins & related drugs",
+    "drug_name": "Vitamin B12 (Methylcobalamin)",
+    "brand_names_india": [
+      "Me-12",
+      "Nurokind",
+      "Methycobal"
+    ],
+    "drug_class": "Vitamin",
+    "mechanism_of_action": "Essential for nerve health and red blood cell production",
+    "uses": [
+      "Vitamin B12 deficiency",
+      "Nerve damage (Neuropathy)",
+      "Anemia"
+    ],
+    "dosage_common": "500mcg to 1500mcg daily",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Low potassium levels (at start of treatment)",
+      "Allergic reactions"
+    ],
+    "overdose_effects": "Generally safe; excess is excreted in urine",
+    "contraindications": [
+      "Leber's disease (a rare eye condition)"
+    ],
+    "drug_interactions": [
+      "Metformin",
+      "Proton pump inhibitors",
+      "Colchicine"
+    ],
+    "pregnancy_safety": "Safe and often recommended; consult doctor",
+    "kidney_liver_warning": "Generally safe",
+    "how_it_works_in_body": "It helps in the synthesis of DNA and the maintenance of the myelin sheath that protects nerves.",
+    "onset_of_action": "Several days to weeks",
+    "duration_of_effect": "Several days",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved / FSSAI",
+    "quick_summary": "Vital vitamin for healthy nerves and blood cells.",
+    "who_should_take": "Vegetarians, elderly, or those with diagnosed deficiency.",
+    "who_should_not_take": "People with Leber's hereditary optic atrophy.",
+    "food_interactions": [
+      "Best absorbed on an empty stomach or with a light meal"
+    ],
+    "alcohol_warning": "Alcohol can reduce the absorption of Vitamin B12."
+  },
+  {
+    "id": "spironolactone",
+    "category": "Diuretics",
+    "drug_name": "Spironolactone",
+    "brand_names_india": [
+      "Aldactone",
+      "Spiroctan"
+    ],
+    "drug_class": "Potassium-Sparing Diuretic",
+    "mechanism_of_action": "Removes extra water while keeping potassium in the body",
+    "uses": [
+      "Heart failure",
+      "High blood pressure",
+      "Edema",
+      "Acne (in women)",
+      "Hypertension"
+    ],
+    "dosage_common": "25mg to 100mg daily",
+    "side_effects_common": [
+      "Increased urination",
+      "Dizziness",
+      "Breast tenderness",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "High potassium levels (Hyperkalemia)",
+      "Kidney failure",
+      "Severe allergic reaction"
+    ],
+    "overdose_effects": "Confusion, irregular heartbeat, and extreme weakness",
+    "contraindications": [
+      "Severe kidney disease",
+      "High potassium levels",
+      "Addison's disease"
+    ],
+    "drug_interactions": [
+      "ACE inhibitors",
+      "Potassium supplements",
+      "Digoxin",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Avoid during pregnancy; can affect fetal development",
+    "kidney_liver_warning": "Requires close monitoring of kidney function and potassium",
+    "how_it_works_in_body": "It blocks the hormone aldosterone, which normally tells the kidneys to keep salt and water and get rid of potassium.",
+    "onset_of_action": "2-3 days for full effect",
+    "duration_of_effect": "24-48 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A 'water pill' that helps the heart and reduces swelling without losing potassium.",
+    "who_should_take": "Patients with heart failure or fluid retention as prescribed.",
+    "who_should_not_take": "People with high potassium or severe kidney failure.",
+    "food_interactions": [
+      "Take with food to increase absorption"
+    ],
+    "alcohol_warning": "Increases the risk of dizziness and low blood pressure."
+  },
+  {
+    "id": "simvastatin",
+    "category": "Statins",
+    "drug_name": "Simvastatin",
+    "brand_names_india": [
+      "Simvotin",
+      "Simcard",
+      "Zocor"
+    ],
+    "drug_class": "HMG-CoA Reductase Inhibitor",
+    "mechanism_of_action": "Lowers bad cholesterol and raises good cholesterol",
+    "uses": [
+      "High Cholesterol",
+      "Heart disease prevention"
+    ],
+    "dosage_common": "10mg to 40mg once daily in the evening",
+    "side_effects_common": [
+      "Muscle pain",
+      "Headache",
+      "Constipation",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Severe muscle breakdown",
+      "Liver damage",
+      "Increased blood sugar"
+    ],
+    "overdose_effects": "Severe muscle pain and liver dysfunction",
+    "contraindications": [
+      "Active liver disease",
+      "Pregnancy",
+      "Breastfeeding",
+      "Use with strong CYP3A4 inhibitors"
+    ],
+    "drug_interactions": [
+      "Grapefruit juice",
+      "Clarithromycin",
+      "Amiodarone",
+      "Verapamil"
+    ],
+    "pregnancy_safety": "Category X - Strictly prohibited",
+    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease",
+    "how_it_works_in_body": "It stops the liver from making cholesterol and helps the liver clear out the cholesterol that is already in the blood.",
+    "onset_of_action": "2 weeks for full effect",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A standard medicine for managing cholesterol and protecting heart health.",
+    "who_should_take": "People with high cholesterol levels.",
+    "who_should_not_take": "Pregnant women or those with liver disease.",
+    "food_interactions": [
+      "STRICTLY AVOID large amounts of grapefruit juice"
+    ],
+    "alcohol_warning": "Limit alcohol to protect the liver."
+  },
+  {
+    "id": "loperamide",
+    "category": "Anti-diarrheal drugs",
+    "drug_name": "Loperamide",
+    "brand_names_india": [
+      "Imodium",
+      "Lopamide",
+      "Roko"
+    ],
+    "drug_class": "Anti-diarrheal (Opioid derivative)",
+    "mechanism_of_action": "Slows down the movement of the gut to reduce diarrhea",
+    "uses": [
+      "Acute Diarrhea",
+      "Chronic Diarrhea"
+    ],
+    "dosage_common": "2mg to 4mg initially, then 2mg after each loose stool",
+    "side_effects_common": [
+      "Constipation",
+      "Dizziness",
+      "Nausea",
+      "Stomach cramps"
+    ],
+    "side_effects_serious": [
+      "Severe heart rhythm problems (at high doses)",
+      "Toxic megacolon"
+    ],
+    "overdose_effects": "Severe heart issues, fainting, and breathing problems",
+    "contraindications": [
+      "Bloody diarrhea",
+      "Bacterial infections causing diarrhea",
+      "Children under 2"
+    ],
+    "drug_interactions": [
+      "Quinidine",
+      "Ritonavir"
+    ],
+    "pregnancy_safety": "Consult doctor; generally avoided unless necessary",
+    "kidney_liver_warning": "Use with caution in patients with liver disease",
+    "how_it_works_in_body": "It acts on the receptors in the intestinal wall to slow down the speed at which food moves through, allowing more water to be absorbed.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "The most common medicine for fast relief from loose motions.",
+    "who_should_take": "Adults and older children with simple diarrhea.",
+    "who_should_not_take": "People with high fever or blood in stool.",
+    "food_interactions": [
+      "Drink plenty of oral rehydration salts (ORS)"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen diarrhea."
+  },
+  {
+    "id": "domperidone",
+    "category": "Anti-emetic drugs",
+    "drug_name": "Domperidone",
+    "brand_names_india": [
+      "Domstal",
+      "Motinorm",
+      "Vomitop"
+    ],
+    "drug_class": "Dopamine Antagonist / Prokinetic",
+    "mechanism_of_action": "Speeds up the movement of food through the stomach to prevent nausea",
+    "uses": [
+      "Nausea",
+      "Vomiting",
+      "Indigestion",
+      "Bloating"
+    ],
+    "dosage_common": "10mg three times daily, before meals",
+    "side_effects_common": [
+      "Dry mouth",
+      "Headache",
+      "Drowsiness"
+    ],
+    "side_effects_serious": [
+      "Irregular heartbeat (QT prolongation)",
+      "Breast swelling or discharge"
+    ],
+    "overdose_effects": "Confusion, tremors, and irregular heartbeat",
+    "contraindications": [
+      "Heart disease",
+      "Prolonged QT interval",
+      "Stomach bleeding"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Erythromycin",
+      "Amiodarone"
+    ],
+    "pregnancy_safety": "Consult doctor; only if benefits outweigh risks",
+    "kidney_liver_warning": "Dose adjustment required in kidney disease",
+    "how_it_works_in_body": "It blocks dopamine receptors in the gut and brain, which helps the stomach empty faster and stops the 'vomit signal' from reaching the brain.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "6-8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A reliable medicine for treating nausea and feeling of fullness.",
+    "who_should_take": "People with nausea or slow digestion.",
+    "who_should_not_take": "People with heart rhythm problems or severe liver disease.",
+    "food_interactions": [
+      "Best taken 15-30 minutes before meals"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen nausea."
+  },
+  {
+    "id": "paracetamol",
+    "category": "Analgesics / Antipyretics",
+    "drug_name": "Paracetamol (Acetaminophen)",
+    "brand_names_india": [
+      "Dolo 650",
+      "Calpol",
+      "Crocin",
+      "P-650"
+    ],
+    "drug_class": "Analgesic and Antipyretic",
+    "mechanism_of_action": "Relieves pain and reduces fever by acting on the brain's temperature-regulating center",
+    "uses": [
+      "Fever",
+      "Mild to moderate pain",
+      "Headache",
+      "Toothache",
+      "Cold & Cough"
+    ],
+    "dosage_common": "500mg to 650mg every 4-6 hours (Max 4g per day)",
+    "side_effects_common": [
+      "Nausea",
+      "Stomach pain",
+      "Allergic skin rash (rare)"
+    ],
+    "side_effects_serious": [
+      "Severe liver damage (with overdose)",
+      "Allergic reactions (Anaphylaxis)"
+    ],
+    "overdose_effects": "Severe liver failure, nausea, vomiting, and loss of appetite",
+    "contraindications": [
+      "Severe liver disease",
+      "Hypersensitivity to Paracetamol"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Warfarin",
+      "Other medicines containing Paracetamol"
+    ],
+    "pregnancy_safety": "Generally considered safe; consult doctor for dose",
+    "kidney_liver_warning": "STRICTLY AVOID overdose in patients with liver disease",
+    "how_it_works_in_body": "It blocks the production of prostaglandins in the brain, which are chemicals that signal pain and increase body temperature.",
+    "onset_of_action": "30-60 mins",
+    "duration_of_effect": "4-6 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "The most common medicine for fever and mild pain relief in India.",
+    "who_should_take": "Adults and children with fever or mild pain.",
+    "who_should_not_take": "People with severe liver damage or chronic alcoholism.",
+    "food_interactions": [
+      "Can be taken with or without food"
+    ],
+    "alcohol_warning": "Avoid alcohol as it significantly increases the risk of liver damage."
+  },
+  {
+    "id": "omeprazole",
+    "category": "Acidity / Gastric drugs",
+    "drug_name": "Omeprazole",
+    "brand_names_india": [
+      "Omez",
+      "Omee",
+      "Ocid"
+    ],
+    "drug_class": "Proton Pump Inhibitor (PPI)",
+    "mechanism_of_action": "Reduces stomach acid production for long-lasting relief",
+    "uses": [
+      "Acidity",
+      "Heartburn",
+      "Stomach ulcers",
+      "GERD"
+    ],
+    "dosage_common": "20mg once daily, 30 mins before breakfast",
+    "side_effects_common": [
+      "Headache",
+      "Stomach pain",
+      "Nausea",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Kidney inflammation",
+      "Vitamin B12 deficiency (long-term)",
+      "Bone fractures"
+    ],
+    "overdose_effects": "Confusion, drowsiness, and blurred vision",
+    "contraindications": [
+      "Hypersensitivity to PPIs"
+    ],
+    "drug_interactions": [
+      "Clopidogrel",
+      "Ketoconazole",
+      "Methotrexate"
+    ],
+    "pregnancy_safety": "Consult doctor; generally safe if clearly needed",
+    "kidney_liver_warning": "Generally safe, but use with caution in liver disease",
+    "how_it_works_in_body": "It works by blocking the proton pumps in the stomach lining, which are the final step in acid production.",
+    "onset_of_action": "1-3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A widely used medicine for effective relief from acidity and heartburn.",
+    "who_should_take": "People with frequent acidity or acid reflux symptoms.",
+    "who_should_not_take": "People with known allergy to Omeprazole.",
+    "food_interactions": [
+      "Must be taken on an empty stomach"
+    ],
+    "alcohol_warning": "Alcohol can increase acid production and worsen symptoms."
+  },
+  {
+    "id": "triphala",
+    "category": "Herbal drugs (Ayurvedic / natural)",
+    "drug_name": "Triphala",
+    "brand_names_india": [
+      "Himalaya Triphala",
+      "Dabur Triphala",
+      "Baidyanath Triphala"
+    ],
+    "drug_class": "Ayurvedic Laxative / Rejuvenator",
+    "mechanism_of_action": "Cleanses the digestive tract and improves bowel movements",
+    "uses": [
+      "Constipation",
+      "Indigestion",
+      "Detoxification"
+    ],
+    "dosage_common": "1-2 tablets or 1 teaspoon powder at bedtime",
+    "side_effects_common": [
+      "Loose stools",
+      "Mild stomach cramps"
+    ],
+    "side_effects_serious": [
+      "Dehydration (if overused)"
+    ],
+    "overdose_effects": "Severe diarrhea and abdominal pain",
+    "contraindications": [
+      "Pregnancy",
+      "Severe diarrhea",
+      "Acute stomach pain"
+    ],
+    "drug_interactions": [
+      "Blood thinners (may increase effect)"
+    ],
+    "pregnancy_safety": "Avoid during pregnancy as it may stimulate the uterus",
+    "kidney_liver_warning": "Generally safe",
+    "how_it_works_in_body": "It is a combination of three fruits (Amla, Baheda, Harada) that work together to tone the colon and support healthy digestion.",
+    "onset_of_action": "6-12 hours",
+    "duration_of_effect": "12 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Ayurvedic",
+    "india_regulatory_status": "AYUSH Approved",
+    "quick_summary": "A time-tested Ayurvedic formula for digestive health and regular bowels.",
+    "who_should_take": "People looking for a natural way to manage constipation and digestion.",
+    "who_should_not_take": "Pregnant women or those with acute diarrhea.",
+    "food_interactions": [
+      "Take with warm water for best results"
+    ],
+    "alcohol_warning": "No major interaction, but alcohol can worsen digestion."
+  },
+  {
+    "id": "levocetirizine",
+    "category": "Antihistamine",
+    "drug_name": "Levocetirizine",
+    "brand_names_india": [
+      "Levocet",
+      "1-AL",
+      "Teczine"
+    ],
+    "drug_class": "Third-generation non-sedating antihistamine",
+    "mechanism_of_action": "Blocks histamine H1 receptors, preventing allergic responses",
+    "uses": [
+      "Allergies",
+      "Cold & Cough",
+      "Hay fever",
+      "Hives"
+    ],
+    "dosage_common": "5mg once daily",
+    "side_effects_common": [
+      "Sleepiness",
+      "Dry mouth",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Urinary retention",
+      "Severe allergic reactions"
+    ],
+    "overdose_effects": "Severe drowsiness, agitation",
+    "contraindications": [
+      "Severe kidney impairment"
+    ],
+    "drug_interactions": [
+      "CNS depressants",
+      "Alcohol",
+      "Ritonavir"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe",
+    "kidney_liver_warning": "Dose adjustment required in kidney impairment",
+    "how_it_works_in_body": "Prevents histamine from binding to its receptors, reducing allergy symptoms.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Non-drowsy antihistamine for quick relief from allergies and cold symptoms.",
+    "who_should_take": "Individuals suffering from allergic rhinitis or chronic urticaria.",
+    "who_should_not_take": "Patients with end-stage renal disease.",
+    "food_interactions": [],
+    "alcohol_warning": "May increase drowsiness; avoid concurrent use."
+  },
+  {
+    "id": "mefenamic_acid",
+    "category": "Analgesic",
+    "drug_name": "Mefenamic Acid",
+    "brand_names_india": [
+      "Meftal",
+      "Ponstan"
+    ],
+    "drug_class": "NSAID",
+    "mechanism_of_action": "Inhibits cyclooxygenase (COX) enzymes, reducing prostaglandin synthesis",
+    "uses": [
+      "Fever",
+      "Menstrual cramps",
+      "Mild to moderate pain",
+      "Headache"
+    ],
+    "dosage_common": "250mg to 500mg three times a day",
+    "side_effects_common": [
+      "Stomach upset",
+      "Nausea",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "GI bleeding",
+      "Kidney damage",
+      "Cardiovascular events"
+    ],
+    "overdose_effects": "Lethargy, drowsiness, nausea, vomiting, epigastric pain",
+    "contraindications": [
+      "Active peptic ulcer",
+      "Severe heart failure",
+      "Third trimester of pregnancy"
+    ],
+    "drug_interactions": [
+      "Anticoagulants",
+      "Other NSAIDs",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Category C (Category D in 3rd trimester)",
+    "kidney_liver_warning": "Use with caution in kidney or liver impairment",
+    "how_it_works_in_body": "Reduces inflammation and pain by blocking the production of prostaglandins.",
+    "onset_of_action": "30-60 minutes",
+    "duration_of_effect": "6 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective pain reliever, especially for menstrual cramps and fever.",
+    "who_should_take": "People with dysmenorrhea, fever, or mild to moderate pain.",
+    "who_should_not_take": "Patients with a history of GI bleeding or severe kidney disease.",
+    "food_interactions": [
+      "Take with food or milk to reduce stomach upset"
+    ],
+    "alcohol_warning": "Increases the risk of stomach bleeding."
+  },
+  {
+    "id": "montelukast",
+    "category": "Anti-asthmatic",
+    "drug_name": "Montelukast",
+    "brand_names_india": [
+      "Montair",
+      "Telekast",
+      "Romilast"
+    ],
+    "drug_class": "Leukotriene Receptor Antagonist",
+    "mechanism_of_action": "Blocks the action of leukotrienes, reducing inflammation and bronchoconstriction",
+    "uses": [
+      "Asthma",
+      "Allergies",
+      "Cold & Cough"
+    ],
+    "dosage_common": "10mg once daily in the evening",
+    "side_effects_common": [
+      "Headache",
+      "Stomach pain",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Neuropsychiatric events (agitation, depression, suicidal thoughts)"
+    ],
+    "overdose_effects": "Abdominal pain, somnolence, thirst, headache, vomiting",
+    "contraindications": [
+      "Hypersensitivity"
+    ],
+    "drug_interactions": [
+      "Phenytoin",
+      "Phenobarbital",
+      "Rifampin"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe",
+    "kidney_liver_warning": "Use with caution in severe liver impairment",
+    "how_it_works_in_body": "Prevents leukotrienes from causing swelling and tightening of airways.",
+    "onset_of_action": "3-4 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Prevents asthma attacks and relieves severe allergy symptoms.",
+    "who_should_take": "Patients with asthma or seasonal allergic rhinitis.",
+    "who_should_not_take": "People with a history of severe neuropsychiatric symptoms.",
+    "food_interactions": [],
+    "alcohol_warning": "Safe, but alcohol may worsen underlying asthma/allergy symptoms."
+  },
+  {
+    "id": "rabeprazole",
+    "category": "Antacid",
+    "drug_name": "Rabeprazole",
+    "brand_names_india": [
+      "Rablet",
+      "Rabicip",
+      "Veloz"
+    ],
+    "drug_class": "Proton Pump Inhibitor (PPI)",
+    "mechanism_of_action": "Irreversibly binds to the gastric proton pump, blocking gastric acid secretion",
+    "uses": [
+      "Acidity",
+      "GERD",
+      "Peptic ulcer disease"
+    ],
+    "dosage_common": "20mg once daily before breakfast",
+    "side_effects_common": [
+      "Headache",
+      "Diarrhea",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Clostridium difficile-associated diarrhea",
+      "Bone fractures (long-term use)",
+      "Hypomagnesemia"
+    ],
+    "overdose_effects": "No specific symptoms, general supportive care needed",
+    "contraindications": [
+      "Hypersensitivity to rabeprazole or other PPIs"
+    ],
+    "drug_interactions": [
+      "Digoxin",
+      "Ketoconazole",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe",
+    "kidney_liver_warning": "Use with caution in severe liver impairment",
+    "how_it_works_in_body": "Reduces the amount of acid produced in the stomach, allowing ulcers to heal.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Strong acid reducer for GERD, ulcers, and severe acidity.",
+    "who_should_take": "Patients with acid reflux, GERD, or stomach ulcers.",
+    "who_should_not_take": "People with known hypersensitivity to PPIs.",
+    "food_interactions": [
+      "Take 30 minutes before a meal for maximum effectiveness"
+    ],
+    "alcohol_warning": "Alcohol can irritate the stomach lining, worsening acidity."
+  },
+  {
+    "id": "dextromethorphan",
+    "category": "Antitussive",
+    "drug_name": "Dextromethorphan",
+    "brand_names_india": [
+      "Benadryl DR",
+      "Alex",
+      "Ascoril D"
+    ],
+    "drug_class": "Cough Suppressant",
+    "mechanism_of_action": "Acts on the cough center in the medulla to elevate the threshold for coughing",
+    "uses": [
+      "Cold & Cough",
+      "Dry cough"
+    ],
+    "dosage_common": "10-20mg every 4 hours or 30mg every 6-8 hours",
+    "side_effects_common": [
+      "Dizziness",
+      "Lightheadedness",
+      "Drowsiness"
+    ],
+    "side_effects_serious": [
+      "Serotonin syndrome (if used with MAOIs)",
+      "Respiratory depression (in overdose)"
+    ],
+    "overdose_effects": "Nausea, vomiting, stupor, coma, respiratory depression",
+    "contraindications": [
+      "Concurrent use of MAOIs",
+      "Asthma (can impair expectoration)"
+    ],
+    "drug_interactions": [
+      "MAOIs",
+      "SSRIs",
+      "CNS depressants"
+    ],
+    "pregnancy_safety": "Category C - Use if potential benefit justifies the risk",
+    "kidney_liver_warning": "Use with caution in liver impairment",
+    "how_it_works_in_body": "Suppresses the urge to cough by acting on the brain.",
+    "onset_of_action": "15-30 minutes",
+    "duration_of_effect": "3-6 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective cough suppressant for dry, non-productive coughs.",
+    "who_should_take": "Individuals suffering from a dry, hacking cough.",
+    "who_should_not_take": "Patients with a productive (wet) cough or taking MAOIs.",
+    "food_interactions": [],
+    "alcohol_warning": "Avoid alcohol as it significantly increases CNS depression."
+  },
+  {
+    "id": "naproxen",
+    "category": "Analgesic",
+    "drug_name": "Naproxen",
+    "brand_names_india": [
+      "Naprosyn",
+      "Xenobid",
+      "Naxdom"
+    ],
+    "drug_class": "NSAID",
+    "mechanism_of_action": "Non-selective inhibitor of cyclooxygenase (COX-1 and COX-2)",
+    "uses": [
+      "Headache",
+      "Fever",
+      "Arthritis",
+      "Muscle pain"
+    ],
+    "dosage_common": "250mg to 500mg twice daily",
+    "side_effects_common": [
+      "Indigestion",
+      "Heartburn",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "GI bleeding",
+      "Cardiovascular events",
+      "Kidney failure"
+    ],
+    "overdose_effects": "Lethargy, drowsiness, nausea, vomiting, epigastric pain",
+    "contraindications": [
+      "Active peptic ulcer",
+      "Severe heart failure",
+      "History of asthma triggered by NSAIDs"
+    ],
+    "drug_interactions": [
+      "Anticoagulants",
+      "ACE inhibitors",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Category C (Category D in 3rd trimester)",
+    "kidney_liver_warning": "Avoid in severe kidney impairment",
+    "how_it_works_in_body": "Reduces inflammation and pain by blocking prostaglandin synthesis.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Long-acting pain reliever for headaches, arthritis, and muscle aches.",
+    "who_should_take": "Patients needing sustained pain relief for inflammatory conditions.",
+    "who_should_not_take": "Individuals with a history of stomach ulcers or severe heart disease.",
+    "food_interactions": [
+      "Take with food or milk to reduce stomach upset"
+    ],
+    "alcohol_warning": "Increases the risk of stomach bleeding."
+  },
+  {
+    "id": "enalapril",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Enalapril",
+    "brand_names_india": [
+      "Envas",
+      "Nuril",
+      "BQL"
+    ],
+    "drug_class": "ACE Inhibitor",
+    "mechanism_of_action": "Inhibits angiotensin-converting enzyme, preventing the formation of angiotensin II",
+    "uses": [
+      "Hypertension",
+      "Heart failure",
+      "Diabetic nephropathy"
+    ],
+    "dosage_common": "5mg to 20mg once or twice daily",
+    "side_effects_common": [
+      "Dry cough",
+      "Dizziness",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Angioedema",
+      "Hyperkalemia",
+      "Kidney impairment"
+    ],
+    "overdose_effects": "Severe hypotension, stupor",
+    "contraindications": [
+      "History of angioedema",
+      "Pregnancy"
+    ],
+    "drug_interactions": [
+      "Potassium supplements",
+      "NSAIDs",
+      "Lithium"
+    ],
+    "pregnancy_safety": "Category D - Avoid during pregnancy",
+    "kidney_liver_warning": "Dose adjustment required in kidney impairment",
+    "how_it_works_in_body": "Relaxes blood vessels, lowering blood pressure and reducing the heart's workload.",
+    "onset_of_action": "1 hour",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Effective blood pressure medication that also protects the heart and kidneys.",
+    "who_should_take": "Patients with high blood pressure or heart failure.",
+    "who_should_not_take": "Pregnant women or those with a history of angioedema.",
+    "food_interactions": [],
+    "alcohol_warning": "May increase the blood pressure-lowering effect, causing dizziness."
+  },
+  {
+    "id": "metoprolol",
+    "category": "Anti-hypertensive drugs",
+    "drug_name": "Metoprolol",
+    "brand_names_india": [
+      "Metolar",
+      "Seloken",
+      "Starpress"
+    ],
+    "drug_class": "Beta-blocker",
+    "mechanism_of_action": "Cardioselective beta-1 adrenergic receptor antagonist",
+    "uses": [
+      "Hypertension",
+      "Angina",
+      "Heart failure",
+      "Arrhythmia"
+    ],
+    "dosage_common": "25mg to 100mg daily",
+    "side_effects_common": [
+      "Fatigue",
+      "Dizziness",
+      "Cold hands and feet"
+    ],
+    "side_effects_serious": [
+      "Bradycardia",
+      "Heart block",
+      "Bronchospasm"
+    ],
+    "overdose_effects": "Severe bradycardia, hypotension, heart failure",
+    "contraindications": [
+      "Severe bradycardia",
+      "Second or third-degree heart block",
+      "Cardiogenic shock"
+    ],
+    "drug_interactions": [
+      "Calcium channel blockers",
+      "Digoxin",
+      "Clonidine"
+    ],
+    "pregnancy_safety": "Category C - Use with caution",
+    "kidney_liver_warning": "Use with caution in severe liver impairment",
+    "how_it_works_in_body": "Slows the heart rate and reduces the force of heart muscle contraction.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Heart medication used to treat high blood pressure, chest pain, and heart failure.",
+    "who_should_take": "Patients with cardiovascular conditions requiring heart rate control.",
+    "who_should_not_take": "People with very slow heart rate or severe heart block.",
+    "food_interactions": [
+      "Take with or immediately after meals"
+    ],
+    "alcohol_warning": "May increase drowsiness and dizziness."
+  },
+  {
+    "id": "pioglitazone",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Pioglitazone",
+    "brand_names_india": [
+      "Pioz",
+      "Piomed",
+      "Pioglit"
+    ],
+    "drug_class": "Thiazolidinedione",
+    "mechanism_of_action": "Increases insulin sensitivity in muscle and adipose tissue",
+    "uses": [
+      "Type 2 Diabetes Mellitus",
+      "Diabetes"
+    ],
+    "dosage_common": "15mg to 30mg once daily",
+    "side_effects_common": [
+      "Weight gain",
+      "Edema",
+      "Upper respiratory tract infection"
+    ],
+    "side_effects_serious": [
+      "Heart failure",
+      "Bone fractures",
+      "Bladder cancer risk"
+    ],
+    "overdose_effects": "Hypoglycemia (if taken with other anti-diabetics)",
+    "contraindications": [
+      "Heart failure (NYHA Class III or IV)",
+      "Active bladder cancer"
+    ],
+    "drug_interactions": [
+      "Gemfibrozil",
+      "Rifampin",
+      "Insulin"
+    ],
+    "pregnancy_safety": "Category C - Use with caution",
+    "kidney_liver_warning": "Avoid in active liver disease",
+    "how_it_works_in_body": "Helps the body use insulin more effectively to lower blood sugar.",
+    "onset_of_action": "Delayed (weeks for full effect)",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Improves insulin sensitivity to help control blood sugar in Type 2 Diabetes.",
+    "who_should_take": "Patients with Type 2 Diabetes needing better glycemic control.",
+    "who_should_not_take": "Individuals with severe heart failure or active bladder cancer.",
+    "food_interactions": [],
+    "alcohol_warning": "May increase the risk of hypoglycemia."
+  },
+  {
+    "id": "gliclazide",
+    "category": "Anti-diabetic drugs",
+    "drug_name": "Gliclazide",
+    "brand_names_india": [
+      "Diamicron",
+      "Glycigon",
+      "Reclimet"
+    ],
+    "drug_class": "Sulfonylurea",
+    "mechanism_of_action": "Stimulates insulin secretion from pancreatic beta cells",
+    "uses": [
+      "Type 2 Diabetes Mellitus",
+      "Diabetes"
+    ],
+    "dosage_common": "40mg to 80mg daily, usually with breakfast",
+    "side_effects_common": [
+      "Hypoglycemia",
+      "Weight gain",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Severe hypoglycemia",
+      "Liver toxicity",
+      "Blood disorders"
+    ],
+    "overdose_effects": "Severe hypoglycemia, coma, seizures",
+    "contraindications": [
+      "Type 1 Diabetes",
+      "Diabetic ketoacidosis",
+      "Severe kidney/liver impairment"
+    ],
+    "drug_interactions": [
+      "Miconazole",
+      "Phenylbutazone",
+      "Beta-blockers"
+    ],
+    "pregnancy_safety": "Category C - Generally avoided",
+    "kidney_liver_warning": "Avoid in severe kidney or liver impairment",
+    "how_it_works_in_body": "Forces the pancreas to release more insulin to lower blood sugar levels.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Oral medication that stimulates the pancreas to produce more insulin.",
+    "who_should_take": "Patients with Type 2 Diabetes whose pancreas still produces some insulin.",
+    "who_should_not_take": "Patients with Type 1 Diabetes or severe kidney/liver disease.",
+    "food_interactions": [
+      "Take with meals to prevent low blood sugar"
+    ],
+    "alcohol_warning": "Can cause severe hypoglycemia and a disulfiram-like reaction."
+  },
+  {
+    "id": "doxycycline",
+    "category": "Antibiotic",
+    "drug_name": "Doxycycline",
+    "brand_names_india": [
+      "Doxicip",
+      "Tetradox",
+      "Minicycline"
+    ],
+    "drug_class": "Tetracycline Antibiotic",
+    "mechanism_of_action": "Inhibits bacterial protein synthesis by binding to the 30S ribosomal subunit",
+    "uses": [
+      "Infections",
+      "Acne",
+      "Malaria prophylaxis",
+      "Respiratory tract infections"
+    ],
+    "dosage_common": "100mg twice daily",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Photosensitivity (sunburn easily)"
+    ],
+    "side_effects_serious": [
+      "Esophageal ulceration",
+      "Hepatotoxicity",
+      "Intracranial hypertension"
+    ],
+    "overdose_effects": "Nausea, vomiting, diarrhea",
+    "contraindications": [
+      "Pregnancy",
+      "Children under 8 years (causes tooth discoloration)"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Iron supplements",
+      "Oral contraceptives"
+    ],
+    "pregnancy_safety": "Category D - Avoid during pregnancy",
+    "kidney_liver_warning": "Use with caution in liver impairment",
+    "how_it_works_in_body": "Stops the growth and spread of bacteria.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Broad-spectrum antibiotic used for various bacterial infections and acne.",
+    "who_should_take": "Patients with susceptible bacterial infections or severe acne.",
+    "who_should_not_take": "Pregnant women and young children.",
+    "food_interactions": [
+      "Avoid dairy products, antacids, and iron supplements within 2 hours of taking"
+    ],
+    "alcohol_warning": "May decrease the effectiveness of the antibiotic."
+  }
+]

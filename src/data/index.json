@@ -1,0 +1,1349 @@
+{
+  "650": [
+    "paracetamol"
+  ],
+  "imatinib": [
+    "imatinib"
+  ],
+  "gleevec": [
+    "imatinib"
+  ],
+  "veenat": [
+    "imatinib"
+  ],
+  "imatib": [
+    "imatinib"
+  ],
+  "tyrosine kinase inhibitor": [
+    "imatinib"
+  ],
+  "tyrosine": [
+    "imatinib"
+  ],
+  "kinase": [
+    "imatinib"
+  ],
+  "inhibitor": [
+    "imatinib",
+    "oseltamivir",
+    "atorvastatin",
+    "rosuvastatin",
+    "sitagliptin",
+    "amoxicillin_clavulanate",
+    "pantoprazole",
+    "cyclosporine",
+    "simvastatin",
+    "omeprazole"
+  ],
+  "anti-cancer drugs": [
+    "imatinib",
+    "paclitaxel"
+  ],
+  "anti-cancer": [
+    "imatinib",
+    "paclitaxel"
+  ],
+  "drugs": [
+    "imatinib",
+    "amlodipine",
+    "metformin",
+    "methotrexate",
+    "oseltamivir",
+    "ashwagandha",
+    "pregabalin",
+    "ibuprofen",
+    "fluconazole",
+    "vitamin_d3",
+    "telmisartan",
+    "sitagliptin",
+    "pantoprazole",
+    "paclitaxel",
+    "losartan",
+    "glimepiride",
+    "cyclosporine",
+    "acyclovir",
+    "brahmi",
+    "gabapentin",
+    "diclofenac",
+    "clotrimazole",
+    "vitamin_b12",
+    "loperamide",
+    "domperidone",
+    "omeprazole",
+    "triphala"
+  ],
+  "amlodipine": [
+    "amlodipine"
+  ],
+  "amlokind": [
+    "amlodipine"
+  ],
+  "stamlo": [
+    "amlodipine"
+  ],
+  "amlopres": [
+    "amlodipine"
+  ],
+  "calcium channel blocker": [
+    "amlodipine"
+  ],
+  "calcium": [
+    "amlodipine"
+  ],
+  "channel": [
+    "amlodipine"
+  ],
+  "blocker": [
+    "amlodipine",
+    "telmisartan",
+    "losartan"
+  ],
+  "anti-hypertensive drugs": [
+    "amlodipine",
+    "telmisartan",
+    "losartan"
+  ],
+  "anti-hypertensive": [
+    "amlodipine",
+    "telmisartan",
+    "losartan"
+  ],
+  "metformin": [
+    "metformin"
+  ],
+  "glycomet": [
+    "metformin"
+  ],
+  "metsmall": [
+    "metformin"
+  ],
+  "cetapin": [
+    "metformin"
+  ],
+  "biguanide": [
+    "metformin"
+  ],
+  "anti-diabetic drugs": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride"
+  ],
+  "anti-diabetic": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride"
+  ],
+  "methotrexate": [
+    "methotrexate"
+  ],
+  "folitrax": [
+    "methotrexate"
+  ],
+  "mexate": [
+    "methotrexate"
+  ],
+  "imutrex": [
+    "methotrexate"
+  ],
+  "antimetabolite / immunosuppressant": [
+    "methotrexate"
+  ],
+  "antimetabolite": [
+    "methotrexate"
+  ],
+  "immunosuppressant": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "autoimmune therapy drugs": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "autoimmune": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "therapy": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "oseltamivir": [
+    "oseltamivir"
+  ],
+  "antiflu": [
+    "oseltamivir"
+  ],
+  "tamiflu": [
+    "oseltamivir"
+  ],
+  "fluvir": [
+    "oseltamivir"
+  ],
+  "neuraminidase inhibitor": [
+    "oseltamivir"
+  ],
+  "neuraminidase": [
+    "oseltamivir"
+  ],
+  "anti-viral drugs": [
+    "oseltamivir",
+    "acyclovir"
+  ],
+  "anti-viral": [
+    "oseltamivir",
+    "acyclovir"
+  ],
+  "azithromycin": [
+    "azithromycin"
+  ],
+  "azithral": [
+    "azithromycin"
+  ],
+  "azee": [
+    "azithromycin"
+  ],
+  "zady": [
+    "azithromycin"
+  ],
+  "macrolide antibiotic": [
+    "azithromycin"
+  ],
+  "macrolide": [
+    "azithromycin"
+  ],
+  "antibiotic": [
+    "azithromycin",
+    "amoxicillin_clavulanate",
+    "ciprofloxacin"
+  ],
+  "antibiotics": [
+    "azithromycin",
+    "amoxicillin_clavulanate",
+    "ciprofloxacin"
+  ],
+  "bisacodyl": [
+    "bisacodyl"
+  ],
+  "dulcolax": [
+    "bisacodyl"
+  ],
+  "gerbisa": [
+    "bisacodyl"
+  ],
+  "laxidyl": [
+    "bisacodyl"
+  ],
+  "stimulant laxative": [
+    "bisacodyl"
+  ],
+  "stimulant": [
+    "bisacodyl"
+  ],
+  "laxative": [
+    "bisacodyl",
+    "magnesium_citrate",
+    "lactulose",
+    "triphala"
+  ],
+  "laxatives": [
+    "bisacodyl",
+    "lactulose"
+  ],
+  "magnesium citrate": [
+    "magnesium_citrate"
+  ],
+  "magnesium": [
+    "magnesium_citrate"
+  ],
+  "citrate": [
+    "magnesium_citrate"
+  ],
+  "citroma": [
+    "magnesium_citrate"
+  ],
+  "mag-citrate": [
+    "magnesium_citrate"
+  ],
+  "osmotic laxative / purgative": [
+    "magnesium_citrate"
+  ],
+  "osmotic": [
+    "magnesium_citrate",
+    "lactulose"
+  ],
+  "purgative": [
+    "magnesium_citrate"
+  ],
+  "purgatives": [
+    "magnesium_citrate"
+  ],
+  "ashwagandha": [
+    "ashwagandha"
+  ],
+  "himalaya ashwagandha": [
+    "ashwagandha"
+  ],
+  "himalaya": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "dabur ashwagandha": [
+    "ashwagandha"
+  ],
+  "dabur": [
+    "ashwagandha",
+    "triphala"
+  ],
+  "patanjali ashwagandha": [
+    "ashwagandha"
+  ],
+  "patanjali": [
+    "ashwagandha",
+    "brahmi"
+  ],
+  "adaptogen": [
+    "ashwagandha"
+  ],
+  "herbal drugs (ayurvedic / natural)": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "herbal": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "(ayurvedic": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "natural)": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "pregabalin": [
+    "pregabalin"
+  ],
+  "lyrica": [
+    "pregabalin"
+  ],
+  "pregalin": [
+    "pregabalin"
+  ],
+  "maxgalin": [
+    "pregabalin"
+  ],
+  "anticonvulsant / gabapentinoid": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "anticonvulsant": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "gabapentinoid": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "neuropathic drugs": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "neuropathic": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "cetirizine": [
+    "cetirizine"
+  ],
+  "okacet": [
+    "cetirizine"
+  ],
+  "cetzine": [
+    "cetirizine"
+  ],
+  "zyrtec": [
+    "cetirizine"
+  ],
+  "second-generation antihistamine (h1 blocker)": [
+    "cetirizine"
+  ],
+  "second-generation": [
+    "cetirizine"
+  ],
+  "antihistamine": [
+    "cetirizine"
+  ],
+  "(h1": [
+    "cetirizine"
+  ],
+  "blocker)": [
+    "cetirizine"
+  ],
+  "histamine blockers (h1, h2)": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "histamine": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "blockers": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "(h1,": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "h2)": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "ibuprofen": [
+    "ibuprofen"
+  ],
+  "brufen": [
+    "ibuprofen"
+  ],
+  "ibugesic": [
+    "ibuprofen"
+  ],
+  "combiflam (with paracetamol)": [
+    "ibuprofen"
+  ],
+  "combiflam": [
+    "ibuprofen"
+  ],
+  "(with": [
+    "ibuprofen",
+    "furosemide"
+  ],
+  "paracetamol)": [
+    "ibuprofen"
+  ],
+  "nsaid (non-steroidal anti-inflammatory drug)": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "nsaid": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "(non-steroidal": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "anti-inflammatory": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "drug)": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "anti-inflammatory drugs": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "fluconazole": [
+    "fluconazole"
+  ],
+  "forcan": [
+    "fluconazole"
+  ],
+  "syscan": [
+    "fluconazole"
+  ],
+  "zocon": [
+    "fluconazole"
+  ],
+  "azole antifungal": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "azole": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "antifungal": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "anti-fungal drugs": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "anti-fungal": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "vitamin d3 (cholecalciferol)": [
+    "vitamin_d3"
+  ],
+  "vitamin": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "(cholecalciferol)": [
+    "vitamin_d3"
+  ],
+  "uprise-d3": [
+    "vitamin_d3"
+  ],
+  "calcirol": [
+    "vitamin_d3"
+  ],
+  "d3-must": [
+    "vitamin_d3"
+  ],
+  "vitamins & related drugs": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "vitamins": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "related": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "omega-3 fatty acids (fish oil)": [
+    "omega_3"
+  ],
+  "omega-3": [
+    "omega_3"
+  ],
+  "fatty": [
+    "omega_3"
+  ],
+  "acids": [
+    "omega_3"
+  ],
+  "(fish": [
+    "omega_3"
+  ],
+  "oil)": [
+    "omega_3"
+  ],
+  "seven seas": [
+    "omega_3"
+  ],
+  "seven": [
+    "omega_3"
+  ],
+  "seas": [
+    "omega_3"
+  ],
+  "maxepa": [
+    "omega_3"
+  ],
+  "sea-cod": [
+    "omega_3"
+  ],
+  "dietary supplement": [
+    "omega_3"
+  ],
+  "dietary": [
+    "omega_3"
+  ],
+  "supplement": [
+    "omega_3"
+  ],
+  "supplements (all types)": [
+    "omega_3"
+  ],
+  "supplements": [
+    "omega_3"
+  ],
+  "(all": [
+    "omega_3"
+  ],
+  "types)": [
+    "omega_3"
+  ],
+  "furosemide": [
+    "furosemide"
+  ],
+  "lasix": [
+    "furosemide"
+  ],
+  "fruselac (with spironolactone)": [
+    "furosemide"
+  ],
+  "fruselac": [
+    "furosemide"
+  ],
+  "spironolactone)": [
+    "furosemide"
+  ],
+  "loop diuretic": [
+    "furosemide"
+  ],
+  "loop": [
+    "furosemide"
+  ],
+  "diuretic": [
+    "furosemide",
+    "spironolactone"
+  ],
+  "diuretics": [
+    "furosemide",
+    "spironolactone"
+  ],
+  "atorvastatin": [
+    "atorvastatin"
+  ],
+  "lipivas": [
+    "atorvastatin"
+  ],
+  "atorva": [
+    "atorvastatin"
+  ],
+  "storvas": [
+    "atorvastatin"
+  ],
+  "hmg-coa reductase inhibitor": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "hmg-coa": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "reductase": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "statins": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "rosuvastatin": [
+    "rosuvastatin"
+  ],
+  "rosuvas": [
+    "rosuvastatin"
+  ],
+  "razel": [
+    "rosuvastatin"
+  ],
+  "crestor": [
+    "rosuvastatin"
+  ],
+  "telmisartan": [
+    "telmisartan"
+  ],
+  "telma": [
+    "telmisartan"
+  ],
+  "telmikind": [
+    "telmisartan"
+  ],
+  "telsar": [
+    "telmisartan"
+  ],
+  "angiotensin ii receptor blocker (arb)": [
+    "telmisartan",
+    "losartan"
+  ],
+  "angiotensin": [
+    "telmisartan",
+    "losartan"
+  ],
+  "receptor": [
+    "telmisartan",
+    "famotidine",
+    "losartan",
+    "ranitidine"
+  ],
+  "(arb)": [
+    "telmisartan",
+    "losartan"
+  ],
+  "sitagliptin": [
+    "sitagliptin"
+  ],
+  "januvia": [
+    "sitagliptin"
+  ],
+  "istavel": [
+    "sitagliptin"
+  ],
+  "zita": [
+    "sitagliptin"
+  ],
+  "dpp-4 inhibitor": [
+    "sitagliptin"
+  ],
+  "dpp-4": [
+    "sitagliptin"
+  ],
+  "amoxicillin + clavulanic acid": [
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "amoxicillin": [
+    "amoxicillin_clavulanate"
+  ],
+  "clavulanic": [
+    "amoxicillin_clavulanate"
+  ],
+  "acid": [
+    "amoxicillin_clavulanate"
+  ],
+  "augmentin": [
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "moxikind-cv": [
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "advent": [
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "penicillin-type antibiotic + beta-lactamase inhibitor": [
+    "amoxicillin_clavulanate"
+  ],
+  "penicillin-type": [
+    "amoxicillin_clavulanate"
+  ],
+  "beta-lactamase": [
+    "amoxicillin_clavulanate"
+  ],
+  "pantoprazole": [
+    "pantoprazole"
+  ],
+  "pan 40": [
+    "pantoprazole"
+  ],
+  "pan": [
+    "pantoprazole"
+  ],
+  "pantocid": [
+    "pantoprazole"
+  ],
+  "pantodac": [
+    "pantoprazole"
+  ],
+  "proton pump inhibitor (ppi)": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "proton": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "pump": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "(ppi)": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "acidity / gastric drugs": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "acidity": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "gastric": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "famotidine": [
+    "famotidine"
+  ],
+  "famocid": [
+    "famotidine"
+  ],
+  "facid": [
+    "famotidine"
+  ],
+  "famotin": [
+    "famotidine"
+  ],
+  "h2 receptor antagonist": [
+    "famotidine",
+    "ranitidine"
+  ],
+  "antagonist": [
+    "famotidine",
+    "ranitidine",
+    "domperidone"
+  ],
+  "paclitaxel": [
+    "paclitaxel"
+  ],
+  "taxol": [
+    "paclitaxel"
+  ],
+  "paclitax": [
+    "paclitaxel"
+  ],
+  "cytotax": [
+    "paclitaxel"
+  ],
+  "taxane / antineoplastic": [
+    "paclitaxel"
+  ],
+  "taxane": [
+    "paclitaxel"
+  ],
+  "antineoplastic": [
+    "paclitaxel"
+  ],
+  "losartan": [
+    "losartan"
+  ],
+  "losakind": [
+    "losartan"
+  ],
+  "repace": [
+    "losartan"
+  ],
+  "cosart": [
+    "losartan"
+  ],
+  "glimepiride": [
+    "glimepiride"
+  ],
+  "amaryl": [
+    "glimepiride"
+  ],
+  "glimy": [
+    "glimepiride"
+  ],
+  "glimer": [
+    "glimepiride"
+  ],
+  "sulfonylurea": [
+    "glimepiride"
+  ],
+  "cyclosporine": [
+    "cyclosporine"
+  ],
+  "panimun bioral": [
+    "cyclosporine"
+  ],
+  "panimun": [
+    "cyclosporine"
+  ],
+  "bioral": [
+    "cyclosporine"
+  ],
+  "sandimmun": [
+    "cyclosporine"
+  ],
+  "arpimune": [
+    "cyclosporine"
+  ],
+  "calcineurin inhibitor / immunosuppressant": [
+    "cyclosporine"
+  ],
+  "calcineurin": [
+    "cyclosporine"
+  ],
+  "acyclovir": [
+    "acyclovir"
+  ],
+  "zovirax": [
+    "acyclovir"
+  ],
+  "herperax": [
+    "acyclovir"
+  ],
+  "acivir": [
+    "acyclovir"
+  ],
+  "antiviral (nucleoside analog)": [
+    "acyclovir"
+  ],
+  "antiviral": [
+    "acyclovir"
+  ],
+  "(nucleoside": [
+    "acyclovir"
+  ],
+  "analog)": [
+    "acyclovir"
+  ],
+  "ciprofloxacin": [
+    "ciprofloxacin"
+  ],
+  "cifran": [
+    "ciprofloxacin"
+  ],
+  "ciplox": [
+    "ciprofloxacin"
+  ],
+  "ciprobid": [
+    "ciprofloxacin"
+  ],
+  "fluoroquinolone antibiotic": [
+    "ciprofloxacin"
+  ],
+  "fluoroquinolone": [
+    "ciprofloxacin"
+  ],
+  "lactulose": [
+    "lactulose"
+  ],
+  "duphalac": [
+    "lactulose"
+  ],
+  "looz": [
+    "lactulose"
+  ],
+  "cremaffin fresh": [
+    "lactulose"
+  ],
+  "cremaffin": [
+    "lactulose"
+  ],
+  "fresh": [
+    "lactulose"
+  ],
+  "osmotic laxative": [
+    "lactulose"
+  ],
+  "brahmi (bacopa monnieri)": [
+    "brahmi"
+  ],
+  "brahmi": [
+    "brahmi"
+  ],
+  "(bacopa": [
+    "brahmi"
+  ],
+  "monnieri)": [
+    "brahmi"
+  ],
+  "himalaya brahmi": [
+    "brahmi"
+  ],
+  "baidyanath brahmi": [
+    "brahmi"
+  ],
+  "baidyanath": [
+    "brahmi",
+    "triphala"
+  ],
+  "patanjali brahmi": [
+    "brahmi"
+  ],
+  "nootropic / nerve tonic": [
+    "brahmi"
+  ],
+  "nootropic": [
+    "brahmi"
+  ],
+  "nerve": [
+    "brahmi"
+  ],
+  "tonic": [
+    "brahmi"
+  ],
+  "gabapentin": [
+    "gabapentin"
+  ],
+  "neurontin": [
+    "gabapentin"
+  ],
+  "gabapin": [
+    "gabapentin"
+  ],
+  "gabaforce": [
+    "gabapentin"
+  ],
+  "ranitidine": [
+    "ranitidine"
+  ],
+  "rantac": [
+    "ranitidine"
+  ],
+  "zinetac": [
+    "ranitidine"
+  ],
+  "aciloc": [
+    "ranitidine"
+  ],
+  "diclofenac": [
+    "diclofenac"
+  ],
+  "voveran": [
+    "diclofenac"
+  ],
+  "reactin": [
+    "diclofenac"
+  ],
+  "diclowin": [
+    "diclofenac"
+  ],
+  "clotrimazole": [
+    "clotrimazole"
+  ],
+  "candid": [
+    "clotrimazole"
+  ],
+  "abzorb": [
+    "clotrimazole"
+  ],
+  "surfaz": [
+    "clotrimazole"
+  ],
+  "vitamin b12 (methylcobalamin)": [
+    "vitamin_b12"
+  ],
+  "b12": [
+    "vitamin_b12"
+  ],
+  "(methylcobalamin)": [
+    "vitamin_b12"
+  ],
+  "me-12": [
+    "vitamin_b12"
+  ],
+  "nurokind": [
+    "vitamin_b12"
+  ],
+  "methycobal": [
+    "vitamin_b12"
+  ],
+  "spironolactone": [
+    "spironolactone"
+  ],
+  "aldactone": [
+    "spironolactone"
+  ],
+  "spiroctan": [
+    "spironolactone"
+  ],
+  "potassium-sparing diuretic": [
+    "spironolactone"
+  ],
+  "potassium-sparing": [
+    "spironolactone"
+  ],
+  "simvastatin": [
+    "simvastatin"
+  ],
+  "simvotin": [
+    "simvastatin"
+  ],
+  "simcard": [
+    "simvastatin"
+  ],
+  "zocor": [
+    "simvastatin"
+  ],
+  "loperamide": [
+    "loperamide"
+  ],
+  "imodium": [
+    "loperamide"
+  ],
+  "lopamide": [
+    "loperamide"
+  ],
+  "roko": [
+    "loperamide"
+  ],
+  "anti-diarrheal (opioid derivative)": [
+    "loperamide"
+  ],
+  "anti-diarrheal": [
+    "loperamide"
+  ],
+  "(opioid": [
+    "loperamide"
+  ],
+  "derivative)": [
+    "loperamide"
+  ],
+  "anti-diarrheal drugs": [
+    "loperamide"
+  ],
+  "domperidone": [
+    "domperidone"
+  ],
+  "domstal": [
+    "domperidone"
+  ],
+  "motinorm": [
+    "domperidone"
+  ],
+  "vomitop": [
+    "domperidone"
+  ],
+  "dopamine antagonist / prokinetic": [
+    "domperidone"
+  ],
+  "dopamine": [
+    "domperidone"
+  ],
+  "prokinetic": [
+    "domperidone"
+  ],
+  "anti-emetic drugs": [
+    "domperidone"
+  ],
+  "anti-emetic": [
+    "domperidone"
+  ],
+  "paracetamol (acetaminophen)": [
+    "paracetamol"
+  ],
+  "paracetamol": [
+    "paracetamol"
+  ],
+  "(acetaminophen)": [
+    "paracetamol"
+  ],
+  "dolo 650": [
+    "paracetamol",
+    "paracetamol_650"
+  ],
+  "dolo": [
+    "paracetamol"
+  ],
+  "calpol": [
+    "paracetamol"
+  ],
+  "crocin": [
+    "paracetamol"
+  ],
+  "p-650": [
+    "paracetamol",
+    "paracetamol_650"
+  ],
+  "analgesic and antipyretic": [
+    "paracetamol"
+  ],
+  "analgesic": [
+    "paracetamol"
+  ],
+  "and": [
+    "paracetamol"
+  ],
+  "antipyretic": [
+    "paracetamol"
+  ],
+  "analgesics / antipyretics": [
+    "paracetamol"
+  ],
+  "analgesics": [
+    "paracetamol"
+  ],
+  "antipyretics": [
+    "paracetamol"
+  ],
+  "omeprazole": [
+    "omeprazole"
+  ],
+  "omez": [
+    "omeprazole"
+  ],
+  "omee": [
+    "omeprazole"
+  ],
+  "ocid": [
+    "omeprazole"
+  ],
+  "triphala": [
+    "triphala"
+  ],
+  "himalaya triphala": [
+    "triphala"
+  ],
+  "dabur triphala": [
+    "triphala"
+  ],
+  "baidyanath triphala": [
+    "triphala"
+  ],
+  "ayurvedic laxative / rejuvenator": [
+    "triphala"
+  ],
+  "ayurvedic": [
+    "triphala"
+  ],
+  "rejuvenator": [
+    "triphala"
+  ],
+  "drotaverine + mefenamic acid": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "drotin m": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "drotin-m": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "drotikind-m": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "euvarin-m": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "dicyclomine": [
+    "dicyclomine"
+  ],
+  "spasmonil": [
+    "dicyclomine"
+  ],
+  "cyclopam": [
+    "dicyclomine"
+  ],
+  "meftal spas": [
+    "dicyclomine"
+  ],
+  "colimex": [
+    "dicyclomine"
+  ],
+  "mefenamic acid + paracetamol": [
+    "paracetamol_mefenamic_acid"
+  ],
+  "meftal forte": [
+    "paracetamol_mefenamic_acid"
+  ],
+  "meftal-p": [
+    "paracetamol_mefenamic_acid"
+  ],
+  "mefkind-p": [
+    "paracetamol_mefenamic_acid"
+  ],
+  "ponstan": [
+    "paracetamol_mefenamic_acid"
+  ],
+  "levocetirizine + montelukast": [
+    "levocetirizine_montelukast"
+  ],
+  "montair lc": [
+    "levocetirizine_montelukast"
+  ],
+  "montek lc": [
+    "levocetirizine_montelukast"
+  ],
+  "telekast l": [
+    "levocetirizine_montelukast"
+  ],
+  "levocet m": [
+    "levocetirizine_montelukast"
+  ],
+  "ofloxacin + ornidazole": [
+    "ofloxacin_ornidazole"
+  ],
+  "o2": [
+    "ofloxacin_ornidazole"
+  ],
+  "zenflox-oz": [
+    "ofloxacin_ornidazole"
+  ],
+  "oflox oz": [
+    "ofloxacin_ornidazole"
+  ],
+  "ornof": [
+    "ofloxacin_ornidazole"
+  ],
+  "clavam": [
+    "amoxicillin_clavulanic_acid"
+  ],
+  "aceclofenac + paracetamol + serratiopeptidase": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "zerodol-sp": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "signoflam": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "flozen-aa": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "hifenac-d": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "pantoprazole + domperidone": [
+    "pantoprazole_domperidone"
+  ],
+  "pantocid dsr": [
+    "pantoprazole_domperidone"
+  ],
+  "pan-d": [
+    "pantoprazole_domperidone"
+  ],
+  "pantop-d": [
+    "pantoprazole_domperidone"
+  ],
+  "pensec dsr": [
+    "pantoprazole_domperidone"
+  ],
+  "paracetamol 650mg": [
+    "paracetamol_650"
+  ],
+  "calpol 650": [
+    "paracetamol_650"
+  ],
+  "crocin 650": [
+    "paracetamol_650"
+  ],
+  "macfast 650": [
+    "paracetamol_650"
+  ],
+  "cetirizine + paracetamol + phenylephrine": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "cheston cold": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "okacet cold": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "sinarest": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "wikoryl": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "solvin cold": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "zithrox": [
+    "azithromycin"
+  ],
+  "azax": [
+    "azithromycin"
+  ],
+  "atm": [
+    "azithromycin"
+  ],
+  "tazloc": [
+    "telmisartan"
+  ],
+  "cresar": [
+    "telmisartan"
+  ],
+  "tsart": [
+    "telmisartan"
+  ]
+}

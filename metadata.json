@@ -1,0 +1,5 @@
+{
+  "name": "MedInfo India",
+  "description": "A modern, privacy-first medication information platform for Indian users. Compliant with latest Android & iOS privacy standards. Provides accurate, non-prescriptive data on legally approved medications in India.",
+  "requestFramePermissions": ["camera"]
+}

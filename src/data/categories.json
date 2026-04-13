@@ -1,0 +1,140 @@
+{
+  "anti-cancer drugs": [
+    "imatinib",
+    "paclitaxel"
+  ],
+  "anti-hypertensive drugs": [
+    "amlodipine",
+    "telmisartan",
+    "losartan",
+    "enalapril",
+    "metoprolol"
+  ],
+  "anti-diabetic drugs": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride",
+    "pioglitazone",
+    "gliclazide"
+  ],
+  "autoimmune therapy drugs": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "anti-viral drugs": [
+    "oseltamivir",
+    "acyclovir"
+  ],
+  "antibiotics": [
+    "azithromycin",
+    "amoxicillin_clavulanate",
+    "ciprofloxacin"
+  ],
+  "laxatives": [
+    "bisacodyl",
+    "lactulose"
+  ],
+  "purgatives": [
+    "magnesium_citrate"
+  ],
+  "herbal drugs (ayurvedic / natural)": [
+    "ashwagandha",
+    "brahmi",
+    "triphala"
+  ],
+  "neuropathic drugs": [
+    "pregabalin",
+    "gabapentin"
+  ],
+  "histamine blockers (h1, h2)": [
+    "cetirizine",
+    "famotidine",
+    "ranitidine"
+  ],
+  "anti-inflammatory drugs": [
+    "ibuprofen",
+    "diclofenac"
+  ],
+  "anti-fungal drugs": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "vitamins & related drugs": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "supplements (all types)": [
+    "omega_3"
+  ],
+  "diuretics": [
+    "furosemide",
+    "spironolactone"
+  ],
+  "statins": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "acidity / gastric drugs": [
+    "pantoprazole",
+    "omeprazole"
+  ],
+  "anti-diarrheal drugs": [
+    "loperamide"
+  ],
+  "anti-emetic drugs": [
+    "domperidone"
+  ],
+  "analgesics / antipyretics": [
+    "paracetamol"
+  ],
+  "antihistamine": [
+    "levocetirizine"
+  ],
+  "analgesic": [
+    "mefenamic_acid",
+    "naproxen"
+  ],
+  "anti-asthmatic": [
+    "montelukast"
+  ],
+  "antacid": [
+    "rabeprazole"
+  ],
+  "antitussive": [
+    "dextromethorphan"
+  ],
+  "antibiotic": [
+    "doxycycline",
+    "amoxicillin_clavulanic_acid",
+    "azithromycin"
+  ],
+  "antispasmodic & analgesic": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "antispasmodic": [
+    "dicyclomine"
+  ],
+  "analgesic & antipyretic": [
+    "paracetamol_mefenamic_acid",
+    "paracetamol_650"
+  ],
+  "antihistamine & leukotriene antagonist": [
+    "levocetirizine_montelukast"
+  ],
+  "antibiotic & antiamoebic": [
+    "ofloxacin_ornidazole"
+  ],
+  "analgesic & anti-inflammatory": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "antacid & antiemetic": [
+    "pantoprazole_domperidone"
+  ],
+  "cold & cough": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "antihypertensive": [
+    "telmisartan"
+  ]
+}

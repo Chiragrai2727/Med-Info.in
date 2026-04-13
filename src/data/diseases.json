@@ -1,0 +1,917 @@
+{
+  "chronic myeloid leukemia": [
+    "imatinib"
+  ],
+  "chronic": [
+    "imatinib",
+    "lactulose",
+    "loperamide"
+  ],
+  "myeloid": [
+    "imatinib"
+  ],
+  "leukemia": [
+    "imatinib"
+  ],
+  "gastrointestinal stromal tumors": [
+    "imatinib"
+  ],
+  "gastrointestinal": [
+    "imatinib"
+  ],
+  "stromal": [
+    "imatinib"
+  ],
+  "tumors": [
+    "imatinib"
+  ],
+  "high blood pressure": [
+    "amlodipine",
+    "furosemide",
+    "telmisartan",
+    "losartan",
+    "spironolactone"
+  ],
+  "high": [
+    "amlodipine",
+    "omega_3",
+    "furosemide",
+    "atorvastatin",
+    "rosuvastatin",
+    "telmisartan",
+    "losartan",
+    "spironolactone",
+    "simvastatin"
+  ],
+  "blood": [
+    "amlodipine",
+    "furosemide",
+    "telmisartan",
+    "losartan",
+    "spironolactone"
+  ],
+  "pressure": [
+    "amlodipine",
+    "furosemide",
+    "telmisartan",
+    "losartan",
+    "spironolactone"
+  ],
+  "angina (chest pain)": [
+    "amlodipine"
+  ],
+  "angina": [
+    "amlodipine",
+    "metoprolol"
+  ],
+  "chest": [
+    "amlodipine"
+  ],
+  "pain": [
+    "amlodipine",
+    "pregabalin",
+    "ibuprofen",
+    "gabapentin",
+    "diclofenac",
+    "paracetamol",
+    "mefenamic_acid",
+    "naproxen"
+  ],
+  "hypertension": [
+    "amlodipine",
+    "furosemide",
+    "telmisartan",
+    "losartan",
+    "spironolactone",
+    "enalapril",
+    "metoprolol"
+  ],
+  "type 2 diabetes mellitus": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride",
+    "pioglitazone",
+    "gliclazide"
+  ],
+  "type": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride",
+    "pioglitazone",
+    "gliclazide"
+  ],
+  "diabetes": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride",
+    "pioglitazone",
+    "gliclazide"
+  ],
+  "mellitus": [
+    "metformin",
+    "sitagliptin",
+    "glimepiride",
+    "pioglitazone",
+    "gliclazide"
+  ],
+  "polycystic ovary syndrome (pcos)": [
+    "metformin"
+  ],
+  "polycystic": [
+    "metformin"
+  ],
+  "ovary": [
+    "metformin"
+  ],
+  "syndrome": [
+    "metformin"
+  ],
+  "pcos": [
+    "metformin"
+  ],
+  "rheumatoid arthritis": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "rheumatoid": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "arthritis": [
+    "methotrexate",
+    "ibuprofen",
+    "cyclosporine",
+    "diclofenac",
+    "naproxen"
+  ],
+  "psoriasis": [
+    "methotrexate",
+    "cyclosporine"
+  ],
+  "certain cancers": [
+    "methotrexate"
+  ],
+  "certain": [
+    "methotrexate"
+  ],
+  "cancers": [
+    "methotrexate"
+  ],
+  "influenza a": [
+    "oseltamivir"
+  ],
+  "influenza": [
+    "oseltamivir"
+  ],
+  "influenza b (flu)": [
+    "oseltamivir"
+  ],
+  "throat infections": [
+    "azithromycin"
+  ],
+  "throat": [
+    "azithromycin"
+  ],
+  "infections": [
+    "azithromycin",
+    "fluconazole",
+    "amoxicillin_clavulanate",
+    "ciprofloxacin",
+    "clotrimazole",
+    "doxycycline"
+  ],
+  "pneumonia": [
+    "azithromycin",
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "skin infections": [
+    "azithromycin",
+    "amoxicillin_clavulanic_acid"
+  ],
+  "skin": [
+    "azithromycin",
+    "clotrimazole"
+  ],
+  "typhoid": [
+    "azithromycin",
+    "ciprofloxacin"
+  ],
+  "cold & cough": [
+    "azithromycin",
+    "cetirizine",
+    "ibuprofen",
+    "amoxicillin_clavulanate",
+    "paracetamol",
+    "levocetirizine",
+    "montelukast",
+    "dextromethorphan"
+  ],
+  "cold": [
+    "azithromycin",
+    "cetirizine",
+    "ibuprofen",
+    "amoxicillin_clavulanate",
+    "paracetamol",
+    "levocetirizine",
+    "montelukast",
+    "dextromethorphan"
+  ],
+  "cough": [
+    "azithromycin",
+    "cetirizine",
+    "ibuprofen",
+    "amoxicillin_clavulanate",
+    "paracetamol",
+    "levocetirizine",
+    "montelukast",
+    "dextromethorphan"
+  ],
+  "constipation": [
+    "bisacodyl",
+    "magnesium_citrate",
+    "lactulose",
+    "triphala"
+  ],
+  "bowel clearing before surgery": [
+    "bisacodyl"
+  ],
+  "bowel": [
+    "bisacodyl",
+    "magnesium_citrate"
+  ],
+  "clearing": [
+    "bisacodyl"
+  ],
+  "before": [
+    "bisacodyl"
+  ],
+  "surgery": [
+    "bisacodyl"
+  ],
+  "severe constipation": [
+    "magnesium_citrate"
+  ],
+  "severe": [
+    "magnesium_citrate"
+  ],
+  "bowel preparation for colonoscopy": [
+    "magnesium_citrate"
+  ],
+  "preparation": [
+    "magnesium_citrate"
+  ],
+  "colonoscopy": [
+    "magnesium_citrate"
+  ],
+  "stress": [
+    "ashwagandha"
+  ],
+  "anxiety": [
+    "ashwagandha",
+    "pregabalin",
+    "brahmi"
+  ],
+  "fatigue": [
+    "ashwagandha"
+  ],
+  "general wellness": [
+    "ashwagandha"
+  ],
+  "general": [
+    "ashwagandha"
+  ],
+  "wellness": [
+    "ashwagandha"
+  ],
+  "diabetic nerve pain": [
+    "pregabalin"
+  ],
+  "diabetic": [
+    "pregabalin",
+    "losartan",
+    "enalapril"
+  ],
+  "nerve": [
+    "pregabalin",
+    "gabapentin",
+    "vitamin_b12"
+  ],
+  "shingles pain": [
+    "pregabalin"
+  ],
+  "shingles": [
+    "pregabalin",
+    "acyclovir"
+  ],
+  "fibromyalgia": [
+    "pregabalin"
+  ],
+  "allergic rhinitis": [
+    "cetirizine",
+    "levocetirizine_montelukast",
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "allergic": [
+    "cetirizine"
+  ],
+  "rhinitis": [
+    "cetirizine"
+  ],
+  "hives": [
+    "cetirizine",
+    "levocetirizine"
+  ],
+  "itching": [
+    "cetirizine"
+  ],
+  "sneezing": [
+    "cetirizine"
+  ],
+  "allergies": [
+    "cetirizine",
+    "levocetirizine",
+    "montelukast"
+  ],
+  "pain relief": [
+    "ibuprofen"
+  ],
+  "relief": [
+    "ibuprofen"
+  ],
+  "fever": [
+    "ibuprofen",
+    "diclofenac",
+    "paracetamol",
+    "levocetirizine",
+    "mefenamic_acid",
+    "naproxen",
+    "paracetamol_mefenamic_acid",
+    "paracetamol_650"
+  ],
+  "menstrual cramps": [
+    "ibuprofen",
+    "mefenamic_acid",
+    "paracetamol_mefenamic_acid"
+  ],
+  "menstrual": [
+    "ibuprofen",
+    "mefenamic_acid"
+  ],
+  "cramps": [
+    "ibuprofen",
+    "mefenamic_acid"
+  ],
+  "headache": [
+    "ibuprofen",
+    "diclofenac",
+    "paracetamol",
+    "mefenamic_acid",
+    "naproxen",
+    "paracetamol_650"
+  ],
+  "vaginal yeast infections": [
+    "fluconazole"
+  ],
+  "vaginal": [
+    "fluconazole"
+  ],
+  "yeast": [
+    "fluconazole"
+  ],
+  "oral thrush": [
+    "fluconazole"
+  ],
+  "oral": [
+    "fluconazole"
+  ],
+  "thrush": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "fungal nail infections": [
+    "fluconazole"
+  ],
+  "fungal": [
+    "fluconazole",
+    "clotrimazole"
+  ],
+  "nail": [
+    "fluconazole"
+  ],
+  "vitamin d deficiency": [
+    "vitamin_d3"
+  ],
+  "vitamin": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "deficiency": [
+    "vitamin_d3",
+    "vitamin_b12"
+  ],
+  "osteoporosis": [
+    "vitamin_d3"
+  ],
+  "bone health": [
+    "vitamin_d3"
+  ],
+  "bone": [
+    "vitamin_d3",
+    "ciprofloxacin"
+  ],
+  "health": [
+    "vitamin_d3",
+    "omega_3"
+  ],
+  "heart health": [
+    "omega_3"
+  ],
+  "heart": [
+    "omega_3",
+    "furosemide",
+    "atorvastatin",
+    "telmisartan",
+    "spironolactone",
+    "simvastatin",
+    "enalapril",
+    "metoprolol"
+  ],
+  "high triglycerides": [
+    "omega_3"
+  ],
+  "triglycerides": [
+    "omega_3"
+  ],
+  "joint health": [
+    "omega_3"
+  ],
+  "joint": [
+    "omega_3",
+    "diclofenac"
+  ],
+  "edema (swelling)": [
+    "furosemide"
+  ],
+  "edema": [
+    "furosemide",
+    "spironolactone"
+  ],
+  "swelling": [
+    "furosemide",
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "heart failure": [
+    "furosemide",
+    "spironolactone",
+    "enalapril",
+    "metoprolol"
+  ],
+  "failure": [
+    "furosemide",
+    "spironolactone",
+    "enalapril",
+    "metoprolol"
+  ],
+  "high cholesterol": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "cholesterol": [
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "prevention of heart attack and stroke": [
+    "atorvastatin"
+  ],
+  "prevention": [
+    "atorvastatin",
+    "telmisartan",
+    "simvastatin"
+  ],
+  "attack": [
+    "atorvastatin",
+    "telmisartan"
+  ],
+  "stroke": [
+    "atorvastatin"
+  ],
+  "atherosclerosis": [
+    "rosuvastatin"
+  ],
+  "prevention of heart attack": [
+    "telmisartan"
+  ],
+  "sinusitis": [
+    "amoxicillin_clavulanate"
+  ],
+  "ear infections": [
+    "amoxicillin_clavulanate",
+    "amoxicillin_clavulanic_acid",
+    "azithromycin"
+  ],
+  "urinary tract infections": [
+    "amoxicillin_clavulanate"
+  ],
+  "urinary": [
+    "amoxicillin_clavulanate",
+    "ciprofloxacin"
+  ],
+  "tract": [
+    "amoxicillin_clavulanate",
+    "ciprofloxacin",
+    "doxycycline"
+  ],
+  "acidity": [
+    "pantoprazole",
+    "famotidine",
+    "ranitidine",
+    "omeprazole",
+    "rabeprazole",
+    "pantoprazole_domperidone"
+  ],
+  "stomach ulcers": [
+    "pantoprazole",
+    "famotidine",
+    "ranitidine",
+    "omeprazole"
+  ],
+  "stomach": [
+    "pantoprazole",
+    "famotidine",
+    "ranitidine",
+    "omeprazole"
+  ],
+  "ulcers": [
+    "pantoprazole",
+    "famotidine",
+    "ranitidine",
+    "omeprazole"
+  ],
+  "gerd": [
+    "pantoprazole",
+    "omeprazole",
+    "rabeprazole"
+  ],
+  "heartburn": [
+    "famotidine",
+    "ranitidine",
+    "omeprazole",
+    "pantoprazole_domperidone"
+  ],
+  "ovarian cancer": [
+    "paclitaxel"
+  ],
+  "ovarian": [
+    "paclitaxel"
+  ],
+  "cancer": [
+    "paclitaxel"
+  ],
+  "breast cancer": [
+    "paclitaxel"
+  ],
+  "breast": [
+    "paclitaxel"
+  ],
+  "lung cancer": [
+    "paclitaxel"
+  ],
+  "lung": [
+    "paclitaxel"
+  ],
+  "diabetic kidney disease": [
+    "losartan"
+  ],
+  "kidney": [
+    "losartan"
+  ],
+  "disease": [
+    "losartan",
+    "lactulose",
+    "simvastatin",
+    "rabeprazole"
+  ],
+  "organ transplant rejection": [
+    "cyclosporine"
+  ],
+  "organ": [
+    "cyclosporine"
+  ],
+  "transplant": [
+    "cyclosporine"
+  ],
+  "rejection": [
+    "cyclosporine"
+  ],
+  "dry eye": [
+    "cyclosporine"
+  ],
+  "herpes simplex": [
+    "acyclovir"
+  ],
+  "herpes": [
+    "acyclovir"
+  ],
+  "simplex": [
+    "acyclovir"
+  ],
+  "chickenpox": [
+    "acyclovir"
+  ],
+  "urinary tract infections (uti)": [
+    "ciprofloxacin"
+  ],
+  "bone infections": [
+    "ciprofloxacin"
+  ],
+  "diarrhea": [
+    "ciprofloxacin",
+    "loperamide",
+    "ofloxacin_ornidazole"
+  ],
+  "chronic constipation": [
+    "lactulose"
+  ],
+  "hepatic encephalopathy (liver disease complication)": [
+    "lactulose"
+  ],
+  "hepatic": [
+    "lactulose"
+  ],
+  "encephalopathy": [
+    "lactulose"
+  ],
+  "liver": [
+    "lactulose"
+  ],
+  "complication": [
+    "lactulose"
+  ],
+  "memory enhancement": [
+    "brahmi"
+  ],
+  "memory": [
+    "brahmi"
+  ],
+  "enhancement": [
+    "brahmi"
+  ],
+  "focus and concentration": [
+    "brahmi"
+  ],
+  "focus": [
+    "brahmi"
+  ],
+  "concentration": [
+    "brahmi"
+  ],
+  "nerve pain": [
+    "gabapentin"
+  ],
+  "postherpetic neuralgia": [
+    "gabapentin"
+  ],
+  "postherpetic": [
+    "gabapentin"
+  ],
+  "neuralgia": [
+    "gabapentin"
+  ],
+  "seizures": [
+    "gabapentin"
+  ],
+  "joint pain": [
+    "diclofenac",
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "muscle pain": [
+    "diclofenac",
+    "naproxen",
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "muscle": [
+    "diclofenac",
+    "naproxen"
+  ],
+  "post-surgery pain": [
+    "diclofenac"
+  ],
+  "post-surgery": [
+    "diclofenac"
+  ],
+  "skin fungal infections": [
+    "clotrimazole"
+  ],
+  "ringworm": [
+    "clotrimazole"
+  ],
+  "athlete's foot": [
+    "clotrimazole"
+  ],
+  "athlete's": [
+    "clotrimazole"
+  ],
+  "foot": [
+    "clotrimazole"
+  ],
+  "mouth thrush": [
+    "clotrimazole"
+  ],
+  "mouth": [
+    "clotrimazole"
+  ],
+  "vitamin b12 deficiency": [
+    "vitamin_b12"
+  ],
+  "nerve damage (neuropathy)": [
+    "vitamin_b12"
+  ],
+  "damage": [
+    "vitamin_b12"
+  ],
+  "neuropathy": [
+    "vitamin_b12"
+  ],
+  "anemia": [
+    "vitamin_b12"
+  ],
+  "acne (in women)": [
+    "spironolactone"
+  ],
+  "acne": [
+    "spironolactone",
+    "doxycycline"
+  ],
+  "women": [
+    "spironolactone"
+  ],
+  "heart disease prevention": [
+    "simvastatin"
+  ],
+  "acute diarrhea": [
+    "loperamide"
+  ],
+  "acute": [
+    "loperamide"
+  ],
+  "chronic diarrhea": [
+    "loperamide"
+  ],
+  "nausea": [
+    "domperidone"
+  ],
+  "vomiting": [
+    "domperidone"
+  ],
+  "indigestion": [
+    "domperidone",
+    "triphala"
+  ],
+  "bloating": [
+    "domperidone"
+  ],
+  "mild to moderate pain": [
+    "paracetamol",
+    "mefenamic_acid",
+    "paracetamol_mefenamic_acid",
+    "paracetamol_650"
+  ],
+  "mild": [
+    "paracetamol",
+    "mefenamic_acid"
+  ],
+  "moderate": [
+    "paracetamol",
+    "mefenamic_acid"
+  ],
+  "toothache": [
+    "paracetamol",
+    "paracetamol_mefenamic_acid"
+  ],
+  "detoxification": [
+    "triphala"
+  ],
+  "hay fever": [
+    "levocetirizine",
+    "levocetirizine_montelukast"
+  ],
+  "asthma": [
+    "montelukast"
+  ],
+  "peptic ulcer disease": [
+    "rabeprazole",
+    "pantoprazole_domperidone"
+  ],
+  "peptic": [
+    "rabeprazole"
+  ],
+  "ulcer": [
+    "rabeprazole"
+  ],
+  "dry cough": [
+    "dextromethorphan"
+  ],
+  "diabetic nephropathy": [
+    "enalapril"
+  ],
+  "nephropathy": [
+    "enalapril"
+  ],
+  "arrhythmia": [
+    "metoprolol"
+  ],
+  "malaria prophylaxis": [
+    "doxycycline"
+  ],
+  "malaria": [
+    "doxycycline"
+  ],
+  "prophylaxis": [
+    "doxycycline"
+  ],
+  "respiratory tract infections": [
+    "doxycycline",
+    "azithromycin"
+  ],
+  "respiratory": [
+    "doxycycline"
+  ],
+  "abdominal pain": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "menstrual cramps (dysmenorrhea)": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "stomach pain": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "muscle spasms": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "irritable bowel syndrome (ibs)": [
+    "dicyclomine"
+  ],
+  "stomach cramps": [
+    "dicyclomine"
+  ],
+  "intestinal spasms": [
+    "dicyclomine"
+  ],
+  "sneezing and runny nose": [
+    "levocetirizine_montelukast"
+  ],
+  "asthma prevention": [
+    "levocetirizine_montelukast"
+  ],
+  "dysentery": [
+    "ofloxacin_ornidazole"
+  ],
+  "gastrointestinal infections": [
+    "ofloxacin_ornidazole"
+  ],
+  "pelvic inflammatory disease": [
+    "ofloxacin_ornidazole"
+  ],
+  "sinus infections": [
+    "amoxicillin_clavulanic_acid"
+  ],
+  "uti": [
+    "amoxicillin_clavulanic_acid"
+  ],
+  "severe pain": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "post-operative inflammation": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
+  "gerd (acid reflux)": [
+    "pantoprazole_domperidone"
+  ],
+  "body ache": [
+    "paracetamol_650"
+  ],
+  "common cold": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "nasal congestion": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "fever with cold": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "typhoid fever": [
+    "azithromycin"
+  ],
+  "hypertension (high blood pressure)": [
+    "telmisartan"
+  ],
+  "heart attack prevention": [
+    "telmisartan"
+  ],
+  "stroke prevention": [
+    "telmisartan"
+  ]
+}
