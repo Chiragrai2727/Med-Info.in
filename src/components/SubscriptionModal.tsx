@@ -72,6 +72,13 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
 
     setIsProcessing(true);
 
+    const keyId = import.meta.env.VITE_RAZORPAY_KEY_ID;
+    if (!keyId || keyId.includes('dummy')) {
+      showToast('Frontend API Key missing. Please trigger a new deploy in Netlify.', 'error');
+      setIsProcessing(false);
+      return;
+    }
+
     try {
       const res = await loadRazorpayScript();
       if (!res) {

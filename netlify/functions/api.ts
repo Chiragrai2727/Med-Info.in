@@ -2,8 +2,10 @@ import express from "express";
 import serverless from "serverless-http";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const razorpay = new Razorpay({
@@ -11,7 +13,13 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
 });
 
-const handleCreateOrder = async (req: express.Request, res: express.Response) => {
+const router = express.Router();
+
+router.get("/health", (req, res) => {
+  res.json({ status: "ok", message: "Netlify API is running" });
+});
+
+router.post("/create-order", async (req, res) => {
   try {
     const { plan } = req.body;
     let amount = 0;
@@ -37,9 +45,9 @@ const handleCreateOrder = async (req: express.Request, res: express.Response) =>
     console.error("Error creating order:", error);
     res.status(500).json({ error: error.message || "Failed to create order", details: error });
   }
-};
+});
 
-const handleVerifyPayment = (req: express.Request, res: express.Response) => {
+router.post("/verify-payment", (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -54,21 +62,15 @@ const handleVerifyPayment = (req: express.Request, res: express.Response) => {
     } else {
       return res.status(400).json({ success: false, message: "Invalid signature" });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error verifying payment:", error);
-    res.status(500).json({ error: "Failed to verify payment" });
+    res.status(500).json({ error: error.message || "Failed to verify payment" });
   }
-};
+});
 
 // Catch all possible path variations that Netlify might use
-app.post("/api/create-order", handleCreateOrder);
-app.post("/.netlify/functions/api/create-order", handleCreateOrder);
-app.post("/create-order", handleCreateOrder);
-app.post("/*/create-order", handleCreateOrder);
-
-app.post("/api/verify-payment", handleVerifyPayment);
-app.post("/.netlify/functions/api/verify-payment", handleVerifyPayment);
-app.post("/verify-payment", handleVerifyPayment);
-app.post("/*/verify-payment", handleVerifyPayment);
+app.use("/", router);
+app.use("/api", router);
+app.use("/.netlify/functions/api", router);
 
 export const handler = serverless(app);
