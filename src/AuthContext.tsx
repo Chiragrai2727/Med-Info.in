@@ -230,8 +230,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (user && profile) {
       const userRef = doc(db, 'users', user.uid);
       try {
-        await setDoc(userRef, { subscriptionTier: tier, subscriptionExpiry: expiry }, { merge: true });
-        const updatedProfile = { ...profile, subscriptionTier: tier, subscriptionExpiry: expiry };
+        const updatedProfile = { ...profile, subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true };
+        await setDoc(userRef, updatedProfile);
         setProfile(updatedProfile);
         localStorage.setItem(`profile_${user.uid}`, JSON.stringify(updatedProfile));
       } catch (error) {
