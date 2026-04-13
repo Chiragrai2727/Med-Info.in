@@ -1,17 +1,19 @@
-import express from "express";
+import express, { Router } from "express";
 import serverless from "serverless-http";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-const app = express();
-app.use(express.json());
+const api = express();
+api.use(express.json());
+
+const router = Router();
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
   key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
 });
 
-app.post("/api/create-order", async (req, res) => {
+router.post("/create-order", async (req, res) => {
   try {
     const { plan } = req.body;
     let amount = 0;
@@ -39,7 +41,7 @@ app.post("/api/create-order", async (req, res) => {
   }
 });
 
-app.post("/api/verify-payment", (req, res) => {
+router.post("/verify-payment", (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -60,4 +62,7 @@ app.post("/api/verify-payment", (req, res) => {
   }
 });
 
-export const handler = serverless(app);
+api.use("/api/", router);
+api.use("/.netlify/functions/api/", router);
+
+export const handler = serverless(api);
