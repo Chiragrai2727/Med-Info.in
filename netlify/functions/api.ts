@@ -1,19 +1,17 @@
-import express, { Router } from "express";
+import express from "express";
 import serverless from "serverless-http";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-const api = express();
-api.use(express.json());
-
-const router = Router();
+const app = express();
+app.use(express.json());
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
   key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
 });
 
-router.post("/create-order", async (req, res) => {
+const handleCreateOrder = async (req: express.Request, res: express.Response) => {
   try {
     const { plan } = req.body;
     let amount = 0;
@@ -39,9 +37,9 @@ router.post("/create-order", async (req, res) => {
     console.error("Error creating order:", error);
     res.status(500).json({ error: error.message || "Failed to create order", details: error });
   }
-});
+};
 
-router.post("/verify-payment", (req, res) => {
+const handleVerifyPayment = (req: express.Request, res: express.Response) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -60,10 +58,17 @@ router.post("/verify-payment", (req, res) => {
     console.error("Error verifying payment:", error);
     res.status(500).json({ error: "Failed to verify payment" });
   }
-});
+};
 
-api.use("/api/", router);
-api.use("/.netlify/functions/api/", router);
-api.use("/", router);
+// Catch all possible path variations that Netlify might use
+app.post("/api/create-order", handleCreateOrder);
+app.post("/.netlify/functions/api/create-order", handleCreateOrder);
+app.post("/create-order", handleCreateOrder);
+app.post("/*/create-order", handleCreateOrder);
 
-export const handler = serverless(api);
+app.post("/api/verify-payment", handleVerifyPayment);
+app.post("/.netlify/functions/api/verify-payment", handleVerifyPayment);
+app.post("/verify-payment", handleVerifyPayment);
+app.post("/*/verify-payment", handleVerifyPayment);
+
+export const handler = serverless(app);
