@@ -58,8 +58,7 @@ async function startServer() {
     }
   };
 
-  app.post("/api/create-order", handleCreateOrder);
-  app.post("/.netlify/functions/api/create-order", handleCreateOrder);
+  app.post("/.netlify/functions/create-order", handleCreateOrder);
 
   const handleVerifyPayment = (req: express.Request, res: express.Response) => {
     try {
@@ -82,8 +81,7 @@ async function startServer() {
     }
   };
 
-  app.post("/api/verify-payment", handleVerifyPayment);
-  app.post("/.netlify/functions/api/verify-payment", handleVerifyPayment);
+  app.post("/.netlify/functions/verify-payment", handleVerifyPayment);
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
