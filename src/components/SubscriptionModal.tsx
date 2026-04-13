@@ -88,7 +88,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
       });
 
       if (!orderResponse.ok) {
-        throw new Error('Failed to create order');
+        const errorData = await orderResponse.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server error: ${orderResponse.status}`);
       }
 
       const { order } = await orderResponse.json();
@@ -154,9 +155,9 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
       });
       rzp.open();
 
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      showToast('Something went wrong. Please try again.', 'error');
+      showToast(error.message || 'Something went wrong. Please try again.', 'error');
     } finally {
       setIsProcessing(false);
     }

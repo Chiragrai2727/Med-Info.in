@@ -35,9 +35,9 @@ router.post("/create-order", async (req, res) => {
 
     const order = await razorpay.orders.create(options);
     res.json({ order, breakdown: { base: amount, gst, platformFee, total: totalAmount } });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating order:", error);
-    res.status(500).json({ error: "Failed to create order" });
+    res.status(500).json({ error: error.message || "Failed to create order", details: error });
   }
 });
 
@@ -64,5 +64,6 @@ router.post("/verify-payment", (req, res) => {
 
 api.use("/api/", router);
 api.use("/.netlify/functions/api/", router);
+api.use("/", router);
 
 export const handler = serverless(api);
