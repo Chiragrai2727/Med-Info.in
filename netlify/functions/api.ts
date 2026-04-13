@@ -73,4 +73,10 @@ app.use("/", router);
 app.use("/api", router);
 app.use("/.netlify/functions/api", router);
 
+// Catch-all for debugging 404s
+app.use((req, res) => {
+  console.log("404 Not Found:", req.method, req.path, req.url);
+  res.status(404).json({ error: `Express route not found: ${req.method} ${req.path}` });
+});
+
 export const handler = serverless(app);

@@ -27,7 +27,7 @@ async function startServer() {
     res.json({ status: "ok", message: "MedInfo India API is running" });
   });
 
-  app.post("/api/create-order", async (req, res) => {
+  const handleCreateOrder = async (req: express.Request, res: express.Response) => {
     try {
       const { plan } = req.body;
       let amount = 0;
@@ -56,9 +56,12 @@ async function startServer() {
       console.error("Error creating order:", error);
       res.status(500).json({ error: "Failed to create order" });
     }
-  });
+  };
 
-  app.post("/api/verify-payment", (req, res) => {
+  app.post("/api/create-order", handleCreateOrder);
+  app.post("/.netlify/functions/api/create-order", handleCreateOrder);
+
+  const handleVerifyPayment = (req: express.Request, res: express.Response) => {
     try {
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -77,7 +80,10 @@ async function startServer() {
       console.error("Error verifying payment:", error);
       res.status(500).json({ error: "Failed to verify payment" });
     }
-  });
+  };
+
+  app.post("/api/verify-payment", handleVerifyPayment);
+  app.post("/.netlify/functions/api/verify-payment", handleVerifyPayment);
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
