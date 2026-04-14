@@ -68,7 +68,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const userSnap = await getDoc(userRef);
           
           if (userSnap.exists()) {
-            const profileData = userSnap.data() as UserProfile;
+            let profileData = userSnap.data() as UserProfile;
+            
+            // Auto-migration for existing premium users who paid 79rs but lack subscription details
+            if (profileData.isPremium && !profileData.subscriptionTier) {
+              const createdAtDate = new Date(profileData.createdAt || Date.now());
+              const expiryDate = new Date(createdAtDate);
+              expiryDate.setMonth(expiryDate.getMonth() + 1); // Default to 1 month for existing users
+              
+              profileData = {
+                ...profileData,
+                subscriptionTier: 'monthly',
+                subscriptionExpiry: expiryDate.toISOString()
+              };
+              
+              try {
+                await setDoc(userRef, profileData, { merge: true });
+              } catch (e) {
+                console.error('Failed to auto-migrate user profile', e);
+              }
+            }
+
             setProfile(profileData);
             // Cache profile locally for offline access
             localStorage.setItem(`profile_${currentUser.uid}`, JSON.stringify(profileData));

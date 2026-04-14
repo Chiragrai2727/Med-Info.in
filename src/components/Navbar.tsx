@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Calendar, User as UserIcon, LogOut } from 'lucide-react';
+import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { useAuth } from '../AuthContext';
@@ -44,6 +44,9 @@ export const Navbar: React.FC = () => {
                     <div className="p-4 border-b border-gray-50">
                       <p className="text-sm font-bold truncate">{profile?.displayName || user.email}</p>
                     </div>
+                    <Link to="/dashboard" className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 font-bold flex items-center gap-2 border-b border-gray-50">
+                      <LayoutDashboard className="w-4 h-4" /> Dashboard
+                    </Link>
                     <button onClick={logout} className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 rounded-b-2xl">
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>

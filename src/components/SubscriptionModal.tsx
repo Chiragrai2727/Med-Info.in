@@ -135,6 +135,23 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               else if (selectedPlan === 'yearly') now.setFullYear(now.getFullYear() + 1);
 
               await updateSubscription(selectedPlan as any, now.toISOString());
+              
+              // Record payment history
+              try {
+                const { collection, addDoc } = await import('firebase/firestore');
+                const { db } = await import('../firebase');
+                await addDoc(collection(db, 'users', user.uid, 'payments'), {
+                  amount: order.amount / 100,
+                  tier: selectedPlan,
+                  date: new Date().toISOString(),
+                  status: 'success',
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id
+                });
+              } catch (e) {
+                console.error('Failed to record payment history', e);
+              }
+
               showToast('Subscription activated successfully!', 'success');
               onClose();
             } else {

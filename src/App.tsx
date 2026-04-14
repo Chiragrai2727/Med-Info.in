@@ -9,6 +9,7 @@ import { Compare } from './pages/Compare';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { ScannerPage } from './pages/ScannerPage';
 import { Timetable } from './pages/Timetable';
+import { Dashboard } from './pages/Dashboard';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { OfflineBanner } from './components/OfflineBanner';
@@ -53,6 +54,14 @@ export default function App() {
                       element={
                         <ProtectedRoute>
                           <Timetable />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/dashboard" 
+                      element={
+                        <ProtectedRoute>
+                          <Dashboard />
                         </ProtectedRoute>
                       } 
                     />

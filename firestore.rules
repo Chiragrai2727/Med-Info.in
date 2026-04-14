@@ -72,6 +72,17 @@ service cloud.firestore {
       allow create: if isOwner(userId) && isValidUser(request.resource.data) && (!('role' in request.resource.data) || request.resource.data.role == 'user');
       allow update: if isOwner(userId) && isValidUser(request.resource.data) && 
                     (request.resource.data.get('role', 'user') == resource.data.get('role', 'user') || isAdmin());
+      
+      match /payments/{paymentId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if isOwner(userId) && 
+                      request.resource.data.keys().hasAll(['amount', 'tier', 'date', 'status']) &&
+                      request.resource.data.amount is number &&
+                      request.resource.data.tier in ['daily', 'monthly', 'yearly'] &&
+                      request.resource.data.date is string &&
+                      request.resource.data.status is string;
+        allow update: if isAdmin();
+      }
     }
 
     match /schedules/{scheduleId} {
