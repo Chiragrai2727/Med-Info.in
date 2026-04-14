@@ -98,7 +98,7 @@ export const Timetable: React.FC = () => {
       }
     };
 
-    const checkReminders = () => {
+    const checkReminders = async () => {
       const now = new Date();
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
@@ -110,8 +110,8 @@ export const Timetable: React.FC = () => {
 
       let stateChanged = false;
 
-      schedules.forEach(async (schedule) => {
-        if (!schedule.days.includes(currentDay)) return;
+      for (const schedule of schedules) {
+        if (!schedule.days.includes(currentDay)) continue;
 
         const [schedHour, schedMinute] = schedule.time.split(':').map(Number);
         
@@ -134,19 +134,23 @@ export const Timetable: React.FC = () => {
                 requireInteraction: true,
                 vibrate: [200, 100, 200, 100, 200],
                 silent: false,
-                actions: [
-                  { action: 'taken', title: 'Mark as Taken' },
-                  { action: 'snooze', title: 'Snooze' }
-                ],
                 data: {
                   url: window.location.origin + '/timetable',
                   medicineName: schedule.medicineName
                 }
               };
 
+              // Actions are only supported in ServiceWorker notifications
               if ('serviceWorker' in navigator) {
+                options.actions = [
+                  { action: 'taken', title: 'Mark as Taken' },
+                  { action: 'snooze', title: 'Snooze' }
+                ];
                 try {
-                  const registration = await navigator.serviceWorker.ready;
+                  const registration = await Promise.race([
+                    navigator.serviceWorker.ready,
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
+                  ]) as ServiceWorkerRegistration;
                   await registration.showNotification(title, options);
                 } catch (e) {
                   console.warn("Service worker notification failed, falling back to standard Notification", e);
@@ -163,7 +167,7 @@ export const Timetable: React.FC = () => {
             }
           }
         }
-      });
+      }
 
       if (stateChanged) {
         saveNotifiedState();
@@ -201,7 +205,11 @@ export const Timetable: React.FC = () => {
 
         if ('serviceWorker' in navigator) {
           try {
-            const registration = await navigator.serviceWorker.ready;
+            // Use Promise.race to prevent hanging if SW is not fully active
+            const registration = await Promise.race([
+              navigator.serviceWorker.ready,
+              new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
+            ]) as ServiceWorkerRegistration;
             await registration.showNotification(title, options);
           } catch (e) {
             console.warn("Service worker notification failed, falling back to standard Notification", e);
@@ -350,9 +358,17 @@ export const Timetable: React.FC = () => {
                       icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
                       vibrate: [200, 100, 200],
                     };
-                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                      const registration = await navigator.serviceWorker.ready;
-                      registration.showNotification(title, options);
+                    if ('serviceWorker' in navigator) {
+                      try {
+                        const registration = await Promise.race([
+                          navigator.serviceWorker.ready,
+                          new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
+                        ]) as ServiceWorkerRegistration;
+                        await registration.showNotification(title, options);
+                      } catch (e) {
+                        console.warn("SW failed, using standard Notification", e);
+                        new Notification(title, options);
+                      }
                     } else {
                       new Notification(title, options);
                     }
