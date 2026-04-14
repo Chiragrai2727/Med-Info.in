@@ -526,6 +526,18 @@ export const MedicineDetail: React.FC = () => {
             />
           </div>
 
+          {medicine.missed_dose && (
+            <Section 
+              icon={<Clock className="w-5 h-5" />} 
+              title="Missed Dose" 
+              content={medicine.missed_dose} 
+              variant="warning"
+              onSpeak={handleSpeakSection}
+              isSpeaking={speakingSection === "Missed Dose"}
+              isLoading={isTtsLoading}
+            />
+          )}
+
           <Section 
             icon={<AlertCircle className="w-5 h-5" />} 
             title="Common Side Effects" 

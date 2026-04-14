@@ -131,6 +131,7 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
             who_should_not_take: { type: Type.STRING },
             food_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
             alcohol_warning: { type: Type.STRING },
+            missed_dose: { type: Type.STRING },
           },
           required: [
             "category", "drug_name", "brand_names_india", "drug_class", "mechanism_of_action", 
@@ -139,7 +140,7 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
             "kidney_liver_warning", "how_it_works_in_body", "onset_of_action", "duration_of_effect", 
             "prescription_required", "ayurvedic_or_allopathic", "india_regulatory_status", 
             "quick_summary", "who_should_take", "who_should_not_take", "food_interactions", 
-            "alcohol_warning"
+            "alcohol_warning", "missed_dose"
           ]
         }
       }

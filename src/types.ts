@@ -29,6 +29,7 @@ export interface Medicine {
   who_should_not_take: string;
   food_interactions: string[];
   alcohol_warning: string;
+  missed_dose?: string;
 }
 
 export interface Disease {
