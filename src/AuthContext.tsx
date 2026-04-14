@@ -69,7 +69,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           if (userSnap.exists()) {
             let profileData = userSnap.data() as UserProfile;
+            let needsUpdate = false;
             
+            // Auto-migration for admin role
+            if (currentUser.email === 'raisahab2727@gmail.com' && profileData.role !== 'admin') {
+              profileData = { ...profileData, role: 'admin' };
+              needsUpdate = true;
+            }
+
             // Auto-migration for existing premium users who paid 79rs but lack subscription details
             if (profileData.isPremium && !profileData.subscriptionTier) {
               const createdAtDate = new Date(profileData.createdAt || Date.now());
@@ -81,7 +88,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 subscriptionTier: 'monthly',
                 subscriptionExpiry: expiryDate.toISOString()
               };
-              
+              needsUpdate = true;
+            }
+
+            if (needsUpdate) {
               try {
                 await setDoc(userRef, profileData, { merge: true });
               } catch (e) {
@@ -101,7 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               photoURL: currentUser.photoURL || '',
               isPremium: false,
               createdAt: new Date().toISOString(),
-              role: 'user'
+              role: currentUser.email === 'raisahab2727@gmail.com' ? 'admin' : 'user'
             };
             try {
               await setDoc(userRef, newProfile);

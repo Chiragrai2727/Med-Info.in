@@ -65,6 +65,35 @@ export const Dashboard: React.FC = () => {
           <p className="text-gray-500 mt-2">Manage your account, active plans, and payment history.</p>
         </div>
 
+        {/* Profile Section */}
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="p-6 sm:p-8 flex items-center gap-6">
+            {profile.photoURL ? (
+              <img src={profile.photoURL} alt="Profile" className="w-20 h-20 rounded-full border-4 border-gray-50" referrerPolicy="no-referrer" />
+            ) : (
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
+                <span className="text-2xl font-bold text-gray-400">
+                  {profile.displayName ? profile.displayName.charAt(0).toUpperCase() : profile.email.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{profile.displayName || 'User'}</h2>
+              <p className="text-gray-500">{profile.email}</p>
+              <div className="mt-3 flex gap-2">
+                <span className={`px-3 py-1 text-xs font-bold rounded-full capitalize ${
+                  profile.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
+                }`}>
+                  Role: {profile.role}
+                </span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
+                  Joined: {new Date(profile.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Active Plan Section */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 sm:p-8">
