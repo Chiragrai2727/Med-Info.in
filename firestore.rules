@@ -93,7 +93,7 @@ service cloud.firestore {
     }
 
     match /searchAnalytics/{queryId} {
-      allow read: if isAuthenticated();
+      allow read: if isAdmin();
       allow create: if isAuthenticated() && isValidSearchAnalytics(request.resource.data);
       allow update: if isAuthenticated() && isValidSearchAnalytics(request.resource.data) && 
                     request.resource.data.query == resource.data.query &&

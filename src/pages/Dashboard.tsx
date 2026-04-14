@@ -75,6 +75,8 @@ export const Dashboard: React.FC = () => {
               </h2>
               {isPremium && !isExpired ? (
                 <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-bold rounded-full">Active</span>
+              ) : isExpired ? (
+                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-bold rounded-full">Expired</span>
               ) : (
                 <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-bold rounded-full">Free Tier</span>
               )}
@@ -105,6 +107,20 @@ export const Dashboard: React.FC = () => {
                     <Zap className="w-4 h-4" /> Change Plan
                   </button>
                 </div>
+              </div>
+            ) : isExpired ? (
+              <div className="bg-red-50 rounded-2xl p-6 border border-red-100 text-center">
+                <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-red-900 mb-2">Your Subscription Has Expired</h3>
+                <p className="text-red-700 mb-6 max-w-md mx-auto">
+                  Your previous {profile.subscriptionTier || 'premium'} plan expired on {expiryDate?.toLocaleDateString()}. Renew now to regain access to unlimited AI health scanning and priority support.
+                </p>
+                <button 
+                  onClick={() => setShowSubscriptionModal(true)}
+                  className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors inline-flex items-center gap-2 shadow-sm"
+                >
+                  <Zap className="w-5 h-5 text-yellow-300" /> Renew Subscription
+                </button>
               </div>
             ) : (
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 text-center">

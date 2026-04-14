@@ -10,6 +10,7 @@ import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { ScannerPage } from './pages/ScannerPage';
 import { Timetable } from './pages/Timetable';
 import { Dashboard } from './pages/Dashboard';
+import { AdminDashboard } from './pages/AdminDashboard';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { OfflineBanner } from './components/OfflineBanner';
@@ -62,6 +63,14 @@ export default function App() {
                       element={
                         <ProtectedRoute>
                           <Dashboard />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/admin" 
+                      element={
+                        <ProtectedRoute>
+                          <AdminDashboard />
                         </ProtectedRoute>
                       } 
                     />

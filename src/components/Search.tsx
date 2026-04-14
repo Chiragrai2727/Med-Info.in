@@ -5,7 +5,7 @@ import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { searchMedicines, interpretQuery, transcribeAudio } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
@@ -38,6 +38,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('recentSearches');
@@ -91,6 +93,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
+        setIsFocused(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -106,34 +109,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
       const queryId = query.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
       if (queryId) {
         const queryRef = doc(db, 'searchAnalytics', queryId);
-        const querySnap = await getDoc(queryRef);
-        if (querySnap.exists()) {
-          try {
-            await setDoc(queryRef, { 
-              count: querySnap.data().count + 1,
-              lastSearchedAt: new Date().toISOString()
-            }, { merge: true });
-          } catch (error) {
-            handleFirestoreError(error, OperationType.UPDATE, `searchAnalytics/${queryId}`);
-          }
-        } else {
-          try {
-            await setDoc(queryRef, {
-              query: query.trim().toLowerCase(),
-              count: 1,
-              lastSearchedAt: new Date().toISOString()
-            });
-          } catch (error) {
-            handleFirestoreError(error, OperationType.CREATE, `searchAnalytics/${queryId}`);
-          }
-        }
+        await setDoc(queryRef, {
+          query: query.trim().toLowerCase(),
+          count: increment(1),
+          lastSearchedAt: new Date().toISOString()
+        }, { merge: true });
       }
     } catch (error) {
-      if (error instanceof Error && error.message.includes('FirestoreErrorInfo')) {
-        // Already handled
-      } else {
-        handleFirestoreError(error, OperationType.GET, `searchAnalytics/${query.trim().toLowerCase().replace(/[^a-z0-9]/g, '_')}`);
-      }
+      console.error('Failed to track search analytics', error);
     }
 
     setIsLoading(true);
@@ -257,7 +240,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setShowSuggestions(query.length > 2 || recentSearches.length > 0)}
+          onFocus={() => {
+            setIsFocused(true);
+            setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
+          }}
+          onBlur={() => {
+            // Delay hiding to allow clicks on suggestions to register
+            setTimeout(() => setIsFocused(false), 200);
+          }}
           className="block w-full pl-16 pr-28 py-6 bg-white border border-gray-100 rounded-[2.5rem] text-xl focus:ring-4 focus:ring-black/5 focus:border-black transition-all shadow-xl hover:shadow-2xl placeholder:text-gray-300 font-medium"
           placeholder={t('searchPlaceholder')}
         />
@@ -283,7 +273,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
       </form>
 
       <AnimatePresence>
-        {(showSuggestions || (query.length === 0 && inputRef.current === document.activeElement)) && (
+        {(showSuggestions || (query.length === 0 && isFocused)) && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
