@@ -38,6 +38,14 @@ async function startServer() {
   app.use(express.json());
 
   // API routes
+  app.get("/api/debug-env", (req, res) => {
+    res.json({
+      hasKey: !!process.env.GEMINI_API_KEY,
+      keyLength: process.env.GEMINI_API_KEY?.length,
+      keyPrefix: process.env.GEMINI_API_KEY?.substring(0, 5)
+    });
+  });
+
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", message: "MedInfo India API is running" });
   });
@@ -77,7 +85,7 @@ async function startServer() {
       Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -156,7 +164,7 @@ async function startServer() {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -341,14 +349,15 @@ async function startServer() {
       Return JSON array of objects with: name, category, summary.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
 
       res.json(JSON.parse(response.text || "[]"));
-    } catch (error) {
-      res.status(500).json({ error: "Condition search failed" });
+    } catch (error: any) {
+      console.error("Condition search error:", error?.message || error);
+      res.status(500).json({ error: "Condition search failed", details: error?.message || String(error) });
     }
   });
 
