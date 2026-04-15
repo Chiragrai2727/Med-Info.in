@@ -4,14 +4,28 @@ import { offlineService } from "./offlineService";
 // Helper to call our new backend API
 async function fetchFromAPI(endpoint: string, options: RequestInit = {}) {
   const res = await fetch(endpoint, options);
-  const data = await res.json().catch(() => null);
-  if (!res.ok) {
-    if (data && data.error === "Invalid API Key") {
-      throw new Error(data.details);
+  
+  const contentType = res.headers.get("content-type");
+  if (!res.ok || !contentType || !contentType.includes("application/json")) {
+    const text = await res.text();
+    console.error(`API Error (${endpoint}):`, text);
+    
+    if (text.includes("<!DOCTYPE html>") || text.includes("<!doctype html>")) {
+      throw new Error("Server returned an HTML page instead of data. This usually means the API route was not found (404).");
     }
-    throw new Error(data?.error || `API Error: ${res.statusText}`);
+    
+    try {
+      const data = JSON.parse(text);
+      if (data && data.error === "Invalid API Key") {
+        throw new Error(data.details);
+      }
+      throw new Error(data?.error || `API Error: ${res.statusText}`);
+    } catch (e) {
+      throw new Error(`API Error (${res.status}): ${res.statusText}`);
+    }
   }
-  return data;
+  
+  return await res.json();
 }
 
 export function isDrugBanned(name: string): boolean {
@@ -26,13 +40,29 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
   }
   try {
     const res = await fetch(`/api/searchMedicine?query=${encodeURIComponent(query)}&lang=${lang}`);
-    const data = await res.json();
-    if (!res.ok) {
-      if (data.error === "Invalid API Key") {
-        throw new Error(data.details);
+    
+    // Check if response is OK and is JSON
+    const contentType = res.headers.get("content-type");
+    if (!res.ok || !contentType || !contentType.includes("application/json")) {
+      const text = await res.text();
+      console.error("API Error Response:", text);
+      
+      if (text.includes("<!DOCTYPE html>") || text.includes("<!doctype html>")) {
+        throw new Error("Server returned an HTML page instead of data. This usually means the API route was not found (404) or there was a server error.");
       }
-      throw new Error(data.error || `API Error: ${res.statusText}`);
+      
+      try {
+        const errorData = JSON.parse(text);
+        if (errorData.error === "Invalid API Key") {
+          throw new Error(errorData.details);
+        }
+        throw new Error(errorData.error || `API Error: ${res.statusText}`);
+      } catch (parseErr) {
+        throw new Error(`API Error (${res.status}): ${res.statusText}`);
+      }
     }
+
+    const data = await res.json();
     if (data.data) {
       offlineService.saveSearchResults(query, [data.data]);
       return data.data;

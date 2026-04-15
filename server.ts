@@ -30,7 +30,7 @@ if (!process.env.GEMINI_API_KEY) {
   console.warn("WARNING: GEMINI_API_KEY is not set in environment variables.");
 }
 
-const MODEL_NAME = "gemini-1.5-flash";
+const MODEL_NAME = "gemini-3-flash-preview";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
@@ -83,7 +83,7 @@ async function startServer() {
       Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -168,7 +168,7 @@ async function startServer() {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -209,7 +209,7 @@ async function startServer() {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -313,7 +313,7 @@ async function startServer() {
       - recommendation (string)`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
@@ -337,7 +337,7 @@ async function startServer() {
       Return JSON only.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -446,7 +446,7 @@ async function startServer() {
       Return JSON array of objects with: name, category, summary.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });

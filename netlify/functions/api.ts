@@ -55,7 +55,7 @@ if (!process.env.GEMINI_API_KEY) {
   console.warn("WARNING: GEMINI_API_KEY is not set in environment variables.");
 }
 
-const MODEL_NAME = "gemini-1.5-flash";
+const MODEL_NAME = "gemini-3-flash-preview";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
@@ -102,7 +102,7 @@ router.get("/searchMedicine", async (req, res) => {
     Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: MODEL_NAME,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -147,9 +147,10 @@ router.get("/searchMedicine", async (req, res) => {
         }
       }
     });
+    const responseText = response.text;
 
-    console.log("Gemini raw response text (Netlify):", response.text);
-    const data = JSON.parse(response.text || "{}");
+    console.log("Gemini raw response text (Netlify):", responseText);
+    const data = JSON.parse(responseText || "{}");
 
     if (!data.drug_name) {
       console.error("Gemini returned empty or invalid data (Netlify):", data);
@@ -186,28 +187,28 @@ router.get("/searchMedicine", async (req, res) => {
       const prompt = `Identify the medicine in this image. Provide its name, category, a brief description, and your confidence level (0-100).
       Language: ${lang}`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: [
-          prompt,
-          { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
-        ],
-        config: { 
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              name: { type: Type.STRING },
-              category: { type: Type.STRING },
-              description: { type: Type.STRING },
-              confidence: { type: Type.NUMBER }
-            },
-            required: ["name", "category", "description", "confidence"]
-          }
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        prompt,
+        { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+      ],
+      config: { 
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            category: { type: Type.STRING },
+            description: { type: Type.STRING },
+            confidence: { type: Type.NUMBER }
+          },
+          required: ["name", "category", "description", "confidence"]
         }
-      });
+      }
+    });
 
-      res.json(JSON.parse(response.text || "{}"));
+    res.json(JSON.parse(response.text || "{}"));
     } catch (error: any) {
       console.error("Scan error:", error?.message || error);
       if (error?.message?.includes("API key not valid")) {
@@ -227,56 +228,56 @@ router.get("/searchMedicine", async (req, res) => {
       Finally, provide an overall summary and recommendations.
       Language: ${lang}`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: [
-          prompt,
-          { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
-        ],
-        config: { 
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              patient_name: { type: Type.STRING },
-              test_date: { type: Type.STRING },
-              parameters: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    name: { type: Type.STRING },
-                    value: { type: Type.STRING },
-                    unit: { type: Type.STRING },
-                    reference_range: { type: Type.STRING },
-                    status: { type: Type.STRING },
-                    interpretation: { type: Type.STRING }
-                  },
-                  required: ["name", "value", "unit", "reference_range", "status", "interpretation"]
-                }
-              },
-              summary: { type: Type.STRING },
-              recommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
-              abnormalFindings: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    testName: { type: Type.STRING },
-                    result: { type: Type.STRING },
-                    normalRange: { type: Type.STRING },
-                    interpretation: { type: Type.STRING }
-                  },
-                  required: ["testName", "result", "normalRange", "interpretation"]
-                }
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        prompt,
+        { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+      ],
+      config: { 
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            patient_name: { type: Type.STRING },
+            test_date: { type: Type.STRING },
+            parameters: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  value: { type: Type.STRING },
+                  unit: { type: Type.STRING },
+                  reference_range: { type: Type.STRING },
+                  status: { type: Type.STRING },
+                  interpretation: { type: Type.STRING }
+                },
+                required: ["name", "value", "unit", "reference_range", "status", "interpretation"]
               }
             },
-            required: ["parameters", "summary", "recommendations"]
-          }
+            summary: { type: Type.STRING },
+            recommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
+            abnormalFindings: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  testName: { type: Type.STRING },
+                  result: { type: Type.STRING },
+                  normalRange: { type: Type.STRING },
+                  interpretation: { type: Type.STRING }
+                },
+                required: ["testName", "result", "normalRange", "interpretation"]
+              }
+            }
+          },
+          required: ["parameters", "summary", "recommendations"]
         }
-      });
+      }
+    });
 
-      res.json(JSON.parse(response.text || "{}"));
+    res.json(JSON.parse(response.text || "{}"));
     } catch (error: any) {
       console.error("Scan error:", error?.message || error);
       if (error?.message?.includes("API key not valid")) {
@@ -300,7 +301,7 @@ router.post("/scanPrescription", async (req, res) => {
     Language: ${lang}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: MODEL_NAME,
       contents: [
         prompt,
         { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -332,7 +333,7 @@ router.post("/compareMedicines", async (req, res) => {
     - recommendation (string)`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: MODEL_NAME,
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -356,7 +357,7 @@ router.post("/interpretQuery", async (req, res) => {
     Return JSON only.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: MODEL_NAME,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -372,9 +373,9 @@ router.post("/interpretQuery", async (req, res) => {
                 med2: { type: Type.STRING },
                 condition: { type: Type.STRING }
               }
-            },
-            required: ['intent', 'entities']
-          }
+            }
+          },
+          required: ['intent', 'entities']
         }
       }
     });
@@ -467,7 +468,7 @@ router.post("/conditionSearch", async (req, res) => {
     Return JSON array of objects with: name, category, summary.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: MODEL_NAME,
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
