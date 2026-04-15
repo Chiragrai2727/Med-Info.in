@@ -37,6 +37,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recognitionRef = useRef<any>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -144,13 +145,79 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
 
   const toggleVoiceSearch = async () => {
     if (isListening) {
-      if (mediaRecorderRef.current) {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      } else if (mediaRecorderRef.current) {
         mediaRecorderRef.current.stop();
-        setIsListening(false);
       }
+      setIsListening(false);
       return;
     }
 
+    // Try Web Speech API first for real-time experience
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+      try {
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        
+        // Map app language to BCP 47 tags
+        const langMap: Record<string, string> = {
+          en: 'en-IN',
+          hi: 'hi-IN',
+          mr: 'mr-IN',
+          ta: 'ta-IN'
+        };
+        
+        recognition.lang = langMap[language] || 'en-IN';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+
+        recognition.onstart = () => {
+          setIsListening(true);
+          showToast(t('listening'), 'info');
+        };
+
+        recognition.onresult = (event: any) => {
+          const transcript = Array.from(event.results)
+            .map((result: any) => result[0])
+            .map((result: any) => result.transcript)
+            .join('');
+          
+          setQuery(transcript);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error);
+          setIsListening(false);
+          if (event.error === 'not-allowed') {
+            showToast('Microphone access denied.', 'error');
+          } else {
+            // Fallback to Gemini if Web Speech fails
+            fallbackToGeminiVoice();
+          }
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+          if (query.trim()) {
+            setTimeout(() => handleSearch(), 500);
+          }
+        };
+
+        recognition.start();
+        return;
+      } catch (error) {
+        console.error('Speech recognition setup error:', error);
+        fallbackToGeminiVoice();
+      }
+    } else {
+      fallbackToGeminiVoice();
+    }
+  };
+
+  const fallbackToGeminiVoice = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
@@ -190,6 +257,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
 
       mediaRecorder.start();
       setIsListening(true);
+      showToast(t('listening'), 'info');
       
       // Auto-stop after 5 seconds if user doesn't stop manually
       setTimeout(() => {
@@ -248,10 +316,17 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
             // Delay hiding to allow clicks on suggestions to register
             setTimeout(() => setIsFocused(false), 200);
           }}
-          className="block w-full pl-16 pr-28 py-6 bg-white border border-gray-100 rounded-[2.5rem] text-xl focus:ring-4 focus:ring-black/5 focus:border-black transition-all shadow-xl hover:shadow-2xl placeholder:text-gray-300 font-medium"
-          placeholder={t('searchPlaceholder')}
+          className={`block w-full pl-16 pr-28 py-6 bg-white border border-gray-100 rounded-[2.5rem] text-xl focus:ring-4 focus:ring-black/5 focus:border-black transition-all shadow-xl hover:shadow-2xl placeholder:text-gray-300 font-medium ${isListening ? 'ring-4 ring-red-500/20 border-red-200' : ''}`}
+          placeholder={isListening ? t('listening') : t('searchPlaceholder')}
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">
+          {isListening && (
+            <div className="flex items-center gap-1 mr-2">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+          )}
           {query && (
             <button
               type="button"

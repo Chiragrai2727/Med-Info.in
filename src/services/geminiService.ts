@@ -22,11 +22,13 @@ const diseasesIndex = diseasesData as Record<string, string[]>;
 // Initialize Fuse.js for fuzzy searching
 const fuseOptions = {
   includeScore: true,
-  threshold: 0.4, // 0.0 is perfect match, 1.0 is no match. 0.4 allows for common misspellings.
-  ignoreLocation: true,
+  threshold: 0.35, // Slightly stricter for better quality variations
+  location: 0,
+  distance: 100,
+  minMatchCharLength: 2,
   keys: [
-    { name: 'drug_name', weight: 0.5 },
-    { name: 'brand_names_india', weight: 0.3 },
+    { name: 'drug_name', weight: 0.7 },
+    { name: 'brand_names_india', weight: 0.5 },
     { name: 'category', weight: 0.1 },
     { name: 'uses', weight: 0.1 }
   ]
@@ -182,16 +184,27 @@ export async function searchMedicines(query: string, lang: Language = 'en'): Pro
   
   const scoredResults = fuseResults.map(result => {
     let score = 0;
-    // Fuse score is 0 (perfect) to 1 (mismatch). We invert and scale it to our old scoring system.
-    // A score of 0.0 becomes 20000, 0.4 becomes ~0.
-    const baseScore = Math.max(0, (0.4 - (result.score || 0)) / 0.4) * 20000;
+    // Fuse score is 0 (perfect) to 1 (mismatch).
+    const baseScore = Math.max(0, (0.35 - (result.score || 0)) / 0.35) * 20000;
     score += baseScore;
+
+    const drugNameLower = result.item.drug_name.toLowerCase();
+    const brandsLower = result.item.brand_names_india.map(b => b.toLowerCase());
+
+    // Exact match boost (Highest priority)
+    if (drugNameLower === q || brandsLower.includes(q)) {
+      score += 100000;
+    } 
+    // Starts with boost (High priority)
+    else if (drugNameLower.startsWith(q) || brandsLower.some(b => b.startsWith(q))) {
+      score += 50000;
+    }
 
     // Banned drugs boost (to show warning early)
     if (result.item.is_banned && score > 0) score += 5000;
     
     // Index boost (exact matches in our pre-built index)
-    if (searchIndex[q]?.includes(result.item.id)) score += 10000;
+    if (searchIndex[q]?.includes(result.item.id)) score += 20000;
 
     return { medicine: result.item, score };
   }).filter(item => item.score >= 500);
@@ -200,8 +213,8 @@ export async function searchMedicines(query: string, lang: Language = 'en'): Pro
   const topScore = sorted.length > 0 ? sorted[0].score : 0;
   
   // If we have very strong matches, only show those
-  const filtered = topScore >= 10000 
-    ? sorted.filter(item => item.score >= 5000)
+  const filtered = topScore >= 50000 
+    ? sorted.filter(item => item.score >= 25000)
     : sorted;
 
   const localResults = filtered
