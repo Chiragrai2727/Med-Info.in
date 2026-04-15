@@ -349,47 +349,6 @@ export const Timetable: React.FC = () => {
             >
               {notificationsEnabled ? <Bell className="w-5 h-5" /> : <BellOff className="w-5 h-5" />}
             </button>
-            {notificationsEnabled && (
-              <button
-                onClick={async () => {
-                  try {
-                    const title = "💊 Test Notification";
-                    const options: any = {
-                      body: "If you see this, your notifications are working perfectly!",
-                      icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
-                      vibrate: [200, 100, 200],
-                    };
-                    if ('serviceWorker' in navigator) {
-                      try {
-                        const registration = await Promise.race([
-                          navigator.serviceWorker.ready,
-                          new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
-                        ]) as ServiceWorkerRegistration;
-                        await registration.showNotification(title, options);
-                      } catch (e) {
-                        console.warn("SW failed, using standard Notification", e);
-                        new Notification(title, options);
-                      }
-                    } else {
-                      new Notification(title, options);
-                    }
-                    showToast("Test notification sent!", "success");
-                    // Add a small delay so the toast shows first, then the alert if they are on PC
-                    setTimeout(() => {
-                      if (window.innerWidth > 768) {
-                        alert("If you didn't see the notification on your PC:\n\n1. Check if 'Focus Assist' or 'Do Not Disturb' is turned on in Windows/Mac.\n2. Notifications might be hidden in your Action Center (bottom right corner).\n3. Make sure you are not viewing the app inside an iframe (like AI Studio). Open it in a new tab!");
-                      }
-                    }, 500);
-                  } catch (e) {
-                    console.error(e);
-                    showToast("Failed to send test notification", "error");
-                  }
-                }}
-                className="px-4 py-3 bg-blue-50 text-blue-600 rounded-xl font-bold hover:bg-blue-100 transition-colors text-sm"
-              >
-                Test Alert
-              </button>
-            )}
             {!isAdding && (
               <button 
                 onClick={() => setIsAdding(true)}

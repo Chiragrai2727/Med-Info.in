@@ -5,13 +5,18 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export const OfflineBanner: React.FC = () => {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(!navigator.onLine);
   const { t } = useLanguage();
 
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
       setShow(true); // Show the "back online" message
+      
+      // Auto-hide the back online message after 5 seconds
+      setTimeout(() => {
+        setShow(false);
+      }, 5000);
     };
     const handleOffline = () => {
       setIsOffline(true);
