@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Check, Loader2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 interface SubscriptionModalProps {
   isOpen: boolean;
@@ -138,8 +140,6 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               
               // Record payment history
               try {
-                const { collection, addDoc } = await import('firebase/firestore');
-                const { db } = await import('../firebase');
                 await addDoc(collection(db, 'users', user.uid, 'payments'), {
                   amount: order.amount / 100,
                   tier: selectedPlan,

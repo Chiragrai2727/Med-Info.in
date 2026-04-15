@@ -32,7 +32,7 @@ export default function App() {
         <ToastProvider>
           <CompareProvider>
             <Router>
-              <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white">
+              <div className="min-h-screen bg-[var(--color-bg)] font-sans selection:bg-[var(--color-ink)] selection:text-[var(--color-bg)]">
                 <Navbar />
                 <OfflineBanner />
                 <NotificationManager />
@@ -82,16 +82,16 @@ export default function App() {
                 <InstallPrompt />
                 <AuthModal />
                 
-                <footer className="py-12 border-t border-gray-100">
+                <footer className="py-12 border-t border-[var(--color-ink)]/10">
                   <div className="max-w-7xl mx-auto px-4 text-center">
-                    <p className="text-sm text-gray-400 font-medium">
-                      © {new Date().getFullYear()} MedInfo India. All rights reserved.
+                    <p className="text-sm text-[var(--color-ink)]/50 font-medium">
+                      © {new Date().getFullYear()} aethelcare. All rights reserved.
                     </p>
                     <div className="flex justify-center gap-6 mt-4">
-                      <Link to="/privacy" className="text-xs text-gray-400 hover:text-black transition-colors font-bold uppercase tracking-widest">Privacy Policy</Link>
-                      <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-400 hover:text-black transition-colors font-bold uppercase tracking-widest">CDSCO Official</a>
+                      <Link to="/privacy" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest">Privacy Policy</Link>
+                      <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest">CDSCO Official</a>
                     </div>
-                    <p className="text-xs text-gray-300 mt-4">
+                    <p className="text-xs text-[var(--color-ink)]/30 mt-4">
                       Educational purposes only. Not a substitute for professional medical advice.
                     </p>
                   </div>

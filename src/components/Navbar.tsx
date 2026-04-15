@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const { user, profile, openAuthModal, logout } = useAuth();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100 pt-safe">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/70 backdrop-blur-xl border-b border-[var(--color-ink)]/10 pt-safe">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="group">
@@ -22,33 +22,33 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-4">
             {user ? (
               <>
-                <Link to="/timetable" className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-black transition-colors font-bold">
+                <Link to="/timetable" className="flex items-center gap-2 px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold">
                   <Calendar className="w-5 h-5" />
                   <span className="hidden sm:inline">Timetable</span>
                 </Link>
-                <Link to="/scan" className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-colors shadow-sm">
+                <Link to="/scan" className="flex items-center gap-2 px-4 py-2 bg-[var(--color-ink)] text-[var(--color-bg)] rounded-full font-bold hover:bg-[var(--color-accent)] transition-colors shadow-sm">
                   <Camera className="w-4 h-4" />
                   <span className="hidden sm:inline">Scan</span>
                 </Link>
                 <div className="relative group">
                   <button className="flex items-center gap-2">
                     {profile?.photoURL ? (
-                      <img src={profile.photoURL} alt="Profile" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
+                      <img src={profile.photoURL} alt="Profile" className="w-8 h-8 rounded-full border border-[var(--color-ink)]/20" referrerPolicy="no-referrer" />
                     ) : (
-                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                        <UserIcon className="w-4 h-4 text-gray-500" />
+                      <div className="w-8 h-8 bg-[var(--color-ink)]/10 rounded-full flex items-center justify-center">
+                        <UserIcon className="w-4 h-4 text-[var(--color-ink)]/50" />
                       </div>
                     )}
                   </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="p-4 border-b border-gray-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-[var(--color-bg)] rounded-2xl shadow-xl border border-[var(--color-ink)]/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <div className="p-4 border-b border-[var(--color-ink)]/5">
                       <p className="text-sm font-bold truncate">{profile?.displayName || user.email}</p>
                     </div>
-                    <Link to="/dashboard" className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 font-bold flex items-center gap-2 border-b border-gray-50">
+                    <Link to="/dashboard" className="w-full text-left px-4 py-3 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">
                       <LayoutDashboard className="w-4 h-4" /> Dashboard
                     </Link>
                     {profile?.role === 'admin' && (
-                      <Link to="/admin" className="w-full text-left px-4 py-3 text-sm text-blue-700 hover:bg-blue-50 font-bold flex items-center gap-2 border-b border-gray-50">
+                      <Link to="/admin" className="w-full text-left px-4 py-3 text-sm text-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">
                         <ShieldCheck className="w-4 h-4" /> Admin Panel
                       </Link>
                     )}
@@ -59,7 +59,7 @@ export const Navbar: React.FC = () => {
                 </div>
               </>
             ) : (
-              <button onClick={openAuthModal} className="text-sm font-bold text-gray-600 hover:text-black transition-colors">
+              <button onClick={openAuthModal} className="text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors">
                 Sign In
               </button>
             )}

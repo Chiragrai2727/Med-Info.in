@@ -3,11 +3,14 @@
 
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-bg: #F5F2ED;
+  --color-ink: #4A0404;
+  --color-accent: #9B1C1C;
 }
 
 @layer base {
   body {
-    @apply bg-white text-black antialiased;
+    @apply bg-[var(--color-bg)] text-[var(--color-ink)] antialiased;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
   }
@@ -42,5 +45,5 @@
 }
 
 .glass-dark {
-  @apply bg-black/80 backdrop-blur-xl border border-white/10;
+  @apply bg-[var(--color-ink)]/80 backdrop-blur-xl border border-white/10;
 }

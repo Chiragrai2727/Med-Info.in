@@ -94,12 +94,12 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
       {/* Logo Text */}
       {showText && (
         <div className="flex flex-col leading-none">
-          <span className={`${textSizes[size]} font-black tracking-tight text-black flex items-center gap-1`}>
-            MedInfo
-            <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
+          <span className={`${textSizes[size]} font-black tracking-tight text-[var(--color-ink)] flex items-center gap-1`}>
+            aethelcare
+            <span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full animate-pulse" />
           </span>
-          <span className={`${size === 'xl' ? 'text-xl' : 'text-[9px]'} font-black uppercase tracking-[0.4em] text-gray-400 mt-1`}>
-            India
+          <span className={`${size === 'xl' ? 'text-xl' : 'text-[9px]'} font-black uppercase tracking-[0.4em] text-[var(--color-ink)]/50 mt-1`}>
+            Care
           </span>
         </div>
       )}

@@ -9,7 +9,7 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   en: {
-    appName: 'MedInfo India',
+    appName: 'aethelcare',
     tagline: 'Search any medicine. Understand it instantly.',
     searchPlaceholder: 'Search for medicine information...',
     disclaimer: 'This platform provides general medicine information. Always consult a qualified doctor before taking any medication.',
@@ -50,7 +50,7 @@ const translations: Record<Language, Record<string, string>> = {
     share: 'Share',
   },
   hi: {
-    appName: 'मेडइन्फो इंडिया',
+    appName: 'एथेलकेयर',
     tagline: 'किसी भी दवा को खोजें। उसे तुरंत समझें।',
     searchPlaceholder: 'दवा की जानकारी खोजें...',
     disclaimer: 'यह प्लेटफॉर्म सामान्य दवा की जानकारी प्रदान करता है। कोई भी दवा लेने से पहले हमेशा एक योग्य डॉक्टर से सलाह लें।',
@@ -91,7 +91,7 @@ const translations: Record<Language, Record<string, string>> = {
     share: 'साझा करें',
   },
   mr: {
-    appName: 'मेडइन्फो इंडिया',
+    appName: 'एथेलकेयर',
     tagline: 'कोणतेही औषध शोधा. ते त्वरित समजून घ्या.',
     searchPlaceholder: 'औषधाची माहिती शोधा...',
     disclaimer: 'हे प्लॅटफॉर्म सामान्य औषधांची माहिती प्रदान करते. कोणतेही औषध घेण्यापूर्वी नेहमी तज्ञ डॉक्टरांचा सल्ला घ्या.',
@@ -132,7 +132,7 @@ const translations: Record<Language, Record<string, string>> = {
     share: 'शेअर करा',
   },
   ta: {
-    appName: 'மெட்இன்போ இந்தியா',
+    appName: 'ஏதெல்கேர்',
     tagline: 'எந்த மருந்தையும் தேடுங்கள். உடனடியாக புரிந்து கொள்ளுங்கள்.',
     searchPlaceholder: 'மருந்து தகவலைத் தேடுங்கள்...',
     disclaimer: 'இந்த தளம் பொதுவான மருந்து தகவல்களை வழங்குகிறது. எந்தவொரு மருந்தையும் எடுத்துக்கொள்வதற்கு முன் எப்போதும் தகுதியுள்ள மருத்துவரை அணுகவும்.',
