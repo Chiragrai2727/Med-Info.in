@@ -4,7 +4,7 @@ import OpenAI from "openai";
 import conditionMedicines from "../data/condition_medicines.json";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "",
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY || "",
   dangerouslyAllowBrowser: true // Required for client-side usage in this environment
 });
 
