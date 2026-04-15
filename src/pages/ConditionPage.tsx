@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
-import { getMedicinesForCondition } from '../services/aiService';
+import { getMedicinesForCondition } from '../services/geminiService';
 import { DISEASES } from '../types';
 import { motion } from 'motion/react';
 import { ChevronLeft, ArrowRight, Loader2, AlertCircle, ShieldCheck } from 'lucide-react';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
-import { compareMedicines } from '../services/aiService';
+import { compareMedicines } from '../services/geminiService';
 import { Medicine } from '../types';
 import { motion } from 'motion/react';
 import { ChevronLeft, Loader2, Scale, AlertTriangle, ShieldCheck } from 'lucide-react';

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Image as ImageIcon, Loader2, Volume2, VolumeX, AlertCircle, X, CheckCircle2, FileText, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { scanMedication, scanPrescription, scanLabReport, generateTTS, fetchMedicineDetails, PrescriptionResult, LabReportResult } from '../services/aiService';
+import { scanMedication, scanPrescription, scanLabReport, generateTTS, fetchMedicineDetails, PrescriptionResult, LabReportResult } from '../services/geminiService';
 import { useLanguage } from '../LanguageContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { Medicine } from '../types';
