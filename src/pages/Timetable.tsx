@@ -197,7 +197,7 @@ export const Timetable: React.FC = () => {
     if (permission === "granted") {
       showToast("Notifications enabled!", "success");
       try {
-        const title = "🔔 MedInfo India Enabled";
+        const title = "🔔 aethelcare Enabled";
         const options: any = {
           body: "You'll now receive timely medication reminders and health tips.",
           icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",

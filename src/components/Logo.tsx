@@ -99,7 +99,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
             <span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full animate-pulse" />
           </span>
           <span className={`${size === 'xl' ? 'text-xl' : 'text-[9px]'} font-black uppercase tracking-[0.4em] text-[var(--color-ink)]/50 mt-1`}>
-            Care
+            India
           </span>
         </div>
       )}

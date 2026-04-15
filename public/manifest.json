@@ -1,6 +1,6 @@
 {
-  "name": "MedInfo India",
-  "short_name": "MedInfo",
+  "name": "aethelcare",
+  "short_name": "aethelcare",
   "description": "Search any medicine. Understand it instantly.",
   "start_url": "/",
   "display": "standalone",

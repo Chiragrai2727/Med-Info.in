@@ -64,7 +64,7 @@ export const InstallPrompt: React.FC = () => {
             </button>
           </div>
           <div>
-            <h3 className="text-lg font-black text-black mb-3">Install MedInfo</h3>
+            <h3 className="text-lg font-black text-black mb-3">Install aethelcare</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-600 font-medium">
               <div className="flex items-center gap-2">
                 <WifiOff className="w-4 h-4 text-blue-500" />

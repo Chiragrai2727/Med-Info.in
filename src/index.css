@@ -41,9 +41,18 @@
 }
 
 .glass {
-  @apply bg-white/40 backdrop-blur-xl border border-white/20;
+  @apply bg-white/30 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(74,4,4,0.05)];
 }
 
 .glass-dark {
-  @apply bg-[var(--color-ink)]/80 backdrop-blur-xl border border-white/10;
+  @apply bg-[var(--color-ink)]/70 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)];
+}
+
+.animate-fade-in {
+  @apply animate-[fadeIn_0.6s_ease-out_forwards];
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
