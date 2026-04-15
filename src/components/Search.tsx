@@ -124,13 +124,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
     const interpretation = await interpretQuery(query, language);
     setIsLoading(false);
 
-    if (interpretation.intent === 'compare' && interpretation.medicines.length >= 2) {
-      navigate(`/compare/${encodeURIComponent(interpretation.medicines[0])}/${encodeURIComponent(interpretation.medicines[1])}`);
-    } else if (interpretation.intent === 'disease' && interpretation.diseases.length > 0) {
-      // Find closest matching disease ID or just search by name
-      navigate(`/condition/${interpretation.diseases[0].toLowerCase()}`);
-    } else if (interpretation.medicines.length > 0) {
-      navigate(`/medicine/${encodeURIComponent(interpretation.medicines[0])}`);
+    if (interpretation.intent === 'compare' && interpretation.entities.med1 && interpretation.entities.med2) {
+      navigate(`/compare/${encodeURIComponent(interpretation.entities.med1)}/${encodeURIComponent(interpretation.entities.med2)}`);
+    } else if (interpretation.intent === 'condition' && interpretation.entities.condition) {
+      navigate(`/condition/${interpretation.entities.condition.toLowerCase()}`);
+    } else if (interpretation.entities.medicine) {
+      navigate(`/medicine/${encodeURIComponent(interpretation.entities.medicine)}`);
+    } else {
+      navigate(`/medicine/${encodeURIComponent(query)}`);
     }
     setShowSuggestions(false);
   };
