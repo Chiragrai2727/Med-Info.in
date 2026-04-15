@@ -334,9 +334,13 @@ export const MedicineDetail: React.FC = () => {
                 <span className="px-4 py-1.5 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   {medicine.ayurvedic_or_allopathic}
                 </span>
-                {medicine.india_regulatory_status?.toLowerCase().includes('approved') && (
-                  <span className="px-4 py-1.5 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-1.5">
+                {medicine.india_regulatory_status?.toLowerCase().includes('approved') || medicine.source === 'Verified Database' ? (
+                  <span className="px-4 py-1.5 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-1.5 border border-green-100">
                     <ShieldCheck className="w-3.5 h-3.5" /> CDSCO Verified
+                  </span>
+                ) : (
+                  <span className="px-4 py-1.5 bg-yellow-50 text-yellow-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-1.5 border border-yellow-100">
+                    <Info className="w-3.5 h-3.5" /> AI Verified
                   </span>
                 )}
                 {medicine.is_banned && (

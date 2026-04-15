@@ -1,6 +1,7 @@
 import { Medicine, Language } from "../types";
 import { offlineService } from "./offlineService";
 import { GoogleGenAI, Type } from "@google/genai";
+import conditionMedicines from "../data/condition_medicines.json";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 const MODEL_NAME = "gemini-3-flash-preview";
@@ -37,11 +38,12 @@ export function isDrugBanned(name: string): boolean {
 }
 
 export async function fetchMedicineDetails(query: string, lang: Language = 'en'): Promise<Medicine | null> {
-  if (!navigator.onLine) {
-    const cached = offlineService.getSearchResults(query);
-    if (cached && cached.length > 0) return cached[0] as unknown as Medicine;
-    return null;
-  }
+  // 1. Check offline cache first
+  const cached = offlineService.getMedicine(query);
+  if (cached) return { ...cached, source: 'Verified Database' };
+
+  if (!navigator.onLine) return null;
+
   try {
     const languageMap: Record<string, string> = {
       'en': 'English',
@@ -52,7 +54,9 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
     
     const prompt = `Provide detailed medical information for the medicine "${query}".
     The response MUST be in ${languageMap[lang as string] || 'English'}.
-    Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
+    CRITICAL: Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines for India.
+    Include all fields required by the schema accurately. For arrays, provide a list of strings.
+    If the drug is banned in India, set "is_banned" to true.`;
 
     const response = await ai.models.generateContent({
       model: MODEL_NAME,
@@ -87,7 +91,8 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
             who_should_not_take: { type: Type.STRING },
             food_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
             alcohol_warning: { type: Type.STRING },
-            missed_dose: { type: Type.STRING }
+            missed_dose: { type: Type.STRING },
+            is_banned: { type: Type.BOOLEAN }
           },
           required: [
             "drug_name", "brand_names_india", "category", "drug_class", "mechanism_of_action",
@@ -103,8 +108,9 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
 
     const data = JSON.parse(response.text || "{}");
     if (data.drug_name) {
-      offlineService.saveSearchResults(query, [data]);
-      return data;
+      const medicineData = { ...data, source: 'AI Analysis' };
+      offlineService.saveMedicine(medicineData);
+      return medicineData;
     }
     throw new Error("Medicine data not found in response");
   } catch (e: any) {
@@ -127,7 +133,8 @@ export async function searchMedicines(query: string, lang: Language = 'en') {
     try {
       const prompt = `Suggest 5 Indian medicines or health conditions matching "${query}".
       Return JSON array of objects with: name, category, summary.
-      Language: ${lang}.`;
+      Language: ${lang}.
+      CRITICAL: Ensure suggestions are common in India and comply with CDSCO standards.`;
 
       const response = await ai.models.generateContent({
         model: MODEL_NAME,
@@ -169,10 +176,16 @@ export async function searchMedicines(query: string, lang: Language = 'en') {
 }
 
 export async function getMedicinesForCondition(condition: string, lang: Language = 'en') {
+  // 1. Check local mapping for common conditions (Instant load)
+  const conditionKey = condition.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+  const localData = (conditionMedicines as any)[conditionKey];
+  if (localData) return localData;
+
   try {
     const prompt = `List 6 common medicines used for "${condition}" in India. 
     Language: ${lang}.
-    Return JSON array of objects with: name, category, summary.`;
+    CRITICAL: Only list medicines approved by CDSCO.
+    Return JSON array of objects with: name, category, summary, india_regulatory_status.`;
 
     const response = await ai.models.generateContent({
       model: MODEL_NAME,
@@ -186,7 +199,8 @@ export async function getMedicinesForCondition(condition: string, lang: Language
             properties: {
               name: { type: Type.STRING },
               category: { type: Type.STRING },
-              summary: { type: Type.STRING }
+              summary: { type: Type.STRING },
+              india_regulatory_status: { type: Type.STRING }
             },
             required: ["name", "category", "summary"]
           }
