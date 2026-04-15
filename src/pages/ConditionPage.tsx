@@ -11,6 +11,7 @@ export const ConditionPage: React.FC = () => {
   const { t, language } = useLanguage();
   const [medicines, setMedicines] = useState<{ name: string; category: string; summary: string; india_regulatory_status?: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const condition = DISEASES.find(d => d.id === id);
 
@@ -18,9 +19,16 @@ export const ConditionPage: React.FC = () => {
     const loadData = async () => {
       if (condition) {
         setLoading(true);
-        const data = await getMedicinesForCondition(condition.name, language);
-        setMedicines(data);
-        setLoading(false);
+        setErrorMsg(null);
+        try {
+          const data = await getMedicinesForCondition(condition.name, language);
+          setMedicines(data);
+        } catch (e: any) {
+          console.error(e);
+          setErrorMsg(e.message);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     loadData();
@@ -67,6 +75,22 @@ export const ConditionPage: React.FC = () => {
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="w-10 h-10 animate-spin text-black" />
             <p className="text-gray-500 font-medium">{t('loading')}</p>
+          </div>
+        ) : errorMsg ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-6 text-center">
+            <div className="w-20 h-20 bg-red-50 rounded-[2rem] flex items-center justify-center">
+              <AlertCircle className="w-10 h-10 text-red-500" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-black text-black mb-2">Search Failed</h3>
+              <p className="text-gray-500 font-medium max-w-md mx-auto">{errorMsg}</p>
+            </div>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-8 py-3 bg-black text-white rounded-full font-bold shadow-lg hover:bg-gray-800 transition-all"
+            >
+              Try Again
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

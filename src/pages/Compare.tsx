@@ -20,14 +20,22 @@ export const Compare: React.FC = () => {
     }[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
       if (med1 && med2) {
         setLoading(true);
-        const result = await compareMedicines(med1, med2, language);
-        setData(result);
-        setLoading(false);
+        setErrorMsg(null);
+        try {
+          const result = await compareMedicines(med1, med2, language);
+          setData(result);
+        } catch (e: any) {
+          console.error(e);
+          setErrorMsg(e.message);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     loadData();
@@ -84,12 +92,12 @@ export const Compare: React.FC = () => {
           <AlertTriangle className="w-10 h-10 text-yellow-500" />
         </div>
         <h2 className="text-4xl font-black text-black mb-4 tracking-tight">
-          {!navigator.onLine ? 'Offline: Comparison Unavailable' : 'Comparison data not found'}
+          {errorMsg ? "Comparison Failed" : (!navigator.onLine ? 'Offline: Comparison Unavailable' : 'Comparison data not found')}
         </h2>
         <p className="text-gray-500 mb-12 max-w-md font-medium">
-          {!navigator.onLine 
+          {errorMsg ? errorMsg : (!navigator.onLine 
             ? "You're currently offline and this comparison hasn't been cached yet. Please connect to the internet to view this comparison."
-            : "We couldn't find or generate comparison data for these medicines. Please try again later."}
+            : "We couldn't find or generate comparison data for these medicines. Please try again later.")}
         </p>
         <Link to="/" className="px-8 py-4 bg-black text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-gray-800 transition-all">
           <ChevronLeft className="w-4 h-4" /> Back to Home

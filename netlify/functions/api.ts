@@ -96,7 +96,7 @@ router.get("/searchMedicine", async (req, res) => {
     Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -175,7 +175,7 @@ router.get("/searchMedicine", async (req, res) => {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -216,7 +216,7 @@ router.get("/searchMedicine", async (req, res) => {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -288,7 +288,7 @@ router.post("/scanPrescription", async (req, res) => {
     Language: ${lang}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-1.5-flash",
       contents: [
         prompt,
         { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -320,7 +320,7 @@ router.post("/compareMedicines", async (req, res) => {
     - recommendation (string)`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -362,14 +362,18 @@ router.post("/conditionSearch", async (req, res) => {
     Return JSON array of objects with: name, category, summary.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
 
     res.json(JSON.parse(response.text || "[]"));
-  } catch (error) {
-    res.status(500).json({ error: "Condition search failed" });
+  } catch (error: any) {
+    console.error("Condition search error:", error?.message || error);
+    if (error?.message?.includes("API key not valid")) {
+      return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+    }
+    res.status(500).json({ error: "Condition search failed", details: error?.message || String(error) });
   }
 });
 
