@@ -7,7 +7,7 @@ import { useAuth } from '../AuthContext';
 import { PremiumPaywall } from '../components/PremiumPaywall';
 import { useToast } from '../ToastContext';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
-import { searchMedicines, isDrugBanned } from '../services/geminiService';
+import { searchMedicines, isDrugBanned } from '../services/aiService';
 import { useLanguage } from '../LanguageContext';
 
 interface Schedule {

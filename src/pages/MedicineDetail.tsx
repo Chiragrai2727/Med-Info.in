@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Medicine } from '../types';
-import { fetchMedicineDetails, generateTTS } from '../services/geminiService';
+import { fetchMedicineDetails, generateTTS } from '../services/aiService';
 import { Search } from '../components/Search';
 import { motion } from 'motion/react';
 import { 

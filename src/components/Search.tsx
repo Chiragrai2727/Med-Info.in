@@ -3,7 +3,7 @@ import { Search as SearchIcon, X, Loader2, Mic, MicOff, TrendingUp } from 'lucid
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
-import { searchMedicines, interpretQuery, transcribeAudio } from '../services/geminiService';
+import { searchMedicines, interpretQuery, transcribeAudio } from '../services/aiService';
 import { motion, AnimatePresence } from 'motion/react';
 import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';

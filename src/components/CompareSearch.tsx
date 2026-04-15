@@ -4,7 +4,7 @@ import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Scale, ArrowRight, Search, Mic, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { transcribeAudio } from '../services/geminiService';
+import { transcribeAudio } from '../services/aiService';
 import { useRef } from 'react';
 
 export const CompareSearch: React.FC = () => {
