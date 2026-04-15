@@ -1,7 +1,11 @@
 import { Medicine, Language } from "../types";
 import { offlineService } from "./offlineService";
+import { GoogleGenAI, Type } from "@google/genai";
 
-// Helper to call our new backend API
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const MODEL_NAME = "gemini-3-flash-preview";
+
+// Helper to call our new backend API (for non-AI tasks like autocomplete)
 async function fetchFromAPI(endpoint: string, options: RequestInit = {}) {
   const res = await fetch(endpoint, options);
   
@@ -39,33 +43,68 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
     return null;
   }
   try {
-    const res = await fetch(`/api/searchMedicine?query=${encodeURIComponent(query)}&lang=${lang}`);
+    const languageMap: Record<string, string> = {
+      'en': 'English',
+      'hi': 'Hindi',
+      'mr': 'Marathi',
+      'ta': 'Tamil'
+    };
     
-    // Check if response is OK and is JSON
-    const contentType = res.headers.get("content-type");
-    if (!res.ok || !contentType || !contentType.includes("application/json")) {
-      const text = await res.text();
-      console.error("API Error Response:", text);
-      
-      if (text.includes("<!DOCTYPE html>") || text.includes("<!doctype html>")) {
-        throw new Error("Server returned an HTML page instead of data. This usually means the API route was not found (404) or there was a server error.");
-      }
-      
-      try {
-        const errorData = JSON.parse(text);
-        if (errorData.error === "Invalid API Key") {
-          throw new Error(errorData.details);
-        }
-        throw new Error(errorData.error || `API Error: ${res.statusText}`);
-      } catch (parseErr) {
-        throw new Error(`API Error (${res.status}): ${res.statusText}`);
-      }
-    }
+    const prompt = `Provide detailed medical information for the medicine "${query}".
+    The response MUST be in ${languageMap[lang as string] || 'English'}.
+    Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
-    const data = await res.json();
-    if (data.data) {
-      offlineService.saveSearchResults(query, [data.data]);
-      return data.data;
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            drug_name: { type: Type.STRING },
+            brand_names_india: { type: Type.ARRAY, items: { type: Type.STRING } },
+            category: { type: Type.STRING },
+            drug_class: { type: Type.STRING },
+            mechanism_of_action: { type: Type.STRING },
+            uses: { type: Type.ARRAY, items: { type: Type.STRING } },
+            dosage_common: { type: Type.STRING },
+            side_effects_common: { type: Type.ARRAY, items: { type: Type.STRING } },
+            side_effects_serious: { type: Type.ARRAY, items: { type: Type.STRING } },
+            overdose_effects: { type: Type.STRING },
+            contraindications: { type: Type.ARRAY, items: { type: Type.STRING } },
+            drug_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
+            pregnancy_safety: { type: Type.STRING },
+            kidney_liver_warning: { type: Type.STRING },
+            how_it_works_in_body: { type: Type.STRING },
+            onset_of_action: { type: Type.STRING },
+            duration_of_effect: { type: Type.STRING },
+            prescription_required: { type: Type.BOOLEAN },
+            ayurvedic_or_allopathic: { type: Type.STRING },
+            india_regulatory_status: { type: Type.STRING },
+            quick_summary: { type: Type.STRING },
+            who_should_take: { type: Type.STRING },
+            who_should_not_take: { type: Type.STRING },
+            food_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
+            alcohol_warning: { type: Type.STRING },
+            missed_dose: { type: Type.STRING }
+          },
+          required: [
+            "drug_name", "brand_names_india", "category", "drug_class", "mechanism_of_action",
+            "uses", "dosage_common", "side_effects_common", "side_effects_serious", "overdose_effects",
+            "contraindications", "drug_interactions", "pregnancy_safety", "kidney_liver_warning",
+            "how_it_works_in_body", "onset_of_action", "duration_of_effect", "prescription_required",
+            "ayurvedic_or_allopathic", "india_regulatory_status", "quick_summary", "who_should_take",
+            "who_should_not_take", "food_interactions", "alcohol_warning", "missed_dose"
+          ]
+        }
+      }
+    });
+
+    const data = JSON.parse(response.text || "{}");
+    if (data.drug_name) {
+      offlineService.saveSearchResults(query, [data]);
+      return data;
     }
     throw new Error("Medicine data not found in response");
   } catch (e: any) {
@@ -86,11 +125,31 @@ export async function searchMedicines(query: string, lang: Language = 'en') {
     
     // 3. Otherwise, ask AI for suggestions
     try {
-      const aiSuggestions = await fetchFromAPI('/api/searchSuggestions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, lang })
+      const prompt = `Suggest 5 Indian medicines or health conditions matching "${query}".
+      Return JSON array of objects with: name, category, summary.
+      Language: ${lang}.`;
+
+      const response = await ai.models.generateContent({
+        model: MODEL_NAME,
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                name: { type: Type.STRING },
+                category: { type: Type.STRING },
+                summary: { type: Type.STRING }
+              },
+              required: ["name", "category", "summary"]
+            }
+          }
+        }
       });
+      
+      const aiSuggestions = JSON.parse(response.text || "[]");
       
       // Merge and remove duplicates
       const allResults = [...formattedResults];
@@ -111,11 +170,31 @@ export async function searchMedicines(query: string, lang: Language = 'en') {
 
 export async function getMedicinesForCondition(condition: string, lang: Language = 'en') {
   try {
-    return await fetchFromAPI('/api/conditionSearch', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ condition, lang })
+    const prompt = `List 6 common medicines used for "${condition}" in India. 
+    Language: ${lang}.
+    Return JSON array of objects with: name, category, summary.`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              category: { type: Type.STRING },
+              summary: { type: Type.STRING }
+            },
+            required: ["name", "category", "summary"]
+          }
+        }
+      }
     });
+
+    return JSON.parse(response.text || "[]");
   } catch (e) {
     return [];
   }
@@ -123,11 +202,33 @@ export async function getMedicinesForCondition(condition: string, lang: Language
 
 export async function compareMedicines(med1: string, med2: string, lang: Language = 'en') {
   try {
-    return await fetchFromAPI('/api/compareMedicines', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ med1, med2, lang })
+    const prompt = `Compare the medicines "${med1}" and "${med2}".
+    Language: ${lang}.
+    Return JSON with:
+    - similarities (array of strings)
+    - differences (array of strings)
+    - interactions (string describing if they interact with each other)
+    - recommendation (string)`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            similarities: { type: Type.ARRAY, items: { type: Type.STRING } },
+            differences: { type: Type.ARRAY, items: { type: Type.STRING } },
+            interactions: { type: Type.STRING },
+            recommendation: { type: Type.STRING }
+          },
+          required: ["similarities", "differences", "interactions", "recommendation"]
+        }
+      }
     });
+
+    return JSON.parse(response.text || "{}");
   } catch (e) {
     return null;
   }
@@ -172,39 +273,147 @@ export interface LabReportResult {
 
 export async function scanPrescription(base64Image: string, lang: Language = 'en'): Promise<PrescriptionResult | null> {
   try {
-    return await fetchFromAPI('/api/scanPrescription', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Image, lang })
+    const prompt = `Analyze this prescription image. Extract the medicines prescribed.
+    Return JSON with:
+    - patient_name (string or null)
+    - doctor_name (string or null)
+    - medicines (array of objects with: name, dosage, frequency, duration, instructions)
+    - general_advice (string)
+    Language: ${lang}`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        prompt,
+        { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+      ],
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            patient_name: { type: Type.STRING },
+            doctor_name: { type: Type.STRING },
+            medicines: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  dosage: { type: Type.STRING },
+                  frequency: { type: Type.STRING },
+                  duration: { type: Type.STRING },
+                  instructions: { type: Type.STRING }
+                },
+                required: ["name", "dosage", "frequency", "duration", "instructions"]
+              }
+            },
+            general_advice: { type: Type.STRING }
+          },
+          required: ["medicines", "general_advice"]
+        }
+      }
     });
+
+    return JSON.parse(response.text || "{}");
   } catch (e: any) {
-    if (e.message?.includes("API key")) throw e;
+    console.error("scanPrescription error:", e);
     return null;
   }
 }
 
 export async function scanMedication(base64Image: string, lang: Language = 'en'): Promise<{ name: string; category: string; description: string; confidence: number } | null> {
   try {
-    return await fetchFromAPI('/api/scanMedication', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Image, lang })
+    const prompt = `Identify the medicine in this image. Provide its name, category, a brief description, and your confidence level (0-100).
+    Language: ${lang}`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        prompt,
+        { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+      ],
+      config: { 
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            category: { type: Type.STRING },
+            description: { type: Type.STRING },
+            confidence: { type: Type.NUMBER }
+          },
+          required: ["name", "category", "description", "confidence"]
+        }
+      }
     });
+
+    return JSON.parse(response.text || "{}");
   } catch (e: any) {
-    if (e.message?.includes("API key")) throw e;
+    console.error("scanMedication error:", e);
     return null;
   }
 }
 
 export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
   try {
-    return await fetchFromAPI('/api/scanLabReport', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Image, lang })
+    const prompt = `Analyze this lab report image. Extract the patient name, test date, and all test parameters (name, value, unit, reference range).
+    For each parameter, determine the status (Normal, High, Low, Critical) and provide a brief interpretation.
+    Finally, provide an overall summary and recommendations.
+    Language: ${lang}`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        prompt,
+        { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+      ],
+      config: { 
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            patient_name: { type: Type.STRING },
+            test_date: { type: Type.STRING },
+            parameters: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  value: { type: Type.STRING },
+                  unit: { type: Type.STRING },
+                  reference_range: { type: Type.STRING },
+                  status: { type: Type.STRING },
+                  interpretation: { type: Type.STRING }
+                },
+                required: ["name", "value", "unit", "reference_range", "status", "interpretation"]
+              }
+            },
+            summary: { type: Type.STRING },
+            recommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
+            abnormalFindings: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  testName: { type: Type.STRING },
+                  result: { type: Type.STRING },
+                  normalRange: { type: Type.STRING },
+                  interpretation: { type: Type.STRING }
+                },
+                required: ["testName", "result", "normalRange", "interpretation"]
+              }
+            }
+          },
+          required: ["parameters", "summary", "recommendations"]
+        }
+      }
     });
+
+    return JSON.parse(response.text || "{}");
   } catch (e: any) {
-    if (e.message?.includes("API key")) throw e;
+    console.error("scanLabReport error:", e);
     return null;
   }
 }
@@ -212,25 +421,55 @@ export async function scanLabReport(base64Image: string, lang: Language = 'en'):
 // Stubs for other functions to prevent build errors
 export async function interpretQuery(query: string, lang: Language = 'en'): Promise<{ intent: string, entities: { medicine?: string, condition?: string, med1?: string, med2?: string } }> {
   try {
-    const data = await fetchFromAPI('/api/interpretQuery', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, lang })
+    const prompt = `Analyze the user query: "${query}". 
+    Determine the intent: 'search' (single medicine), 'compare' (two medicines), or 'condition' (medicines for a disease).
+    Extract entities: 'medicine' (name), 'med1', 'med2', 'condition'.
+    Return JSON only.`;
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            intent: { type: Type.STRING },
+            entities: {
+              type: Type.OBJECT,
+              properties: {
+                medicine: { type: Type.STRING },
+                med1: { type: Type.STRING },
+                med2: { type: Type.STRING },
+                condition: { type: Type.STRING }
+              }
+            }
+          },
+          required: ['intent', 'entities']
+        }
+      }
     });
-    return data;
+
+    return JSON.parse(response.text || "{}");
   } catch (e) {
     console.error("interpretQuery error:", e);
     return { intent: 'search', entities: { medicine: query } };
   }
 }
+
 export async function transcribeAudio(base64Audio: string, lang: Language = 'en') {
   try {
-    const data = await fetchFromAPI('/api/transcribeAudio', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Audio, lang })
+    const prompt = "Transcribe this audio. Return only the transcription text.";
+
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+        { text: prompt },
+        { inlineData: { data: base64Audio, mimeType: 'audio/webm' } }
+      ]
     });
-    return data.transcript;
+
+    return response.text;
   } catch (e) {
     console.error("transcribeAudio error:", e);
     return null;
