@@ -45,6 +45,7 @@ export const MedicineDetail: React.FC = () => {
   const { addToCompare, removeFromCompare, compareList } = useCompare();
   const [medicine, setMedicine] = useState<Medicine | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speakingSection, setSpeakingSection] = useState<string | null>(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
@@ -56,9 +57,16 @@ export const MedicineDetail: React.FC = () => {
     const loadData = async () => {
       if (name) {
         setLoading(true);
-        const data = await fetchMedicineDetails(name, language);
-        setMedicine(data);
-        setLoading(false);
+        setErrorMsg(null);
+        try {
+          const data = await fetchMedicineDetails(name, language);
+          setMedicine(data);
+        } catch (e: any) {
+          setErrorMsg(e.message);
+          setMedicine(null);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     loadData();
@@ -223,9 +231,11 @@ export const MedicineDetail: React.FC = () => {
         <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mb-6">
           <AlertCircle className="w-10 h-10 text-gray-300" />
         </div>
-        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">Medicine not found</h2>
+        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">
+          {errorMsg ? "Error Loading Medicine" : "Medicine not found"}
+        </h2>
         <p className="text-gray-500 mb-12 max-w-md font-medium">
-          We couldn't find information for "{name}". Try searching for a generic name or a popular brand.
+          {errorMsg ? errorMsg : `We couldn't find information for "${name}". Try searching for a generic name or a popular brand.`}
         </p>
         
         <div className="w-full max-w-md mb-12">

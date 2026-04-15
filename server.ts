@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Initialize Firebase Client SDK for backend use
-const firebaseConfigPath = path.join(__dirname, 'firebase-applet-config.json');
+const firebaseConfigPath = path.join(process.cwd(), 'firebase-applet-config.json');
 let db: any = null;
 if (fs.existsSync(firebaseConfigPath)) {
   const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf8'));
@@ -74,7 +74,7 @@ async function startServer() {
       
       const prompt = `Provide detailed medical information for the medicine "${searchQuery}".
       The response MUST be in ${languageMap[lang as string] || 'English'}.
-      Include: drug_name, brand_names_india (array), category, uses (array), side_effects (array), dosage_guidelines, warnings, missed_dose_instructions, and india_regulatory_status (e.g., "CDSCO Approved", "Banned", "Prescription Required (Schedule H)", "OTC").`;
+      Include all fields required by the schema accurately. For arrays, provide a list of strings.`;
 
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -87,14 +87,38 @@ async function startServer() {
               drug_name: { type: Type.STRING },
               brand_names_india: { type: Type.ARRAY, items: { type: Type.STRING } },
               category: { type: Type.STRING },
+              drug_class: { type: Type.STRING },
+              mechanism_of_action: { type: Type.STRING },
               uses: { type: Type.ARRAY, items: { type: Type.STRING } },
-              side_effects: { type: Type.ARRAY, items: { type: Type.STRING } },
-              dosage_guidelines: { type: Type.STRING },
-              warnings: { type: Type.STRING },
-              missed_dose_instructions: { type: Type.STRING },
-              india_regulatory_status: { type: Type.STRING }
+              dosage_common: { type: Type.STRING },
+              side_effects_common: { type: Type.ARRAY, items: { type: Type.STRING } },
+              side_effects_serious: { type: Type.ARRAY, items: { type: Type.STRING } },
+              overdose_effects: { type: Type.STRING },
+              contraindications: { type: Type.ARRAY, items: { type: Type.STRING } },
+              drug_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
+              pregnancy_safety: { type: Type.STRING },
+              kidney_liver_warning: { type: Type.STRING },
+              how_it_works_in_body: { type: Type.STRING },
+              onset_of_action: { type: Type.STRING },
+              duration_of_effect: { type: Type.STRING },
+              prescription_required: { type: Type.BOOLEAN },
+              ayurvedic_or_allopathic: { type: Type.STRING },
+              india_regulatory_status: { type: Type.STRING },
+              quick_summary: { type: Type.STRING },
+              who_should_take: { type: Type.STRING },
+              who_should_not_take: { type: Type.STRING },
+              food_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
+              alcohol_warning: { type: Type.STRING },
+              missed_dose: { type: Type.STRING }
             },
-            required: ["drug_name", "brand_names_india", "category", "uses", "side_effects", "dosage_guidelines", "warnings", "missed_dose_instructions", "india_regulatory_status"]
+            required: [
+              "drug_name", "brand_names_india", "category", "drug_class", "mechanism_of_action",
+              "uses", "dosage_common", "side_effects_common", "side_effects_serious", "overdose_effects",
+              "contraindications", "drug_interactions", "pregnancy_safety", "kidney_liver_warning",
+              "how_it_works_in_body", "onset_of_action", "duration_of_effect", "prescription_required",
+              "ayurvedic_or_allopathic", "india_regulatory_status", "quick_summary", "who_should_take",
+              "who_should_not_take", "food_interactions", "alcohol_warning", "missed_dose"
+            ]
           }
         }
       });
@@ -114,9 +138,120 @@ async function startServer() {
       }
 
       res.json({ source: 'ai', data });
-    } catch (error) {
-      console.error("Error in /api/searchMedicine:", error);
-      res.status(500).json({ error: "Failed to fetch medicine details" });
+    } catch (error: any) {
+      console.error("Error in /api/searchMedicine:", error?.message || error);
+      if (error?.message?.includes("API key not valid")) {
+        return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+      }
+      res.status(500).json({ error: "Failed to fetch medicine details", details: error?.message || String(error) });
+    }
+  });
+
+  app.post("/api/scanMedication", async (req, res) => {
+    try {
+      const { base64Image, lang = 'en' } = req.body;
+      if (!base64Image) return res.status(400).json({ error: "Image required" });
+
+      const prompt = `Identify the medicine in this image. Provide its name, category, a brief description, and your confidence level (0-100).
+      Language: ${lang}`;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: [
+          prompt,
+          { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+        ],
+        config: { 
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              category: { type: Type.STRING },
+              description: { type: Type.STRING },
+              confidence: { type: Type.NUMBER }
+            },
+            required: ["name", "category", "description", "confidence"]
+          }
+        }
+      });
+
+      res.json(JSON.parse(response.text || "{}"));
+    } catch (error: any) {
+      console.error("Scan error:", error?.message || error);
+      if (error?.message?.includes("API key not valid")) {
+        return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+      }
+      res.status(500).json({ error: "Failed to scan medication", details: error?.message || String(error) });
+    }
+  });
+
+  app.post("/api/scanLabReport", async (req, res) => {
+    try {
+      const { base64Image, lang = 'en' } = req.body;
+      if (!base64Image) return res.status(400).json({ error: "Image required" });
+
+      const prompt = `Analyze this lab report image. Extract the patient name, test date, and all test parameters (name, value, unit, reference range).
+      For each parameter, determine the status (Normal, High, Low, Critical) and provide a brief interpretation.
+      Finally, provide an overall summary and recommendations.
+      Language: ${lang}`;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: [
+          prompt,
+          { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
+        ],
+        config: { 
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              patient_name: { type: Type.STRING },
+              test_date: { type: Type.STRING },
+              parameters: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    name: { type: Type.STRING },
+                    value: { type: Type.STRING },
+                    unit: { type: Type.STRING },
+                    reference_range: { type: Type.STRING },
+                    status: { type: Type.STRING },
+                    interpretation: { type: Type.STRING }
+                  },
+                  required: ["name", "value", "unit", "reference_range", "status", "interpretation"]
+                }
+              },
+              summary: { type: Type.STRING },
+              recommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
+              abnormalFindings: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    testName: { type: Type.STRING },
+                    result: { type: Type.STRING },
+                    normalRange: { type: Type.STRING },
+                    interpretation: { type: Type.STRING }
+                  },
+                  required: ["testName", "result", "normalRange", "interpretation"]
+                }
+              }
+            },
+            required: ["parameters", "summary", "recommendations"]
+          }
+        }
+      });
+
+      res.json(JSON.parse(response.text || "{}"));
+    } catch (error: any) {
+      console.error("Scan error:", error?.message || error);
+      if (error?.message?.includes("API key not valid")) {
+        return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+      }
+      res.status(500).json({ error: "Failed to scan lab report", details: error?.message || String(error) });
     }
   });
 
@@ -143,9 +278,12 @@ async function startServer() {
       });
 
       res.json(JSON.parse(response.text || "{}"));
-    } catch (error) {
-      console.error("Scan error:", error);
-      res.status(500).json({ error: "Failed to scan prescription" });
+    } catch (error: any) {
+      console.error("Scan error:", error?.message || error);
+      if (error?.message?.includes("API key not valid")) {
+        return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+      }
+      res.status(500).json({ error: "Failed to scan prescription", details: error?.message || String(error) });
     }
   });
 
@@ -169,9 +307,12 @@ async function startServer() {
       });
 
       res.json(JSON.parse(response.text || "{}"));
-    } catch (error) {
-      console.error("Compare error:", error);
-      res.status(500).json({ error: "Failed to compare medicines" });
+    } catch (error: any) {
+      console.error("Compare error:", error?.message || error);
+      if (error?.message?.includes("API key not valid")) {
+        return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
+      }
+      res.status(500).json({ error: "Failed to compare medicines", details: error?.message || String(error) });
     }
   });
 
@@ -180,13 +321,14 @@ async function startServer() {
       const { query: q } = req.query;
       if (!q || typeof q !== 'string') return res.json([]);
       
-      const searchDir = JSON.parse(fs.readFileSync(path.join(__dirname, 'src/data/search_directory.json'), 'utf8'));
+      const searchDir = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/search_directory.json'), 'utf8'));
       const results = searchDir
         .filter((m: any) => m.name.toLowerCase().includes(q.toLowerCase()) || m.category.toLowerCase().includes(q.toLowerCase()))
         .slice(0, 10);
         
       res.json(results);
     } catch (error) {
+      console.error("Autocomplete error:", error);
       res.status(500).json({ error: "Autocomplete failed" });
     }
   });

@@ -4,8 +4,14 @@ import { offlineService } from "./offlineService";
 // Helper to call our new backend API
 async function fetchFromAPI(endpoint: string, options: RequestInit = {}) {
   const res = await fetch(endpoint, options);
-  if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
-  return res.json();
+  const data = await res.json().catch(() => null);
+  if (!res.ok) {
+    if (data && data.error === "Invalid API Key") {
+      throw new Error(data.details);
+    }
+    throw new Error(data?.error || `API Error: ${res.statusText}`);
+  }
+  return data;
 }
 
 export function isDrugBanned(name: string): boolean {
@@ -19,14 +25,24 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
     return null;
   }
   try {
-    const res = await fetchFromAPI(`/api/searchMedicine?query=${encodeURIComponent(query)}&lang=${lang}`);
-    if (res.data) {
-      offlineService.saveSearchResults(query, [res.data]);
-      return res.data;
+    const res = await fetch(`/api/searchMedicine?query=${encodeURIComponent(query)}&lang=${lang}`);
+    const data = await res.json();
+    if (!res.ok) {
+      if (data.error === "Invalid API Key") {
+        throw new Error(data.details);
+      }
+      throw new Error(data.error || `API Error: ${res.statusText}`);
+    }
+    if (data.data) {
+      offlineService.saveSearchResults(query, [data.data]);
+      return data.data;
     }
     return null;
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
+    if (e.message?.includes("API key")) {
+      throw e;
+    }
     return null;
   }
 }
@@ -109,14 +125,39 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ base64Image, lang })
     });
-  } catch (e) {
+  } catch (e: any) {
+    if (e.message?.includes("API key")) throw e;
+    return null;
+  }
+}
+
+export async function scanMedication(base64Image: string, lang: Language = 'en'): Promise<{ name: string; category: string; description: string; confidence: number } | null> {
+  try {
+    return await fetchFromAPI('/api/scanMedication', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base64Image, lang })
+    });
+  } catch (e: any) {
+    if (e.message?.includes("API key")) throw e;
+    return null;
+  }
+}
+
+export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
+  try {
+    return await fetchFromAPI('/api/scanLabReport', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base64Image, lang })
+    });
+  } catch (e: any) {
+    if (e.message?.includes("API key")) throw e;
     return null;
   }
 }
 
 // Stubs for other functions to prevent build errors
 export async function interpretQuery(query: string, lang: Language = 'en'): Promise<{ intent: string, entities: { medicine?: string, condition?: string, med1?: string, med2?: string } }> { return { intent: 'search', entities: { medicine: query } }; }
-export async function scanMedication(base64Image: string, lang: Language = 'en') { return null; }
-export async function scanLabReport(base64Image: string, lang: Language = 'en') { return null; }
 export async function generateTTS(text: string) { return null; }
 export async function transcribeAudio(base64Audio: string, lang: Language = 'en') { return null; }
