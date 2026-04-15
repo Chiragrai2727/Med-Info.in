@@ -24,21 +24,9 @@ import { ToastProvider } from './ToastContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './AuthContext';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 60 * 24, // 24 hours
-      gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
-    },
-  },
-});
-
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
+    <ErrorBoundary>
       <AuthProvider>
         <LanguageProvider>
         <ToastProvider>
@@ -114,7 +102,6 @@ export default function App() {
         </ToastProvider>
         </LanguageProvider>
       </AuthProvider>
-      </ErrorBoundary>
-    </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

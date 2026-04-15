@@ -1,74 +1,114 @@
+import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { Medicine, Language } from "../types";
 import { offlineService } from "./offlineService";
-import { GoogleGenAI, Type, Modality } from "@google/genai";
-import conditionMedicines from "../data/condition_medicines.json";
+import Fuse from 'fuse.js';
+import medicinesData from "../data/medicines.json";
+import bannedMedicinesData from "../data/banned_medicines.json";
+import indexData from "../data/index.json";
+import categoriesData from "../data/categories.json";
+import diseasesData from "../data/diseases.json";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const apiKey = process.env.GEMINI_API_KEY || "";
+console.log("Gemini API Key loaded (first 4 chars):", apiKey ? apiKey.substring(0, 4) + "..." : "NONE");
+const ai = new GoogleGenAI({ apiKey });
 
-const TEXT_MODEL = "gemini-3-flash-preview";
-const VISION_MODEL = "gemini-3-flash-preview";
-const TTS_MODEL = "gemini-2.5-flash-preview-tts";
+const localMedicines = medicinesData as Medicine[];
+const bannedMedicines = (bannedMedicinesData as any[]).map(m => ({ ...m, is_banned: true })) as Medicine[];
+const allLocalMedicines = [...localMedicines, ...bannedMedicines];
+const searchIndex = indexData as Record<string, string[]>;
+const categoriesIndex = categoriesData as Record<string, string[]>;
+const diseasesIndex = diseasesData as Record<string, string[]>;
 
-// Helper to call our new backend API (for non-AI tasks like autocomplete)
-async function fetchFromAPI(endpoint: string, options: RequestInit = {}) {
-  const res = await fetch(endpoint, options);
-  
-  const contentType = res.headers.get("content-type");
-  if (!res.ok || !contentType || !contentType.includes("application/json")) {
-    const text = await res.text();
-    console.error(`API Error (${endpoint}):`, text);
-    
-    if (text.includes("<!DOCTYPE html>") || text.includes("<!doctype html>")) {
-      throw new Error("Server returned an HTML page instead of data. This usually means the API route was not found (404).");
-    }
-    
-    try {
-      const data = JSON.parse(text);
-      throw new Error(data?.error || `API Error: ${res.statusText}`);
-    } catch (e) {
-      throw new Error(`API Error (${res.status}): ${res.statusText}`);
-    }
-  }
-  
-  return await res.json();
-}
+// Initialize Fuse.js for fuzzy searching
+const fuseOptions = {
+  includeScore: true,
+  threshold: 0.4, // 0.0 is perfect match, 1.0 is no match. 0.4 allows for common misspellings.
+  ignoreLocation: true,
+  keys: [
+    { name: 'drug_name', weight: 0.5 },
+    { name: 'brand_names_india', weight: 0.3 },
+    { name: 'category', weight: 0.1 },
+    { name: 'uses', weight: 0.1 }
+  ]
+};
+const fuse = new Fuse(allLocalMedicines, fuseOptions);
+
+// Fast lookup map
+const medicinesMap: Record<string, Medicine> = allLocalMedicines.reduce((acc, med) => {
+  acc[med.id.toLowerCase()] = med;
+  acc[med.drug_name.toLowerCase()] = med;
+  med.brand_names_india.forEach(brand => {
+    acc[brand.toLowerCase()] = med;
+  });
+  return acc;
+}, {} as Record<string, Medicine>);
 
 export function isDrugBanned(name: string): boolean {
-  return false; 
+  const q = name.toLowerCase().trim();
+  return bannedMedicines.some(m => 
+    m.drug_name.toLowerCase() === q || 
+    m.brand_names_india.some(b => b.toLowerCase() === q)
+  );
 }
 
 export async function fetchMedicineDetails(query: string, lang: Language = 'en'): Promise<Medicine | null> {
-  // 1. Check offline cache first
-  const cached = offlineService.getMedicine(query);
-  if (cached) return { ...cached, source: 'Verified Database' };
+  const q = query.toLowerCase().trim();
+  
+  // 1. Check local map first (fastest)
+  if (medicinesMap[q]) return medicinesMap[q];
 
-  if (!navigator.onLine) return null;
+  // 2. Check local dataset with fuzzy match
+  const cleanQuery = q.replace(/ dosage| side effects| uses| warnings| overdose/g, '').trim();
+  const queryWithoutStrength = cleanQuery.replace(/\s*\d+\s*(mg|ml|g|mcg|iu|%)\s*/gi, '').trim();
+  
+  const localMed = allLocalMedicines.find(m => {
+    const drugName = m.drug_name.toLowerCase();
+    const brands = m.brand_names_india.map(b => b.toLowerCase());
+    
+    return drugName === q || 
+           m.id.toLowerCase() === q ||
+           brands.includes(q) ||
+           drugName === cleanQuery ||
+           brands.includes(cleanQuery) ||
+           drugName === queryWithoutStrength ||
+           brands.includes(queryWithoutStrength) ||
+           q.includes(drugName) ||
+           brands.some(b => q.includes(b));
+  });
+  if (localMed) return { ...localMed, source: 'Verified Database' };
+
+  // 3. Check if it's in banned list even if not in map (extra safety)
+  const bannedMed = bannedMedicines.find(m => 
+    m.drug_name.toLowerCase().includes(q) || 
+    m.brand_names_india.some(b => b.toLowerCase().includes(q))
+  );
+  if (bannedMed) return { ...bannedMed, source: 'Verified Database' };
+
+  // 4. Check offline cache
+  if (!navigator.onLine) {
+    const cached = offlineService.getMedicine(query);
+    if (cached) return { ...cached, source: 'Cached Result' };
+    return null; // Cannot fetch new data while offline
+  }
 
   try {
-    const languageMap: Record<string, string> = {
-      'en': 'English',
-      'hi': 'Hindi',
-      'mr': 'Marathi',
-      'ta': 'Tamil'
-    };
-    
-    const prompt = `Provide detailed medical information for the medicine "${query}".
-    The response MUST be in ${languageMap[lang as string] || 'English'}.
-    CRITICAL: Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines for India.
-    Include all fields required by the schema accurately. For arrays, provide a list of strings.
-    If the drug is banned in India, set "is_banned" to true.`;
-
     const response = await ai.models.generateContent({
-      model: TEXT_MODEL,
-      contents: prompt,
+      model: "gemini-3-flash-preview",
+      contents: `Generate detailed medical information for the medicine: "${query}". 
+      The medicine must be a legally approved medication in India.
+      Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines.
+      If the medicine is a brand name, identify its generic constituents.
+      The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.
+      Provide accurate, non-prescriptive information for educational purposes based on the latest Indian medical guidelines.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
+            id: { type: Type.STRING },
+            category: { type: Type.STRING },
             drug_name: { type: Type.STRING },
             brand_names_india: { type: Type.ARRAY, items: { type: Type.STRING } },
-            category: { type: Type.STRING },
             drug_class: { type: Type.STRING },
             mechanism_of_action: { type: Type.STRING },
             uses: { type: Type.ARRAY, items: { type: Type.STRING } },
@@ -92,192 +132,361 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
             food_interactions: { type: Type.ARRAY, items: { type: Type.STRING } },
             alcohol_warning: { type: Type.STRING },
             missed_dose: { type: Type.STRING },
-            is_banned: { type: Type.BOOLEAN }
-          }
+          },
+          required: [
+            "category", "drug_name", "brand_names_india", "drug_class", "mechanism_of_action", 
+            "uses", "dosage_common", "side_effects_common", "side_effects_serious", 
+            "overdose_effects", "contraindications", "drug_interactions", "pregnancy_safety", 
+            "kidney_liver_warning", "how_it_works_in_body", "onset_of_action", "duration_of_effect", 
+            "prescription_required", "ayurvedic_or_allopathic", "india_regulatory_status", 
+            "quick_summary", "who_should_take", "who_should_not_take", "food_interactions", 
+            "alcohol_warning", "missed_dose"
+          ]
         }
       }
     });
 
     const data = JSON.parse(response.text || "{}");
-    if (data.drug_name) {
-      const medicineData = { ...data, source: 'AI Analysis' };
-      offlineService.saveMedicine(medicineData);
-      return medicineData;
-    }
-    throw new Error("Medicine data not found in response");
-  } catch (e: any) {
-    console.error("fetchMedicineDetails error:", e);
-    throw e;
+    const medicine: Medicine = {
+      ...data,
+      id: data.id || Math.random().toString(36).substring(2, 11),
+      source: 'AI Analysis'
+    };
+
+    // Save to offline cache
+    offlineService.saveMedicine(medicine);
+    
+    return medicine;
+  } catch (error) {
+    console.error("Error fetching medicine details:", error);
+    // Fallback to cache if network fails
+    const cached = offlineService.getMedicine(query);
+    if (cached) return { ...cached, source: 'Cached Result' };
+    return null;
   }
 }
 
-export async function searchMedicines(query: string, lang: Language = 'en') {
-  if (!query) return [];
-  try {
-    // 1. Try local autocomplete first
-    const results = await fetchFromAPI(`/api/autocomplete?query=${encodeURIComponent(query)}`);
-    const formattedResults = results.map((r: any) => ({ ...r, source: 'Verified Directory', confidence: 95 }));
-    
-    // 2. If we have enough results, return them
-    if (formattedResults.length >= 3) return formattedResults;
-    
-    // 3. Otherwise, ask AI for suggestions
-    try {
-      const prompt = `Suggest 5 Indian medicines or health conditions matching "${query}".
-      Language: ${lang}.
-      CRITICAL: Ensure suggestions are common in India and comply with CDSCO standards.`;
+// In-memory search cache for performance
+const searchCache: Record<string, any[]> = {};
 
-      const response = await ai.models.generateContent({
-        model: TEXT_MODEL,
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              suggestions: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    name: { type: Type.STRING },
-                    category: { type: Type.STRING },
-                    summary: { type: Type.STRING }
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
-      
-      const content = JSON.parse(response.text || "{}");
-      const aiSuggestions = content.suggestions || [];
-      
-      // Merge and remove duplicates
-      const allResults = [...formattedResults];
-      aiSuggestions.forEach((s: any) => {
-        if (!allResults.some(r => r.name.toLowerCase() === s.name.toLowerCase())) {
-          allResults.push({ ...s, source: 'AI Analysis', confidence: 85 });
-        }
-      });
-      
-      return allResults.slice(0, 8);
-    } catch (aiErr) {
-      return formattedResults;
-    }
-  } catch (e) {
-    return [];
+export async function searchMedicines(query: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]> {
+  const q = query.toLowerCase().trim();
+  const cacheKey = `${q}_${lang}`;
+  
+  if (searchCache[cacheKey]) {
+    return searchCache[cacheKey];
   }
+
+  // 1. Search in local dataset using Fuse.js (Fuzzy Search)
+  const fuseResults = fuse.search(q);
+  
+  const scoredResults = fuseResults.map(result => {
+    let score = 0;
+    // Fuse score is 0 (perfect) to 1 (mismatch). We invert and scale it to our old scoring system.
+    // A score of 0.0 becomes 20000, 0.4 becomes ~0.
+    const baseScore = Math.max(0, (0.4 - (result.score || 0)) / 0.4) * 20000;
+    score += baseScore;
+
+    // Banned drugs boost (to show warning early)
+    if (result.item.is_banned && score > 0) score += 5000;
+    
+    // Index boost (exact matches in our pre-built index)
+    if (searchIndex[q]?.includes(result.item.id)) score += 10000;
+
+    return { medicine: result.item, score };
+  }).filter(item => item.score >= 500);
+
+  const sorted = scoredResults.sort((a, b) => b.score - a.score);
+  const topScore = sorted.length > 0 ? sorted[0].score : 0;
+  
+  // If we have very strong matches, only show those
+  const filtered = topScore >= 10000 
+    ? sorted.filter(item => item.score >= 5000)
+    : sorted;
+
+  const localResults = filtered
+    .map(item => {
+      // Calculate a confidence score (0-100) based on the internal score
+      const confidence = Math.min(100, Math.round((item.score / 20000) * 100));
+      return {
+        name: item.medicine.drug_name,
+        category: item.medicine.category,
+        summary: item.medicine.quick_summary || (Array.isArray(item.medicine.uses) ? item.medicine.uses.join(', ') : item.medicine.uses),
+        isOffline: !navigator.onLine,
+        source: 'Verified Database',
+        confidence
+      };
+    })
+    .slice(0, 6);
+
+  // If we found local results and they are reasonably strong, return them immediately to speed up search
+  if (localResults.length >= 1 && topScore >= 6000) {
+    searchCache[cacheKey] = localResults;
+    return localResults;
+  }
+
+  // We no longer use AI for autocomplete suggestions to prevent API quota exhaustion.
+  // The AI is only used when the user explicitly submits the search or clicks a result.
+  
+  const cachedResults = (offlineService.getSearchResults(query) || []).map(r => ({ ...r, isOffline: true, source: 'Cached Result' }));
+  const offlineSearch = (offlineService.searchOffline(query) || []).map(r => ({ ...r, isOffline: true, source: 'Local Cache' }));
+  
+  const combined = [...localResults, ...cachedResults];
+  offlineSearch.forEach(res => {
+    if (!combined.some(c => c.name.toLowerCase() === res.name.toLowerCase())) {
+      combined.push(res);
+    }
+  });
+
+  const finalResults = combined.slice(0, 10);
+  searchCache[cacheKey] = finalResults;
+  return finalResults;
 }
 
-export async function getMedicinesForCondition(condition: string, lang: Language = 'en') {
-  // 1. Check local mapping for common conditions (Instant load)
-  const conditionKey = condition.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
-  const localData = (conditionMedicines as any)[conditionKey];
-  if (localData) return localData;
+export async function getMedicinesForCondition(condition: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; india_regulatory_status?: string }[]> {
+  const c = condition.toLowerCase().trim();
+
+  // 1. Search in diseases index
+  const medIds = diseasesIndex[c] || [];
+  let results = medIds.map(id => medicinesMap[id]).filter(Boolean);
+
+  // 2. Fallback to category search
+  if (results.length === 0) {
+    const catMeds = categoriesIndex[c] || [];
+    results = catMeds.map(id => medicinesMap[id]).filter(Boolean);
+  }
+
+  // 3. Fallback to fuzzy search in uses/category
+  if (results.length === 0) {
+    results = localMedicines.filter(m => 
+      m.category.toLowerCase().includes(c) || 
+      m.uses.some(u => u.toLowerCase().includes(c))
+    );
+  }
+
+  const localResults = results
+    .map(m => ({
+      name: m.drug_name,
+      category: m.category,
+      summary: m.quick_summary || (Array.isArray(m.uses) ? m.uses.join(', ') : m.uses),
+      india_regulatory_status: m.india_regulatory_status
+    }))
+    .slice(0, 6);
+
+  if (localResults.length > 0) return localResults;
+
+  if (!navigator.onLine) {
+    return offlineService.getSearchResults(`condition_${condition}`) || [];
+  }
 
   try {
-    const prompt = `List 6 common medicines used for "${condition}" in India. 
-    Language: ${lang}.
-    CRITICAL: Only list medicines approved by CDSCO.`;
-
     const response = await ai.models.generateContent({
-      model: TEXT_MODEL,
-      contents: prompt,
+      model: "gemini-3-flash-preview",
+      contents: `List 6 common medicines used for "${condition}" in India. 
+      For each medicine, provide the name, category, and a 1-line summary.
+      The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            medicines: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  name: { type: Type.STRING },
-                  category: { type: Type.STRING },
-                  summary: { type: Type.STRING },
-                  india_regulatory_status: { type: Type.STRING }
-                }
-              }
-            }
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              category: { type: Type.STRING },
+              summary: { type: Type.STRING },
+            },
+            required: ["name", "category", "summary"]
           }
         }
       }
     });
 
-    const content = JSON.parse(response.text || "{}");
-    return content.medicines || [];
-  } catch (e) {
-    return [];
+    const results = JSON.parse(response.text || "[]");
+    offlineService.saveSearchResults(`condition_${condition}`, results);
+    return results;
+  } catch (error) {
+    console.error("Error getting medicines for condition:", error);
+    return offlineService.getSearchResults(`condition_${condition}`) || [];
   }
 }
 
-export async function compareMedicines(med1: string, med2: string, lang: Language = 'en') {
-  try {
-    const prompt = `Compare two Indian medicines: "${med1}" vs "${med2}".
-    Provide a detailed side-by-side comparison.
-    Language: ${lang}.`;
+export async function interpretQuery(query: string, lang: Language = 'en'): Promise<{ 
+  intent: 'medicine' | 'disease' | 'compare' | 'mixed'; 
+  medicines: string[]; 
+  diseases: string[]; 
+  specificIntent?: string;
+}> {
+  // Basic interpretation logic
+  const lowerQuery = query.toLowerCase().trim();
+  
+  // Improved comparison detection
+  if (lowerQuery.includes(' vs ') || lowerQuery.startsWith('compare ') || lowerQuery.includes(' comparison ')) {
+    const parts = lowerQuery
+      .replace(/^compare\s+/, '')
+      .replace(/\s+comparison\s+/, ' vs ')
+      .split(/\s+vs\s+|\s+and\s+/)
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
+    
+    if (parts.length >= 2) {
+      return { intent: 'compare', medicines: parts, diseases: [] };
+    }
+  }
 
+  // Check if it's a medicine in our local dataset
+  const foundMed = localMedicines.find(m => 
+    lowerQuery.includes(m.drug_name.toLowerCase()) || 
+    m.brand_names_india.some(b => lowerQuery.includes(b.toLowerCase()))
+  );
+
+  if (foundMed) {
+    return { intent: 'medicine', medicines: [foundMed.drug_name], diseases: [] };
+  }
+
+  if (!navigator.onLine) {
+    return { intent: 'disease', medicines: [], diseases: [query] };
+  }
+
+  try {
     const response = await ai.models.generateContent({
-      model: TEXT_MODEL,
-      contents: prompt,
+      model: "gemini-3-flash-preview",
+      contents: `Analyze the following search query for a medical information app: "${query}".
+      Identify if the user is looking for a specific medicine, a disease/symptom, or comparing two medicines.
+      Also identify if they have a specific intent like 'dosage', 'side effects', etc.
+      The response must be in English for the keys, but the values should match the query's context.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            med1: {
-              type: Type.OBJECT,
-              properties: {
-                name: { type: Type.STRING },
-                uses: { type: Type.STRING },
-                salts: { type: Type.STRING },
-                side_effects: { type: Type.STRING },
-                price: { type: Type.STRING },
-                status: { type: Type.STRING }
-              }
+            intent: { 
+              type: Type.STRING, 
+              enum: ['medicine', 'disease', 'compare', 'mixed'] 
             },
-            med2: {
-              type: Type.OBJECT,
-              properties: {
-                name: { type: Type.STRING },
-                uses: { type: Type.STRING },
-                salts: { type: Type.STRING },
-                side_effects: { type: Type.STRING },
-                price: { type: Type.STRING },
-                status: { type: Type.STRING }
-              }
+            medicines: { 
+              type: Type.ARRAY, 
+              items: { type: Type.STRING } 
             },
-            comparison: {
-              type: Type.OBJECT,
-              properties: {
-                key_differences: { type: Type.STRING },
-                verdict: { type: Type.STRING }
-              }
-            }
-          }
+            diseases: { 
+              type: Type.ARRAY, 
+              items: { type: Type.STRING } 
+            },
+            specificIntent: { type: Type.STRING }
+          },
+          required: ["intent", "medicines", "diseases"]
         }
       }
     });
 
     return JSON.parse(response.text || "{}");
-  } catch (e) {
-    console.error("compareMedicines error:", e);
-    throw e;
+  } catch (error) {
+    console.error("Error interpreting query:", error);
+    return { intent: 'medicine', medicines: [query], diseases: [] };
   }
 }
 
-export async function scanMedication(base64Image: string, lang: Language = 'en') {
+export async function compareMedicines(med1: string, med2: string, lang: Language = 'en'): Promise<{
+  med1: Medicine;
+  med2: Medicine;
+  comparison: {
+    feature: string;
+    val1: string;
+    val2: string;
+    difference: string;
+  }[];
+} | null> {
   try {
+    const [data1, data2] = await Promise.all([
+      fetchMedicineDetails(med1, lang),
+      fetchMedicineDetails(med2, lang)
+    ]);
+
+    if (!data1 || !data2) return null;
+
+    const basicComparison = [
+      { feature: 'Generic Name', val1: data1.drug_name, val2: data2.drug_name, difference: 'Active ingredients' },
+      { feature: 'Category', val1: data1.category, val2: data2.category, difference: 'Therapeutic class' },
+      { feature: 'Mechanism', val1: data1.mechanism_of_action, val2: data2.mechanism_of_action, difference: 'How they work' },
+      { feature: 'Common Uses', val1: Array.isArray(data1.uses) ? data1.uses.join(', ') : data1.uses, val2: Array.isArray(data2.uses) ? data2.uses.join(', ') : data2.uses, difference: 'Medical applications' },
+      { feature: 'Side Effects', val1: data1.side_effects_common.slice(0, 2).join(', '), val2: data2.side_effects_common.slice(0, 2).join(', '), difference: 'Common reactions' },
+      { feature: 'Safety', val1: data1.pregnancy_safety, val2: data2.pregnancy_safety, difference: 'Pregnancy/Nursing safety' },
+    ];
+
+    // If offline, provide a comprehensive comparison from local data
+    if (!navigator.onLine) {
+      return { med1: data1, med2: data2, comparison: basicComparison };
+    }
+
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `Compare these two medicines: "${med1}" and "${med2}".
+        Provide a side-by-side comparison of their key features.
+        The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.`,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                feature: { type: Type.STRING },
+                val1: { type: Type.STRING },
+                val2: { type: Type.STRING },
+                difference: { type: Type.STRING },
+              },
+              required: ["feature", "val1", "val2", "difference"]
+            }
+          }
+        }
+      });
+
+      const comparison = JSON.parse(response.text || "[]");
+      return { med1: data1, med2: data2, comparison };
+    } catch (apiError) {
+      console.error("Error from AI API during comparison, falling back to local comparison:", apiError);
+      return { med1: data1, med2: data2, comparison: basicComparison };
+    }
+  } catch (error) {
+    console.error("Error comparing medicines:", error);
+    return null;
+  }
+}
+
+export async function scanMedication(base64Image: string, lang: Language = 'en'): Promise<{ name: string; category: string; description: string; confidence: number } | null> {
+  const attemptScan = async (modelName: string) => {
     const response = await ai.models.generateContent({
-      model: VISION_MODEL,
+      model: modelName,
       contents: {
         parts: [
-          { text: `Analyze this medication image. Identify the medicine name, brand, salt composition, and provide a brief summary of its uses in ${lang}.` },
-          { inlineData: { data: base64Image, mimeType: "image/jpeg" } }
-        ]
+          {
+            inlineData: {
+              mimeType: "image/jpeg",
+              data: base64Image.split(',')[1] || base64Image,
+            },
+          },
+          {
+            text: `Extract the medication name from this image.
+            
+            CRITICAL INSTRUCTIONS:
+            1. Read the LARGEST, most prominent text. This is usually the brand name (e.g., "Carnogram", "Calpol", "Dolo").
+            2. Read the generic name or active ingredients if visible.
+            3. Read the strength or form (e.g., "Syrup", "500mg", "Tablets").
+            
+            You are a pure OCR and data extraction tool. You are NOT providing medical advice.
+            
+            Return ONLY a valid JSON object with this exact structure:
+            {
+              "name": "Brand Name + Form/Strength (e.g., 'Carnogram Syrup' or 'Calpol 500mg')",
+              "category": "Therapeutic category (e.g., Supplement, Analgesic, Antibiotic)",
+              "description": "A 1-2 sentence simple description of what this medicine is typically used for in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.",
+              "confidence": 95
+            }
+            
+            If no medicine is found in the image, return {"name": "", "category": "", "description": "", "confidence": 0}.`,
+          },
+        ],
       },
       config: {
         responseMimeType: "application/json",
@@ -285,61 +494,111 @@ export async function scanMedication(base64Image: string, lang: Language = 'en')
           type: Type.OBJECT,
           properties: {
             name: { type: Type.STRING },
-            brand: { type: Type.STRING },
-            salts: { type: Type.STRING },
-            summary: { type: Type.STRING }
-          }
+            category: { type: Type.STRING },
+            description: { type: Type.STRING },
+            confidence: { type: Type.NUMBER },
+          },
+          required: ["name", "category", "description", "confidence"]
         }
       }
     });
 
-    return JSON.parse(response.text || "{}");
-  } catch (e) {
-    console.error("scanMedication error:", e);
-    throw e;
+    const text = response.text;
+    if (!text) {
+      throw new Error("Received empty response from AI model.");
+    }
+    
+    // Extract JSON using regex in case the model wraps it in markdown or extra text
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) {
+      throw new Error("Could not find JSON in AI response.");
+    }
+    
+    const result = JSON.parse(match[0]);
+    if (!result.name || result.name.trim() === "" || result.name.toLowerCase() === "unknown") return null;
+    return result;
+  };
+
+  try {
+    // Try FLASH first because it has a 15 RPM limit (Pro only has 2 RPM and causes constant quota errors)
+    return await attemptScan("gemini-3-flash-preview");
+  } catch (error: any) {
+    console.warn("Primary model (flash) failed, attempting fallback to pro model...", error);
+    
+    // If it's an auth or quota error, don't bother falling back. 
+    // If Flash hit a quota limit (15 RPM), Pro will definitely fail (2 RPM limit).
+    if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
+      throw error;
+    }
+
+    try {
+      // Fallback to the Pro model only for reasoning/parsing failures
+      return await attemptScan("gemini-3.1-pro-preview");
+    } catch (fallbackError: any) {
+      console.error("Both primary and fallback models failed:", fallbackError);
+      throw fallbackError; // Throw the final error so the UI can display it
+    }
   }
 }
 
 export interface PrescriptionResult {
-  patient_name?: string;
-  doctor_name?: string;
-  doctorNotes?: string;
   medicines: {
     name: string;
     dosage: string;
-    instructions: string;
-    timing?: string;
-    duration?: string;
-    purpose?: string;
+    timing: string;
+    duration: string;
+    purpose: string;
   }[];
-  summary: string;
+  doctorNotes: string;
 }
 
 export interface LabReportResult {
-  findings: {
-    parameter: string;
-    value: string;
-    status: string;
-    explanation: string;
-  }[];
   summary: string;
-  abnormalFindings?: {
+  abnormalFindings: {
     testName: string;
     result: string;
     normalRange: string;
-    interpretation: string;
+    interpretation: 'High' | 'Low' | 'Abnormal';
   }[];
 }
 
 export async function scanPrescription(base64Image: string, lang: Language = 'en'): Promise<PrescriptionResult | null> {
-  try {
+  const attemptScan = async (modelName: string) => {
     const response = await ai.models.generateContent({
-      model: VISION_MODEL,
+      model: modelName,
       contents: {
         parts: [
-          { text: `Analyze this doctor's prescription image. List all medicines mentioned, their dosages, and instructions in ${lang}.` },
-          { inlineData: { data: base64Image, mimeType: "image/jpeg" } }
-        ]
+          {
+            inlineData: {
+              mimeType: "image/jpeg",
+              data: base64Image.split(',')[1] || base64Image,
+            },
+          },
+          {
+            text: `Extract the prescription details from this image.
+            
+            CRITICAL INSTRUCTIONS:
+            1. Read the handwritten or printed doctor's prescription carefully.
+            2. Extract every medicine prescribed, including its dosage (e.g., 500mg), timing (e.g., 1-0-1, twice a day), duration (e.g., 5 days), and infer the purpose if possible.
+            3. Extract any additional doctor's notes or advice.
+            
+            Return ONLY a valid JSON object with this exact structure:
+            {
+              "medicines": [
+                {
+                  "name": "Medicine Name",
+                  "dosage": "Dosage (e.g., 500mg)",
+                  "timing": "Timing/Frequency (e.g., Morning & Night, 1-0-1)",
+                  "duration": "Duration (e.g., 5 days)",
+                  "purpose": "Inferred purpose or what it is usually for in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}"
+                }
+              ],
+              "doctorNotes": "Any other advice or notes written by the doctor"
+            }
+            
+            If no prescription is found, return {"medicines": [], "doctorNotes": ""}.`,
+          },
+        ],
       },
       config: {
         responseMimeType: "application/json",
@@ -353,54 +612,83 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
                 properties: {
                   name: { type: Type.STRING },
                   dosage: { type: Type.STRING },
-                  instructions: { type: Type.STRING },
                   timing: { type: Type.STRING },
                   duration: { type: Type.STRING },
-                  purpose: { type: Type.STRING }
-                }
+                  purpose: { type: Type.STRING },
+                },
+                required: ["name", "dosage", "timing", "duration", "purpose"]
               }
             },
-            summary: { type: Type.STRING },
-            doctorNotes: { type: Type.STRING }
-          }
+            doctorNotes: { type: Type.STRING },
+          },
+          required: ["medicines", "doctorNotes"]
         }
       }
     });
 
-    return JSON.parse(response.text || "{}");
-  } catch (e) {
-    console.error("scanPrescription error:", e);
-    throw e;
+    const text = response.text;
+    if (!text) throw new Error("Received empty response from AI model.");
+    
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error("Could not find JSON in AI response.");
+    
+    const result = JSON.parse(match[0]);
+    if (!result.medicines || result.medicines.length === 0) return null;
+    return result;
+  };
+
+  try {
+    return await attemptScan("gemini-3-flash-preview");
+  } catch (error: any) {
+    if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
+      throw error;
+    }
+    return await attemptScan("gemini-3.1-pro-preview");
   }
 }
 
 export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
-  try {
+  const attemptScan = async (modelName: string) => {
     const response = await ai.models.generateContent({
-      model: VISION_MODEL,
+      model: modelName,
       contents: {
         parts: [
-          { text: `Analyze this lab report image. Extract key findings, abnormal values, and provide a simple explanation in ${lang}.` },
-          { inlineData: { data: base64Image, mimeType: "image/jpeg" } }
-        ]
+          {
+            inlineData: {
+              mimeType: "image/jpeg",
+              data: base64Image.split(',')[1] || base64Image,
+            },
+          },
+          {
+            text: `Extract the medical test report details from this image.
+            
+            CRITICAL INSTRUCTIONS:
+            1. Read the lab report (e.g., blood test, urine test).
+            2. Identify any abnormal findings where the result is outside the normal reference range.
+            3. Provide a simple, 2-3 sentence overall summary of the report in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.
+            
+            Return ONLY a valid JSON object with this exact structure:
+            {
+              "summary": "Overall summary of the report in simple terms.",
+              "abnormalFindings": [
+                {
+                  "testName": "Name of the test (e.g., Hemoglobin)",
+                  "result": "The patient's result (e.g., 10.5 g/dL)",
+                  "normalRange": "The normal reference range (e.g., 12.0 - 15.5 g/dL)",
+                  "interpretation": "High" // Must be exactly "High", "Low", or "Abnormal"
+                }
+              ]
+            }
+            
+            If no lab report is found, return {"summary": "", "abnormalFindings": []}.`,
+          },
+        ],
       },
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            findings: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  parameter: { type: Type.STRING },
-                  value: { type: Type.STRING },
-                  status: { type: Type.STRING },
-                  explanation: { type: Type.STRING }
-                }
-              }
-            },
             summary: { type: Type.STRING },
             abnormalFindings: {
               type: Type.ARRAY,
@@ -410,80 +698,43 @@ export async function scanLabReport(base64Image: string, lang: Language = 'en'):
                   testName: { type: Type.STRING },
                   result: { type: Type.STRING },
                   normalRange: { type: Type.STRING },
-                  interpretation: { type: Type.STRING }
-                }
+                  interpretation: { type: Type.STRING },
+                },
+                required: ["testName", "result", "normalRange", "interpretation"]
               }
-            }
-          }
+            },
+          },
+          required: ["summary", "abnormalFindings"]
         }
       }
     });
 
-    return JSON.parse(response.text || "{}");
-  } catch (e) {
-    console.error("scanLabReport error:", e);
-    throw e;
+    const text = response.text;
+    if (!text) throw new Error("Received empty response from AI model.");
+    
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error("Could not find JSON in AI response.");
+    
+    const result = JSON.parse(match[0]);
+    if (!result.summary || result.summary.trim() === "") return null;
+    return result;
+  };
+
+  try {
+    return await attemptScan("gemini-3-flash-preview");
+  } catch (error: any) {
+    if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
+      throw error;
+    }
+    return await attemptScan("gemini-3.1-pro-preview");
   }
 }
 
-export async function interpretQuery(query: string, lang: Language = 'en') {
-  try {
-    const prompt = `Interpret the following health-related query: "${query}".
-    Identify the intent (medicine_info, condition_info, compare, scan_request, other) and extract entities (medicine names, conditions).
-    Language: ${lang}.`;
-
-    const response = await ai.models.generateContent({
-      model: TEXT_MODEL,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            intent: { type: Type.STRING },
-            entities: {
-              type: Type.OBJECT,
-              properties: {
-                medicine: { type: Type.STRING },
-                condition: { type: Type.STRING },
-                med1: { type: Type.STRING },
-                med2: { type: Type.STRING }
-              }
-            }
-          }
-        }
-      }
-    });
-
-    return JSON.parse(response.text || "{}");
-  } catch (e) {
-    return { intent: 'medicine_info', entities: { medicine: query } };
-  }
-}
-
-export async function transcribeAudio(base64Audio: string, lang: Language = 'en') {
+export async function generateTTS(text: string): Promise<string | null> {
   try {
     const response = await ai.models.generateContent({
-      model: TEXT_MODEL,
-      contents: {
-        parts: [
-          { text: `Transcribe the following audio query accurately in ${lang}. Return only the transcribed text.` },
-          { inlineData: { data: base64Audio, mimeType: "audio/webm" } }
-        ]
-      }
-    });
-    return response.text?.trim() || null;
-  } catch (e) {
-    console.error("transcribeAudio error:", e);
-    return null;
-  }
-}
-
-export async function generateTTS(text: string, lang: Language = 'en'): Promise<string | null> {
-  try {
-    const response = await ai.models.generateContent({
-      model: TTS_MODEL,
-      contents: [{ parts: [{ text: `Say: ${text}` }] }],
+      model: "gemini-2.5-flash-preview-tts",
+      contents: [{ parts: [{ text }] }],
       config: {
         responseModalities: [Modality.AUDIO],
         speechConfig: {
@@ -493,14 +744,42 @@ export async function generateTTS(text: string, lang: Language = 'en'): Promise<
         },
       },
     });
-    
+
     const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
     if (base64Audio) {
-      return `data:audio/mp3;base64,${base64Audio}`;
+      return `data:audio/pcm;base64,${base64Audio}`;
     }
     return null;
-  } catch (e) {
-    console.error("generateTTS error:", e);
+  } catch (error) {
+    console.error("Error generating TTS:", error);
+    return null;
+  }
+}
+
+export async function transcribeAudio(base64Audio: string, lang: Language = 'en'): Promise<string | null> {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              mimeType: "audio/webm",
+              data: base64Audio,
+            },
+          },
+          {
+            text: `Transcribe the following audio query into text. 
+            The audio is likely a medical query or a medicine name in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.
+            Return ONLY the transcribed text, nothing else.`,
+          },
+        ],
+      },
+    });
+
+    return response.text?.trim() || null;
+  } catch (error) {
+    console.error("Error transcribing audio:", error);
     return null;
   }
 }

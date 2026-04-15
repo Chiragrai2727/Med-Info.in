@@ -242,7 +242,7 @@ export const ScannerPage: React.FC = () => {
       } catch (err: any) {
         console.error("Scanner error:", err);
         if (err.message?.includes("API key") || err.message?.includes("403")) {
-          setError("Invalid API Key: Please update your Gemini API key in the AI Studio Settings menu.");
+          setError("API Key Error: Please ensure your Gemini API key is configured correctly.");
         } else if (err.message?.includes("quota") || err.message?.includes("429")) {
           setError("API Quota Exceeded: Please try again later.");
         } else {

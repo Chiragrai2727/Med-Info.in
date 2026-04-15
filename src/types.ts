@@ -48,7 +48,7 @@ export const LANGUAGES: { code: Language; name: string }[] = [
 
 export const DISEASES: Disease[] = [
   { id: 'fever', name: 'Fever', icon: 'Thermometer', symptoms: ['High temperature', 'Chills'] },
-  { id: 'cold-cough', name: 'Cold & Cough', icon: 'Wind', symptoms: ['Runny nose', 'Cough', 'Sore throat'] },
+  { id: 'cold', name: 'Cold & Cough', icon: 'Wind', symptoms: ['Runny nose', 'Cough', 'Sore throat'] },
   { id: 'headache', name: 'Headache', icon: 'Brain', symptoms: ['Pain in head', 'Pressure'] },
   { id: 'diabetes', name: 'Diabetes', icon: 'Activity', symptoms: ['High blood sugar', 'Thirst', 'Fatigue'] },
   { id: 'hypertension', name: 'Hypertension', icon: 'TrendingUp', symptoms: ['High blood pressure', 'Dizziness'] },

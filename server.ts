@@ -5,32 +5,11 @@ import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import { GoogleGenAI, Type } from "@google/genai";
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
-import fs from "fs";
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Initialize Firebase Client SDK for backend use
-const firebaseConfigPath = path.join(process.cwd(), 'firebase-applet-config.json');
-let db: any = null;
-if (fs.existsSync(firebaseConfigPath)) {
-  const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf8'));
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app, firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)" ? firebaseConfig.firestoreDatabaseId : undefined);
-}
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
-
-if (!process.env.GEMINI_API_KEY) {
-  console.warn("WARNING: GEMINI_API_KEY is not set in environment variables.");
-}
-
-const MODEL_NAME = "gemini-3-flash-preview";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
@@ -46,23 +25,6 @@ async function startServer() {
   // API routes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", message: "MedInfo India API is running" });
-  });
-
-  app.get("/api/autocomplete", (req, res) => {
-    try {
-      const { query: q } = req.query;
-      if (!q || typeof q !== 'string') return res.json([]);
-      
-      const searchDir = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/search_directory.json'), 'utf8'));
-      const results = searchDir
-        .filter((m: any) => m.name.toLowerCase().includes(q.toLowerCase()) || m.category.toLowerCase().includes(q.toLowerCase()))
-        .slice(0, 10);
-        
-      res.json(results);
-    } catch (error) {
-      console.error("Autocomplete error:", error);
-      res.status(500).json({ error: "Autocomplete failed" });
-    }
   });
 
   const handleCreateOrder = async (req: express.Request, res: express.Response) => {
