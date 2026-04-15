@@ -188,6 +188,7 @@ export const Timetable: React.FC = () => {
 
     if (Notification.permission === "denied") {
       showToast("Notifications are blocked. Please enable them in your browser settings.", "error");
+      alert("If you are on Windows, check if 'Focus Assist' or 'Do Not Disturb' is turned on. Notifications might be hidden in the Action Center (bottom right corner of your screen).");
       return;
     }
 
@@ -373,6 +374,12 @@ export const Timetable: React.FC = () => {
                       new Notification(title, options);
                     }
                     showToast("Test notification sent!", "success");
+                    // Add a small delay so the toast shows first, then the alert if they are on PC
+                    setTimeout(() => {
+                      if (window.innerWidth > 768) {
+                        alert("If you didn't see the notification on your PC:\n\n1. Check if 'Focus Assist' or 'Do Not Disturb' is turned on in Windows/Mac.\n2. Notifications might be hidden in your Action Center (bottom right corner).\n3. Make sure you are not viewing the app inside an iframe (like AI Studio). Open it in a new tab!");
+                      }
+                    }, 500);
                   } catch (e) {
                     console.error(e);
                     showToast("Failed to send test notification", "error");

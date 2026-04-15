@@ -16,6 +16,7 @@ import { BannedDrugs } from './pages/BannedDrugs';
 import { OfflineBanner } from './components/OfflineBanner';
 import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
+import { NotificationManager } from './components/NotificationManager';
 
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
@@ -34,6 +35,7 @@ export default function App() {
               <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white">
                 <Navbar />
                 <OfflineBanner />
+                <NotificationManager />
                 <CompareBar />
                 <main>
                   <Routes>
