@@ -237,6 +237,22 @@ export const MedicineDetail: React.FC = () => {
         <p className="text-gray-500 mb-12 max-w-md font-medium">
           {errorMsg ? errorMsg : `We couldn't find information for "${name}". Try searching for a generic name or a popular brand.`}
         </p>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button 
+            onClick={() => navigate('/')}
+            className="px-10 py-5 bg-black text-white rounded-[2rem] font-black text-sm uppercase tracking-widest hover:shadow-2xl transition-all active:scale-95"
+          >
+            Search Again
+          </button>
+          {errorMsg && (
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-10 py-5 bg-gray-100 text-black rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-gray-200 transition-all active:scale-95"
+            >
+              Try Again
+            </button>
+          )}
+        </div>
         
         <div className="w-full max-w-md mb-12">
           <Search />

@@ -26,6 +26,12 @@ if (fs.existsSync(firebaseConfigPath)) {
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
+if (!process.env.GEMINI_API_KEY) {
+  console.warn("WARNING: GEMINI_API_KEY is not set in environment variables.");
+}
+
+const MODEL_NAME = "gemini-1.5-flash";
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
   key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
@@ -123,7 +129,13 @@ async function startServer() {
         }
       });
 
+      console.log("Gemini raw response text:", response.text);
       const data = JSON.parse(response.text || "{}");
+
+      if (!data.drug_name) {
+        console.error("Gemini returned empty or invalid data:", data);
+        throw new Error("Invalid response format from AI");
+      }
 
       if (db) {
         try {
@@ -269,7 +281,7 @@ async function startServer() {
       Language: ${lang}`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: MODEL_NAME,
         contents: [
           prompt,
           { inlineData: { data: base64Image.split(',')[1] || base64Image, mimeType: "image/jpeg" } }
@@ -313,6 +325,99 @@ async function startServer() {
         return res.status(500).json({ error: "Invalid API Key", details: "Please update your Gemini API key in the AI Studio Settings menu." });
       }
       res.status(500).json({ error: "Failed to compare medicines", details: error?.message || String(error) });
+    }
+  });
+
+  app.post("/api/interpretQuery", async (req, res) => {
+    try {
+      const { query: q, lang = 'en' } = req.body;
+      const prompt = `Analyze the user query: "${q}". 
+      Determine the intent: 'search' (single medicine), 'compare' (two medicines), or 'condition' (medicines for a disease).
+      Extract entities: 'medicine' (name), 'med1', 'med2', 'condition'.
+      Return JSON only.`;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              intent: { type: Type.STRING, enum: ['search', 'compare', 'condition'] },
+              entities: {
+                type: Type.OBJECT,
+                properties: {
+                  medicine: { type: Type.STRING },
+                  med1: { type: Type.STRING },
+                  med2: { type: Type.STRING },
+                  condition: { type: Type.STRING }
+                }
+              }
+            },
+            required: ['intent', 'entities']
+          }
+        }
+      });
+
+      res.json(JSON.parse(response.text || "{}"));
+    } catch (error: any) {
+      console.error("Interpret error:", error);
+      res.status(500).json({ error: "Interpretation failed" });
+    }
+  });
+
+  app.post("/api/transcribeAudio", async (req, res) => {
+    try {
+      const { base64Audio, lang = 'en' } = req.body;
+      const prompt = "Transcribe this audio. Return only the transcription text.";
+
+      const response = await ai.models.generateContent({
+        model: MODEL_NAME,
+        contents: [
+          { text: prompt },
+          { inlineData: { data: base64Audio, mimeType: 'audio/webm' } }
+        ]
+      });
+
+      res.json({ transcript: response.text });
+    } catch (error: any) {
+      console.error("Transcription error:", error);
+      res.status(500).json({ error: "Transcription failed" });
+    }
+  });
+
+  app.post("/api/searchSuggestions", async (req, res) => {
+    try {
+      const { query: q, lang = 'en' } = req.body;
+      const prompt = `Suggest 5 Indian medicines or health conditions matching "${q}".
+      Return JSON array of objects with: name, category, summary.
+      Language: ${lang}.`;
+
+      const response = await ai.models.generateContent({
+        model: MODEL_NAME,
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                name: { type: Type.STRING },
+                category: { type: Type.STRING },
+                summary: { type: Type.STRING }
+              },
+              required: ["name", "category", "summary"]
+            }
+          }
+        }
+      });
+
+      res.json(JSON.parse(response.text || "[]"));
+    } catch (error: any) {
+      console.error("Suggestions error:", error);
+      res.status(500).json({ error: "Suggestions failed" });
     }
   });
 
