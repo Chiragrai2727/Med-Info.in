@@ -8,14 +8,14 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, size = 'md' }) => {
   const sizeClasses = {
-    sm: 'h-12',
-    md: 'h-16',
-    lg: 'h-32',
-    xl: 'h-64'
+    sm: 'h-24',
+    md: 'h-48',
+    lg: 'h-96',
+    xl: 'h-[500px]'
   };
 
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center flex-shrink-0 ${className}`}>
       {/* 
         User requested to use the provided PNG image directly.
         Expected location: /public/logo.png
