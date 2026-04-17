@@ -316,7 +316,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
             // Delay hiding to allow clicks on suggestions to register
             setTimeout(() => setIsFocused(false), 200);
           }}
-          className={`block w-full pl-16 pr-28 py-6 bg-white border border-gray-100 rounded-[2.5rem] text-xl focus:ring-4 focus:ring-black/5 focus:border-black transition-all shadow-xl hover:shadow-2xl placeholder:text-gray-300 font-medium ${isListening ? 'ring-4 ring-red-500/20 border-red-200' : ''}`}
+          className={`block w-full pl-16 pr-28 py-6 glass border border-blue-100/50 rounded-[2.5rem] text-xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 transition-all shadow-xl hover:shadow-2xl placeholder:text-slate-300 font-medium ${isListening ? 'ring-4 ring-red-500/20 border-red-200' : ''}`}
           placeholder={isListening ? t('listening') : t('searchPlaceholder')}
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">

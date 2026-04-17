@@ -60,33 +60,94 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
+      {/* Floating 3D Elements Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 bg-white">
+        <motion.div 
+          animate={{ 
+            y: [0, -30, 0],
+            rotate: [0, 45, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[15%] -left-20 w-80 h-80 bg-blue-500/5 rounded-full blur-[100px]"
+        />
+        <motion.div 
+          animate={{ 
+            y: [0, 40, 0],
+            rotate: [0, -20, 0],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[60%] -right-20 w-[40rem] h-[40rem] bg-teal-500/5 rounded-full blur-[120px]"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          style={{ rotateX: 45, rotateY: 45 }}
+          className="absolute top-1/4 right-[15%] w-32 h-32 border-2 border-blue-100 rounded-[2rem] opacity-20 hidden md:block"
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="flex flex-col items-center mb-16">
-            <Logo size="xl" className="mb-10" />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <Logo size="xl" className="mb-10" />
+            </motion.div>
+            
             <div className="flex flex-wrap justify-center gap-3">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white shadow-sm border border-gray-100 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" /> {t('appName')}
-              </div>
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white shadow-sm border border-gray-100 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-green-600">
+              <motion.div 
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-blue-600/70"
+              >
+                <Sparkles className="w-3.5 h-3.5" /> India's Medical Intelligence
+              </motion.div>
+              <motion.div 
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-teal-600/70"
+              >
                 <Shield className="w-3.5 h-3.5" /> Privacy First
-              </div>
+              </motion.div>
             </div>
           </div>
           
-          <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-black mb-10 leading-[0.9] max-w-5xl mx-auto">
-            Your Health,<br />
-            <span className="text-gray-300">Decoded.</span>
-          </h1>
+          <div className="overflow-hidden mb-10">
+            <motion.h1 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto"
+            >
+              Your Health,<br />
+              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] fixed -z-10 pointer-events-none select-none">Decoded.</span>
+              <span className="text-gray-300 relative z-10">Decoded.</span>
+            </motion.h1>
+          </div>
           
-          <p className="text-2xl text-gray-400 mb-16 max-w-2xl mx-auto font-medium tracking-tight">
-            The most reliable, privacy-first medicine information platform for India.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="text-xl md:text-2xl text-slate-500 mb-16 max-w-2xl mx-auto font-medium tracking-tight"
+          >
+            The most reliable, privacy-centric pharmaceutical intelligence platform for India.
+          </motion.p>
           
           <div className="mb-12 relative max-w-3xl mx-auto">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl -z-10" />
@@ -116,49 +177,57 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Premium Features Highlight Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
             onClick={() => handleFeatureClick('/scan')}
-            className="group cursor-pointer relative overflow-hidden bg-white border-2 border-blue-100 rounded-[3rem] p-10 hover:border-blue-500 hover:shadow-2xl transition-all"
+            className="group cursor-pointer relative overflow-hidden glass rounded-[3rem] p-10 hover:shadow-[0_20px_50px_rgba(37,99,235,0.15)] transition-all duration-500"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-blue-500/20 transition-colors" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-blue-500/10 transition-colors" />
             <div className="relative z-10">
-              <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                <Camera className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 glass-dark rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all shadow-xl">
+                <Camera className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">AI Health Scanner</h3>
-              <p className="text-lg text-gray-500 font-medium mb-8">
-                Instantly identify medicines, analyze doctor prescriptions, and understand lab test reports by taking a photo.
+              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">AI Diagnostic Vision</h3>
+              <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
+                Identify medications and analyze complex clinical reports with proprietary neural scanning.
               </p>
-              <div className="flex items-center gap-2 text-blue-600 font-bold">
-                {user ? 'Open Scanner' : 'Sign in to use'} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              <div className="flex items-center gap-3 text-blue-600 font-black uppercase tracking-widest text-xs">
+                {user ? 'Launch Scanner' : 'Authentication Required'} 
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
+            whileHover={{ y: -10, rotateX: 2, rotateY: 2 }}
             onClick={() => handleFeatureClick('/timetable')}
-            className="group cursor-pointer relative overflow-hidden bg-white border-2 border-purple-100 rounded-[3rem] p-10 hover:border-purple-500 hover:shadow-2xl transition-all"
+            className="group cursor-pointer relative overflow-hidden glass rounded-[3rem] p-10 hover:shadow-[0_20px_50px_rgba(20,184,166,0.15)] transition-all duration-500"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-purple-500/20 transition-colors" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-teal-500/10 transition-colors" />
             <div className="relative z-10">
-              <div className="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                <CalendarClock className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-all shadow-xl">
+                <CalendarClock className="w-8 h-8 text-teal-400" />
               </div>
-              <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Smart Timetable</h3>
-              <p className="text-lg text-gray-500 font-medium mb-8">
-                Never miss a dose. Set up personalized medication reminders with push notifications for you and your family.
+              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Neural Reminders</h3>
+              <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
+                Smart synchronization for your dosage cycles with persistent cross-platform alerts.
               </p>
-              <div className="flex items-center gap-2 text-purple-600 font-bold">
-                {user ? 'Open Timetable' : 'Sign in to use'} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              <div className="flex items-center gap-3 text-teal-600 font-black uppercase tracking-widest text-xs">
+                {user ? 'Configure Cycles' : 'Authentication Required'}
+                <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
               </div>
             </div>
           </motion.div>
@@ -240,9 +309,9 @@ export const Home: React.FC = () => {
             >
               <Link
                 to={`/medicine/${encodeURIComponent(med.name)}`}
-                className="block p-10 bg-white border border-gray-100 rounded-[3rem] shadow-sm hover:shadow-2xl hover:border-black transition-all group h-full relative overflow-hidden"
+                className="block p-10 glass rounded-[3rem] shadow-sm hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] hover:border-blue-500 transition-all duration-500 group h-full relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-bl-[4rem] -z-10 group-hover:bg-black/5 transition-colors" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[4rem] -z-10 group-hover:bg-blue-600/10 transition-colors" />
                 <div className="flex justify-between items-start mb-8">
                   <div className="flex flex-col gap-2">
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-black transition-colors">
@@ -328,7 +397,7 @@ export const Home: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-red-100 hover:shadow-xl transition-all"
               >
-                <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
+                <div className="w-12 h-12 glass rounded-2xl flex items-center justify-center mb-6">
                   <AlertTriangle className="w-6 h-6 text-red-500" />
                 </div>
                 <h3 className="text-2xl font-black text-gray-900 mb-2">{drug.drug_name}</h3>
@@ -351,10 +420,10 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Smart Suggestions - Immersive Gradient */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="bg-gradient-to-br from-gray-900 to-black text-white p-10 md:p-16 rounded-[4rem] shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-600/10 rounded-full -mr-64 -mt-64 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-purple-600/10 rounded-full -ml-32 -mb-32 blur-[100px]" />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 relative z-10">
+        <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white p-10 md:p-16 rounded-[4rem] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-500/10 rounded-full -mr-64 -mt-64 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-teal-500/10 rounded-full -ml-32 -mb-32 blur-[100px]" />
           
           <div className="relative z-10">
             <div className="flex items-center gap-4 mb-10">

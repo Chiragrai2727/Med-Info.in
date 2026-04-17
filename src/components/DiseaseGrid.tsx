@@ -23,10 +23,10 @@ export const DiseaseGrid: React.FC = () => {
             whileHover={{ y: -8, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate(`/condition/${disease.id}`)}
-            className="flex flex-col items-center justify-center p-10 bg-white border border-gray-50 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:border-black transition-all group relative overflow-hidden"
+            className="flex flex-col items-center justify-center p-10 glass rounded-[2.5rem] shadow-sm hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] transition-all group relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-16 h-16 bg-gray-50 rounded-bl-[2rem] -z-10 group-hover:bg-black/5 transition-colors" />
-            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-black group-hover:text-white transition-all shadow-inner">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-bl-[2rem] -z-10 group-hover:bg-blue-600/10 transition-colors" />
+            <div className="w-16 h-16 glass rounded-2xl flex items-center justify-center mb-6 group-hover:bg-slate-900 group-hover:text-white transition-all shadow-inner">
               <IconComponent className="w-8 h-8" />
             </div>
             <span className="font-black text-black text-base md:text-lg tracking-tight leading-none">

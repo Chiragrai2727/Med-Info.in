@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const { user, profile, openAuthModal, logout } = useAuth();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/70 backdrop-blur-xl border-b border-[var(--color-ink)]/10 pt-safe">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-blue-100/20 pt-safe">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="group">
@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => {
                   <Calendar className="w-5 h-5" />
                   <span className="hidden sm:inline">Timetable</span>
                 </Link>
-                <Link to="/scan" className="flex items-center gap-2 px-4 py-2 bg-[var(--color-ink)] text-[var(--color-bg)] rounded-full font-bold hover:bg-[var(--color-accent)] transition-colors shadow-sm">
+                <Link to="/scan" className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
                   <Camera className="w-4 h-4" />
                   <span className="hidden sm:inline">Scan</span>
                 </Link>
