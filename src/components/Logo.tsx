@@ -8,10 +8,10 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, size = 'md' }) => {
   const sizeClasses = {
-    sm: 'h-24',
-    md: 'h-48',
-    lg: 'h-96',
-    xl: 'h-[500px]'
+    sm: 'h-8',
+    md: 'h-10',
+    lg: 'h-24',
+    xl: 'h-32'
   };
 
   return (
@@ -23,7 +23,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
       <img 
         src="/logo.png" 
         alt="Aethelcare Logo" 
-        className={`${sizeClasses[size]} w-auto object-contain`}
+        className={`${sizeClasses[size]} w-auto max-w-full object-contain`}
         referrerPolicy="no-referrer"
       />
     </div>
