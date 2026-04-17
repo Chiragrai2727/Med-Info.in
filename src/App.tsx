@@ -13,6 +13,7 @@ import { Dashboard } from './pages/Dashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
+import { Conditions } from './pages/Conditions';
 import { OfflineBanner } from './components/OfflineBanner';
 import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
@@ -50,6 +51,7 @@ export default function App() {
                     />
                     <Route path="/medicine/:name" element={<MedicineDetail />} />
                     <Route path="/condition/:id" element={<ConditionPage />} />
+                    <Route path="/conditions" element={<Conditions />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />
                     <Route path="/compare/:med1/:med2" element={<Compare />} />
                     <Route 

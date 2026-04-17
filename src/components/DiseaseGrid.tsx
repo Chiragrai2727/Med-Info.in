@@ -5,13 +5,19 @@ import * as Icons from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
-export const DiseaseGrid: React.FC = () => {
+interface DiseaseGridProps {
+  limit?: number;
+}
+
+export const DiseaseGrid: React.FC<DiseaseGridProps> = ({ limit }) => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  
+  const displayDiseases = limit ? DISEASES.slice(0, limit) : DISEASES;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-      {DISEASES.map((disease, index) => {
+      {displayDiseases.map((disease, index) => {
         const IconComponent = (Icons as unknown as Record<string, React.ElementType>)[disease.icon] || Icons.Activity;
         return (
           <motion.button

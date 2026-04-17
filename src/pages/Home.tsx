@@ -288,8 +288,14 @@ export const Home: React.FC = () => {
               <p className="text-gray-400 font-medium">Quick access to common health needs</p>
             </div>
           </div>
+          <Link 
+            to="/conditions" 
+            className="px-6 py-3 glass hover:bg-black hover:text-white rounded-2xl text-sm font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
+          >
+            {t('viewAll')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
-        <DiseaseGrid />
+        <DiseaseGrid limit={6} />
       </section>
 
       {/* Popular Medicines - Premium Cards */}
