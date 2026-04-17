@@ -295,7 +295,7 @@ export async function getMedicinesForCondition(condition: string, lang: Language
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `List 6 common medicines used for "${condition}" in India. 
+      contents: `List 12 common medicines used for "${condition}" in India. 
       For each medicine, provide the name, category, and a 1-line summary.
       The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.`,
       config: {

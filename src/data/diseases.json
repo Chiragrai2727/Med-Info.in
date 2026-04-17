@@ -685,7 +685,67 @@
   ],
   "joint pain": [
     "diclofenac",
-    "aceclofenac_paracetamol_serratiopeptidase"
+    "aceclofenac_paracetamol_serratiopeptidase",
+    "diclofenac_gel",
+    "ibuprofen"
+  ],
+  "asthma": [
+    "salbutamol_inhaler",
+    "levocetirizine_montelukast",
+    "salbutamol",
+    "montelukast"
+  ],
+  "skin issues": [
+    "betamethasone",
+    "clotrimazole",
+    "diclofenac_gel",
+    "spironolactone"
+  ],
+  "eye strain": [
+    "carboxymethylcellulose",
+    "cyclosporine"
+  ],
+  "fatigue": [
+    "vitamin_b12",
+    "levothyroxine",
+    "ashwagandha"
+  ],
+  "heart health": [
+    "omega_3",
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
+  ],
+  "stomach flu": [
+    "ors",
+    "racecadotril",
+    "pantoprazole_domperidone",
+    "loperamide"
+  ],
+  "back pain": [
+    "diclofenac_gel",
+    "naproxen",
+    "aceclofenac_paracetamol_serratiopeptidase",
+    "ibuprofen"
+  ],
+  "migraine": [
+    "sumatriptan",
+    "naproxen",
+    "paracetamol",
+    "ibuprofen"
+  ],
+  "thyroid": [
+    "levothyroxine"
+  ],
+  "sleep issues": [
+    "melatonin",
+    "ashwagandha"
+  ],
+  "anxiety": [
+    "alprazolam",
+    "propranolol",
+    "ashwagandha",
+    "pregabalin"
   ],
   "muscle pain": [
     "diclofenac",

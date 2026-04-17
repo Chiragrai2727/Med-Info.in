@@ -290,7 +290,7 @@ export const Home: React.FC = () => {
           </div>
           <Link 
             to="/conditions" 
-            className="px-6 py-3 glass hover:bg-black hover:text-white rounded-2xl text-sm font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
+            className="px-6 py-3 glass text-black hover:bg-black hover:text-white rounded-2xl text-sm font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
           >
             {t('viewAll')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>

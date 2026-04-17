@@ -9,7 +9,7 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, size = 'md' }) => {
   const sizeClasses = {
     sm: 'h-8',
-    md: 'h-10',
+    md: 'h-12', // Increased from h-10 to make it more prominent
     lg: 'h-24',
     xl: 'h-32'
   };
@@ -18,10 +18,10 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       {/* 
         User requested to use the provided PNG image directly.
-        Expected location: /public/logo.png
+        Expected location: /fav-02.png (serves from public)
       */}
       <img 
-        src="/logo.png" 
+        src="/fav-02.png" 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size]} w-auto max-w-full object-contain`}
         referrerPolicy="no-referrer"
