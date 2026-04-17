@@ -85,7 +85,7 @@ export default function App() {
                 <footer className="py-12 border-t border-[var(--color-ink)]/10">
                   <div className="max-w-7xl mx-auto px-4 text-center">
                     <p className="text-sm text-[var(--color-ink)]/50 font-medium">
-                      © {new Date().getFullYear()} aethelcare. All rights reserved.
+                      © {new Date().getFullYear()} Aethelcare. All rights reserved.
                     </p>
                     <div className="flex justify-center gap-6 mt-4">
                       <Link to="/privacy" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest">Privacy Policy</Link>

@@ -9,7 +9,7 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   en: {
-    appName: 'aethelcare',
+    appName: 'Aethelcare',
     tagline: 'Search any medicine. Understand it instantly.',
     searchPlaceholder: 'Search for medicine information...',
     disclaimer: 'This platform provides general medicine information. Always consult a qualified doctor before taking any medication.',

@@ -46,7 +46,7 @@ export const PrivacyPolicy: React.FC = () => {
                 <h2 className="text-2xl font-black text-black">Data Protection</h2>
               </div>
               <p className="text-gray-600 leading-relaxed font-medium">
-                aethelcare is designed with a "Privacy First" approach. We do not collect, store, or share any personally identifiable information (PII). Your search history is stored locally on your device for offline access and is never transmitted to our servers.
+                Aethelcare is designed with a "Privacy First" approach. We do not collect, store, or share any personally identifiable information (PII). Your search history is stored locally on your device for offline access and is never transmitted to our servers.
               </p>
             </section>
 

@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24 relative z-50">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -132,7 +132,7 @@ export const Home: React.FC = () => {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-              className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto"
+              className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto relative"
             >
               Your Health,<br />
               <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] absolute -z-10 pointer-events-none select-none">Decoded.</span>
@@ -149,7 +149,7 @@ export const Home: React.FC = () => {
             The most reliable, privacy-centric pharmaceutical intelligence platform for India.
           </motion.p>
           
-          <div className="mb-12 relative max-w-3xl mx-auto">
+          <div className="mb-12 relative max-w-3xl mx-auto z-40">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl -z-10" />
             <Search autoFocus />
           </div>

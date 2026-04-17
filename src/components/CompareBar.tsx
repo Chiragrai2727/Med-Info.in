@@ -27,7 +27,7 @@ export const CompareBar: React.FC = () => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -100, opacity: 0 }}
         style={{ top: 'calc(4rem + env(safe-area-inset-top))' }}
-        className="fixed left-0 right-0 z-[45] px-4 py-3 bg-black/95 backdrop-blur-xl border-b border-white/10 pointer-events-none shadow-2xl"
+        className="fixed left-0 right-0 z-[90] px-4 py-3 bg-black/95 backdrop-blur-xl border-b border-white/10 pointer-events-none shadow-2xl"
       >
         <div className="max-w-7xl mx-auto flex items-center gap-6 pointer-events-auto">
           <div className="hidden md:flex items-center gap-2 text-white/40">

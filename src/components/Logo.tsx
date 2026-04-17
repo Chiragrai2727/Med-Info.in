@@ -30,62 +30,22 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      {/* Logo Icon */}
-      <div className={`${iconSizes[size]} bg-gradient-to-br from-gray-900 to-black rounded-[24%] flex items-center justify-center shadow-2xl overflow-hidden group-hover:scale-105 transition-all duration-700 relative`}>
-        {/* Subtle Glass Highlight */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50" />
-        
+      {/* New Logo Icon */}
+      <div className={`${iconSizes[size]} flex items-center justify-center group-hover:rotate-[30deg] transition-all duration-700 relative`}>
         <svg 
           viewBox="0 0 100 100" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="w-[65%] h-[65%] relative z-10"
+          className="w-full h-full"
         >
-          {/* Refined Abstract Concept: Pill + Search + Cross */}
-          <rect 
-            x="20" 
-            y="40" 
-            width="60" 
-            height="20" 
-            rx="10" 
-            fill="white" 
-            fillOpacity="0.15" 
-          />
-          
-          {/* Vertical Cross Bar (Abstract) */}
-          <rect 
-            x="45" 
-            y="30" 
-            width="10" 
-            height="40" 
-            rx="5" 
-            fill="white" 
-            fillOpacity="0.1" 
-          />
-
-          {/* Search Lens */}
-          <circle 
-            cx="40" 
-            cy="50" 
-            r="14" 
-            stroke="white" 
-            strokeWidth="7" 
-            strokeLinecap="round"
-          />
-          
-          {/* Lens Handle / Pill Detail */}
+          {/* Petal/Flower Shape */}
           <path 
-            d="M50 60L65 75" 
-            stroke="white" 
-            strokeWidth="7" 
-            strokeLinecap="round" 
+            d="M50 0C60 0 68 8 71 18C80 16 90 22 93 31C102 34 105 44 100 52C102 61 97 71 88 75C88 85 80 93 70 95C60 100 50 100 40 95C30 93 22 85 22 75C13 71 8 61 10 52C5 44 8 34 17 31C20 22 30 16 39 18C42 8 50 0 50 0Z" 
+            fill="#3B5998" 
           />
-          
-          {/* Center Dot (Focus/Info) */}
-          <circle 
-            cx="40" 
-            cy="50" 
-            r="3" 
+          {/* Concave 4-Pointed Star (Diamond Sparkle) */}
+          <path 
+            d="M50 28C50 45 61 50 80 50C61 50 50 55 50 72C50 55 39 50 20 50C39 50 50 45 50 28Z" 
             fill="white" 
           />
         </svg>
@@ -94,11 +54,10 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
       {/* Logo Text */}
       {showText && (
         <div className="flex flex-col leading-none">
-          <span className={`${textSizes[size]} font-black tracking-tight text-[var(--color-ink)] flex items-center gap-1`}>
-            aethelcare
-            <span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full animate-pulse" />
+          <span className={`${textSizes[size]} font-bold tracking-tight text-black flex items-center gap-1`}>
+            Aethelcare
           </span>
-          <span className={`${size === 'xl' ? 'text-xl' : 'text-[9px]'} font-black uppercase tracking-[0.4em] text-[var(--color-ink)]/50 mt-1`}>
+          <span className={`${size === 'xl' ? 'text-xl' : 'text-[10px]'} font-black uppercase tracking-[0.3em] text-slate-400 mt-1`}>
             India
           </span>
         </div>

@@ -38,9 +38,9 @@ export const NotificationManager: React.FC = () => {
       try {
         if ('serviceWorker' in navigator) {
           const registration = await navigator.serviceWorker.ready;
-          await registration.showNotification("aethelcare", options);
+          await registration.showNotification("Aethelcare", options);
         } else {
-          new Notification("aethelcare", options);
+          new Notification("Aethelcare", options);
         }
         localStorage.setItem('last_funny_notif', now.toString());
       } catch (e) {

@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const { user, profile, openAuthModal, logout } = useAuth();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-blue-100/20 pt-safe">
+    <nav className="fixed top-0 left-0 right-0 z-[100] glass border-b border-blue-100/20 pt-safe">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="group">

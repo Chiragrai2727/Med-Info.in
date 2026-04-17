@@ -353,7 +353,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            className="absolute mt-4 w-full bg-white/95 backdrop-blur-2xl border border-gray-100 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-50 overflow-hidden"
+            className="absolute mt-4 w-full bg-white/95 backdrop-blur-2xl border border-gray-100 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden"
           >
             {query.length === 0 ? (
               <div className="py-6">

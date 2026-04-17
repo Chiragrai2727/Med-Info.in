@@ -24,7 +24,7 @@ async function startServer() {
 
   // API routes
   app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", message: "aethelcare API is running" });
+    res.json({ status: "ok", message: "Aethelcare API is running" });
   });
 
   const handleCreateOrder = async (req: express.Request, res: express.Response) => {
