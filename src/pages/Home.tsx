@@ -135,7 +135,7 @@ export const Home: React.FC = () => {
               className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto"
             >
               Your Health,<br />
-              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] fixed -z-10 pointer-events-none select-none">Decoded.</span>
+              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] absolute -z-10 pointer-events-none select-none">Decoded.</span>
               <span className="text-gray-300 relative z-10">Decoded.</span>
             </motion.h1>
           </div>

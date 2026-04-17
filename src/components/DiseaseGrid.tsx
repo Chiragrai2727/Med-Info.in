@@ -26,8 +26,8 @@ export const DiseaseGrid: React.FC = () => {
             className="flex flex-col items-center justify-center p-10 glass rounded-[2.5rem] shadow-sm hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-bl-[2rem] -z-10 group-hover:bg-blue-600/10 transition-colors" />
-            <div className="w-16 h-16 glass rounded-2xl flex items-center justify-center mb-6 group-hover:bg-slate-900 group-hover:text-white transition-all shadow-inner">
-              <IconComponent className="w-8 h-8" />
+            <div className="w-16 h-16 glass rounded-2xl flex items-center justify-center mb-6 group-hover:bg-slate-900 transition-all shadow-inner">
+              <IconComponent className="w-8 h-8 text-slate-600 group-hover:text-white transition-colors" />
             </div>
             <span className="font-black text-black text-base md:text-lg tracking-tight leading-none">
               {t(disease.id)}
