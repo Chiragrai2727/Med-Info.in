@@ -16,12 +16,8 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
 
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
-      {/* 
-        User requested to use the provided PNG image directly.
-        Expected location: /fav-02.png (serves from public)
-      */}
       <img 
-        src="/fav-02.png" 
+        src="/logo.png" 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size]} w-auto max-w-full object-contain`}
         referrerPolicy="no-referrer"
