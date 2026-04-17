@@ -84,15 +84,15 @@ export const Compare: React.FC = () => {
           <AlertTriangle className="w-10 h-10 text-yellow-500" />
         </div>
         <h2 className="text-4xl font-black text-black mb-4 tracking-tight">
-          {!navigator.onLine ? 'Offline: Comparison Unavailable' : 'Comparison data not found'}
+          {!navigator.onLine ? t('comparisonUnavailable') : t('comparisonNotFound')}
         </h2>
         <p className="text-gray-500 mb-12 max-w-md font-medium">
           {!navigator.onLine 
-            ? "You're currently offline and this comparison hasn't been cached yet. Please connect to the internet to view this comparison."
-            : "We couldn't find or generate comparison data for these medicines. Please try again later."}
+            ? t('comparisonOfflineDesc')
+            : t('comparisonNotFoundDesc')}
         </p>
         <Link to="/" className="px-8 py-4 bg-black text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-gray-800 transition-all">
-          <ChevronLeft className="w-4 h-4" /> Back to Home
+          <ChevronLeft className="w-4 h-4" /> {t('backToHome')}
         </Link>
       </div>
     );
@@ -103,7 +103,7 @@ export const Compare: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-8 font-medium">
           <ChevronLeft className="w-4 h-4" />
-          Back to Home
+          {t('backToHome')}
         </Link>
 
         <div className="flex items-center gap-4 mb-12">
@@ -114,7 +114,7 @@ export const Compare: React.FC = () => {
             <h1 className="text-5xl font-black text-black tracking-tighter leading-none">
               {data.med1.drug_name} <span className="text-gray-300 mx-2 font-light">{t('vs')}</span> {data.med2.drug_name}
             </h1>
-            <p className="text-lg text-gray-400 font-medium mt-2">Side-by-side comparison of features and effects</p>
+            <p className="text-lg text-gray-400 font-medium mt-2">{t('featureComparison')}</p>
           </div>
         </div>
 
@@ -131,11 +131,11 @@ export const Compare: React.FC = () => {
               <div className="absolute top-0 right-0 w-48 h-48 bg-gray-50 rounded-bl-[6rem] -z-10 group-hover:bg-black/5 transition-colors" />
               <div className="mb-6 flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                  {med.prescription_required ? 'Prescription Required' : 'OTC'}
+                  {med.prescription_required ? t('prescriptionRequired') : t('otc')}
                 </span>
                 {med.india_regulatory_status?.toLowerCase().includes('approved') && (
                   <span className="px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3" /> CDSCO Verified
+                    <ShieldCheck className="w-3 h-3" /> {t('cdscoVerified')}
                   </span>
                 )}
               </div>
@@ -182,7 +182,7 @@ export const Compare: React.FC = () => {
         {/* Disclaimer */}
         <div className="bg-gray-50 border border-gray-100 p-12 rounded-[3rem] text-center">
           <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-black mb-4 tracking-tight">Medical Disclaimer</h2>
+          <h2 className="text-3xl font-black mb-4 tracking-tight">{t('medicalDisclaimer')}</h2>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
             {t('disclaimer')}
           </p>

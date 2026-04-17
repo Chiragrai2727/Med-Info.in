@@ -24,11 +24,11 @@ export const Navbar: React.FC = () => {
               <>
                 <Link to="/timetable" className="flex items-center gap-2 px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold">
                   <Calendar className="w-5 h-5" />
-                  <span className="hidden sm:inline">Timetable</span>
+                  <span className="hidden sm:inline">{t('timetable')}</span>
                 </Link>
                 <Link to="/scan" className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
                   <Camera className="w-4 h-4" />
-                  <span className="hidden sm:inline">Scan</span>
+                  <span className="hidden sm:inline">{t('scan')}</span>
                 </Link>
                 <div className="relative group">
                   <button className="flex items-center gap-2">
@@ -45,22 +45,25 @@ export const Navbar: React.FC = () => {
                       <p className="text-sm font-bold truncate">{profile?.displayName || user.email}</p>
                     </div>
                     <Link to="/dashboard" className="w-full text-left px-4 py-3 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">
-                      <LayoutDashboard className="w-4 h-4" /> Dashboard
+                      <div className="w-4 h-4">
+                        <LayoutDashboard className="w-4 h-4" />
+                      </div>
+                      {t('dashboard')}
                     </Link>
                     {profile?.role === 'admin' && (
                       <Link to="/admin" className="w-full text-left px-4 py-3 text-sm text-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">
-                        <ShieldCheck className="w-4 h-4" /> Admin Panel
+                        <ShieldCheck className="w-4 h-4" /> {t('adminPanel')}
                       </Link>
                     )}
                     <button onClick={logout} className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 rounded-b-2xl">
-                      <LogOut className="w-4 h-4" /> Sign Out
+                      <LogOut className="w-4 h-4" /> {t('signOut')}
                     </button>
                   </div>
                 </div>
               </>
             ) : (
               <button onClick={openAuthModal} className="text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors">
-                Sign In
+                {t('signIn')}
               </button>
             )}
             <LanguageToggle />

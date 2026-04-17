@@ -208,9 +208,9 @@ export const MedicineDetail: React.FC = () => {
           </div>
         </div>
         <div className="text-center">
-          <h3 className="text-xl font-black text-black mb-2">Analyzing Medicine</h3>
+          <h3 className="text-xl font-black text-black mb-2">{t('analyzingMedicine')}</h3>
           <p className="text-gray-500 font-medium max-w-xs mx-auto">
-            Gathering comprehensive data, side effects, and safety information...
+            {t('gatheringData')}
           </p>
         </div>
       </div>
@@ -223,9 +223,9 @@ export const MedicineDetail: React.FC = () => {
         <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mb-6">
           <AlertCircle className="w-10 h-10 text-gray-300" />
         </div>
-        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">Medicine not found</h2>
+        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">{t('medicineNotFound')}</h2>
         <p className="text-gray-500 mb-12 max-w-md font-medium">
-          We couldn't find information for "{name}". Try searching for a generic name or a popular brand.
+          {t('medicineNotFoundDesc').replace('{name}', name || '')}
         </p>
         
         <div className="w-full max-w-md mb-12">
@@ -233,7 +233,7 @@ export const MedicineDetail: React.FC = () => {
         </div>
 
         <Link to="/" className="px-8 py-4 bg-black text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-gray-800 transition-all">
-          <ChevronLeft className="w-4 h-4" /> Back to Home
+          <ChevronLeft className="w-4 h-4" /> {t('backToHome')}
         </Link>
       </div>
     );
@@ -269,12 +269,12 @@ export const MedicineDetail: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-medium">
             <ChevronLeft className="w-4 h-4" />
-            Back to Search
+            {t('backToSearch')}
           </Link>
           {!navigator.onLine && (
             <div className="px-4 py-2 bg-yellow-50 text-yellow-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2 border border-yellow-100 shadow-sm">
               <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
-              Viewing Offline Data
+              {t('viewingOfflineData')}
             </div>
           )}
           {medicine?.source && (
@@ -288,7 +288,7 @@ export const MedicineDetail: React.FC = () => {
                 medicine.source === 'AI Analysis' ? 'bg-purple-400' :
                 'bg-gray-400'
               }`} />
-              Source: {medicine.source}
+              {t('source')}: {medicine.source}
             </div>
           )}
         </div>
@@ -303,19 +303,19 @@ export const MedicineDetail: React.FC = () => {
             <div>
               <div className="flex flex-wrap gap-2 mb-4">
                 <span className="px-4 py-1.5 bg-black text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
-                  {medicine.prescription_required ? 'Prescription Required' : 'OTC / Non-Prescription'}
+                  {medicine.prescription_required ? t('prescriptionRequired') : t('otcNonPrescription')}
                 </span>
                 <span className="px-4 py-1.5 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                   {medicine.ayurvedic_or_allopathic}
                 </span>
                 {medicine.india_regulatory_status?.toLowerCase().includes('approved') && (
                   <span className="px-4 py-1.5 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5" /> CDSCO Verified
+                    <ShieldCheck className="w-3.5 h-3.5" /> {t('cdscoVerified')}
                   </span>
                 )}
                 {medicine.is_banned && (
                   <span className="px-4 py-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-1.5 animate-pulse">
-                    <ShieldAlert className="w-3.5 h-3.5" /> BANNED DRUG
+                    <ShieldAlert className="w-3.5 h-3.5" /> {t('bannedDrug')}
                   </span>
                 )}
               </div>
@@ -351,7 +351,7 @@ export const MedicineDetail: React.FC = () => {
                 ) : (
                   <Volume2 className="w-4 h-4" />
                 )}
-                {isPlaying && !speakingSection ? 'Stop' : 'Listen'}
+                {isPlaying && !speakingSection ? t('stop') : t('listen')}
               </button>
               <button
                 onClick={handleShare}
@@ -369,14 +369,14 @@ export const MedicineDetail: React.FC = () => {
                 }`}
               >
                 <Scale className="w-4 h-4" />
-                {isAlreadyInCompare ? 'Remove from Compare' : `+ ${t('compare')}`}
+                {isAlreadyInCompare ? t('removeFromCompare') : `+ ${t('compare')}`}
               </button>
               <button
                 onClick={() => setIsFeedbackOpen(true)}
                 className="flex items-center gap-2 px-8 py-4 rounded-full text-sm font-black transition-all shadow-xl active:scale-95 bg-white text-gray-500 border border-gray-100 hover:bg-gray-50 hover:text-black"
               >
                 <MessageSquareWarning className="w-4 h-4" />
-                Report Issue
+                {t('reportIssue')}
               </button>
             </div>
           </div>
@@ -412,38 +412,38 @@ export const MedicineDetail: React.FC = () => {
                   <ShieldAlert className="w-8 h-8" />
                 </motion.div>
                 <div>
-                  <h2 className="text-3xl font-black uppercase tracking-tighter">BANNED DRUG WARNING</h2>
-                  <p className="text-red-100 font-bold">PROHIBITED FOR MANUFACTURE AND SALE IN INDIA</p>
+                  <h2 className="text-3xl font-black uppercase tracking-tighter">{t('bannedDrugWarning')}</h2>
+                  <p className="text-red-100 font-bold">{t('prohibitedInIndia')}</p>
                 </div>
               </div>
               <p className="text-xl font-bold leading-tight mb-4">
-                This medication has been banned by the CDSCO (Central Drugs Standard Control Organization) due to severe safety concerns and health risks.
+                {t('bannedDrugNotice')}
               </p>
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest bg-black/20 w-fit px-4 py-2 rounded-full">
                 <AlertTriangle className="w-4 h-4 text-yellow-400" />
-                DO NOT CONSUME THIS MEDICATION
+                {t('doNotConsume')}
               </div>
             </motion.div>
           )}
 
           <div className={`p-8 rounded-[2.5rem] shadow-2xl mb-8 relative overflow-hidden ${medicine.is_banned ? 'bg-black text-white' : 'bg-blue-600 text-white'}`}>
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
-            <p className="text-sm font-black uppercase tracking-[0.2em] mb-2 opacity-60">Quick Summary</p>
+            <p className="text-sm font-black uppercase tracking-[0.2em] mb-2 opacity-60">{t('quickSummary')}</p>
             <p className="text-2xl font-bold leading-tight">{medicine.quick_summary}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Category</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{t('category')}</p>
               <p className="text-lg font-bold text-black">{medicine.category}</p>
             </div>
             <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Regulatory Status</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{t('regulatoryStatus')}</p>
               <p className="text-lg font-bold text-blue-600">{medicine.india_regulatory_status}</p>
             </div>
             <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Safety</p>
-              <p className="text-lg font-bold text-green-600">Verified Info</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{t('safety')}</p>
+              <p className="text-lg font-bold text-green-600">{t('verifiedInfo')}</p>
             </div>
           </div>
         </motion.div>
@@ -452,56 +452,56 @@ export const MedicineDetail: React.FC = () => {
         <div className="grid grid-cols-1 gap-6 mb-16">
           <Section 
             icon={<Activity className="w-5 h-5" />} 
-            title="Uses & Conditions" 
+            title={t('usesConditions')} 
             content={medicine.uses} 
             onSpeak={handleSpeakSection}
-            isSpeaking={speakingSection === "Uses & Conditions"}
+            isSpeaking={speakingSection === t('usesConditions')}
             isLoading={isTtsLoading}
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<Zap className="w-5 h-5" />} 
-              title="Mechanism of Action" 
+              title={t('mechanismOfAction')} 
               content={medicine.mechanism_of_action} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Mechanism of Action"}
+              isSpeaking={speakingSection === t('mechanismOfAction')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<Stethoscope className="w-5 h-5" />} 
-              title="Common Dosage" 
+              title={t('commonDosage')} 
               content={medicine.dosage_common} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Common Dosage"}
+              isSpeaking={speakingSection === t('commonDosage')}
               isLoading={isTtsLoading}
             />
           </div>
 
           <Section 
             icon={<Info className="w-5 h-5" />} 
-            title="How it works in the body" 
+            title={t('howItWorksBody')} 
             content={medicine.how_it_works_in_body} 
             onSpeak={handleSpeakSection}
-            isSpeaking={speakingSection === "How it works in the body"}
+            isSpeaking={speakingSection === t('howItWorksBody')}
             isLoading={isTtsLoading}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<Clock className="w-5 h-5" />} 
-              title="Onset of Action" 
+              title={t('onsetOfAction')} 
               content={medicine.onset_of_action} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Onset of Action"}
+              isSpeaking={speakingSection === t('onsetOfAction')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<Timer className="w-5 h-5" />} 
-              title="Duration of Effect" 
+              title={t('durationOfEffect')} 
               content={medicine.duration_of_effect} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Duration of Effect"}
+              isSpeaking={speakingSection === t('durationOfEffect')}
               isLoading={isTtsLoading}
             />
           </div>
@@ -509,19 +509,19 @@ export const MedicineDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<UserCheck className="w-5 h-5" />} 
-              title="Who should take" 
+              title={t('whoShouldTake')} 
               content={medicine.who_should_take} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Who should take"}
+              isSpeaking={speakingSection === t('whoShouldTake')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<UserX className="w-5 h-5" />} 
-              title="Who should NOT take" 
+              title={t('whoShouldNotTake')} 
               content={medicine.who_should_not_take} 
               variant="danger"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Who should NOT take"}
+              isSpeaking={speakingSection === t('whoShouldNotTake')}
               isLoading={isTtsLoading}
             />
           </div>
@@ -529,81 +529,81 @@ export const MedicineDetail: React.FC = () => {
           {medicine.missed_dose && (
             <Section 
               icon={<Clock className="w-5 h-5" />} 
-              title="Missed Dose" 
+              title={t('missedDose')} 
               content={medicine.missed_dose} 
               variant="warning"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Missed Dose"}
+              isSpeaking={speakingSection === t('missedDose')}
               isLoading={isTtsLoading}
             />
           )}
 
           <Section 
             icon={<AlertCircle className="w-5 h-5" />} 
-            title="Common Side Effects" 
+            title={t('commonSideEffects')} 
             content={medicine.side_effects_common} 
             onSpeak={handleSpeakSection}
-            isSpeaking={speakingSection === "Common Side Effects"}
+            isSpeaking={speakingSection === t('commonSideEffects')}
             isLoading={isTtsLoading}
           />
 
           <Section 
             icon={<AlertTriangle className="w-5 h-5" />} 
-            title="Serious Side Effects" 
+            title={t('seriousSideEffects')} 
             content={medicine.side_effects_serious} 
             variant="warning"
             onSpeak={handleSpeakSection}
-            isSpeaking={speakingSection === "Serious Side Effects"}
+            isSpeaking={speakingSection === t('seriousSideEffects')}
             isLoading={isTtsLoading}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<Baby className="w-5 h-5" />} 
-              title="Pregnancy Safety" 
+              title={t('pregnancySafety')} 
               content={medicine.pregnancy_safety} 
               variant="warning"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Pregnancy Safety"}
+              isSpeaking={speakingSection === t('pregnancySafety')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<Heart className="w-5 h-5" />} 
-              title="Kidney & Liver Warning" 
+              title={t('kidneyLiverWarning')} 
               content={medicine.kidney_liver_warning} 
               variant="warning"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Kidney & Liver Warning"}
+              isSpeaking={speakingSection === t('kidneyLiverWarning')}
               isLoading={isTtsLoading}
             />
           </div>
 
           <Section 
             icon={<ArrowRightLeft className="w-5 h-5" />} 
-            title="Drug Interactions" 
+            title={t('drugInteractions')} 
             content={medicine.drug_interactions} 
             variant="warning"
             onSpeak={handleSpeakSection}
-            isSpeaking={speakingSection === "Drug Interactions"}
+            isSpeaking={speakingSection === t('drugInteractions')}
             isLoading={isTtsLoading}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<Utensils className="w-5 h-5" />} 
-              title="Food Interactions" 
+              title={t('foodInteractions')} 
               content={medicine.food_interactions} 
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Food Interactions"}
+              isSpeaking={speakingSection === t('foodInteractions')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<Beer className="w-5 h-5" />} 
-              title="Alcohol Warning" 
+              title={t('alcoholWarning')} 
               content={medicine.alcohol_warning} 
               variant="danger"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Alcohol Warning"}
+              isSpeaking={speakingSection === t('alcoholWarning')}
               isLoading={isTtsLoading}
             />
           </div>
@@ -611,20 +611,20 @@ export const MedicineDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Section 
               icon={<AlertTriangle className="w-5 h-5" />} 
-              title="Overdose Effects" 
+              title={t('overdoseEffects')} 
               content={medicine.overdose_effects} 
               variant="danger"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Overdose Effects"}
+              isSpeaking={speakingSection === t('overdoseEffects')}
               isLoading={isTtsLoading}
             />
             <Section 
               icon={<ShieldAlert className="w-5 h-5" />} 
-              title="Contraindications" 
+              title={t('contraindications')} 
               content={medicine.contraindications} 
               variant="danger"
               onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === "Contraindications"}
+              isSpeaking={speakingSection === t('contraindications')}
               isLoading={isTtsLoading}
             />
           </div>
@@ -633,7 +633,7 @@ export const MedicineDetail: React.FC = () => {
         {/* Disclaimer Footer */}
         <div className="bg-gray-50 border border-gray-100 p-12 rounded-[3rem] text-center">
           <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-black mb-4 tracking-tight">Medical Disclaimer</h2>
+          <h2 className="text-3xl font-black mb-4 tracking-tight">{t('medicalDisclaimer')}</h2>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
             {t('disclaimer')}
           </p>

@@ -11,24 +11,6 @@ import { CompareSearch } from '../components/CompareSearch';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
 
-const POPULAR_MEDS = [
-  { name: 'Dolo 650', category: 'Analgesic', summary: 'India\'s most trusted medicine for fever and body pain relief.' },
-  { name: 'Augmentin', category: 'Antibiotic', summary: 'Powerful broad-spectrum antibiotic for various bacterial infections.' },
-  { name: 'Okacet', category: 'Antihistamine', summary: 'Quick relief from allergies, sneezing, and skin itching.' },
-  { name: 'Pan 40', category: 'Antacid', summary: 'Effective long-lasting relief from acidity and heartburn.' },
-];
-
-const SUGGESTED_QUERIES = ['Fever', 'Headache', 'Cold & cough', 'Paracetamol vs Ibuprofen'];
-
-const PEOPLE_ALSO_SEARCH = [
-  { query: 'Dolo 650 dosage', reason: 'Commonly searched for fever management' },
-  { query: 'Ibuprofen side effects', reason: 'Important safety information for pain relief' },
-  { query: 'Best medicine for dry cough', reason: 'Seasonal ailment query' },
-  { query: 'Antibiotics for throat infection', reason: 'Frequent bacterial infection query' },
-  { query: 'Metformin uses', reason: 'Top searched for diabetes management' },
-  { query: 'Amlodipine side effects', reason: 'Common blood pressure medication query' }
-];
-
 import { Logo } from '../components/Logo';
 
 export const Home: React.FC = () => {
@@ -39,6 +21,24 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [bannedDrugs, setBannedDrugs] = useState<any[]>([]);
   const [bannedSearchQuery, setBannedSearchQuery] = useState('');
+
+  const POPULAR_MEDS = [
+    { name: 'Dolo 650', category: t('category_analgesic'), summary: t('doloSummary') },
+    { name: 'Augmentin', category: t('category_antibiotic'), summary: t('augmentinSummary') },
+    { name: 'Okacet', category: t('category_antihistamine'), summary: t('okacetSummary') },
+    { name: 'Pan 40', category: t('category_antacid'), summary: t('pan40Summary') },
+  ];
+
+  const SUGGESTED_QUERIES = [t('suggestedFever'), t('suggestedHeadache'), t('suggestedColdCough'), t('suggestedComparison')];
+
+  const PEOPLE_ALSO_SEARCH = [
+    { query: 'Dolo 650 dosage', reason: t('doloSearchReason') },
+    { query: 'Ibuprofen side effects', reason: t('ibuprofenSearchReason') },
+    { query: 'Best medicine for dry cough', reason: t('dryCoughSearchReason') },
+    { query: 'Antibiotics for throat infection', reason: t('throatInfectionSearchReason') },
+    { query: 'Metformin uses', reason: t('diabetesSearchReason') },
+    { query: 'Amlodipine side effects', reason: t('amlodipineSearchReason') }
+  ];
 
   useEffect(() => {
     // Load top 4 banned drugs for highlight
@@ -114,7 +114,7 @@ export const Home: React.FC = () => {
                 transition={{ delay: 0.4 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-blue-600/70"
               >
-                <Sparkles className="w-3.5 h-3.5" /> India's Medical Intelligence
+                <Sparkles className="w-3.5 h-3.5" /> {t('medicalIntelligence')}
               </motion.div>
               <motion.div 
                 initial={{ x: 20, opacity: 0 }}
@@ -122,7 +122,7 @@ export const Home: React.FC = () => {
                 transition={{ delay: 0.5 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-teal-600/70"
               >
-                <Shield className="w-3.5 h-3.5" /> Privacy First
+                <Shield className="w-3.5 h-3.5" /> {t('privacyFirst')}
               </motion.div>
             </div>
           </div>
@@ -134,9 +134,9 @@ export const Home: React.FC = () => {
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
               className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto relative"
             >
-              Your Health,<br />
-              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] absolute -z-10 pointer-events-none select-none">Decoded.</span>
-              <span className="text-gray-300 relative z-10">Decoded.</span>
+              {t('healthDecoded')}<br />
+              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] absolute -z-10 pointer-events-none select-none">{t('decoded')}</span>
+              <span className="text-gray-300 relative z-10">{t('decoded')}</span>
             </motion.h1>
           </div>
           
@@ -146,7 +146,7 @@ export const Home: React.FC = () => {
             transition={{ delay: 1, duration: 1 }}
             className="text-xl md:text-2xl text-slate-500 mb-16 max-w-2xl mx-auto font-medium tracking-tight"
           >
-            The most reliable, privacy-centric pharmaceutical intelligence platform for India.
+            {t('heroDescription')}
           </motion.p>
           
           <div className="mb-12 relative max-w-3xl mx-auto z-40">
@@ -192,12 +192,12 @@ export const Home: React.FC = () => {
               <div className="w-16 h-16 glass-dark rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all shadow-xl">
                 <Camera className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">AI Diagnostic Vision</h3>
+              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">{t('diagnosticVision')}</h3>
               <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
-                Identify medications and analyze complex clinical reports with proprietary neural scanning.
+                {t('diagnosticVisionDesc')}
               </p>
               <div className="flex items-center gap-3 text-blue-600 font-black uppercase tracking-widest text-xs">
-                {user ? 'Launch Scanner' : 'Authentication Required'} 
+                {user ? t('launchScanner') : t('authRequired')} 
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -219,12 +219,12 @@ export const Home: React.FC = () => {
               <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-all shadow-xl">
                 <CalendarClock className="w-8 h-8 text-teal-400" />
               </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Neural Reminders</h3>
+              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">{t('neuralReminders')}</h3>
               <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
-                Smart synchronization for your dosage cycles with persistent cross-platform alerts.
+                {t('neuralRemindersDesc')}
               </p>
               <div className="flex items-center gap-3 text-teal-600 font-black uppercase tracking-widest text-xs">
-                {user ? 'Configure Cycles' : 'Authentication Required'}
+                {user ? t('configureCycles') : t('authRequired')}
                 <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -259,8 +259,8 @@ export const Home: React.FC = () => {
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
                   <Scale className="w-6 h-6" />
                 </div>
-                <h2 className="text-4xl font-black mb-4 tracking-tight leading-none">Smart<br />Comparison</h2>
-                <p className="text-gray-400 font-medium text-lg">Side-by-side analysis of salts, side effects, and more.</p>
+                <h2 className="text-4xl font-black mb-4 tracking-tight leading-none">{t('smartComparison').split(' ').join('<br />')}</h2>
+                <p className="text-gray-400 font-medium text-lg">{t('smartComparisonDesc')}</p>
               </div>
               <div className="mt-12">
                 <div className="flex -space-x-4">
@@ -285,7 +285,7 @@ export const Home: React.FC = () => {
             </div>
             <div>
               <h2 className="text-4xl font-black text-black tracking-tight">{t('commonConditions')}</h2>
-              <p className="text-gray-400 font-medium">Quick access to common health needs</p>
+              <p className="text-gray-400 font-medium">{t('quickHealthAccess')}</p>
             </div>
           </div>
           <Link 
@@ -349,7 +349,7 @@ export const Home: React.FC = () => {
                 <p className="text-lg text-gray-500 font-medium leading-relaxed line-clamp-3">{med.summary}</p>
                 
                 <div className="mt-8 pt-8 border-t border-gray-50 flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">View Details</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">{t('viewDetails')}</span>
                   <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black transition-all transform group-hover:translate-x-2" />
                 </div>
               </Link>
@@ -366,18 +366,18 @@ export const Home: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative z-10">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 text-xs font-black uppercase tracking-[0.2em] rounded-full mb-6">
-                <Ban className="w-4 h-4" /> CDSCO Alert
+                <Ban className="w-4 h-4" /> {t('cdscoAlert')}
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-red-900 tracking-tight mb-4">Banned Drugs Search</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-red-900 tracking-tight mb-4">{t('bannedDrugsSearch')}</h2>
               <p className="text-xl text-red-700/80 font-medium max-w-2xl">
-                Quickly check if a medication is prohibited for manufacture and sale in India.
+                {t('bannedDrugsSearchDesc')}
               </p>
             </div>
             <Link 
               to="/banned-drugs" 
               className="px-8 py-4 bg-red-600 text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-red-700 transition-all w-fit"
             >
-              Full Registry <ArrowRight className="w-4 h-4" />
+              {t('fullRegistry')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
@@ -389,7 +389,7 @@ export const Home: React.FC = () => {
               type="text"
               value={bannedSearchQuery}
               onChange={(e) => setBannedSearchQuery(e.target.value)}
-              placeholder="Search banned drug name..."
+              placeholder={t('searchBannedPlaceholder')}
               className="block w-full pl-14 pr-6 py-5 bg-white border border-red-100 rounded-[2rem] text-lg focus:ring-4 focus:ring-red-500/10 focus:border-red-500 transition-all shadow-sm font-medium"
             />
           </div>
@@ -412,13 +412,13 @@ export const Home: React.FC = () => {
                   onClick={() => navigate(`/medicine/${encodeURIComponent(drug.drug_name)}`)}
                   className="text-sm font-black uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors flex items-center gap-1 mt-auto"
                 >
-                  Read Why <ArrowRight className="w-4 h-4" />
+                  {t('readWhy')} <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.div>
             ))}
             {filteredBannedHighlight.length === 0 && (
               <div className="col-span-full py-10 text-center text-red-400 font-bold">
-                No matching banned drugs found in our quick lookup.
+                {t('noBannedFound')}
               </div>
             )}
           </div>
@@ -438,7 +438,7 @@ export const Home: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-4xl font-black tracking-tight">{t('peopleAlsoSearch')}</h2>
-                <p className="text-gray-400 font-medium mt-2">Based on current health trends and CDSCO guidelines</p>
+                <p className="text-gray-400 font-medium mt-2">{t('peopleAlsoSearchDesc')}</p>
               </div>
             </div>
             
@@ -467,7 +467,7 @@ export const Home: React.FC = () => {
           <div className="w-20 h-20 bg-yellow-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
             <AlertTriangle className="w-10 h-10 text-yellow-500" />
           </div>
-          <h2 className="text-3xl font-black mb-6 tracking-tight">Medical Disclaimer</h2>
+          <h2 className="text-3xl font-black mb-6 tracking-tight">{t('medicalDisclaimer')}</h2>
           <p className="text-xl text-gray-400 font-medium italic max-w-3xl mx-auto leading-relaxed">
             "{t('disclaimer')}"
           </p>

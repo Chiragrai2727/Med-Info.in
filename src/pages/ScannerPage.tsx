@@ -11,7 +11,7 @@ import { SubscriptionModal } from '../components/SubscriptionModal';
 type ScanMode = 'medicine' | 'prescription' | 'report';
 
 export const ScannerPage: React.FC = () => {
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const { profile, loading: authLoading, isAuthModalOpen, openAuthModal } = useAuth();
   const navigate = useNavigate();
   const [scanMode, setScanMode] = useState<ScanMode>('medicine');
@@ -222,31 +222,31 @@ export const ScannerPage: React.FC = () => {
             const localMatch = await fetchMedicineDetails(scanResult.name, language);
             setResult({ ...scanResult, localMatch });
           } else {
-            setError("Could not identify a medication in this image. Please try again with a clearer picture.");
+            setError(t('noMedicationFound'));
           }
         } else if (scanMode === 'prescription') {
           const result = await scanPrescription(base64, language);
           if (result && result.medicines.length > 0) {
             setPrescriptionResult(result);
           } else {
-            setError("Could not extract prescription details. Please ensure the image is clear and contains a valid prescription.");
+            setError(t('noPrescriptionFound'));
           }
         } else if (scanMode === 'report') {
           const result = await scanLabReport(base64, language);
           if (result && result.summary) {
             setReportResult(result);
           } else {
-            setError("Could not extract lab report details. Please ensure the image is clear and contains a valid medical test report.");
+            setError(t('noReportFound'));
           }
         }
       } catch (err: any) {
         console.error("Scanner error:", err);
         if (err.message?.includes("API key") || err.message?.includes("403")) {
-          setError("API Key Error: Please ensure your Gemini API key is configured correctly.");
+          setError(t('apiKeyError'));
         } else if (err.message?.includes("quota") || err.message?.includes("429")) {
-          setError("API Quota Exceeded: Please try again later.");
+          setError(t('apiQuotaError'));
         } else {
-          setError(`Scanning failed: ${err.message || "Unknown error"}. Please try again.`);
+          setError(`${t('scanningFailed')}: ${err.message || "Unknown error"}. ${t('tryAgain')}.`);
         }
       } finally {
         setLoading(false);
@@ -338,9 +338,9 @@ export const ScannerPage: React.FC = () => {
   return (
     <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-black text-black mb-4 tracking-tight">AI Health Scanner</h1>
+        <h1 className="text-4xl font-black text-black mb-4 tracking-tight">{t('scannerTitle')}</h1>
         <p className="text-lg text-gray-500 font-medium">
-          Scan medicines, doctor prescriptions, or lab reports for instant analysis.
+          {t('scannerSubtitle')}
         </p>
       </div>
 
@@ -352,7 +352,7 @@ export const ScannerPage: React.FC = () => {
             scanMode === 'medicine' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          <Camera className="w-5 h-5" /> Medicine
+          <Camera className="w-5 h-5" /> {t('medicineMode')}
         </button>
         <button
           onClick={() => { setScanMode('prescription'); resetScanner(); }}
@@ -360,7 +360,7 @@ export const ScannerPage: React.FC = () => {
             scanMode === 'prescription' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          <FileText className="w-5 h-5" /> Prescription
+          <FileText className="w-5 h-5" /> {t('prescriptionMode')}
         </button>
         <button
           onClick={() => { setScanMode('report'); resetScanner(); }}
@@ -368,7 +368,7 @@ export const ScannerPage: React.FC = () => {
             scanMode === 'report' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          <Activity className="w-5 h-5" /> Lab Report
+          <Activity className="w-5 h-5" /> {t('reportMode')}
         </button>
       </div>
 
@@ -398,7 +398,7 @@ export const ScannerPage: React.FC = () => {
               <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Camera className="w-8 h-8" />
               </div>
-              <span className="font-bold text-gray-700">Take Photo</span>
+              <span className="font-bold text-gray-700">{t('takePhoto')}</span>
             </button>
 
             <button
@@ -408,7 +408,7 @@ export const ScannerPage: React.FC = () => {
               <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                 <ImageIcon className="w-8 h-8" />
               </div>
-              <span className="font-bold text-gray-700">Upload Image</span>
+              <span className="font-bold text-gray-700">{t('uploadImage')}</span>
             </button>
           </div>
         ) : (
@@ -435,7 +435,7 @@ export const ScannerPage: React.FC = () => {
           >
             <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
             <p className="text-lg font-bold text-gray-600 animate-pulse">
-              {scanMode === 'medicine' ? 'Analyzing medication...' : scanMode === 'prescription' ? 'Reading prescription...' : 'Analyzing lab report...'}
+              {scanMode === 'medicine' ? t('analyzingMedication') : scanMode === 'prescription' ? t('readingPrescription') : t('analyzingReport')}
             </p>
           </motion.div>
         )}
@@ -454,14 +454,14 @@ export const ScannerPage: React.FC = () => {
             </div>
             
             <div className="bg-blue-50/50 border border-blue-100 rounded-[2rem] p-8">
-              <h3 className="text-blue-900 font-black uppercase tracking-widest text-xs mb-4">Scanning Tips</h3>
+              <h3 className="text-blue-900 font-black uppercase tracking-widest text-xs mb-4">{t('scannerTips')}</h3>
               <ul className="space-y-3">
                 {[
-                  "Ensure the text is clearly visible and in focus",
-                  "Avoid glare or reflections on the paper/packaging",
-                  "Hold the camera steady and use good lighting",
-                  "Make sure the entire document is within the frame",
-                  "For handwritten notes, ensure they are legible"
+                  t('scannerTip1'),
+                  t('scannerTip2'),
+                  t('scannerTip3'),
+                  t('scannerTip4'),
+                  t('scannerTip5')
                 ].map((tip, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-blue-700 font-medium">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
@@ -488,28 +488,28 @@ export const ScannerPage: React.FC = () => {
                   <span className="text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full inline-block">
                     {result.category}
                   </span>
-                  <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                    result.confidence >= 85 ? 'bg-green-50 text-green-600' :
-                    result.confidence >= 60 ? 'bg-yellow-50 text-yellow-600' :
-                    'bg-red-50 text-red-600'
-                  }`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${
-                      result.confidence >= 85 ? 'bg-green-500' :
-                      result.confidence >= 60 ? 'bg-yellow-500' :
-                      'bg-red-500'
-                    }`} />
-                    Confidence: {result.confidence}%
+                    <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                      result.confidence >= 85 ? 'bg-green-50 text-green-600' :
+                      result.confidence >= 60 ? 'bg-yellow-50 text-yellow-600' :
+                      'bg-red-50 text-red-600'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${
+                        result.confidence >= 85 ? 'bg-green-500' :
+                        result.confidence >= 60 ? 'bg-yellow-500' :
+                        'bg-red-500'
+                      }`} />
+                      {t('confidence')}: {result.confidence}%
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <h2 className="text-3xl font-black text-black">{result.name}</h2>
-                  {result.localMatch && (
-                    <span className="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" />
-                      Verified
-                    </span>
-                  )}
-                </div>
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-3xl font-black text-black">{result.name}</h2>
+                    {result.localMatch && (
+                      <span className="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        {t('verified')}
+                      </span>
+                    )}
+                  </div>
               </div>
               
               <button
@@ -537,10 +537,10 @@ export const ScannerPage: React.FC = () => {
                   <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-yellow-800 font-medium">
                     {result.confidence < 50 
-                      ? "Low confidence identification. This image is very difficult to read. Please try again with better lighting or a clearer angle."
-                      : "The identification is uncertain due to image quality. Please verify with the physical packaging."}
+                      ? t('lowConfidenceWarn')
+                      : t('uncertainIdentification')}
                   </p>
-                </div>
+</div>
               ) : null}
               <p className="text-gray-600 font-medium leading-relaxed">
                 {result.description}
@@ -552,7 +552,7 @@ export const ScannerPage: React.FC = () => {
                 to={`/medicine/${encodeURIComponent(result.name)}`}
                 className="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
               >
-                View Full Details
+                {t('viewFullDetails')}
               </Link>
             </div>
           </motion.div>
@@ -568,7 +568,7 @@ export const ScannerPage: React.FC = () => {
             className="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-8"
           >
             <div className="flex justify-between items-start mb-6">
-              <h2 className="text-3xl font-black text-black">Prescription Details</h2>
+              <h2 className="text-3xl font-black text-black">{t('prescriptionDetails')}</h2>
               <button
                 onClick={() => playAudio(`Prescription contains ${prescriptionResult.medicines.length} medicines. ${prescriptionResult.doctorNotes ? 'Doctor notes: ' + prescriptionResult.doctorNotes : ''}`)}
                 disabled={isTtsLoading}
@@ -595,27 +595,27 @@ export const ScannerPage: React.FC = () => {
                     <h3 className="text-xl font-bold text-gray-900">{med.name}</h3>
                     <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">{med.dosage}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm mt-4">
-                    <div>
-                      <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">Timing</span>
-                      <span className="font-medium text-gray-700">{med.timing}</span>
+                    <div className="grid grid-cols-2 gap-4 text-sm mt-4">
+                      <div>
+                        <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">{t('timetable_timing')}</span>
+                        <span className="font-medium text-gray-700">{med.timing}</span>
+                      </div>
+                      <div>
+                        <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">{t('timetable_duration')}</span>
+                        <span className="font-medium text-gray-700">{med.duration}</span>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">{t('timetable_purpose')}</span>
+                        <span className="font-medium text-gray-700">{med.purpose}</span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">Duration</span>
-                      <span className="font-medium text-gray-700">{med.duration}</span>
-                    </div>
-                    <div className="col-span-2">
-                      <span className="block text-gray-400 font-bold uppercase tracking-wider text-[10px] mb-1">Purpose</span>
-                      <span className="font-medium text-gray-700">{med.purpose}</span>
-                    </div>
-                  </div>
                 </div>
               ))}
             </div>
 
             {prescriptionResult.doctorNotes && (
               <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-2xl">
-                <h4 className="text-xs font-black uppercase tracking-widest text-yellow-800 mb-2">Doctor's Notes</h4>
+                <h4 className="text-xs font-black uppercase tracking-widest text-yellow-800 mb-2">{t('doctorNotes')}</h4>
                 <p className="text-yellow-900 font-medium">{prescriptionResult.doctorNotes}</p>
               </div>
             )}
@@ -632,7 +632,7 @@ export const ScannerPage: React.FC = () => {
             className="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-8"
           >
             <div className="flex justify-between items-start mb-6">
-              <h2 className="text-3xl font-black text-black">Lab Report Analysis</h2>
+              <h2 className="text-3xl font-black text-black">{t('labReportAnalysis')}</h2>
               <button
                 onClick={() => playAudio(reportResult.summary)}
                 disabled={isTtsLoading}
@@ -653,22 +653,22 @@ export const ScannerPage: React.FC = () => {
             </div>
 
             <div className="p-6 bg-blue-50 border border-blue-100 rounded-2xl mb-8">
-              <h4 className="text-xs font-black uppercase tracking-widest text-blue-800 mb-2">Summary</h4>
+              <h4 className="text-xs font-black uppercase tracking-widest text-blue-800 mb-2">{t('singleLineSummary')}</h4>
               <p className="text-blue-900 font-medium leading-relaxed">{reportResult.summary}</p>
             </div>
 
             {reportResult.abnormalFindings.length > 0 ? (
               <div>
-                <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-4">Abnormal Findings</h4>
+                <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-4">{t('abnormalFindings')}</h4>
                 <div className="space-y-3">
                   {reportResult.abnormalFindings.map((finding, idx) => (
                     <div key={idx} className="flex items-center justify-between p-4 bg-red-50 border border-red-100 rounded-xl">
                       <div>
                         <h5 className="font-bold text-red-900">{finding.testName}</h5>
                         <p className="text-sm text-red-700 mt-1">
-                          Result: <span className="font-bold">{finding.result}</span> 
+                          {t('result')}: <span className="font-bold">{finding.result}</span> 
                           <span className="mx-2 text-red-300">|</span> 
-                          Normal: {finding.normalRange}
+                          {t('normal')}: {finding.normalRange}
                         </p>
                       </div>
                       <span className="px-3 py-1 bg-red-200 text-red-800 text-xs font-black uppercase tracking-wider rounded-full">
@@ -681,7 +681,7 @@ export const ScannerPage: React.FC = () => {
             ) : (
               <div className="p-6 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3">
                 <CheckCircle2 className="w-6 h-6 text-green-500" />
-                <p className="text-green-800 font-medium">No abnormal findings detected in this report. Everything appears to be within normal ranges.</p>
+                <p className="text-green-800 font-medium">{t('noAbnormalFindings')}</p>
               </div>
             )}
           </motion.div>

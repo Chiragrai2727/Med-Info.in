@@ -18,7 +18,7 @@ export const Conditions: React.FC = () => {
           </div>
           <div>
             <h1 className="text-4xl font-black text-black tracking-tight">{t('commonConditions')}</h1>
-            <p className="text-gray-400 font-medium">Browse medication information by condition</p>
+            <p className="text-gray-400 font-medium">{t('browseByCondition')}</p>
           </div>
         </div>
 

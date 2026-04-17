@@ -33,12 +33,12 @@ export const ConditionPage: React.FC = () => {
         <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mb-6">
           <AlertCircle className="w-10 h-10 text-gray-300" />
         </div>
-        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">Condition not found</h2>
+        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">{t('conditionNotFound')}</h2>
         <p className="text-gray-500 mb-12 max-w-md font-medium">
-          We couldn't find information for this condition. Try searching for a common symptom or disease.
+          {t('conditionNotFoundDesc')}
         </p>
         <Link to="/" className="px-8 py-4 bg-black text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-gray-800 transition-all">
-          <ChevronLeft className="w-4 h-4" /> Back to Home
+          <ChevronLeft className="w-4 h-4" /> {t('backToHome')}
         </Link>
       </div>
     );
@@ -49,7 +49,7 @@ export const ConditionPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-8 font-medium">
           <ChevronLeft className="w-4 h-4" />
-          Back to Home
+          {t('backToHome')}
         </Link>
 
         <div className="mb-16">
@@ -88,7 +88,7 @@ export const ConditionPage: React.FC = () => {
                       </span>
                       {med.india_regulatory_status?.toLowerCase().includes('approved') && (
                         <span className="inline-flex w-fit items-center gap-1 px-2 py-1 bg-green-50 text-green-600 text-[8px] font-black uppercase tracking-widest rounded-md">
-                          <ShieldCheck className="w-3 h-3" /> CDSCO Verified
+                          <ShieldCheck className="w-3 h-3" /> {t('cdscoVerified')}
                         </span>
                       )}
                     </div>

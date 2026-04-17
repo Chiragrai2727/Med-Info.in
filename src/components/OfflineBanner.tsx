@@ -58,10 +58,10 @@ export const OfflineBanner: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-black tracking-tight">
-                  {isOffline ? t('offlineTitle') : 'Back Online!'}
+                  {isOffline ? t('offlineTitle') : t('backOnline')}
                 </h3>
                 <p className="text-sm opacity-80 font-medium">
-                  {isOffline ? t('offlineStatus') : 'All features are now available.'}
+                  {isOffline ? t('offlineStatus') : t('allFeaturesAvailable')}
                 </p>
               </div>
             </div>

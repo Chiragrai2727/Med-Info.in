@@ -15,8 +15,18 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+import { LanguageProvider } from './LanguageContext';
+import { AuthProvider } from './AuthContext';
+import { ToastProvider } from './ToastContext';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <LanguageProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </LanguageProvider>
+    </AuthProvider>
   </StrictMode>,
 );

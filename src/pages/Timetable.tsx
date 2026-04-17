@@ -33,7 +33,7 @@ const HEALTH_TIPS = [
 export const Timetable: React.FC = () => {
   const { user, profile, openAuthModal, loading } = useAuth();
   const { showToast } = useToast();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [showPaywall, setShowPaywall] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -57,7 +57,7 @@ export const Timetable: React.FC = () => {
       
       if (Notification.permission === "default" && user) {
         const timer = setTimeout(() => {
-          showToast("Enable notifications to get medication reminders!", "info");
+          showToast(t('enableNotificationsPrompt'), "info");
         }, 3000);
         return () => clearTimeout(timer);
       }
@@ -124,10 +124,11 @@ export const Timetable: React.FC = () => {
           const notificationKey = `${schedule.id}-${todayStr}`;
           if (!notifiedRef.current[notificationKey]) {
             try {
-              const randomTip = HEALTH_TIPS[Math.floor(Math.random() * HEALTH_TIPS.length)];
-              const title = `💊 Time for ${schedule.medicineName}`;
+              const tips = [t('tip1'), t('tip2'), t('tip3'), t('tip4'), t('tip5'), t('tip6')];
+              const randomTip = tips[Math.floor(Math.random() * tips.length)];
+              const title = `💊 ${t('timeFor')} ${schedule.medicineName}`;
               const options: any = {
-                body: `Dosage: ${schedule.dosage}\n\nTip: ${randomTip}`,
+                body: `${t('dosageLabel')}: ${schedule.dosage}\n\nTip: ${randomTip}`,
                 icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
                 badge: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
                 tag: schedule.id,
@@ -143,8 +144,8 @@ export const Timetable: React.FC = () => {
               // Actions are only supported in ServiceWorker notifications
               if ('serviceWorker' in navigator) {
                 options.actions = [
-                  { action: 'taken', title: 'Mark as Taken' },
-                  { action: 'snooze', title: 'Snooze' }
+                  { action: 'taken', title: t('markAsTaken') },
+                  { action: 'snooze', title: t('snooze') }
                 ];
                 try {
                   const registration = await Promise.race([
@@ -182,24 +183,23 @@ export const Timetable: React.FC = () => {
 
   const requestNotifications = async () => {
     if (!("Notification" in window)) {
-      showToast("Notifications not supported in this browser", "error");
+      showToast(t('notificationsNotSupported'), "error");
       return;
     }
 
     if (Notification.permission === "denied") {
-      showToast("Notifications are blocked. Please enable them in your browser settings.", "error");
-      alert("If you are on Windows, check if 'Focus Assist' or 'Do Not Disturb' is turned on. Notifications might be hidden in the Action Center (bottom right corner of your screen).");
+      showToast(t('notificationsBlocked'), "error");
       return;
     }
 
     const permission = await Notification.requestPermission();
     setNotificationsEnabled(permission === "granted");
     if (permission === "granted") {
-      showToast("Notifications enabled!", "success");
+      showToast(t('notificationsEnabled'), "success");
       try {
-        const title = "🔔 Aethelcare Enabled";
+        const title = `🔔 ${t('appName')} ${t('enabled')}`;
         const options: any = {
-          body: "You'll now receive timely medication reminders and health tips.",
+          body: t('notificationsReadyDesc'),
           icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
           vibrate: [100, 50, 100]
         };
@@ -244,7 +244,7 @@ export const Timetable: React.FC = () => {
         setIsSearching(false);
         
         if (isDrugBanned(newSchedule.medicineName)) {
-          setBannedWarning(`${newSchedule.medicineName} is a BANNED drug in India. Please consult a doctor immediately.`);
+          setBannedWarning(`${newSchedule.medicineName} ${t('bannedWarning')}`);
         } else {
           setBannedWarning(null);
         }
@@ -271,7 +271,7 @@ export const Timetable: React.FC = () => {
       setSchedules(data);
     }, (error) => {
       handleFirestoreError(error, OperationType.LIST, 'schedules');
-      showToast("Could not load timetable.", "error");
+      showToast(t('timetableLoadError'), "error");
     });
 
     return () => unsubscribe();
@@ -289,20 +289,20 @@ export const Timetable: React.FC = () => {
       });
       setIsAdding(false);
       setNewSchedule({ medicineName: '', dosage: '', time: '08:00', days: [...DAYS] });
-      showToast('Schedule added successfully', 'success');
+      showToast(t('scheduleAdded'), 'success');
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'schedules');
-      showToast('Failed to add schedule', 'error');
+      showToast(t('scheduleAddError'), 'error');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteDoc(doc(db, 'schedules', id));
-      showToast('Schedule removed', 'success');
+      showToast(t('scheduleRemoved'), 'success');
     } catch (error) {
       handleFirestoreError(error, OperationType.DELETE, `schedules/${id}`);
-      showToast('Failed to remove schedule', 'error');
+      showToast(t('scheduleRemoveError'), 'error');
     }
   };
 
@@ -316,10 +316,10 @@ export const Timetable: React.FC = () => {
         lastTakenDate: isTaken ? null : today,
         updatedAt: serverTimestamp()
       });
-      showToast(isTaken ? 'Marked as not taken' : 'Marked as taken! Good job.', 'success');
+      showToast(isTaken ? t('markedNotTaken') : t('markedTaken'), 'success');
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `schedules/${schedule.id}`);
-      showToast('Failed to update status', 'error');
+      showToast(t('statusUpdateError'), 'error');
     }
   };
 
@@ -333,11 +333,11 @@ export const Timetable: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-4xl font-black tracking-tight text-gray-900 mb-2">My Timetable</h1>
-            <p className="text-gray-500 font-medium">Manage your daily medication schedule</p>
+            <h1 className="text-4xl font-black tracking-tight text-gray-900 mb-2">{t('timetableTitle')}</h1>
+            <p className="text-gray-500 font-medium">{t('timetableSubtitle')}</p>
             {notificationsEnabled && (
               <p className="text-xs text-green-600 font-bold mt-2 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Notifications active (keep app open or in background)
+                <CheckCircle2 className="w-3 h-3" /> {t('notificationsActive')}
               </p>
             )}
           </div>
@@ -345,7 +345,7 @@ export const Timetable: React.FC = () => {
             <button
               onClick={requestNotifications}
               className={`p-3 rounded-xl transition-all ${notificationsEnabled ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400 hover:text-black'}`}
-              title={notificationsEnabled ? "Notifications Enabled" : "Enable Notifications"}
+              title={notificationsEnabled ? t('notificationsEnabled') : t('enableNotifications')}
             >
               {notificationsEnabled ? <Bell className="w-5 h-5" /> : <BellOff className="w-5 h-5" />}
             </button>
@@ -354,7 +354,7 @@ export const Timetable: React.FC = () => {
                 onClick={() => setIsAdding(true)}
                 className="px-6 py-3 bg-black text-white rounded-xl font-bold flex items-center gap-2 hover:bg-gray-900 transition-colors shadow-lg"
               >
-                <Plus className="w-5 h-5" /> Add Med
+                <Plus className="w-5 h-5" /> {t('addMed')}
               </button>
             )}
           </div>
@@ -369,7 +369,7 @@ export const Timetable: React.FC = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div className="relative" ref={searchRef}>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">Medicine Name</label>
+                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('medicineName')}</label>
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
                   <input 
@@ -378,7 +378,7 @@ export const Timetable: React.FC = () => {
                     value={newSchedule.medicineName}
                     onChange={e => setNewSchedule({...newSchedule, medicineName: e.target.value})}
                     className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-black/5 focus:border-black font-bold transition-all"
-                    placeholder="Search or type name..."
+                    placeholder={t('medicineSearchPlaceholder')}
                   />
                 </div>
                 
@@ -429,21 +429,21 @@ export const Timetable: React.FC = () => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">Dosage</label>
+                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('dosageLabel')}</label>
                 <input 
                   type="text" 
                   required
                   value={newSchedule.dosage}
                   onChange={e => setNewSchedule({...newSchedule, dosage: e.target.value})}
                   className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-black/5 focus:border-black font-bold transition-all"
-                  placeholder="e.g. 1 Tablet"
+                  placeholder={t('dosagePlaceholder')}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">Time</label>
+                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('timeLabel')}</label>
                 <div className="relative">
                   <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
                   <input 
@@ -456,7 +456,7 @@ export const Timetable: React.FC = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">Frequency</label>
+                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('frequencyLabel')}</label>
                 <div className="flex flex-wrap gap-2">
                   {DAYS.map(day => (
                     <button
@@ -489,13 +489,13 @@ export const Timetable: React.FC = () => {
                 onClick={() => setIsAdding(false)}
                 className="px-8 py-4 text-gray-500 font-black uppercase tracking-widest text-xs hover:bg-gray-50 rounded-2xl transition-all"
               >
-                Cancel
+                {t('cancel')}
               </button>
               <button 
                 type="submit"
                 className="px-10 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-900 transition-all shadow-xl hover:shadow-2xl active:scale-95"
               >
-                Save Schedule
+                {t('saveSchedule')}
               </button>
             </div>
           </motion.form>
@@ -506,8 +506,8 @@ export const Timetable: React.FC = () => {
             <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
               <CalendarIcon className="w-10 h-10 text-gray-200" />
             </div>
-            <p className="text-2xl text-gray-400 font-black tracking-tight">Your timetable is empty</p>
-            <p className="text-gray-400 font-medium mt-2">Add your first medication to stay on track.</p>
+            <p className="text-2xl text-gray-400 font-black tracking-tight">{t('timetableEmpty')}</p>
+            <p className="text-gray-400 font-medium mt-2">{t('timetableEmptyDesc')}</p>
           </div>
         ) : (
           <div className="space-y-12">
@@ -515,10 +515,10 @@ export const Timetable: React.FC = () => {
             {todaySchedules.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">Today's Doses</h2>
+                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">{t('todaysDoses')}</h2>
                   <div className="h-px flex-grow bg-gray-100" />
                   <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full">
-                    {today}
+                    {t(`day_${today.toLowerCase()}`)}
                   </span>
                 </div>
                 <div className="grid gap-4">
@@ -549,7 +549,7 @@ export const Timetable: React.FC = () => {
                                 {schedule.medicineName}
                               </h3>
                               {isDrugBanned(schedule.medicineName) && (
-                                <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[8px] font-black uppercase tracking-widest rounded-md">Banned</span>
+                                <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[8px] font-black uppercase tracking-widest rounded-md">{t('banned')}</span>
                               )}
                             </div>
                             <p className="text-lg text-gray-500 font-medium">{schedule.dosage}</p>
@@ -565,7 +565,7 @@ export const Timetable: React.FC = () => {
                                 : 'bg-black text-white shadow-xl hover:bg-gray-900'
                             }`}
                           >
-                            {isTaken ? 'Taken' : 'Mark as Taken'}
+                            {isTaken ? t('taken') : t('markAsTaken')}
                           </button>
                           <button 
                             onClick={() => handleDelete(schedule.id)}
@@ -585,7 +585,7 @@ export const Timetable: React.FC = () => {
             {otherSchedules.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">Other Days</h2>
+                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">{t('otherDays')}</h2>
                   <div className="h-px flex-grow bg-gray-100" />
                 </div>
                 <div className="grid gap-4">
@@ -594,7 +594,7 @@ export const Timetable: React.FC = () => {
                       key={schedule.id}
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-8 hover:shadow-lg transition-all"
+                      className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-8 hover:shadow-xl transition-all"
                     >
                       <div className="flex items-center gap-8">
                         <div className="w-16 h-16 bg-gray-50 rounded-2xl flex flex-col items-center justify-center border border-gray-100">
@@ -612,6 +612,7 @@ export const Timetable: React.FC = () => {
                           {DAYS.map(day => (
                             <span 
                               key={day}
+                              title={t(`day_${day.toLowerCase()}`)}
                               className={`text-[8px] font-black uppercase tracking-wider w-8 h-8 flex items-center justify-center rounded-xl transition-all ${
                                 schedule.days.includes(day) ? 'bg-black text-white shadow-md' : 'bg-gray-50 text-gray-200'
                               }`}

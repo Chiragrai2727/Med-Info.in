@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { useLanguage } from '../LanguageContext';
 
 interface PaymentRecord {
   id: string;
@@ -18,6 +19,7 @@ interface PaymentRecord {
 
 export const Dashboard: React.FC = () => {
   const { user, profile } = useAuth();
+  const { t } = useLanguage();
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
@@ -61,8 +63,8 @@ export const Dashboard: React.FC = () => {
         
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Dashboard</h1>
-          <p className="text-gray-500 mt-2">Manage your account, active plans, and payment history.</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('myDashboard')}</h1>
+          <p className="text-gray-500 mt-2">{t('dashboardDesc')}</p>
         </div>
 
         {/* Profile Section */}
@@ -78,16 +80,16 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{profile.displayName || 'User'}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{profile.displayName || t('user')}</h2>
               <p className="text-gray-500">{profile.email}</p>
               <div className="mt-3 flex gap-2">
                 <span className={`px-3 py-1 text-xs font-bold rounded-full capitalize ${
                   profile.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
                 }`}>
-                  Role: {profile.role}
+                  {t('role')}: {profile.role}
                 </span>
                 <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
-                  Joined: {new Date(profile.createdAt).toLocaleDateString()}
+                  {t('joined')}: {new Date(profile.createdAt).toLocaleDateString()}
                 </span>
               </div>
             </div>
@@ -100,14 +102,14 @@ export const Dashboard: React.FC = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 <ShieldCheck className="w-6 h-6 text-blue-600" />
-                Current Plan
+                {t('currentPlan')}
               </h2>
               {isPremium && !isExpired ? (
-                <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-bold rounded-full">Active</span>
+                <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-bold rounded-full">{t('active')}</span>
               ) : isExpired ? (
-                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-bold rounded-full">Expired</span>
+                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-bold rounded-full">{t('expired')}</span>
               ) : (
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-bold rounded-full">Free Tier</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-bold rounded-full">{t('freeTier')}</span>
               )}
             </div>
 
@@ -115,16 +117,16 @@ export const Dashboard: React.FC = () => {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-                    <p className="text-sm text-blue-600 font-medium mb-1">Plan Tier</p>
+                    <p className="text-sm text-blue-600 font-medium mb-1">{t('currentPlan')}</p>
                     <p className="text-xl font-bold capitalize">{profile.subscriptionTier || 'Monthly'} Pro</p>
                   </div>
                   <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-                    <p className="text-sm text-blue-600 font-medium mb-1">Valid Until</p>
+                    <p className="text-sm text-blue-600 font-medium mb-1">{t('validUntil')}</p>
                     <p className="text-xl font-bold">{expiryDate?.toLocaleDateString()}</p>
                   </div>
                   <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-                    <p className="text-sm text-blue-600 font-medium mb-1">Days Remaining</p>
-                    <p className="text-xl font-bold">{daysRemaining} Days</p>
+                    <p className="text-sm text-blue-600 font-medium mb-1">{t('daysRemaining')}</p>
+                    <p className="text-xl font-bold">{daysRemaining} {t('days')}</p>
                   </div>
                 </div>
                 
@@ -133,36 +135,38 @@ export const Dashboard: React.FC = () => {
                     onClick={() => setShowSubscriptionModal(true)}
                     className="px-6 py-2.5 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2"
                   >
-                    <Zap className="w-4 h-4" /> Change Plan
+                    <Zap className="w-4 h-4" /> {t('changePlan')}
                   </button>
                 </div>
               </div>
             ) : isExpired ? (
               <div className="bg-red-50 rounded-2xl p-6 border border-red-100 text-center">
                 <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-red-900 mb-2">Your Subscription Has Expired</h3>
+                <h3 className="text-lg font-bold text-red-900 mb-2">{t('subscriptionExpired')}</h3>
                 <p className="text-red-700 mb-6 max-w-md mx-auto">
-                  Your previous {profile.subscriptionTier || 'premium'} plan expired on {expiryDate?.toLocaleDateString()}. Renew now to regain access to unlimited AI health scanning and priority support.
+                  {t('subscriptionExpiredDesc')
+                    .replace('{tier}', profile.subscriptionTier || 'premium')
+                    .replace('{date}', expiryDate?.toLocaleDateString() || '')}
                 </p>
                 <button 
                   onClick={() => setShowSubscriptionModal(true)}
                   className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors inline-flex items-center gap-2 shadow-sm"
                 >
-                  <Zap className="w-5 h-5 text-yellow-300" /> Renew Subscription
+                  <Zap className="w-5 h-5 text-yellow-300" /> {t('renewSubscription')}
                 </button>
               </div>
             ) : (
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 text-center">
                 <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">No Active Subscription</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t('noActiveSubscription')}</h3>
                 <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                  Upgrade to Premium to unlock unlimited AI health scanning, prescription analysis, and lab report insights.
+                  {t('noActiveSubscriptionDesc')}
                 </p>
                 <button 
                   onClick={() => setShowSubscriptionModal(true)}
                   className="px-8 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
                 >
-                  <Zap className="w-5 h-5 text-yellow-400" /> Upgrade to Premium
+                  <Zap className="w-5 h-5 text-yellow-400" /> {t('upgradeToPremium')}
                 </button>
               </div>
             )}
@@ -174,23 +178,23 @@ export const Dashboard: React.FC = () => {
           <div className="p-6 sm:p-8 border-b border-gray-100">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <CreditCard className="w-6 h-6 text-blue-600" />
-              Payment History
+              {t('paymentHistory')}
             </h2>
           </div>
           
           <div className="p-0">
             {loading ? (
-              <div className="p-8 text-center text-gray-500">Loading payment history...</div>
+              <div className="p-8 text-center text-gray-500">{t('loadingHistory')}</div>
             ) : payments.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-100 text-sm text-gray-500">
-                      <th className="p-4 font-medium">Date</th>
-                      <th className="p-4 font-medium">Plan</th>
-                      <th className="p-4 font-medium">Amount</th>
-                      <th className="p-4 font-medium">Status</th>
-                      <th className="p-4 font-medium">Transaction ID</th>
+                      <th className="p-4 font-medium">{t('date')}</th>
+                      <th className="p-4 font-medium">{t('currentPlan')}</th>
+                      <th className="p-4 font-medium">{t('amount')}</th>
+                      <th className="p-4 font-medium">{t('status')}</th>
+                      <th className="p-4 font-medium">{t('transactionId')}</th>
                     </tr>
                   </thead>
                   <tbody className="text-sm">
@@ -222,8 +226,8 @@ export const Dashboard: React.FC = () => {
                 <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CreditCard className="w-8 h-8 text-gray-300" />
                 </div>
-                <h3 className="text-gray-900 font-bold mb-1">No payments yet</h3>
-                <p className="text-gray-500 text-sm">Your payment history will appear here once you subscribe.</p>
+                <h3 className="text-gray-900 font-bold mb-1">{t('noPayments')}</h3>
+                <p className="text-gray-500 text-sm">{t('noPaymentsDesc')}</p>
               </div>
             )}
           </div>
@@ -238,3 +242,4 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+;

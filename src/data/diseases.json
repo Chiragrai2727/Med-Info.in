@@ -84,7 +84,12 @@
     "losartan",
     "spironolactone",
     "enalapril",
-    "metoprolol"
+    "metoprolol",
+    "bisoprolol",
+    "nebivolol",
+    "ramipril",
+    "telmisartan_amlodipine",
+    "telmisartan_chlorthalidone"
   ],
   "type 2 diabetes mellitus": [
     "metformin",
@@ -105,7 +110,12 @@
     "sitagliptin",
     "glimepiride",
     "pioglitazone",
-    "gliclazide"
+    "gliclazide",
+    "vildagliptin",
+    "teneligliptin",
+    "dapagliflozin",
+    "empagliflozin",
+    "voglibose"
   ],
   "mellitus": [
     "metformin",
@@ -178,7 +188,12 @@
     "amoxicillin_clavulanate",
     "ciprofloxacin",
     "clotrimazole",
-    "doxycycline"
+    "doxycycline",
+    "cefixime",
+    "ofloxacin",
+    "metronidazole",
+    "clarithromycin",
+    "cephalexin"
   ],
   "pneumonia": [
     "azithromycin",
@@ -331,7 +346,11 @@
   "allergies": [
     "cetirizine",
     "levocetirizine",
-    "montelukast"
+    "montelukast",
+    "fexofenadine",
+    "loratadine",
+    "bilastine",
+    "ebastine"
   ],
   "pain relief": [
     "ibuprofen"
@@ -530,7 +549,12 @@
     "ranitidine",
     "omeprazole",
     "rabeprazole",
-    "pantoprazole_domperidone"
+    "pantoprazole_domperidone",
+    "omeprazole_domperidone",
+    "rabeprazole_domperidone",
+    "sucralfate",
+    "magaldrate_simethicone",
+    "aluminum_hydroxide_magnesium_hydroxide"
   ],
   "stomach ulcers": [
     "pantoprazole",
@@ -687,7 +711,10 @@
     "diclofenac",
     "aceclofenac_paracetamol_serratiopeptidase",
     "diclofenac_gel",
-    "ibuprofen"
+    "ibuprofen",
+    "etoricoxib",
+    "aceclofenac",
+    "piroxicam"
   ],
   "asthma": [
     "salbutamol_inhaler",
@@ -699,7 +726,12 @@
     "betamethasone",
     "clotrimazole",
     "diclofenac_gel",
-    "spironolactone"
+    "spironolactone",
+    "mupirocin",
+    "fusidic_acid",
+    "ketoconazole",
+    "terbinafine",
+    "permethrin"
   ],
   "eye strain": [
     "carboxymethylcellulose",
@@ -739,7 +771,10 @@
   ],
   "sleep issues": [
     "melatonin",
-    "ashwagandha"
+    "ashwagandha",
+    "brahmi",
+    "zolpidem",
+    "diphenhydramine"
   ],
   "anxiety": [
     "alprazolam",

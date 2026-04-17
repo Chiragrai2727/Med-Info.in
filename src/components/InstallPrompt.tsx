@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X, WifiOff, Zap } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -14,6 +15,7 @@ interface BeforeInstallPromptEvent extends Event {
 export const InstallPrompt: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [show, setShow] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -64,15 +66,15 @@ export const InstallPrompt: React.FC = () => {
             </button>
           </div>
           <div>
-            <h3 className="text-lg font-black text-black mb-3">Install Aethelcare</h3>
+            <h3 className="text-lg font-black text-black mb-3">{t('installTitle')}</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-600 font-medium">
               <div className="flex items-center gap-2">
                 <WifiOff className="w-4 h-4 text-blue-500" />
-                <span>Offline access anywhere</span>
+                <span>{t('installOffline')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4 text-yellow-500" />
-                <span>Faster loading times</span>
+                <span>{t('installFaster')}</span>
               </div>
             </div>
           </div>
@@ -80,7 +82,7 @@ export const InstallPrompt: React.FC = () => {
             onClick={handleInstall}
             className="w-full py-3 bg-black text-white rounded-2xl font-bold hover:bg-gray-800 transition-all shadow-lg"
           >
-            Install Now
+            {t('installNow')}
           </button>
         </div>
       </motion.div>

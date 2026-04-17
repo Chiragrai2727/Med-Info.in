@@ -5,48 +5,50 @@ import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useLanguage } from '../LanguageContext';
 
 interface SubscriptionModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const PLANS = [
-  {
-    id: 'daily',
-    name: 'One-Time Pass',
-    description: '24 hours of unlimited scanning',
-    price: 99,
-    originalPrice: 99,
-    duration: 'day',
-    features: ['Unlimited AI Scanning', 'Prescription Analysis', 'Lab Report Analysis', 'Valid for 24 hours']
-  },
-  {
-    id: 'monthly',
-    name: 'Monthly Pro',
-    description: 'Perfect for regular health monitoring',
-    price: 79,
-    originalPrice: 99,
-    duration: 'month',
-    features: ['Unlimited AI Scanning', 'Prescription Analysis', 'Lab Report Analysis', 'Priority Support'],
-    popular: true
-  },
-  {
-    id: 'yearly',
-    name: 'Yearly Premium',
-    description: 'Best value for long-term care',
-    price: 849,
-    originalPrice: 948,
-    duration: 'year',
-    features: ['Unlimited AI Scanning', 'Prescription Analysis', 'Lab Report Analysis', 'Priority Support', 'Early Access to Features']
-  }
-];
-
 export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose }) => {
   const { user, updateSubscription, openAuthModal } = useAuth();
   const { showToast } = useToast();
+  const { t } = useLanguage();
   const [selectedPlan, setSelectedPlan] = useState<string>('monthly');
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const PLANS = [
+    {
+      id: 'daily',
+      name: t('oneTimePass'),
+      description: t('oneTimePassDesc'),
+      price: 99,
+      originalPrice: 99,
+      duration: t('day'),
+      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('valid24Hours')]
+    },
+    {
+      id: 'monthly',
+      name: t('monthlyPro'),
+      description: t('monthlyProDesc'),
+      price: 79,
+      originalPrice: 99,
+      duration: t('month'),
+      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('prioritySupport')],
+      popular: true
+    },
+    {
+      id: 'yearly',
+      name: t('yearlyPremium'),
+      description: t('yearlyPremiumDesc'),
+      price: 849,
+      originalPrice: 948,
+      duration: t('year'),
+      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('prioritySupport'), t('earlyAccess')]
+    }
+  ];
 
   if (!isOpen) return null;
 
@@ -210,8 +212,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
         >
           <div className="p-6 sm:p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Unlock AI Health Scanner</h2>
-              <p className="text-gray-500 font-medium mt-1">Choose a plan to access unlimited scanning features</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{t('unlockAIScanner')}</h2>
+              <p className="text-gray-500 font-medium mt-1">{t('chooseAPlan')}</p>
             </div>
             <button
               onClick={onClose}
@@ -237,7 +239,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                     <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
                       selectedPlan === p.id ? 'bg-white text-black' : 'bg-black text-white'
                     }`}>
-                      Most Popular
+                      {t('mostPopular')}
                     </div>
                   )}
                   
@@ -266,24 +268,24 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border border-gray-100">
-              <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 text-center">Payment Breakdown</h4>
+              <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 text-center">{t('breakdown')}</h4>
               
               <div className="space-y-4 text-sm font-medium text-gray-600">
                 <div className="flex justify-between items-center">
-                  <span>{plan.name} Plan</span>
+                  <span>{plan.name} {t('plan')}</span>
                   <span className="text-gray-900 font-bold">₹{plan.price.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Platform Fee (2%)</span>
+                  <span>{t('platformFee')} (2%)</span>
                   <span className="text-gray-900 font-bold">₹{platformFee.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>GST (18%)</span>
+                  <span>{t('gst')} (18%)</span>
                   <span className="text-gray-900 font-bold">₹{gst.toFixed(2)}</span>
                 </div>
                 
                 <div className="pt-4 border-t border-gray-200 flex justify-between items-center text-lg">
-                  <span className="font-black text-gray-900">Total Amount</span>
+                  <span className="font-black text-gray-900">{t('totalAmount')}</span>
                   <span className="font-black text-black">₹{total.toFixed(2)}</span>
                 </div>
               </div>
@@ -298,12 +300,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 ) : (
                   <>
                     <ShieldCheck className="w-5 h-5" />
-                    Pay ₹{total.toFixed(2)} Securely
+                    {t('paySecurely').replace('{total}', total.toFixed(2))}
                   </>
                 )}
               </button>
               <p className="text-center text-xs text-gray-400 font-medium mt-4 flex items-center justify-center gap-1">
-                Secured by Razorpay
+                {t('securedByRazorpay')}
               </p>
             </div>
           </div>
