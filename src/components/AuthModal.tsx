@@ -46,7 +46,7 @@ export const AuthModal: React.FC = () => {
         } else if (errorCode === 'auth/weak-password') {
           message = 'Password should be at least 6 characters.';
         } else if (errorCode === 'auth/operation-not-allowed') {
-          message = 'This sign-in method is not enabled in Firebase Console.';
+          message = 'Firebase Error: Email/Password Authentication is disabled. Please enable "Email/Password" in Firebase Console -> Authentication -> Sign-in method.';
         } else if (errorCode === 'auth/popup-blocked') {
           message = 'Sign-in popup was blocked by your browser.';
         } else if (errorCode === 'auth/unauthorized-domain') {

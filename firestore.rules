@@ -34,7 +34,7 @@ service cloud.firestore {
     // ===============================================================
     
     function isValidUser(data) {
-      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'isPremium', 'createdAt', 'role', 'subscriptionTier', 'subscriptionExpiry']) &&
+      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'isPremium', 'createdAt', 'role', 'subscriptionTier', 'subscriptionExpiry', 'phoneNumber', 'trialClaimed', 'trialStartedAt', 'trialEndsAt', 'trialExpiredSmsSent']) &&
              data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
              data.email is string && data.email.size() > 0 && data.email.size() < 100 &&
              (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
@@ -42,6 +42,11 @@ service cloud.firestore {
              (!('isPremium' in data) || data.isPremium is bool) &&
              (!('subscriptionTier' in data) || data.subscriptionTier in ['none', 'daily', 'monthly', 'yearly']) &&
              (!('subscriptionExpiry' in data) || data.subscriptionExpiry is string) &&
+             (!('phoneNumber' in data) || data.phoneNumber is string) &&
+             (!('trialClaimed' in data) || data.trialClaimed is bool) &&
+             (!('trialStartedAt' in data) || data.trialStartedAt is string) &&
+             (!('trialEndsAt' in data) || data.trialEndsAt is string) &&
+             (!('trialExpiredSmsSent' in data) || data.trialExpiredSmsSent is bool) &&
              data.createdAt is string &&
              (!('role' in data) || data.role in ['user', 'admin']);
     }

@@ -45,25 +45,6 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         formattedPhone = '+91' + formattedPhone;
       }
 
-      // --- DEV BYPASS FOR TESTING ---
-      if (formattedPhone === '+919999999999' || formattedPhone === '+19999999999') {
-        setTimeout(() => {
-           setStep('otp');
-           // Attach a dummy confirmation result
-           setConfirmationResult({
-             verificationId: 'mock-id',
-             confirm: async (code: string) => {
-               if (code === '123456') {
-                 return { user: auth.currentUser };
-               }
-               throw new Error("Invalid mock OTP. Use 123456.");
-             }
-           } as any);
-        }, 800);
-        return;
-      }
-      // ------------------------------
-
       // Ensure recaptcha verifier is present
       if (!window.recaptchaVerifier) {
          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
