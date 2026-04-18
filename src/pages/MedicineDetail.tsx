@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Medicine } from '../types';
@@ -264,6 +265,13 @@ export const MedicineDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-40 pb-20 pt-[calc(10rem+env(safe-area-inset-top))]">
+      <Helmet>
+        <title>{medicine.drug_name} Uses, Side Effects & Pricing - Aethelcare</title>
+        <meta name="description" content={`Learn about ${medicine.drug_name}: uses, side effects, precautions, interactions, and details. ${medicine.quick_summary}`} />
+        <meta property="og:title" content={`${medicine.drug_name} Uses & Details - Aethelcare`} />
+        <meta property="og:description" content={`Verified information on ${medicine.drug_name}. ${medicine.quick_summary}`} />
+        <link rel="canonical" href={`https://aethelcare.xyz/medicine/${encodeURIComponent(medicine.drug_name)}`} />
+      </Helmet>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <div className="flex items-center justify-between mb-8">

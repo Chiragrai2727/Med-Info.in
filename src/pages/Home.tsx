@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
@@ -60,6 +61,13 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
+      <Helmet>
+        <title>{t('appName')} - Medical AI Scanner</title>
+        <meta name="description" content={t('heroDescription')} />
+        <meta property="og:title" content={`${t('appName')} - Medical AI Scanner`} />
+        <meta property="og:description" content={t('heroDescription')} />
+        <link rel="canonical" href="https://aethelcare.xyz" />
+      </Helmet>
       {/* Floating 3D Elements Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 bg-white">
         <motion.div 
@@ -259,7 +267,7 @@ export const Home: React.FC = () => {
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
                   <Scale className="w-6 h-6" />
                 </div>
-                <h2 className="text-4xl font-black mb-4 tracking-tight leading-none">{t('smartComparison').split(' ').join('<br />')}</h2>
+                <h2 className="text-4xl font-black mb-4 tracking-tight leading-none whitespace-pre-line">{t('smartComparison').replace(/ /g, '\n')}</h2>
                 <p className="text-gray-400 font-medium text-lg">{t('smartComparisonDesc')}</p>
               </div>
               <div className="mt-12">

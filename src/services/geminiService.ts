@@ -22,9 +22,8 @@ const diseasesIndex = diseasesData as Record<string, string[]>;
 // Initialize Fuse.js for fuzzy searching
 const fuseOptions = {
   includeScore: true,
-  threshold: 0.35, // Slightly stricter for better quality variations
-  location: 0,
-  distance: 100,
+  threshold: 0.45, // Increased for better typo tolerance
+  ignoreLocation: true, // Fix for "Tab./Cap." problem
   minMatchCharLength: 2,
   keys: [
     { name: 'drug_name', weight: 0.7 },
@@ -182,26 +181,45 @@ export async function searchMedicines(query: string, lang: Language = 'en'): Pro
   // 1. Search in local dataset using Fuse.js (Fuzzy Search)
   const fuseResults = fuse.search(q);
   
+  const diseaseMatches = new Set(diseasesIndex[q] || []);
+  const categoryMatches = new Set(categoriesIndex[q] || []);
+
   const scoredResults = fuseResults.map(result => {
     let score = 0;
-    // Fuse score is 0 (perfect) to 1 (mismatch).
-    const baseScore = Math.max(0, (0.35 - (result.score || 0)) / 0.35) * 20000;
+    // Fuse score is 0 (perfect) to 1 (mismatch). Threshold expanded to 0.45.
+    const baseScore = Math.max(0, (0.45 - (result.score || 0)) / 0.45) * 20000;
     score += baseScore;
 
     const drugNameLower = result.item.drug_name.toLowerCase();
     const brandsLower = result.item.brand_names_india.map(b => b.toLowerCase());
 
-    // Exact match boost (Highest priority)
-    if (drugNameLower === q || brandsLower.includes(q)) {
-      score += 100000;
+    // Exact match boost (Highest priority - Hierarchical)
+    if (drugNameLower === q) {
+      score += 150000; // Generic chemical exact match
+    } else if (brandsLower.includes(q)) {
+      score += 100000; // Brand exact match
     } 
     // Starts with boost (High priority)
-    else if (drugNameLower.startsWith(q) || brandsLower.some(b => b.startsWith(q))) {
+    else if (drugNameLower.startsWith(q)) {
+      score += 60000;
+    } else if (brandsLower.some(b => b.startsWith(q))) {
       score += 50000;
     }
+    // Substring / Word Boundary token match (e.g. "plus")
+    else if (drugNameLower.includes(` ${q}`) || drugNameLower.includes(`${q} `) ||
+             brandsLower.some(b => b.includes(` ${q}`) || b.includes(`${q} `))) {
+      score += 25000;
+    }
 
-    // Banned drugs boost (to show warning early)
-    if (result.item.is_banned && score > 0) score += 5000;
+    // Semantic Fallback Boost
+    if (diseaseMatches.has(result.item.id) || categoryMatches.has(result.item.id)) {
+      score += 30000;
+    }
+
+    // Penalty for banned drugs to rank safe alternatives higher
+    if (result.item.is_banned && score > 0) {
+      score -= 100;
+    }
     
     // Index boost (exact matches in our pre-built index)
     if (searchIndex[q]?.includes(result.item.id)) score += 20000;

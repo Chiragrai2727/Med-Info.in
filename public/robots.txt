@@ -39,3 +39,5 @@ Disallow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://aethelcare.xyz/sitemap.xml
