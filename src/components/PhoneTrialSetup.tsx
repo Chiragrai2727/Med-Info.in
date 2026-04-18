@@ -40,7 +40,7 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
     setError(null);
     try {
       // Format phone number. Adding +91 prefix for India if not present
-      let formattedPhone = phoneNumber.trim();
+      let formattedPhone = phoneNumber.replace(/\s+/g, '');
       if (!formattedPhone.startsWith('+')) {
         formattedPhone = '+91' + formattedPhone;
       }
