@@ -35,9 +35,24 @@ export const ScannerPage: React.FC = () => {
   const hasActiveSubscription = () => {
     if (!profile) return false;
     if (profile.role === 'admin') return true;
-    if (!profile.subscriptionTier || profile.subscriptionTier === 'none') return false;
-    if (!profile.subscriptionExpiry) return false;
-    return new Date(profile.subscriptionExpiry) > new Date();
+
+    // Check for an active premium subscription
+    if (profile.subscriptionTier && profile.subscriptionTier !== 'none' && profile.subscriptionExpiry) {
+      if (new Date(profile.subscriptionExpiry) > new Date()) {
+        return true;
+      }
+    }
+
+    // 14-day free trial logic for new users
+    if (profile.createdAt) {
+      const createdAtDate = new Date(profile.createdAt);
+      const trialEndDate = new Date(createdAtDate.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days
+      if (new Date() < trialEndDate) {
+        return true; // Still within trial period
+      }
+    }
+
+    return false; // Trial expired and no active subscription
   };
 
   useEffect(() => {
