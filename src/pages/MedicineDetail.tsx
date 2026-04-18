@@ -639,13 +639,27 @@ export const MedicineDetail: React.FC = () => {
         </div>
 
         {/* Disclaimer Footer */}
-        <div className="bg-gray-50 border border-gray-100 p-12 rounded-[3rem] text-center">
-          <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-black mb-4 tracking-tight">{t('medicalDisclaimer')}</h2>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
-            {t('disclaimer')}
-          </p>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-red-50/50 border border-red-100 p-12 rounded-[3rem] text-center mb-16 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-red-100/50 rounded-full -mr-16 -mt-16 blur-2xl" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-red-100/50 rounded-full -ml-16 -mb-16 blur-2xl" />
+          
+          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-6 relative z-10" />
+          <h2 className="text-3xl font-black mb-4 tracking-tight text-red-900 relative z-10">{t('medicalDisclaimer')}</h2>
+          <div className="space-y-4 relative z-10">
+            <p className="text-xl text-red-900 max-w-2xl mx-auto leading-relaxed font-bold">
+              {t('disclaimer')}
+            </p>
+            <div className="w-20 h-1 bg-red-200 mx-auto rounded-full" />
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-red-600">
+              {t('educationalDisclaimer')}
+            </p>
+          </div>
+        </motion.div>
       </div>
       <FeedbackModal 
         isOpen={isFeedbackOpen} 

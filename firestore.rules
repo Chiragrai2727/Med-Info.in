@@ -20,9 +20,8 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "aethelcare.help@gmail.com" && request.auth.token.email_verified == true));
+      // Hardcode admin explicitly to the single trusted auth token email to prevent privilege escalation
+      return isAuthenticated() && request.auth.token.email == "aethelcare.help@gmail.com" && request.auth.token.email_verified == true;
     }
     
     function hasOnlyAllowedFields(fields) {

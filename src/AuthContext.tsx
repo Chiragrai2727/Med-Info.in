@@ -82,6 +82,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               needsUpdate = true;
             }
 
+            // Auto-demote unauthorized admins (fixes issue where users manually got admin tag somehow)
+            if (currentUser.email !== 'aethelcare.help@gmail.com' && profileData.role === 'admin') {
+              profileData = { ...profileData, role: 'user' };
+              needsUpdate = true;
+            }
+
             // Auto-migration for existing premium users who paid 79rs but lack subscription details
             if (profileData.isPremium && !profileData.subscriptionTier) {
               const createdAtDate = new Date(profileData.createdAt || Date.now());
