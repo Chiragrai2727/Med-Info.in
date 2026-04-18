@@ -6,6 +6,7 @@ import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useLanguage } from '../LanguageContext';
+import { PhoneTrialSetup } from '../components/PhoneTrialSetup';
 
 interface PaymentRecord {
   id: string;
@@ -51,10 +52,20 @@ export const Dashboard: React.FC = () => {
   const expiryDate = profile.subscriptionExpiry ? new Date(profile.subscriptionExpiry) : null;
   const isExpired = expiryDate ? expiryDate < new Date() : false;
   
+  const hasClaimedTrial = profile.trialClaimed === true;
+  const trialEndsAt = profile.trialEndsAt ? new Date(profile.trialEndsAt) : null;
+  const trialActive = trialEndsAt ? trialEndsAt > new Date() : false;
+  
   let daysRemaining = 0;
   if (expiryDate && !isExpired) {
     const diffTime = Math.abs(expiryDate.getTime() - new Date().getTime());
     daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  let trialDaysRemaining = 0;
+  if (trialEndsAt && trialActive) {
+    const diffTime = Math.abs(trialEndsAt.getTime() - new Date().getTime());
+    trialDaysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
   return (
@@ -155,12 +166,38 @@ export const Dashboard: React.FC = () => {
                   <Zap className="w-5 h-5 text-yellow-300" /> {t('renewSubscription')}
                 </button>
               </div>
-            ) : (
-              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 text-center">
+            ) : hasClaimedTrial && trialActive ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  <div className="bg-purple-50 rounded-2xl p-4 border border-purple-100">
+                    <p className="text-sm text-purple-600 font-medium mb-1">Current Status</p>
+                    <p className="text-xl font-bold capitalize text-purple-900">14-Day Free Trial</p>
+                  </div>
+                  <div className="bg-purple-50 rounded-2xl p-4 border border-purple-100">
+                    <p className="text-sm text-purple-600 font-medium mb-1">Trial Ends On</p>
+                    <p className="text-xl font-bold text-purple-900">{trialEndsAt?.toLocaleDateString()}</p>
+                  </div>
+                  <div className="bg-purple-50 rounded-2xl p-4 border border-purple-100">
+                    <p className="text-sm text-purple-600 font-medium mb-1">{t('daysRemaining')}</p>
+                    <p className="text-xl font-bold text-purple-900">{trialDaysRemaining} {t('days')}</p>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => setShowSubscriptionModal(true)}
+                    className="px-6 py-2.5 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2"
+                  >
+                    <Zap className="w-4 h-4 text-yellow-400" /> {t('upgradeToPremium')}
+                  </button>
+                </div>
+              </div>
+            ) : hasClaimedTrial && !trialActive ? (
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 text-center">
                 <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t('noActiveSubscription')}</h3>
-                <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                  {t('noActiveSubscriptionDesc')}
+                <h3 className="text-lg font-bold text-gray-900 mb-2">14-Day Free Trial Ended</h3>
+                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  Your trial period has expired. To continue using the AI Medical Scanner and premium features, please upgrade to a subscription.
                 </p>
                 <button 
                   onClick={() => setShowSubscriptionModal(true)}
@@ -168,6 +205,11 @@ export const Dashboard: React.FC = () => {
                 >
                   <Zap className="w-5 h-5 text-yellow-400" /> {t('upgradeToPremium')}
                 </button>
+              </div>
+            ) : (
+              // Haven't claimed trial yet
+              <div className="mt-4">
+                <PhoneTrialSetup onSuccess={() => window.location.reload()} />
               </div>
             )}
           </div>

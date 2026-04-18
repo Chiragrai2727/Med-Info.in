@@ -6,6 +6,7 @@ import { useToast } from '../ToastContext';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useLanguage } from '../LanguageContext';
+import { Link } from 'react-router-dom';
 
 interface SubscriptionModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ interface SubscriptionModalProps {
 }
 
 export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose }) => {
-  const { user, updateSubscription, openAuthModal } = useAuth();
+  const { user, profile, updateSubscription, openAuthModal } = useAuth();
   const { showToast } = useToast();
   const { t } = useLanguage();
   const [selectedPlan, setSelectedPlan] = useState<string>('monthly');
@@ -266,6 +267,18 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 </div>
               ))}
             </div>
+
+            {profile && !profile.trialClaimed && (
+                <div className="bg-purple-50 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border border-purple-100 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8">
+                  <div>
+                    <h3 className="text-xl font-bold text-purple-900 mb-1">Looking for the 14-Day Free Trial?</h3>
+                    <p className="text-purple-700 text-sm mb-4 md:mb-0">Claim your free access by verifying your phone number.</p>
+                  </div>
+                  <Link to="/dashboard" onClick={onClose} className="px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition">
+                    Verifiy & Claim
+                  </Link>
+                </div>
+            )}
 
             <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border border-gray-100">
               <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 text-center">{t('breakdown')}</h4>

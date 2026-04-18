@@ -14,6 +14,11 @@ interface UserProfile {
   subscriptionExpiry?: string;
   createdAt: string;
   role: 'user' | 'admin';
+  phoneNumber?: string;
+  trialClaimed?: boolean;
+  trialStartedAt?: string;
+  trialEndsAt?: string;
+  trialExpiredSmsSent?: boolean;
 }
 
 interface AuthContextType {
