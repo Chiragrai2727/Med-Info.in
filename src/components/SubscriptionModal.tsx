@@ -225,15 +225,15 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           </div>
 
           <div className="p-6 sm:p-8 overflow-y-auto flex-1">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 lg:px-4 py-4">
               {PLANS.map((p) => (
                 <div
                   key={p.id}
                   onClick={() => setSelectedPlan(p.id)}
-                  className={`relative cursor-pointer rounded-3xl border-2 p-6 transition-all ${
+                  className={`relative cursor-pointer rounded-3xl border-2 p-6 transition-all flex flex-col ${
                     selectedPlan === p.id 
-                      ? 'border-black bg-black text-white shadow-xl scale-105 z-10' 
-                      : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md text-gray-900'
+                      ? 'border-black bg-black text-white shadow-2xl scale-105 z-10' 
+                      : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md text-gray-900 scale-100'
                   }`}
                 >
                   {p.popular && (
@@ -245,18 +245,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                   )}
                   
                   <h3 className="text-xl font-black mb-2">{p.name}</h3>
-                  <div className="flex items-baseline gap-2 mb-4">
+                  <div className="flex items-baseline gap-2 mb-2">
                     <span className="text-4xl font-black">₹{p.price}</span>
                     <span className={`text-sm font-medium ${selectedPlan === p.id ? 'text-gray-300' : 'text-gray-500'}`}>/{p.duration}</span>
                   </div>
                   
-                  {p.originalPrice > p.price && (
-                    <div className={`text-sm font-medium mb-6 line-through ${selectedPlan === p.id ? 'text-gray-400' : 'text-gray-400'}`}>
-                      ₹{p.originalPrice}/{p.duration}
-                    </div>
-                  )}
+                  <div className={`text-sm font-medium mb-6 line-through min-h-[20px] ${selectedPlan === p.id ? 'text-gray-400' : 'text-gray-400'}`}>
+                    {p.originalPrice > p.price ? `₹${p.originalPrice}/${p.duration}` : ''}
+                  </div>
 
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 mt-auto">
                     {p.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm font-medium">
                         <Check className={`w-5 h-5 shrink-0 ${selectedPlan === p.id ? 'text-green-400' : 'text-green-500'}`} />
@@ -269,13 +267,13 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             </div>
 
             {profile && !profile.trialClaimed && (
-                <div className="bg-purple-50 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border border-purple-100 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8">
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-3xl p-6 sm:p-8 w-full border border-purple-100 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8 shadow-sm">
                   <div>
                     <h3 className="text-xl font-bold text-purple-900 mb-1">Looking for the 14-Day Free Trial?</h3>
                     <p className="text-purple-700 text-sm mb-4 md:mb-0">Claim your free access by verifying your phone number.</p>
                   </div>
-                  <Link to="/dashboard" onClick={onClose} className="px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition">
-                    Verifiy & Claim
+                  <Link to="/dashboard" onClick={onClose} className="px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition shadow-sm whitespace-nowrap">
+                    Verify & Claim
                   </Link>
                 </div>
             )}

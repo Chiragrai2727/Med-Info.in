@@ -17,9 +17,19 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
   const [error, setError] = useState<string | null>(null);
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
 
-  // Clean up any lingering recaptcha on unmount
+  // Use a unique ID to absolutely prevent React Strict Mode DOM collisions
+  const [captchaId] = useState(() => `recaptcha-${Math.random().toString(36).substring(7)}`);
+
   useEffect(() => {
+    // Safely initialize Recaptcha only once per mount on a fresh DOM node
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, captchaId, {
+        size: 'invisible',
+      });
+    }
+    
     return () => {
+      // Clean up safely if the component actually unmounts
       if (window.recaptchaVerifier) {
         try {
           window.recaptchaVerifier.clear();
@@ -27,7 +37,7 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         window.recaptchaVerifier = undefined;
       }
     };
-  }, []);
+  }, [captchaId]);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,16 +52,12 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         formattedPhone = '+91' + formattedPhone;
       }
 
-      // ALWAYS explicitly recreate the verifier on click to prevent React Strict Mode DOM ghosting
-      if (window.recaptchaVerifier) {
-        try { window.recaptchaVerifier.clear(); } catch(e) {}
-        window.recaptchaVerifier = undefined;
+      // If it got lost somehow, recreate it
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, captchaId, {
+          size: 'invisible',
+        });
       }
-
-      // Initialize fresh invisible reCAPTCHA
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-      });
 
       const appVerifier = window.recaptchaVerifier;
       const result = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
@@ -60,21 +66,20 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
     } catch (err: any) {
       console.error("Firebase Phone Auth Error ->", err);
       
+      // If it fails, clear it so the NEXT attempt generates a fresh one
       if (window.recaptchaVerifier) {
         try { window.recaptchaVerifier.clear(); } catch(e) {}
         window.recaptchaVerifier = undefined;
       }
 
       if (err.code === 'auth/operation-not-allowed') {
-        setError("Firebase Error (auth/operation-not-allowed): Phone Auth is disabled. Note: It can take 10 minutes to activate after enabling in the Firebase Console.");
+        setError("Firebase Error (auth/operation-not-allowed): Phone Auth is disabled in Firebase Console. Note: It can take 10 mins to activate after checking the box.");
       } else if (err.code === 'auth/unauthorized-domain') {
         setError("Firebase Error (auth/unauthorized-domain): This app URL is not authorized. Please add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains.");
-      } else if (err.code === 'auth/quota-exceeded' || (err.message && err.message.toLowerCase().includes('quota'))) {
-        setError("Firebase Error: SMS Quota Exceeded. You must authorize your Firebase project on a Pay-as-you-go (Blaze) plan to send SMS texts to real numbers.");
       } else if (err.code === 'auth/invalid-phone-number') {
         setError("Firebase Error (auth/invalid-phone-number): The format of the phone number is invalid.");
-      } else if (err.code === 'auth/internal-error' && err.message.includes('reCAPTCHA')) {
-        setError(`reCAPTCHA Error: Could not connect to Google verification servers. Ensure your domain is authorized.`);
+      } else if (err.message && err.message.toLowerCase().includes('quota')) {
+        setError("Firebase Error: SMS Quota Exceeded. You must be on the Firebase Blaze plan to send texts to real numbers.");
       } else {
         setError(`Firebase Error: ${err.message} (${err.code || 'unknown'})`);
       }
@@ -130,7 +135,7 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         </div>
       </div>
 
-      <div id="recaptcha-container"></div>
+      <div id={captchaId}></div>
 
       {error && (
         <div className="mb-4 bg-red-50 text-red-600 p-3 rounded-xl border border-red-100 flex items-start gap-2 text-sm">
