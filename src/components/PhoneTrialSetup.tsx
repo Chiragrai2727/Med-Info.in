@@ -45,18 +45,39 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         formattedPhone = '+91' + formattedPhone;
       }
 
+      // Ensure recaptcha verifier is present
+      if (!window.recaptchaVerifier) {
+         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+          size: 'invisible',
+        });
+      }
+
       const appVerifier = window.recaptchaVerifier;
       const result = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
       setConfirmationResult(result);
       setStep('otp');
     } catch (err: any) {
-      console.error(err);
+      console.error("Firebase Phone Auth Error ->", err);
+      
+      // Critical: Reset Recaptcha if it fails, otherwise Firebase traps the user in an infinite error loop
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = undefined;
+      }
+      
+      // Render Recaptcha again for the next attempt
+      setTimeout(() => {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
+      }, 100);
+
       if (err.code === 'auth/operation-not-allowed') {
-        setError("Phone Authentication is not enabled. Please enable it in the Firebase Console -> Authentication -> Sign-in method.");
+        setError("Firebase Error (auth/operation-not-allowed): Phone Auth is still disabled on Firebase's backend. Note: It can take 5-10 minutes to activate after enabling, or you may be on the wrong Firebase project.");
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setError("Firebase Error (auth/unauthorized-domain): This app URL is not authorized. Please add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains.");
       } else if (err.code === 'auth/invalid-phone-number') {
-        setError("Invalid phone number format. Please ensure it is correct.");
+        setError("Firebase Error (auth/invalid-phone-number): The format of the phone number is invalid. Ensure it's correct.");
       } else {
-        setError(err.message || "Failed to send OTP. Try again later.");
+        setError(`Firebase Error: ${err.message} (${err.code || 'unknown'})`);
       }
     } finally {
       setLoading(false);
