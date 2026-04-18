@@ -17,16 +17,13 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
   const [error, setError] = useState<string | null>(null);
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
 
+  // Clean up any lingering recaptcha on unmount
   useEffect(() => {
-    // Setup reCAPTCHA when component mounts
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-      });
-    }
     return () => {
       if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
+        try {
+          window.recaptchaVerifier.clear();
+        } catch(e) {}
         window.recaptchaVerifier = undefined;
       }
     };
@@ -45,12 +42,16 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         formattedPhone = '+91' + formattedPhone;
       }
 
-      // Ensure recaptcha verifier is present
-      if (!window.recaptchaVerifier) {
-         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-          size: 'invisible',
-        });
+      // ALWAYS explicitly recreate the verifier on click to prevent React Strict Mode DOM ghosting
+      if (window.recaptchaVerifier) {
+        try { window.recaptchaVerifier.clear(); } catch(e) {}
+        window.recaptchaVerifier = undefined;
       }
+
+      // Initialize fresh invisible reCAPTCHA
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+      });
 
       const appVerifier = window.recaptchaVerifier;
       const result = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
@@ -59,23 +60,21 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
     } catch (err: any) {
       console.error("Firebase Phone Auth Error ->", err);
       
-      // Critical: Reset Recaptcha if it fails, otherwise Firebase traps the user in an infinite error loop
       if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
+        try { window.recaptchaVerifier.clear(); } catch(e) {}
         window.recaptchaVerifier = undefined;
       }
-      
-      // Render Recaptcha again for the next attempt
-      setTimeout(() => {
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
-      }, 100);
 
       if (err.code === 'auth/operation-not-allowed') {
-        setError("Firebase Error (auth/operation-not-allowed): Phone Auth is still disabled on Firebase's backend. Note: It can take 5-10 minutes to activate after enabling, or you may be on the wrong Firebase project.");
+        setError("Firebase Error (auth/operation-not-allowed): Phone Auth is disabled. Note: It can take 10 minutes to activate after enabling in the Firebase Console.");
       } else if (err.code === 'auth/unauthorized-domain') {
         setError("Firebase Error (auth/unauthorized-domain): This app URL is not authorized. Please add this domain to Firebase Console -> Authentication -> Settings -> Authorized Domains.");
+      } else if (err.code === 'auth/quota-exceeded' || (err.message && err.message.toLowerCase().includes('quota'))) {
+        setError("Firebase Error: SMS Quota Exceeded. You must authorize your Firebase project on a Pay-as-you-go (Blaze) plan to send SMS texts to real numbers.");
       } else if (err.code === 'auth/invalid-phone-number') {
-        setError("Firebase Error (auth/invalid-phone-number): The format of the phone number is invalid. Ensure it's correct.");
+        setError("Firebase Error (auth/invalid-phone-number): The format of the phone number is invalid.");
+      } else if (err.code === 'auth/internal-error' && err.message.includes('reCAPTCHA')) {
+        setError(`reCAPTCHA Error: Could not connect to Google verification servers. Ensure your domain is authorized.`);
       } else {
         setError(`Firebase Error: ${err.message} (${err.code || 'unknown'})`);
       }
