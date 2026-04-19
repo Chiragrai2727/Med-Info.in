@@ -13,6 +13,7 @@ interface UserData {
   subscriptionTier?: string;
   createdAt: string;
   role: string;
+  phoneNumber?: string;
 }
 
 interface SearchData {
@@ -184,6 +185,9 @@ export const AdminDashboard: React.FC = () => {
                           <td className="p-4">
                             <div className="font-bold text-gray-900">{u.displayName || 'Anonymous'}</div>
                             <div className="text-gray-500 text-xs">{u.email}</div>
+                            {u.phoneNumber && (
+                              <div className="text-blue-600 text-xs mt-1 font-mono">{u.phoneNumber}</div>
+                            )}
                           </td>
                           <td className="p-4">
                             {u.isPremium ? (

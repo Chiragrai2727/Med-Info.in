@@ -19,6 +19,16 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
     
     setLoading(true);
     setError(null);
+
+    // Basic validation to block obvious fake numbers (1234567890, 0000000000)
+    // Indian mobile numbers must start with 6, 7, 8, or 9 and be exactly 10 digits long.
+    const isValidIndianPhone = /^[6789]\d{9}$/.test(phoneNumber);
+    if (!isValidIndianPhone) {
+      setError("Please enter a valid 10-digit mobile number.");
+      setLoading(false);
+      return;
+    }
+
     try {
       // Format phone number
       let formattedPhone = phoneNumber.replace(/\s+/g, '');
