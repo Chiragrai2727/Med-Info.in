@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Image as ImageIcon, Loader2, Volume2, VolumeX, AlertCircle, X, CheckCircle2, FileText, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { scanMedication, scanPrescription, scanLabReport, generateTTS, fetchMedicineDetails, PrescriptionResult, LabReportResult } from '../services/geminiService';
+import { generateMedReport } from '../utils/reportGenerator';
 import { useLanguage } from '../LanguageContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { Medicine } from '../types';
@@ -31,6 +32,46 @@ export const ScannerPage: React.FC = () => {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
+
+  const handleDownloadPDF = async () => {
+    if (!profile) {
+      openAuthModal();
+      return;
+    }
+
+    let title = '';
+    let details = null;
+    let type: 'medicine' | 'prescription' | 'lab' = 'medicine';
+
+    if (scanMode === 'medicine' && result) {
+      title = `Medicine Analysis: ${result.name}`;
+      details = result;
+      type = 'medicine';
+    } else if (scanMode === 'prescription' && prescriptionResult) {
+      title = 'Prescription Analysis Report';
+      details = prescriptionResult;
+      type = 'prescription';
+    } else if (scanMode === 'report' && reportResult) {
+      title = 'Lab Report Analysis Summary';
+      details = reportResult;
+      type = 'lab';
+    }
+
+    if (!details) return;
+
+    try {
+      await generateMedReport({
+        userName: profile.displayName || 'Patient',
+        userEmail: profile.email,
+        reportType: type,
+        date: new Date().toLocaleDateString(),
+        title,
+        details
+      });
+    } catch (error) {
+      console.error('PDF Generation failed', error);
+    }
+  };
 
   const hasActiveSubscription = () => {
     if (!profile) return false;
@@ -608,7 +649,16 @@ export const ScannerPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+            <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-end gap-4 text-xs font-bold uppercase tracking-widest text-[#000]">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleDownloadPDF}
+                className="px-6 py-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-colors flex items-center gap-2"
+              >
+                <FileText className="w-5 h-5" />
+                {t('downloadReport')}
+              </motion.button>
               <Link
                 to={`/medicine/${encodeURIComponent(result.name)}`}
                 className="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
@@ -680,6 +730,18 @@ export const ScannerPage: React.FC = () => {
                 <p className="text-yellow-900 font-medium">{prescriptionResult.doctorNotes}</p>
               </div>
             )}
+
+            <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleDownloadPDF}
+                className="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2 text-sm"
+              >
+                <FileText className="w-5 h-5" />
+                {t('downloadReport')}
+              </motion.button>
+            </div>
           </motion.div>
         )}
 
@@ -745,6 +807,18 @@ export const ScannerPage: React.FC = () => {
                 <p className="text-green-800 font-medium">{t('noAbnormalFindings')}</p>
               </div>
             )}
+
+            <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleDownloadPDF}
+                className="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2 text-sm"
+              >
+                <FileText className="w-5 h-5" />
+                {t('downloadReport')}
+              </motion.button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

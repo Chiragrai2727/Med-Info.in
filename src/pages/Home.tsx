@@ -5,10 +5,11 @@ import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
 import { DiseaseGrid } from '../components/DiseaseGrid';
 import { motion } from 'motion/react';
-import { AlertTriangle, ArrowRight, Sparkles, TrendingUp, Scale, Shield, ShieldCheck, Ban, Search as SearchIcon, Camera, CalendarClock } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Sparkles, TrendingUp, Scale, Shield, ShieldCheck, Ban, Search as SearchIcon, Camera, CalendarClock, HelpCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCompare } from '../CompareContext';
 import { CompareSearch } from '../components/CompareSearch';
+import { FAQ } from '../components/FAQ';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
 
@@ -473,6 +474,9 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Disclaimer Footer */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
