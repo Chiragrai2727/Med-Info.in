@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle } from 'lucide-react';
+import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, RefreshCw } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useLanguage } from '../LanguageContext';
@@ -24,6 +24,9 @@ export const Dashboard: React.FC = () => {
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  // Check which database is currently connected
+  const isConnectedToAIStudioDB = db.app.options.projectId === "gen-lang-client-0111385452";
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -72,6 +75,26 @@ export const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
         
+        {/* Connection Warning Header */}
+        {isConnectedToAIStudioDB && (
+          <div className="bg-amber-50 border-2 border-amber-200 rounded-3xl p-6 sm:p-8 animate-pulse text-amber-900 shadow-md">
+            <div className="flex items-start gap-4">
+              <AlertCircle className="w-8 h-8 text-amber-500 shrink-0 mt-1" />
+              <div>
+                <h2 className="text-xl font-black mb-2">Netlify is still connected to the AI Studio Sandbox</h2>
+                <p className="font-medium mb-4">
+                  The <code className="bg-amber-100 px-2 py-0.5 rounded">VITE_FIREBASE_*</code> environment variables in Netlify are either missing, misspelled, or you forgot to click "Clear cache and deploy site". Because of this, the code fell back to the local database where Phone Auth is disabled.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <span className="bg-amber-100 border border-amber-300 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                    Current Web ID: <code className="font-mono">{db.app.options.projectId}</code>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div>
           <h1 className="text-3xl font-bold text-gray-900">{t('myDashboard')}</h1>
