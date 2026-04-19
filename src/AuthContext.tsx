@@ -3,6 +3,7 @@ import { User, onAuthStateChanged, signInWithPopup, signOut, signInWithEmailAndP
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, googleProvider } from './firebase';
 import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
+import { sendWelcomeEmail } from './services/emailService';
 
 interface UserProfile {
   uid: string;
@@ -128,6 +129,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               await setDoc(userRef, newProfile);
               localStorage.setItem(`profile_${currentUser.uid}`, JSON.stringify(newProfile));
               setProfile(newProfile);
+              
+              // Send the welcome email
+              if (newProfile.email) {
+                sendWelcomeEmail({
+                  to_email: newProfile.email,
+                  to_name: newProfile.displayName || newProfile.email.split('@')[0]
+                });
+              }
             } catch (error) {
               console.error('Error creating profile:', error);
               // Don't throw here, just log. This prevents the ErrorBoundary from triggering
