@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search as SearchIcon, X, Loader2, Mic, MicOff, TrendingUp } from 'lucide-react';
+import { Search as SearchIcon, X, Loader2, Mic, MicOff, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
@@ -429,24 +429,26 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
                       <div className="flex items-center gap-3">
                         <span className="text-xl font-bold text-black group-hover:translate-x-1 transition-transform">{highlightMatch(item.name, query)}</span>
                         {item.source && (
-                          <div className="flex items-center gap-2">
-                            <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 ${
-                              item.source === 'Verified Database' ? 'bg-blue-50 text-blue-600' : 
-                              item.source === 'AI Analysis' ? 'bg-purple-50 text-purple-600' : 
-                              'bg-gray-100 text-gray-500'
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 ${
+                              item.source === 'Verified Database' ? 'bg-green-50 text-green-700 border border-green-100' : 
+                              item.source === 'AI Analysis' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 
+                              'bg-gray-100 text-gray-600 border border-gray-200'
                             }`}>
-                              <span className={`w-1 h-1 rounded-full ${
-                                item.source === 'Verified Database' ? 'bg-blue-400' : 
-                                item.source === 'AI Analysis' ? 'bg-purple-400' : 
-                                'bg-gray-400'
-                              }`} />
+                              {item.source === 'Verified Database' ? (
+                                <ShieldCheck className="w-3 h-3" />
+                              ) : item.source === 'AI Analysis' ? (
+                                <Sparkles className="w-3 h-3" />
+                              ) : (
+                                <span className={`w-1.5 h-1.5 rounded-full bg-gray-400`} />
+                              )}
                               {item.source}
                             </span>
                             {item.confidence !== undefined && (
-                              <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md ${
-                                item.confidence >= 90 ? 'bg-green-50 text-green-600' :
-                                item.confidence >= 70 ? 'bg-yellow-50 text-yellow-600' :
-                                'bg-red-50 text-red-600'
+                              <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border ${
+                                item.confidence >= 90 ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                item.confidence >= 70 ? 'bg-yellow-50 text-yellow-700 border-yellow-100' :
+                                'bg-orange-50 text-orange-700 border-orange-100'
                               }`}>
                                 {item.confidence}% match
                               </span>

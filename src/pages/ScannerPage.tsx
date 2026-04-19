@@ -36,31 +36,48 @@ export const ScannerPage: React.FC = () => {
     if (!profile) return false;
     if (profile.role === 'admin') return true;
 
-    // Check for an active premium subscription
     if (profile.subscriptionTier && profile.subscriptionTier !== 'none' && profile.subscriptionExpiry) {
       if (new Date(profile.subscriptionExpiry) > new Date()) {
         return true;
       }
     }
 
-    // 14-day free trial logic
     if (profile.trialClaimed && profile.trialEndsAt) {
       if (new Date(profile.trialEndsAt) > new Date()) {
-        return true; // Still within trial period
+        return true; 
       }
     }
 
-    return false; // Trial expired and no active subscription
+    return false;
   };
+
+  const [freeScansUsed, setFreeScansUsed] = useState(0);
+  const FREE_DAILY_SCANS = 3;
+
+  useEffect(() => {
+    // Determine free scans used today by this specific user
+    if (profile && !hasActiveSubscription()) {
+      const today = new Date().toDateString();
+      const storageKey = `aethelcare_scans_${profile.uid}_${today}`;
+      const scansStr = localStorage.getItem(storageKey);
+      if (scansStr) {
+        setFreeScansUsed(parseInt(scansStr, 10));
+      } else {
+        setFreeScansUsed(0);
+      }
+    }
+  }, [profile]);
 
   useEffect(() => {
     if (authLoading) return;
-    if (!hasActiveSubscription()) {
+    
+    // Completely skip paywall on mount if they have free scans left
+    if (!hasActiveSubscription() && freeScansUsed >= FREE_DAILY_SCANS) {
       setShowSubscriptionModal(true);
     } else {
       setShowSubscriptionModal(false);
     }
-  }, [profile, authLoading]);
+  }, [profile, authLoading, freeScansUsed]);
 
   const resizeImage = (base64: string): Promise<string> => {
     return new Promise((resolve) => {
@@ -204,6 +221,11 @@ export const ScannerPage: React.FC = () => {
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!hasActiveSubscription() && freeScansUsed >= FREE_DAILY_SCANS) {
+      setShowSubscriptionModal(true);
+      return;
+    }
+
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -220,38 +242,47 @@ export const ScannerPage: React.FC = () => {
       setLoading(true);
       try {
         const base64 = await resizeImage(rawBase64);
+        // Apply advanced image enhancements (Contrast stretching & Unsharp masking) 
+        // to vastly improve OCR text extraction accuracy BEFORE hitting the AI model.
+        const enhancedBase64 = await enhanceImage(base64);
         
+        let success = false;
+
         if (scanMode === 'medicine') {
-          let scanResult = await scanMedication(base64, language);
-          if (!scanResult || scanResult.confidence < 40) {
-            const enhancedBase64 = await enhanceImage(base64);
-            const enhancedResult = await scanMedication(enhancedBase64, language);
-            if (enhancedResult && (!scanResult || enhancedResult.confidence > scanResult.confidence)) {
-              scanResult = enhancedResult;
-            }
-          }
+          let scanResult = await scanMedication(enhancedBase64, language);
 
           if (scanResult && scanResult.name && !['unknown', 'none', 'n/a', 'null', ''].includes(scanResult.name.toLowerCase())) {
             const localMatch = await fetchMedicineDetails(scanResult.name, language);
             setResult({ ...scanResult, localMatch });
+            success = true;
           } else {
             setError(t('noMedicationFound'));
           }
         } else if (scanMode === 'prescription') {
-          const result = await scanPrescription(base64, language);
+          const result = await scanPrescription(enhancedBase64, language);
           if (result && result.medicines.length > 0) {
             setPrescriptionResult(result);
+            success = true;
           } else {
             setError(t('noPrescriptionFound'));
           }
         } else if (scanMode === 'report') {
-          const result = await scanLabReport(base64, language);
+          const result = await scanLabReport(enhancedBase64, language);
           if (result && result.summary) {
             setReportResult(result);
+            success = true;
           } else {
             setError(t('noReportFound'));
           }
         }
+
+        if (success && !hasActiveSubscription() && profile) {
+          const newCount = freeScansUsed + 1;
+          setFreeScansUsed(newCount);
+          const today = new Date().toDateString();
+          localStorage.setItem(`aethelcare_scans_${profile.uid}_${today}`, newCount.toString());
+        }
+
       } catch (err: any) {
         console.error("Scanner error:", err);
         if (err.message?.includes("API key") || err.message?.includes("403")) {
@@ -358,31 +389,48 @@ export const ScannerPage: React.FC = () => {
       </div>
 
       {/* Mode Selector */}
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
-        <button
-          onClick={() => { setScanMode('medicine'); resetScanner(); }}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
-            scanMode === 'medicine' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <Camera className="w-5 h-5" /> {t('medicineMode')}
-        </button>
-        <button
-          onClick={() => { setScanMode('prescription'); resetScanner(); }}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
-            scanMode === 'prescription' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <FileText className="w-5 h-5" /> {t('prescriptionMode')}
-        </button>
-        <button
-          onClick={() => { setScanMode('report'); resetScanner(); }}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
-            scanMode === 'report' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <Activity className="w-5 h-5" /> {t('reportMode')}
-        </button>
+      <div className="flex flex-col items-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => { setScanMode('medicine'); resetScanner(); }}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
+              scanMode === 'medicine' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Camera className="w-5 h-5" /> {t('medicineMode')}
+          </button>
+          <button
+            onClick={() => { setScanMode('prescription'); resetScanner(); }}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
+              scanMode === 'prescription' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <FileText className="w-5 h-5" /> {t('prescriptionMode')}
+          </button>
+          <button
+            onClick={() => { setScanMode('report'); resetScanner(); }}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${
+              scanMode === 'report' ? 'bg-black text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Activity className="w-5 h-5" /> {t('reportMode')}
+          </button>
+        </div>
+
+        {/* Free Scans Indicator */}
+        {!hasActiveSubscription() && profile && (
+          <div className="flex items-center gap-2 text-sm font-bold opacity-80 mt-2">
+             <span className={`w-2 h-2 rounded-full ${FREE_DAILY_SCANS - freeScansUsed > 0 ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
+             <span className={FREE_DAILY_SCANS - freeScansUsed > 0 ? 'text-gray-600' : 'text-red-500'}>
+               {FREE_DAILY_SCANS - freeScansUsed} free scans remaining today
+             </span>
+             {FREE_DAILY_SCANS - freeScansUsed === 0 && (
+               <button onClick={() => setShowSubscriptionModal(true)} className="ml-2 text-blue-600 hover:underline">
+                 Upgrade to Premium
+               </button>
+             )}
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-[3rem] shadow-xl border border-gray-100 p-8 mb-8">

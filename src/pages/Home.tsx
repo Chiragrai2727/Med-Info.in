@@ -165,8 +165,10 @@ export const Home: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-3 items-center">
             <span className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mr-2">{t('suggestedQueries')}:</span>
             {SUGGESTED_QUERIES.map((q) => (
-              <button
+              <motion.button
                 key={q}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   if (q.includes('vs')) {
                     const parts = q.split(' vs ');
@@ -175,10 +177,10 @@ export const Home: React.FC = () => {
                     navigate(`/medicine/${encodeURIComponent(q)}`);
                   }
                 }}
-                className="px-5 py-2.5 bg-white hover:bg-black hover:text-white border border-gray-100 rounded-2xl text-sm font-bold transition-all shadow-sm hover:shadow-xl active:scale-95"
+                className="px-5 py-2.5 bg-white hover:bg-black hover:text-white border border-gray-100 rounded-2xl text-sm font-bold transition-colors shadow-sm hover:shadow-xl"
               >
                 {q}
-              </button>
+              </motion.button>
             ))}
           </div>
         </motion.div>
@@ -260,20 +262,21 @@ export const Home: React.FC = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-black text-white p-10 rounded-[3rem] h-full flex flex-col justify-between relative overflow-hidden group shadow-2xl"
+              className="bg-slate-900 border border-slate-800 text-white p-10 lg:p-12 rounded-[3rem] h-full flex flex-col justify-between relative overflow-hidden group shadow-2xl"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-blue-600/30 transition-colors" />
-              <div>
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
-                  <Scale className="w-6 h-6" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full -mr-32 -mt-32 blur-[80px] group-hover:bg-blue-500/30 transition-colors duration-700" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full -ml-32 -mb-32 blur-[80px] group-hover:bg-teal-500/20 transition-colors duration-700" />
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-[1.25rem] flex items-center justify-center mb-8 backdrop-blur-md">
+                  <Scale className="w-6 h-6 text-blue-200" />
                 </div>
-                <h2 className="text-4xl font-black mb-4 tracking-tight leading-none whitespace-pre-line">{t('smartComparison').replace(/ /g, '\n')}</h2>
-                <p className="text-gray-400 font-medium text-lg">{t('smartComparisonDesc')}</p>
+                <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tight leading-[1.1] whitespace-pre-line">{t('smartComparison').replace(/ /g, '\n')}</h2>
+                <p className="text-slate-400 font-medium text-lg leading-relaxed">{t('smartComparisonDesc')}</p>
               </div>
-              <div className="mt-12">
+              <div className="mt-12 relative z-10 mt-auto">
                 <div className="flex -space-x-4">
                   {[1, 2, 3].map(i => (
-                    <div key={i} className="w-12 h-12 rounded-full border-4 border-black bg-gray-800 flex items-center justify-center text-[10px] font-black">
+                    <div key={i} className="w-12 h-12 rounded-full border-4 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-black tracking-widest text-slate-400 shadow-xl">
                       MED
                     </div>
                   ))}
@@ -323,7 +326,7 @@ export const Home: React.FC = () => {
             >
               <Link
                 to={`/medicine/${encodeURIComponent(med.name)}`}
-                className="block p-10 glass rounded-[3rem] shadow-sm hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] hover:border-blue-500 transition-all duration-500 group h-full relative overflow-hidden"
+                className="block p-10 glass rounded-[3rem] shadow-sm hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] hover:border-blue-500 hover:-translate-y-2 transition-all duration-300 group h-full relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[4rem] -z-10 group-hover:bg-blue-600/10 transition-colors" />
                 <div className="flex justify-between items-start mb-8">
@@ -452,17 +455,19 @@ export const Home: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {PEOPLE_ALSO_SEARCH.map((item, i) => (
-                <button
+                <motion.button
                   key={i}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => navigate(`/medicine/${encodeURIComponent(item.query)}`)}
-                  className="group flex flex-col p-6 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-[2rem] transition-all text-left"
+                  className="group flex flex-col p-6 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-[2rem] transition-colors text-left"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xl font-bold text-white">{item.query}</span>
                     <ArrowRight className="w-5 h-5 text-white/20 group-hover:text-white transition-all transform group-hover:translate-x-1" />
                   </div>
                   <span className="text-sm text-gray-400 font-medium">{item.reason}</span>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>

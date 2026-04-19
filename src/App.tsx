@@ -32,7 +32,6 @@ export default function App() {
         <Router>
           <div className="min-h-screen bg-[var(--color-bg)] font-sans selection:bg-[var(--color-ink)] selection:text-[var(--color-bg)]">
                 <Navbar />
-                <TrialBanner />
                 <OfflineBanner />
                 <NotificationManager />
                 <CompareBar />

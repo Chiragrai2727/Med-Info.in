@@ -96,7 +96,8 @@
     "sitagliptin",
     "glimepiride",
     "pioglitazone",
-    "gliclazide"
+    "gliclazide",
+    "metformin_500"
   ],
   "type": [
     "metformin",
@@ -152,7 +153,8 @@
     "ibuprofen",
     "cyclosporine",
     "diclofenac",
-    "naproxen"
+    "naproxen",
+    "diclofenac_sodium"
   ],
   "psoriasis": [
     "methotrexate",
@@ -283,11 +285,14 @@
     "ashwagandha"
   ],
   "anxiety": [
+    "alprazolam",
+    "propranolol",
     "ashwagandha",
-    "pregabalin",
-    "brahmi"
+    "pregabalin"
   ],
   "fatigue": [
+    "vitamin_b12",
+    "levothyroxine",
     "ashwagandha"
   ],
   "general wellness": [
@@ -325,7 +330,8 @@
   "allergic rhinitis": [
     "cetirizine",
     "levocetirizine_montelukast",
-    "cetirizine_paracetamol_phenylephrine"
+    "cetirizine_paracetamol_phenylephrine",
+    "montelukast_levocetirizine"
   ],
   "allergic": [
     "cetirizine"
@@ -444,7 +450,10 @@
     "omega_3"
   ],
   "heart health": [
-    "omega_3"
+    "omega_3",
+    "atorvastatin",
+    "rosuvastatin",
+    "simvastatin"
   ],
   "heart": [
     "omega_3",
@@ -495,7 +504,8 @@
   "high cholesterol": [
     "atorvastatin",
     "rosuvastatin",
-    "simvastatin"
+    "simvastatin",
+    "atorvastatin_10"
   ],
   "cholesterol": [
     "atorvastatin",
@@ -521,7 +531,8 @@
     "rosuvastatin"
   ],
   "prevention of heart attack": [
-    "telmisartan"
+    "telmisartan",
+    "atorvastatin_10"
   ],
   "sinusitis": [
     "amoxicillin_clavulanate"
@@ -714,13 +725,12 @@
     "ibuprofen",
     "etoricoxib",
     "aceclofenac",
-    "piroxicam"
+    "piroxicam",
+    "diclofenac_sodium"
   ],
   "asthma": [
-    "salbutamol_inhaler",
-    "levocetirizine_montelukast",
-    "salbutamol",
-    "montelukast"
+    "montelukast",
+    "montelukast_levocetirizine"
   ],
   "skin issues": [
     "betamethasone",
@@ -736,17 +746,6 @@
   "eye strain": [
     "carboxymethylcellulose",
     "cyclosporine"
-  ],
-  "fatigue": [
-    "vitamin_b12",
-    "levothyroxine",
-    "ashwagandha"
-  ],
-  "heart health": [
-    "omega_3",
-    "atorvastatin",
-    "rosuvastatin",
-    "simvastatin"
   ],
   "stomach flu": [
     "ors",
@@ -776,16 +775,11 @@
     "zolpidem",
     "diphenhydramine"
   ],
-  "anxiety": [
-    "alprazolam",
-    "propranolol",
-    "ashwagandha",
-    "pregabalin"
-  ],
   "muscle pain": [
     "diclofenac",
     "naproxen",
-    "aceclofenac_paracetamol_serratiopeptidase"
+    "aceclofenac_paracetamol_serratiopeptidase",
+    "diclofenac_sodium"
   ],
   "muscle": [
     "diclofenac",
@@ -891,10 +885,8 @@
   ],
   "hay fever": [
     "levocetirizine",
-    "levocetirizine_montelukast"
-  ],
-  "asthma": [
-    "montelukast"
+    "levocetirizine_montelukast",
+    "montelukast_levocetirizine"
   ],
   "peptic ulcer disease": [
     "rabeprazole",
@@ -956,7 +948,8 @@
     "dicyclomine"
   ],
   "sneezing and runny nose": [
-    "levocetirizine_montelukast"
+    "levocetirizine_montelukast",
+    "montelukast_levocetirizine"
   ],
   "asthma prevention": [
     "levocetirizine_montelukast"
@@ -1008,5 +1001,23 @@
   ],
   "stroke prevention": [
     "telmisartan"
+  ],
+  "pcos (polycystic ovary syndrome)": [
+    "metformin_500"
+  ],
+  "prevention of stroke": [
+    "atorvastatin_10"
+  ],
+  "hypothyroidism (underactive thyroid)": [
+    "levothyroxine_50"
+  ],
+  "goiter": [
+    "levothyroxine_50"
+  ],
+  "backache": [
+    "diclofenac_sodium"
+  ],
+  "post-operative pain": [
+    "diclofenac_sodium"
   ]
 }

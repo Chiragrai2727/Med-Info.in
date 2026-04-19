@@ -107,6 +107,55 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Trial Status Banner inside Dashboard */}
+        {(!profile.isPremium && profile.role !== 'admin') && (
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-8">
+             {!hasClaimedTrial ? (
+                <div onClick={() => {}} className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                       <Zap className="w-6 h-6 text-yellow-300" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg">You haven't claimed your 14-Day Free Trial yet!</h3>
+                      <p className="text-blue-100 text-sm">Get instant access to all premium features.</p>
+                    </div>
+                  </div>
+                </div>
+              ) : trialActive ? (
+                <div className="bg-indigo-50 border-l-4 border-indigo-600 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                       <Clock className="w-6 h-6 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-indigo-900">Your Free Trial ends in {trialDaysRemaining} days</h3>
+                      <p className="text-indigo-700 text-sm">Upgrade before your trial ends to avoid interruption.</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setShowSubscriptionModal(true)} className="px-6 py-2 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
+                    Upgrade to Premium
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-red-50 border-l-4 border-red-600 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                     <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                       <AlertCircle className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-red-900">Your Trial has expired!</h3>
+                      <p className="text-red-700 text-sm">You have lost access to premium features.</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setShowSubscriptionModal(true)} className="px-6 py-2 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-sm">
+                    Upgrade Now
+                  </button>
+                </div>
+              )}
+          </div>
+        )}
+
         {/* Active Plan Section */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 sm:p-8">

@@ -301,7 +301,9 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 </div>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleSubscribe}
                 disabled={isProcessing}
                 className="w-full mt-8 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-gray-900 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
@@ -314,7 +316,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                     {t('paySecurely').replace('{total}', total.toFixed(2))}
                   </>
                 )}
-              </button>
+              </motion.button>
               <p className="text-center text-xs text-gray-400 font-medium mt-4 flex items-center justify-center gap-1">
                 {t('securedByRazorpay')}
               </p>

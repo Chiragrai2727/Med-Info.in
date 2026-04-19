@@ -136,5 +136,20 @@
   ],
   "antihypertensive": [
     "telmisartan"
+  ],
+  "antidiabetic": [
+    "metformin_500"
+  ],
+  "statins (cholesterol lowering)": [
+    "atorvastatin_10"
+  ],
+  "thyroid hormone": [
+    "levothyroxine_50"
+  ],
+  "allergy & asthma": [
+    "montelukast_levocetirizine"
+  ],
+  "painkiller": [
+    "diclofenac_sodium"
   ]
 }

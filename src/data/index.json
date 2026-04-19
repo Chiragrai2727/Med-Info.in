@@ -112,13 +112,15 @@
     "metformin"
   ],
   "glycomet": [
-    "metformin"
+    "metformin",
+    "metformin_500"
   ],
   "metsmall": [
     "metformin"
   ],
   "cetapin": [
-    "metformin"
+    "metformin",
+    "metformin_500"
   ],
   "biguanide": [
     "metformin"
@@ -608,10 +610,12 @@
     "atorvastatin"
   ],
   "atorva": [
-    "atorvastatin"
+    "atorvastatin",
+    "atorvastatin_10"
   ],
   "storvas": [
-    "atorvastatin"
+    "atorvastatin",
+    "atorvastatin_10"
   ],
   "hmg-coa reductase inhibitor": [
     "atorvastatin",
@@ -991,10 +995,12 @@
     "diclofenac"
   ],
   "voveran": [
-    "diclofenac"
+    "diclofenac",
+    "diclofenac_sodium"
   ],
   "reactin": [
-    "diclofenac"
+    "diclofenac",
+    "diclofenac_sodium"
   ],
   "diclowin": [
     "diclofenac"
@@ -1239,13 +1245,15 @@
     "levocetirizine_montelukast"
   ],
   "montair lc": [
-    "levocetirizine_montelukast"
+    "levocetirizine_montelukast",
+    "montelukast_levocetirizine"
   ],
   "montek lc": [
     "levocetirizine_montelukast"
   ],
   "telekast l": [
-    "levocetirizine_montelukast"
+    "levocetirizine_montelukast",
+    "montelukast_levocetirizine"
   ],
   "levocet m": [
     "levocetirizine_montelukast"
@@ -1345,5 +1353,65 @@
   ],
   "tsart": [
     "telmisartan"
+  ],
+  "metformin 500mg": [
+    "metformin_500"
+  ],
+  "okamet": [
+    "metformin_500"
+  ],
+  "zomet": [
+    "metformin_500"
+  ],
+  "riomet": [
+    "metformin_500"
+  ],
+  "atorvastatin 10mg": [
+    "atorvastatin_10"
+  ],
+  "lipikind": [
+    "atorvastatin_10"
+  ],
+  "aztor": [
+    "atorvastatin_10"
+  ],
+  "tonact": [
+    "atorvastatin_10"
+  ],
+  "levothyroxine 50mcg": [
+    "levothyroxine_50"
+  ],
+  "thyronorm": [
+    "levothyroxine_50"
+  ],
+  "eltroxin": [
+    "levothyroxine_50"
+  ],
+  "thyrox": [
+    "levothyroxine_50"
+  ],
+  "lethrox": [
+    "levothyroxine_50"
+  ],
+  "montelukast + levocetirizine": [
+    "montelukast_levocetirizine"
+  ],
+  "montelekast lc": [
+    "montelukast_levocetirizine"
+  ],
+  "levomac m": [
+    "montelukast_levocetirizine"
+  ],
+  "romilast l": [
+    "montelukast_levocetirizine"
+  ],
+  "diclofenac sodium": [
+    "diclofenac_sodium"
+  ],
+  "dicloran": [
+    "diclofenac_sodium"
+  ],
+  "diclotal": [
+    "diclofenac_sodium"
   ]
 }
