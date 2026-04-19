@@ -18,6 +18,7 @@ import { OfflineBanner } from './components/OfflineBanner';
 import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
 import { NotificationManager } from './components/NotificationManager';
+import { TrialBanner } from './components/TrialBanner';
 
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
@@ -31,6 +32,7 @@ export default function App() {
         <Router>
           <div className="min-h-screen bg-[var(--color-bg)] font-sans selection:bg-[var(--color-ink)] selection:text-[var(--color-bg)]">
                 <Navbar />
+                <TrialBanner />
                 <OfflineBanner />
                 <NotificationManager />
                 <CompareBar />
