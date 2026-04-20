@@ -20,6 +20,9 @@ export const Navbar: React.FC = () => {
           </Link>
           
           <div className="flex items-center gap-4">
+            <Link to="/about" className="hidden md:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors">
+              About
+            </Link>
             {user ? (
               <>
                 <Link to="/timetable" className="flex items-center gap-2 px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold">

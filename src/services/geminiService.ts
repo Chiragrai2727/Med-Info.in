@@ -8,9 +8,12 @@ import indexData from "../data/index.json";
 import categoriesData from "../data/categories.json";
 import diseasesData from "../data/diseases.json";
 
-const apiKey = process.env.GEMINI_API_KEY || "";
-console.log("Gemini API Key loaded (first 4 chars):", apiKey ? apiKey.substring(0, 4) + "..." : "NONE");
-const ai = new GoogleGenAI({ apiKey });
+const getAIClient = (): GoogleGenAI => {
+  const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
+  const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
+  const apiKey = keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : "";
+  return new GoogleGenAI({ apiKey });
+};
 
 const localMedicines = medicinesData as Medicine[];
 const bannedMedicines = (bannedMedicinesData as any[]).map(m => ({ ...m, is_banned: true })) as Medicine[];
@@ -93,7 +96,7 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Generate detailed medical information for the medicine: "${query}". 
       The medicine must be a legally approved medication in India.
@@ -311,7 +314,7 @@ export async function getMedicinesForCondition(condition: string, lang: Language
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `List 12 common medicines used for "${condition}" in India. 
       For each medicine, provide the name, category, and a 1-line summary.
@@ -380,7 +383,7 @@ export async function interpretQuery(query: string, lang: Language = 'en'): Prom
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Analyze the following search query for a medical information app: "${query}".
       Identify if the user is looking for a specific medicine, a disease/symptom, or comparing two medicines.
@@ -450,7 +453,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
     }
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await getAIClient().models.generateContent({
         model: "gemini-3-flash-preview",
         contents: `Compare these two medicines: "${med1}" and "${med2}".
         Provide a side-by-side comparison of their key features.
@@ -487,7 +490,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
 
 export async function scanMedication(base64Image: string, lang: Language = 'en'): Promise<{ name: string; category: string; description: string; confidence: number } | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -595,7 +598,7 @@ export interface LabReportResult {
 
 export async function scanPrescription(base64Image: string, lang: Language = 'en'): Promise<PrescriptionResult | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -680,7 +683,7 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
 
 export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -763,7 +766,7 @@ export async function scanLabReport(base64Image: string, lang: Language = 'en'):
 
 export async function generateTTS(text: string): Promise<string | null> {
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: "gemini-2.5-flash-preview-tts",
       contents: [{ parts: [{ text }] }],
       config: {
@@ -789,7 +792,7 @@ export async function generateTTS(text: string): Promise<string | null> {
 
 export async function transcribeAudio(base64Audio: string, lang: Language = 'en'): Promise<string | null> {
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
       contents: {
         parts: [

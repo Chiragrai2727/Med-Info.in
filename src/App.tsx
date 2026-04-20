@@ -11,6 +11,7 @@ import { ScannerPage } from './pages/ScannerPage';
 import { Timetable } from './pages/Timetable';
 import { Dashboard } from './pages/Dashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { About } from './pages/About';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { Conditions } from './pages/Conditions';
@@ -49,6 +50,7 @@ export default function App() {
                     <Route path="/medicine/:name" element={<MedicineDetail />} />
                     <Route path="/condition/:id" element={<ConditionPage />} />
                     <Route path="/conditions" element={<Conditions />} />
+                    <Route path="/about" element={<About />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />
                     <Route path="/compare/:med1/:med2" element={<Compare />} />
                     <Route 
@@ -142,6 +144,7 @@ export default function App() {
                         © {new Date().getFullYear()} {t('footerCopyright')}
                       </p>
                       <div className="flex justify-center gap-6 mt-4 relative z-50">
+                        <Link to="/about" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">About Us</Link>
                         <Link to="/privacy" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">{t('privacyPolicy')}</Link>
                         <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">{t('cdscoOfficial')}</a>
                       </div>
