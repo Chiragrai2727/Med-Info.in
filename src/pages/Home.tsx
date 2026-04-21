@@ -31,15 +31,20 @@ export const Home: React.FC = () => {
     { name: 'Pan 40', category: t('category_antacid'), summary: t('pan40Summary') },
   ];
 
-  const SUGGESTED_QUERIES = [t('suggestedFever'), t('suggestedHeadache'), t('suggestedColdCough'), t('suggestedComparison')];
+  const TRENDING_SEARCHES = [
+    { title: 'Dolo 650 dosage', desc: 'Commonly searched for fever management', path: '/medicine/Dolo 650', type: 'Dosage', accent: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
+    { title: 'Ibuprofen side effects', desc: 'Important safety information for pain relief', path: '/medicine/Ibuprofen', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
+    { title: 'Best medicine for dry cough', desc: 'Seasonal ailment query', path: '/medicine/Benadryl', type: 'Usage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
+    { title: 'Antibiotics for throat infection', desc: 'Frequent bacterial infection query', path: '/medicine/Azithral 500', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
+    { title: 'Metformin uses', desc: 'Top searched for diabetes management', path: '/medicine/Metformin', type: 'Usage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
+    { title: 'Amlodipine side effects', desc: 'Common blood pressure medication query', path: '/medicine/Amlodipine', type: 'Precaution', accent: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
+  ];
 
-  const PEOPLE_ALSO_SEARCH = [
-    { query: 'Dolo 650 dosage', reason: t('doloSearchReason') },
-    { query: 'Ibuprofen side effects', reason: t('ibuprofenSearchReason') },
-    { query: 'Best medicine for dry cough', reason: t('dryCoughSearchReason') },
-    { query: 'Antibiotics for throat infection', reason: t('throatInfectionSearchReason') },
-    { query: 'Metformin uses', reason: t('diabetesSearchReason') },
-    { query: 'Amlodipine side effects', reason: t('amlodipineSearchReason') }
+  const FEATURED_BANNED = [
+    { name: 'Amidopyrine', reason: 'Agranulocytosis (severe drop in white blood cells)' },
+    { name: 'Fixed dose combinations of vitamins', reason: 'Prohibited by CDSCO due to safety/efficacy concerns' },
+    { name: 'Fixed dose combinations of Atropine', reason: 'Prohibited by CDSCO due to safety/efficacy concerns' },
+    { name: 'FDC of Strychnine and Caffeine', reason: 'Prohibited by CDSCO due to safety/efficacy concerns' },
   ];
 
   useEffect(() => {
@@ -52,7 +57,7 @@ export const Home: React.FC = () => {
     .slice(0, 4);
 
   const handleFeatureClick = (path: string) => {
-    if (user) {
+    if (user || path === '/banned-drugs' || path === '/generics') {
       navigate(path);
     } else {
       showToast('Please sign in to use this feature', 'info');
@@ -61,414 +66,212 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
+    <div className="min-h-screen pt-40 pb-20 bg-white">
       <Helmet>
         <title>{t('appName')} - Medical AI Scanner</title>
         <meta name="description" content={t('heroDescription')} />
-        <meta property="og:title" content={`${t('appName')} - Medical AI Scanner`} />
-        <meta property="og:description" content={t('heroDescription')} />
         <link rel="canonical" href="https://aethelcare.xyz" />
       </Helmet>
-      {/* Floating 3D Elements Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 bg-white">
-        <motion.div 
-          animate={{ 
-            y: [0, -30, 0],
-            rotate: [0, 45, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[15%] -left-20 w-80 h-80 bg-blue-500/5 rounded-full blur-[100px]"
-        />
-        <motion.div 
-          animate={{ 
-            y: [0, 40, 0],
-            rotate: [0, -20, 0],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[60%] -right-20 w-[40rem] h-[40rem] bg-teal-500/5 rounded-full blur-[120px]"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          style={{ rotateX: 45, rotateY: 45 }}
-          className="absolute top-1/4 right-[15%] w-32 h-32 border-2 border-blue-100 rounded-[2rem] opacity-20 hidden md:block"
-        />
-      </div>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24 relative z-50">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-50">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="flex flex-col items-center mb-16">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              <Logo size="xl" className="mb-10" />
-            </motion.div>
-            
-            <div className="flex flex-wrap justify-center gap-3">
-              <motion.div 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-blue-600/70"
+          <div className="flex flex-col items-center mb-12">
+            <Logo size="xl" className="mb-8" />
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight max-w-4xl mx-auto leading-tight">
+            Check if your medicine is banned in India
+          </h1>
+          
+          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-medium">
+            The simplest way to understand your medicines and safety.
+          </p>
+          
+          <div className="mb-10 relative max-w-2xl mx-auto z-40">
+            <Search 
+              autoFocus 
+              placeholder="Search any medicine name..."
+            />
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <button 
+                onClick={() => navigate('/banned-drugs')}
+                className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
               >
-                <Sparkles className="w-3.5 h-3.5" /> {t('medicalIntelligence')}
-              </motion.div>
-              <motion.div 
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 glass shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-teal-600/70"
+                Check Banned List
+              </button>
+              <button 
+                onClick={() => navigate('/scan')}
+                className="px-8 py-3 bg-white text-slate-900 border-2 border-slate-200 rounded-xl font-bold hover:border-blue-500 hover:text-blue-600 transition-all"
               >
-                <Shield className="w-3.5 h-3.5" /> {t('privacyFirst')}
-              </motion.div>
+                Search Free
+              </button>
             </div>
           </div>
-          
-          <div className="overflow-hidden mb-10">
-            <motion.h1 
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-              className="text-7xl md:text-9xl font-black tracking-tighter text-[var(--color-ink)] leading-[0.9] max-w-5xl mx-auto relative"
-            >
-              {t('healthDecoded')}<br />
-              <span className="text-blue-600/10 inline-block translate-y-2 opacity-50 blur-[2px] absolute -z-10 pointer-events-none select-none">{t('decoded')}</span>
-              <span className="text-gray-300 relative z-10">{t('decoded')}</span>
-            </motion.h1>
-          </div>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="text-xl md:text-2xl text-slate-500 mb-16 max-w-2xl mx-auto font-medium tracking-tight"
-          >
-            {t('heroDescription')}
-          </motion.p>
-          
-          <div className="mb-12 relative max-w-3xl mx-auto z-40">
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl -z-10" />
-            <Search autoFocus />
-          </div>
 
-          <div className="flex flex-wrap justify-center gap-3 items-center">
-            <span className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mr-2">{t('suggestedQueries')}:</span>
-            {SUGGESTED_QUERIES.map((q) => (
-              <motion.button
+          <div className="flex flex-wrap justify-center gap-2 items-center">
+            {['Dolo 650', 'Pan-D', 'Combiflam', 'Azithral 500', 'Calpol'].map((q) => (
+              <button
                 key={q}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  if (q.includes('vs')) {
-                    const parts = q.split(' vs ');
-                    navigate(`/compare/${encodeURIComponent(parts[0])}/${encodeURIComponent(parts[1])}`);
-                  } else {
-                    navigate(`/medicine/${encodeURIComponent(q)}`);
-                  }
-                }}
-                className="px-5 py-2.5 bg-white hover:bg-black hover:text-white border border-gray-100 rounded-2xl text-sm font-bold transition-colors shadow-sm hover:shadow-xl"
+                onClick={() => navigate(`/medicine/${encodeURIComponent(q)}`)}
+                className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-white hover:border-slate-400 transition-all"
               >
                 {q}
-              </motion.button>
+              </button>
             ))}
           </div>
         </motion.div>
       </section>
 
-      {/* Premium Features Highlight Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
-            onClick={() => handleFeatureClick('/scan')}
-            className="group cursor-pointer relative overflow-hidden glass rounded-[3rem] p-10 hover:shadow-[0_20px_50px_rgba(37,99,235,0.15)] transition-all duration-500"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-blue-500/10 transition-colors" />
-            <div className="relative z-10">
-              <div className="w-16 h-16 glass-dark rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all shadow-xl">
-                <Camera className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">{t('diagnosticVision')}</h3>
-              <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
-                {t('diagnosticVisionDesc')}
-              </p>
-              <div className="flex items-center gap-3 text-blue-600 font-black uppercase tracking-widest text-xs">
-                {user ? t('launchScanner') : t('authRequired')} 
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            whileHover={{ y: -10, rotateX: 2, rotateY: 2 }}
-            onClick={() => handleFeatureClick('/timetable')}
-            className="group cursor-pointer relative overflow-hidden glass rounded-[3rem] p-10 hover:shadow-[0_20px_50px_rgba(20,184,166,0.15)] transition-all duration-500"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-teal-500/10 transition-colors" />
-            <div className="relative z-10">
-              <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-all shadow-xl">
-                <CalendarClock className="w-8 h-8 text-teal-400" />
-              </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">{t('neuralReminders')}</h3>
-              <p className="text-lg text-slate-500 font-medium mb-8 leading-relaxed">
-                {t('neuralRemindersDesc')}
-              </p>
-              <div className="flex items-center gap-3 text-teal-600 font-black uppercase tracking-widest text-xs">
-                {user ? t('configureCycles') : t('authRequired')}
-                <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center group-hover:translate-x-3 transition-transform">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Compare Section - Immersive Bento Style */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="h-full"
-            >
-              <CompareSearch />
-            </motion.div>
-          </div>
-          <div className="lg:col-span-4">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-slate-900 border border-slate-800 text-white p-10 lg:p-12 rounded-[3rem] h-full flex flex-col justify-between relative overflow-hidden group shadow-2xl"
-            >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full -mr-32 -mt-32 blur-[80px] group-hover:bg-blue-500/30 transition-colors duration-700" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full -ml-32 -mb-32 blur-[80px] group-hover:bg-teal-500/20 transition-colors duration-700" />
-              <div className="relative z-10">
-                <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-[1.25rem] flex items-center justify-center mb-8 backdrop-blur-md">
-                  <Scale className="w-6 h-6 text-blue-200" />
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tight leading-[1.1] whitespace-pre-line">{t('smartComparison').replace(/ /g, '\n')}</h2>
-                <p className="text-slate-400 font-medium text-lg leading-relaxed">{t('smartComparisonDesc')}</p>
-              </div>
-              <div className="mt-12 relative z-10 mt-auto">
-                <div className="flex -space-x-4">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="w-12 h-12 rounded-full border-4 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-black tracking-widest text-slate-400 shadow-xl">
-                      MED
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Common Conditions - Bento Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="flex items-end justify-between mb-12">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shadow-xl">
-              <TrendingUp className="w-7 h-7" />
-            </div>
-            <div>
-              <h2 className="text-4xl font-black text-black tracking-tight">{t('commonConditions')}</h2>
-              <p className="text-gray-400 font-medium">{t('quickHealthAccess')}</p>
-            </div>
-          </div>
-          <Link 
-            to="/conditions" 
-            className="px-6 py-3 glass text-black hover:bg-black hover:text-white rounded-2xl text-sm font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
-          >
-            {t('viewAll')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-        <DiseaseGrid limit={6} />
-      </section>
-
-      {/* Popular Medicines - Premium Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-4xl font-black text-black tracking-tight">{t('popularMedicines')}</h2>
-          <div className="h-px flex-grow mx-8 bg-gray-100 hidden md:block" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Popular Medicines Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <h2 className="text-3xl font-black text-slate-900 mb-10 tracking-tight">Popular Medicines</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {POPULAR_MEDS.map((med, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
+              className="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group cursor-pointer relative overflow-hidden"
             >
-              <Link
-                to={`/medicine/${encodeURIComponent(med.name)}`}
-                className="block p-10 glass rounded-[3rem] shadow-sm hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] hover:border-blue-500 hover:-translate-y-2 transition-all duration-300 group h-full relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[4rem] -z-10 group-hover:bg-blue-600/10 transition-colors" />
-                <div className="flex justify-between items-start mb-8">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-black transition-colors">
-                      {med.category}
-                    </span>
-                    <span className="inline-flex w-fit items-center gap-1 px-2 py-1 bg-green-50 text-green-600 text-[8px] font-black uppercase tracking-widest rounded-md">
-                      <ShieldCheck className="w-3 h-3" /> CDSCO Verified
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (compareList.includes(med.name)) {
-                          removeFromCompare(med.name);
-                          showToast(`Removed ${med.name} from comparison.`, 'info');
-                        } else {
-                          addToCompare(med.name);
-                          showToast(`Added ${med.name} to comparison.`, 'success');
-                        }
-                      }}
-                      className={`p-3 rounded-2xl transition-all shadow-sm ${compareList.includes(med.name) ? 'bg-black text-white' : 'bg-gray-50 hover:bg-black hover:text-white text-gray-400'}`}
-                    >
-                      <Scale className="w-4 h-4" />
-                    </button>
-                  </div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-full -mr-8 -mt-8 flex items-center justify-center">
+                <HelpCircle className="w-5 h-5 text-slate-200 translate-x-[-8px] translate-y-[8px]" />
+              </div>
+              <div className="flex flex-col gap-2 mb-6">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{med.category}</span>
+                <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-green-600">
+                  <ShieldCheck className="w-3 h-3" /> Drug Verified
                 </div>
-                <h3 className="text-3xl font-black text-black mb-4 tracking-tight leading-none">{med.name}</h3>
-                <p className="text-lg text-gray-500 font-medium leading-relaxed line-clamp-3">{med.summary}</p>
-                
-                <div className="mt-8 pt-8 border-t border-gray-50 flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">{t('viewDetails')}</span>
-                  <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black transition-all transform group-hover:translate-x-2" />
-                </div>
-              </Link>
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tighter leading-none">{med.name}</h3>
+              <p className="text-sm text-slate-500 mb-8 font-medium leading-relaxed line-clamp-2">
+                {med.summary}
+              </p>
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">
+                <span>View Details</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Banned Drugs Search Section - NEW */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="bg-red-50 border-2 border-red-100 p-10 md:p-16 rounded-[4rem] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative z-10">
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 text-xs font-black uppercase tracking-[0.2em] rounded-full mb-6">
-                <Ban className="w-4 h-4" /> {t('cdscoAlert')}
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black text-red-900 tracking-tight mb-4">{t('bannedDrugsSearch')}</h2>
-              <p className="text-xl text-red-700/80 font-medium max-w-2xl">
-                {t('bannedDrugsSearchDesc')}
-              </p>
-            </div>
-            <Link 
-              to="/banned-drugs" 
-              className="px-8 py-4 bg-red-600 text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-red-700 transition-all w-fit"
-            >
-              {t('fullRegistry')} <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="mb-12 relative z-10 max-w-2xl">
-            <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-              <SearchIcon className="h-5 w-5 text-red-400" />
-            </div>
-            <input
-              type="text"
-              value={bannedSearchQuery}
-              onChange={(e) => setBannedSearchQuery(e.target.value)}
-              placeholder={t('searchBannedPlaceholder')}
-              className="block w-full pl-14 pr-6 py-5 bg-white border border-red-100 rounded-[2rem] text-lg focus:ring-4 focus:ring-red-500/10 focus:border-red-500 transition-all shadow-sm font-medium"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-            {filteredBannedHighlight.map((drug, index) => (
-              <motion.div 
-                key={index} 
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-red-100 hover:shadow-xl transition-all"
-              >
-                <div className="w-12 h-12 glass rounded-2xl flex items-center justify-center mb-6">
-                  <AlertTriangle className="w-6 h-6 text-red-500" />
+      {/* Banned Drugs Promo Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <div className="bg-gradient-to-br from-rose-50 to-orange-50 p-10 md:p-20 rounded-[4rem] relative overflow-hidden shadow-sm border border-rose-100">
+          <div className="relative z-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16">
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-100 text-rose-600 text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
+                  <AlertTriangle className="w-4 h-4" /> CDSCO ALERT
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 mb-2">{drug.drug_name}</h3>
-                <p className="text-sm font-bold text-red-600 mb-4 line-clamp-2">{drug.side_effects_serious[0]}</p>
-                <button
-                  onClick={() => navigate(`/medicine/${encodeURIComponent(drug.drug_name)}`)}
-                  className="text-sm font-black uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors flex items-center gap-1 mt-auto"
-                >
-                  {t('readWhy')} <ArrowRight className="w-4 h-4" />
-                </button>
-              </motion.div>
-            ))}
-            {filteredBannedHighlight.length === 0 && (
-              <div className="col-span-full py-10 text-center text-red-400 font-bold">
-                {t('noBannedFound')}
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">Banned Drugs Search</h2>
+                <p className="text-lg text-rose-800 font-bold max-w-xl">
+                  Quickly check if a medication is prohibited for manufacture and sale in India.
+                </p>
               </div>
-            )}
+              <button 
+                onClick={() => navigate('/banned-drugs')}
+                className="bg-red-600 text-white px-10 py-5 rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-red-700 transition-all shadow-xl shadow-red-200 active:scale-95"
+              >
+                Full Registry →
+              </button>
+            </div>
+
+            <div className="mb-16 relative max-w-xl">
+              <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                <SearchIcon className="h-5 w-5 text-rose-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search banned drug name..."
+                onChange={(e) => {
+                  if (e.target.value.length > 2) {
+                    navigate(`/banned-drugs?q=${encodeURIComponent(e.target.value)}`);
+                  }
+                }}
+                className="w-full pl-14 pr-6 py-5 bg-white border border-rose-200 rounded-3xl text-lg focus:ring-4 focus:ring-red-500/10 focus:border-red-500 transition-all shadow-sm font-medium"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {FEATURED_BANNED.map((drug, index) => (
+                <div key={index} className="bg-white p-8 rounded-[2.5rem] border border-rose-100 shadow-sm hover:shadow-lg transition-all group">
+                  <AlertTriangle className="w-6 h-6 text-rose-400 mb-6" />
+                  <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight">{drug.name}</h3>
+                  <p className="text-[10px] text-red-600 font-bold leading-relaxed mb-6">
+                    {drug.reason}
+                  </p>
+                  <button 
+                    onClick={() => navigate('/banned-drugs')}
+                    className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-red-600 transition-colors"
+                  >
+                    Read Why →
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Smart Suggestions - Immersive Gradient */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 relative z-10">
-        <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white p-10 md:p-16 rounded-[4rem] shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-500/10 rounded-full -mr-64 -mt-64 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-teal-500/10 rounded-full -ml-32 -mb-32 blur-[100px]" />
+      {/* Discovery Section (People also search for) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <div className="bg-[#0B1729] rounded-[4rem] p-12 md:p-20 relative overflow-hidden shadow-2xl shadow-slate-950/50">
+          {/* Subtle Background Glows */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
           
           <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-blue-400" />
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center">
+                  <Sparkles className="w-7 h-7 text-blue-400" />
+                </div>
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-none mb-3">People also search for</h2>
+                  <p className="text-slate-400 font-medium text-lg">Based on current health trends and CDSCO guidelines</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-4xl font-black tracking-tight">{t('peopleAlsoSearch')}</h2>
-                <p className="text-gray-400 font-medium mt-2">{t('peopleAlsoSearchDesc')}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                {['Symptoms', 'Dosage', 'Safety', 'Alternatives'].map(cat => (
+                  <button key={cat} className="px-5 py-2.5 rounded-full border border-white/5 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:border-blue-500/50 hover:text-white hover:bg-white/5 transition-all bg-white/[0.02]">
+                    {cat}
+                  </button>
+                ))}
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {PEOPLE_ALSO_SEARCH.map((item, i) => (
-                <motion.button
-                  key={i}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate(`/medicine/${encodeURIComponent(item.query)}`)}
-                  className="group flex flex-col p-6 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-[2rem] transition-colors text-left"
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {TRENDING_SEARCHES.map((item, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -6 }}
+                  onClick={() => navigate(item.path)}
+                  className="bg-[#0F1E35]/50 border border-white/5 p-8 rounded-[2.5rem] transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xl font-bold text-white">{item.query}</span>
-                    <ArrowRight className="w-5 h-5 text-white/20 group-hover:text-white transition-all transform group-hover:translate-x-1" />
+                   {/* Bloom Hover Effect */}
+                   <div className={`absolute top-0 right-0 w-32 h-32 blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity bg-current ${item.accent.split(' ')[0]}`} />
+                   
+                  <div className="relative z-10 w-full mb-6 flex items-start justify-between">
+                    <span className={`px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-lg border ${item.accent}`}>
+                      {item.type}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-slate-700 group-hover:text-white transition-all transform group-hover:translate-x-2" />
                   </div>
-                  <span className="text-sm text-gray-400 font-medium">{item.reason}</span>
-                </motion.button>
+                  
+                  <div className="relative z-10 mt-auto">
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 font-medium group-hover:text-slate-400 transition-colors">
+                      {item.desc}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -479,7 +282,7 @@ export const Home: React.FC = () => {
       <FAQ />
 
       {/* Disclaimer Footer */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
         <div className="bg-white border border-gray-100 p-16 rounded-[4rem] text-center shadow-sm">
           <div className="w-20 h-20 bg-yellow-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
             <AlertTriangle className="w-10 h-10 text-yellow-500" />

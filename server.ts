@@ -29,19 +29,29 @@ async function startServer() {
 
   const handleCreateOrder = async (req: express.Request, res: express.Response) => {
     try {
-      const { plan } = req.body;
+      const { plan, planId } = req.body;
       let amount = 0;
 
-      // Base prices
-      if (plan === "monthly") amount = 79;
-      else if (plan === "yearly") amount = 849;
-      else if (plan === "daily") amount = 99;
-      else return res.status(400).json({ error: "Invalid plan" });
+      // Prices based on plans.ts
+      if (planId === "basic") {
+        amount = plan === "yearly" ? 799 : 99;
+      } else if (planId === "family") {
+        amount = plan === "yearly" ? 1999 : 249;
+      } else if (planId === "clinic") {
+        amount = plan === "yearly" ? 7999 : 999;
+      } else if (plan === "daily") {
+        amount = 99; // Legacy daily plan support
+      } else {
+        return res.status(400).json({ error: "Invalid plan or planId" });
+      }
 
-      // Calculate GST (18%) and Platform Fee (2%)
-      const gst = amount * 0.18;
-      const platformFee = amount * 0.02;
-      const totalAmount = amount + gst + platformFee;
+      // Calculate GST (18%) and Platform Fee (2%) - Optional, 
+      // depends on if you want to add these on top or if they are inclusive.
+      // Most Indian SaaS include GST in display price or add it.
+      // Here we'll treat the price as inclusive of fees for simplicity in matching UI display,
+      // but if the user wants they can be added. 
+      // For now, let's keep it simple and match the UI price exactly.
+      const totalAmount = amount; 
 
       // Razorpay expects amount in paise (multiply by 100)
       const options = {
@@ -51,14 +61,14 @@ async function startServer() {
       };
 
       const order = await razorpay.orders.create(options);
-      res.json({ order, breakdown: { base: amount, gst, platformFee, total: totalAmount } });
+      res.json({ order, amount: totalAmount });
     } catch (error) {
       console.error("Error creating order:", error);
       res.status(500).json({ error: "Failed to create order" });
     }
   };
 
-  app.post("/.netlify/functions/create-order", handleCreateOrder);
+  app.post("/api/create-order", handleCreateOrder);
 
   const handleVerifyPayment = (req: express.Request, res: express.Response) => {
     try {
@@ -81,6 +91,10 @@ async function startServer() {
     }
   };
 
+  app.post("/api/verify-payment", handleVerifyPayment);
+
+  // Keep Netlify redirects if needed
+  app.post("/.netlify/functions/create-order", handleCreateOrder);
   app.post("/.netlify/functions/verify-payment", handleVerifyPayment);
 
   // Vite middleware for development

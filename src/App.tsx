@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 import { Navbar } from './components/Navbar';
@@ -15,6 +15,7 @@ import { About } from './pages/About';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { Conditions } from './pages/Conditions';
+import { Pricing } from './pages/Pricing';
 import { OfflineBanner } from './components/OfflineBanner';
 import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
@@ -25,14 +26,54 @@ import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
+import { checkDueReminders, dismissReminder, RefillReminder } from './utils/refillReminder';
+import { Bell, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+
 export default function App() {
   const { t } = useLanguage();
+  const [reminders, setReminders] = useState<RefillReminder[]>([]);
+
+  useEffect(() => {
+    setReminders(checkDueReminders());
+  }, []);
+
+  const handleDismissReminder = (medicineName: string) => {
+    dismissReminder(medicineName);
+    setReminders(reminders.filter(r => r.medicine_name !== medicineName));
+  };
+
   return (
     <ErrorBoundary>
       <CompareProvider>
         <Router>
           <div className="min-h-screen bg-[var(--color-bg)] font-sans selection:bg-[var(--color-ink)] selection:text-[var(--color-bg)]">
                 <Navbar />
+
+                {/* Global Refill Reminders */}
+                <div className="fixed top-20 right-4 z-[90] flex flex-col gap-2">
+                  <AnimatePresence>
+                    {reminders.map((r, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="bg-white border-l-4 border-amber-500 rounded-lg shadow-xl p-4 flex gap-3 w-80"
+                      >
+                        <Bell className="w-5 h-5 text-amber-500 shrink-0" />
+                        <div className="flex-1">
+                          <h4 className="font-bold text-gray-900 text-sm">Time to Refill</h4>
+                          <p className="text-gray-600 text-xs mt-0.5">Your {r.duration_days}-day prescription of <span className="font-bold">{r.medicine_name}</span> may be running low.</p>
+                        </div>
+                        <button onClick={() => handleDismissReminder(r.medicine_name)} className="text-gray-400 hover:text-gray-900 self-start">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+
                 <OfflineBanner />
                 <NotificationManager />
                 <CompareBar />
@@ -50,6 +91,7 @@ export default function App() {
                     <Route path="/medicine/:name" element={<MedicineDetail />} />
                     <Route path="/condition/:id" element={<ConditionPage />} />
                     <Route path="/conditions" element={<Conditions />} />
+                    <Route path="/pricing" element={<Pricing />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />
                     <Route path="/compare/:med1/:med2" element={<Compare />} />
@@ -80,7 +122,6 @@ export default function App() {
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                   </Routes>
                 </main>
-                <InstallPrompt />
                 <AuthModal />
                 
                 <footer className="py-12 border-t border-[var(--color-ink)]/10 bg-white">

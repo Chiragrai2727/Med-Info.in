@@ -23,6 +23,9 @@ export const Navbar: React.FC = () => {
             <Link to="/about" className="hidden md:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors">
               About
             </Link>
+            <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors">
+              Plans
+            </Link>
             {user ? (
               <>
                 <Link to="/timetable" className="flex items-center gap-2 px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold">

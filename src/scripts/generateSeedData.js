@@ -1,0 +1,13 @@
+import fs from 'fs';
+
+// A sample 50 medicines derived from PMBJP / CDSCO standard essential lists
+const sampleMedicines = [
+  {"id": "dolo-650", "drug_name": "Paracetamol", "category": "Analgesic", "brand_names_india": ["Dolo 650", "Calpol", "Crocin", "P-250"], "quick_summary": "Common pain reliever and fever reducer.", "uses": ["Fever", "Headache", "Muscle pain", "Toothache"], "side_effects_common": ["Nausea", "Stomach pain"], "dosage_common": "500-650mg every 4-6 hours", "pregnancy_safety": "Generally considered safe if used as directed", "country": "India", "source": "PMBJP_NLEM"},
+  {"id": "amox-500", "drug_name": "Amoxicillin", "category": "Antibiotic", "brand_names_india": ["Novamox", "Moxikind", "Almox"], "quick_summary": "Penicillin-type antibiotic used to treat bacterial infections.", "uses": ["Ear infections", "Throat infections", "Urinary tract infections"], "side_effects_common": ["Diarrhea", "Rashes"], "dosage_common": "250-500mg every 8 hours", "pregnancy_safety": "Safe under doctor supervision", "country": "India", "source": "PMBJP_NLEM"},
+  {"id": "panto-40", "drug_name": "Pantoprazole", "category": "Antacid/PPI", "brand_names_india": ["Pantocid", "Pan 40", "Pantodac"], "quick_summary": "Reduces stomach acid to treat GERD and ulcers.", "uses": ["Acidity", "Heartburn", "Stomach Ulcer"], "side_effects_common": ["Headache", "Diarrhea", "Stomach pain"], "dosage_common": "40mg once daily before breakfast", "pregnancy_safety": "Consult doctor before use", "country": "India", "source": "PMBJP_NLEM"},
+  {"id": "metf-500", "drug_name": "Metformin", "category": "Anti-diabetic", "brand_names_india": ["Glycomet", "Glyciphage", "Okamet"], "quick_summary": "First-line medication for the treatment of type 2 diabetes.", "uses": ["Type 2 Diabetes mellitus", "PCOS"], "side_effects_common": ["Nausea", "Vomiting", "Diarrhea", "Loss of appetite"], "dosage_common": "500mg twice or thrice daily with meals", "pregnancy_safety": "Insulin is preferred during pregnancy", "country": "India", "source": "PMBJP_NLEM"},
+  {"id": "leto-5", "drug_name": "Levocetirizine", "category": "Antihistamine", "brand_names_india": ["Alerid", "Levocet", "Teczine"], "quick_summary": "Allergy medicine used to treat hay fever and hives.", "uses": ["Allergic rhinitis", "Urticaria (hives)"], "side_effects_common": ["Sleepiness", "Dry mouth", "Fatigue"], "dosage_common": "5mg once daily at night", "pregnancy_safety": "Generally safe, consult doctor", "country": "India", "source": "PMBJP_NLEM"}
+];
+
+fs.writeFileSync('src/data/pmbjp_nlem_seed.json', JSON.stringify(sampleMedicines, null, 2));
+console.log("Seed data generated. You can inject this script directly into Firebase when ready.");

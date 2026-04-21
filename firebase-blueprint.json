@@ -40,9 +40,34 @@
         "lastSearchedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["query", "count", "lastSearchedAt"]
+    },
+    "Medicine": {
+      "title": "Medicine",
+      "description": "Self-building public database of medicines generated from Gemini.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "drug_name": { "type": "string" },
+        "category": { "type": "string" },
+        "brand_names_india": { "type": "array", "items": { "type": "string" } },
+        "quick_summary": { "type": "string" },
+        "uses": { "type": "array", "items": { "type": "string" } },
+        "side_effects_common": { "type": "array", "items": { "type": "string" } },
+        "dosage_common": { "type": "string" },
+        "pregnancy_safety": { "type": "string" },
+        "country": { "type": "string" },
+        "source": { "type": "string" },
+        "createdBy": { "type": "string", "description": "UID of the user who triggered the generation" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "drug_name", "createdBy", "createdAt"]
     }
   },
   "firestore": {
+    "/medicines/{medicineId}": {
+      "schema": { "$ref": "#/entities/Medicine" },
+      "description": "Public database of medicines. Anyone can read. Signed-in users can append. Immutable after creation."
+    },
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/User" },
       "description": "Stores user profiles and premium status."

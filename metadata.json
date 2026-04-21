@@ -1,5 +1,5 @@
 {
   "name": "Aethelcare India",
-  "description": "A modern, privacy-first medication information platform. Compliant with latest Android & iOS privacy standards. Provides accurate, non-prescriptive data on legally approved medications.",
+  "description": "Banned Drugs Search India — Search 300+ medicines banned by CDSCO. Access accurate medication info, generic alternatives, and safety alerts. Privacy-first Indian healthcare platform.",
   "requestFramePermissions": ["camera", "microphone"]
 }

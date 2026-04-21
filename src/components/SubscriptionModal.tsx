@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Check, Loader2, ShieldCheck } from 'lucide-react';
+import { X, Check, Loader2, ShieldCheck, Zap } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useLanguage } from '../LanguageContext';
 import { Link } from 'react-router-dom';
+import { PLANS } from '../config/plans';
 
 interface SubscriptionModalProps {
   isOpen: boolean;
@@ -17,56 +18,13 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
   const { user, profile, updateSubscription, openAuthModal } = useAuth();
   const { showToast } = useToast();
   const { t } = useLanguage();
-  const [selectedPlan, setSelectedPlan] = useState<string>('monthly');
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('family');
   const [isProcessing, setIsProcessing] = useState(false);
-
-  const PLANS = [
-    {
-      id: 'daily',
-      name: t('oneTimePass'),
-      description: t('oneTimePassDesc'),
-      price: 99,
-      originalPrice: 99,
-      duration: t('day'),
-      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('valid24Hours')]
-    },
-    {
-      id: 'monthly',
-      name: t('monthlyPro'),
-      description: t('monthlyProDesc'),
-      price: 79,
-      originalPrice: 99,
-      duration: t('month'),
-      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('prioritySupport')],
-      popular: true
-    },
-    {
-      id: 'yearly',
-      name: t('yearlyPremium'),
-      description: t('yearlyPremiumDesc'),
-      price: 849,
-      originalPrice: 948,
-      duration: t('year'),
-      features: [t('unlimitedScanning'), t('prescriptionAnalysis'), t('labReportAnalysis'), t('prioritySupport'), t('earlyAccess')]
-    }
-  ];
 
   if (!isOpen) return null;
 
-  const plan = PLANS.find(p => p.id === selectedPlan)!;
-  const gst = plan.price * 0.18;
-  const platformFee = plan.price * 0.02;
-  const total = plan.price + gst + platformFee;
-
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
+  const plan = (PLANS as any)[selectedPlanId];
+  const amount = plan.price_inr;
 
   const handleSubscribe = async () => {
     if (!user) {
@@ -75,28 +33,23 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
       return;
     }
 
-    setIsProcessing(true);
-
-    const keyId = import.meta.env.VITE_RAZORPAY_KEY_ID;
-    if (!keyId || keyId.includes('dummy')) {
-      showToast('Frontend API Key missing. Please trigger a new deploy in Netlify.', 'error');
-      setIsProcessing(false);
+    if (amount === 0) {
+      showToast('This plan is already free!', 'info');
+      onClose();
       return;
     }
 
-    try {
-      const res = await loadRazorpayScript();
-      if (!res) {
-        showToast('Razorpay SDK failed to load. Are you online?', 'error');
-        setIsProcessing(false);
-        return;
-      }
+    setIsProcessing(true);
 
-      // Create order on backend
-      const orderResponse = await fetch('/.netlify/functions/create-order', {
+    try {
+      // 1. Create order on server
+      const orderResponse = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: selectedPlan })
+        body: JSON.stringify({ 
+          plan: selectedPlanId === 'annual' ? 'yearly' : 'monthly',
+          planId: selectedPlanId
+        })
       });
 
       if (!orderResponse.ok) {
@@ -110,20 +63,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_dummy',
         amount: order.amount,
         currency: order.currency,
-        name: 'MedInfo India',
+        name: 'Aethelcare India',
         description: `${plan.name} Subscription`,
         order_id: order.id,
         handler: async function (response: any) {
           try {
-            // Verify payment on backend
-            const verifyResponse = await fetch('/.netlify/functions/verify-payment', {
+            // 2. Verify payment on server
+            const verifyResponse = await fetch('/api/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
-              })
+              body: JSON.stringify(response)
             });
 
             const verifyResult = await verifyResponse.json().catch(() => ({}));
@@ -133,19 +82,18 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             }
 
             if (verifyResult.success) {
-              // Calculate expiry
-              const now = new Date();
-              if (selectedPlan === 'daily') now.setDate(now.getDate() + 1);
-              else if (selectedPlan === 'monthly') now.setMonth(now.getMonth() + 1);
-              else if (selectedPlan === 'yearly') now.setFullYear(now.getFullYear() + 1);
+              // 3. Update profile
+              const expiryDate = new Date();
+              if (selectedPlanId === 'annual') expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+              else expiryDate.setMonth(expiryDate.getMonth() + 1);
 
-              await updateSubscription(selectedPlan as any, now.toISOString());
+              await updateSubscription(selectedPlanId === 'annual' ? 'yearly' : 'monthly', expiryDate.toISOString());
               
-              // Record payment history
+              // 4. Record payment history
               try {
                 await addDoc(collection(db, 'users', user.uid, 'payments'), {
-                  amount: order.amount / 100,
-                  tier: selectedPlan,
+                  amount: amount,
+                  tier: selectedPlanId,
                   date: new Date().toISOString(),
                   status: 'success',
                   razorpayOrderId: response.razorpay_order_id,
@@ -163,14 +111,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           } catch (err: any) {
             console.error(err);
             showToast(err.message || 'Error verifying payment', 'error');
+          } finally {
+            setIsProcessing(false);
           }
         },
         prefill: {
-          name: user.displayName || '',
+          name: profile?.displayName || '',
           email: user.email || '',
         },
         theme: {
-          color: '#000000'
+          color: '#4f46e5'
         },
         modal: {
           ondismiss: function() {
@@ -189,14 +139,15 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
     } catch (error: any) {
       console.error(error);
       showToast(error.message || 'Something went wrong. Please try again.', 'error');
-    } finally {
       setIsProcessing(false);
     }
   };
 
+  const planOptions = [PLANS.basic, PLANS.family, PLANS.annual];
+
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -213,8 +164,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
         >
           <div className="p-6 sm:p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{t('unlockAIScanner')}</h2>
-              <p className="text-gray-500 font-medium mt-1">{t('chooseAPlan')}</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Unlock Premium Care</h2>
+              <p className="text-gray-500 font-medium mt-1">Choose a plan that fits your family's needs</p>
             </div>
             <button
               onClick={onClose}
@@ -225,39 +176,41 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           </div>
 
           <div className="p-6 sm:p-8 overflow-y-auto flex-1">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 lg:px-4 py-4">
-              {PLANS.map((p) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
+              {planOptions.map((p) => (
                 <div
                   key={p.id}
-                  onClick={() => setSelectedPlan(p.id)}
+                  onClick={() => setSelectedPlanId(p.id)}
                   className={`relative cursor-pointer rounded-3xl border-2 p-6 transition-all flex flex-col ${
-                    selectedPlan === p.id 
-                      ? 'border-black bg-black text-white shadow-2xl scale-105 z-10' 
-                      : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md text-gray-900 scale-100'
+                    selectedPlanId === p.id 
+                      ? 'border-indigo-600 bg-indigo-50/30 shadow-indigo-100 shadow-lg scale-105 z-10' 
+                      : 'border-gray-100 bg-white hover:border-gray-300 text-gray-900 scale-100'
                   }`}
                 >
-                  {p.popular && (
-                    <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                      selectedPlan === p.id ? 'bg-white text-black' : 'bg-black text-white'
-                    }`}>
-                      {t('mostPopular')}
+                  {p.badge && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-600 text-white">
+                      {p.badge}
                     </div>
                   )}
                   
                   <h3 className="text-xl font-black mb-2">{p.name}</h3>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-4xl font-black">₹{p.price}</span>
-                    <span className={`text-sm font-medium ${selectedPlan === p.id ? 'text-gray-300' : 'text-gray-500'}`}>/{p.duration}</span>
+                    <span className="text-4xl font-black">
+                      {p.price_display}
+                    </span>
+                    <span className="text-sm font-medium text-gray-500">/{p.billing === 'per year' ? 'year' : 'month'}</span>
                   </div>
                   
-                  <div className={`text-sm font-medium mb-6 line-through min-h-[20px] ${selectedPlan === p.id ? 'text-gray-400' : 'text-gray-400'}`}>
-                    {p.originalPrice > p.price ? `₹${p.originalPrice}/${p.duration}` : ''}
-                  </div>
+                  {'savings_amount' in p && p.savings_amount && (
+                    <div className="text-xs font-bold text-green-600 mb-6">
+                      {p.savings_amount}
+                    </div>
+                  )}
 
-                  <ul className="space-y-3 mt-auto">
-                    {p.features.map((feature, idx) => (
+                  <ul className="space-y-3 mt-4">
+                    {p.features.slice(0, 5).map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm font-medium">
-                        <Check className={`w-5 h-5 shrink-0 ${selectedPlan === p.id ? 'text-green-400' : 'text-green-500'}`} />
+                        <Check className="w-5 h-5 shrink-0 text-green-500" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -267,37 +220,29 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             </div>
 
             {profile && !profile.trialClaimed && (
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-3xl p-6 sm:p-8 w-full border border-purple-100 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8 shadow-sm">
+                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-6 w-full border border-indigo-100 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8 shadow-sm">
                   <div>
-                    <h3 className="text-xl font-bold text-purple-900 mb-1">Looking for the 14-Day Free Trial?</h3>
-                    <p className="text-purple-700 text-sm mb-4 md:mb-0">Claim your free access by verifying your phone number.</p>
+                    <h3 className="text-xl font-bold text-indigo-900 mb-1">Claim your 14-Day Free Trial</h3>
+                    <p className="text-indigo-700 text-sm">Verify your phone number to get instant access.</p>
                   </div>
-                  <Link to="/dashboard" onClick={onClose} className="px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition shadow-sm whitespace-nowrap">
+                  <Link to="/dashboard" onClick={onClose} className="mt-4 md:mt-0 px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-sm whitespace-nowrap">
                     Verify & Claim
                   </Link>
                 </div>
             )}
 
             <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border border-gray-100">
-              <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 text-center">{t('breakdown')}</h4>
+              <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 text-center">Checkout Summary</h4>
               
               <div className="space-y-4 text-sm font-medium text-gray-600">
                 <div className="flex justify-between items-center">
-                  <span>{plan.name} {t('plan')}</span>
-                  <span className="text-gray-900 font-bold">₹{plan.price.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>{t('platformFee')} (2%)</span>
-                  <span className="text-gray-900 font-bold">₹{platformFee.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>{t('gst')} (18%)</span>
-                  <span className="text-gray-900 font-bold">₹{gst.toFixed(2)}</span>
+                  <span>{plan.name}</span>
+                  <span className="text-gray-900 font-bold">₹{amount.toFixed(2)}</span>
                 </div>
                 
                 <div className="pt-4 border-t border-gray-200 flex justify-between items-center text-lg">
-                  <span className="font-black text-gray-900">{t('totalAmount')}</span>
-                  <span className="font-black text-black">₹{total.toFixed(2)}</span>
+                  <span className="font-black text-gray-900">Total Amount</span>
+                  <span className="font-black text-black">₹{amount.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -306,19 +251,19 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubscribe}
                 disabled={isProcessing}
-                className="w-full mt-8 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-gray-900 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full mt-8 py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isProcessing ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   <>
                     <ShieldCheck className="w-5 h-5" />
-                    {t('paySecurely').replace('{total}', total.toFixed(2))}
+                    Pay ₹{amount.toFixed(2)} Securely
                   </>
                 )}
               </motion.button>
-              <p className="text-center text-xs text-gray-400 font-medium mt-4 flex items-center justify-center gap-1">
-                {t('securedByRazorpay')}
+              <p className="text-center text-xs text-gray-400 font-medium mt-4">
+                Secured by Razorpay • Instant activation
               </p>
             </div>
           </div>

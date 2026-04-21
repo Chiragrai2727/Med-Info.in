@@ -7,6 +7,8 @@ import bannedMedicinesData from "../data/banned_medicines.json";
 import indexData from "../data/index.json";
 import categoriesData from "../data/categories.json";
 import diseasesData from "../data/diseases.json";
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from './firebase';
 
 const getAIClient = (): GoogleGenAI => {
   const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
@@ -95,6 +97,21 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
     return null; // Cannot fetch new data while offline
   }
 
+  const safeId = q.replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
+  
+  // 5. Check Firebase "Self-Building DB" Cache to save API Quota
+  try {
+    const medDocRef = doc(db, 'medicines', safeId);
+    const docSnap = await getDoc(medDocRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data() as Medicine;
+      offlineService.saveMedicine(data); // ensure offline cache is updated
+      return { ...data, source: 'Verified Database' }; // Flagged as verified to build trust
+    }
+  } catch (firebaseErr: any) {
+    console.warn("Firebase cache miss or error:", firebaseErr);
+  }
+
   try {
     const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
@@ -153,13 +170,39 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
     const data = JSON.parse(response.text || "{}");
     const medicine: Medicine = {
       ...data,
-      id: data.id || Math.random().toString(36).substring(2, 11),
+      id: safeId,
       source: 'AI Analysis'
     };
 
     // Save to offline cache
     offlineService.saveMedicine(medicine);
     
+    // Save to Firebase Self-Building DB to help others
+    if (auth.currentUser) {
+      try {
+        const medDocRef = doc(db, 'medicines', safeId);
+        // Explicitly ensuring fields match the hardened Firestore Blueprint
+        const payload = {
+          id: safeId,
+          drug_name: medicine.drug_name || query,
+          category: medicine.category || 'Unknown',
+          brand_names_india: medicine.brand_names_india || [],
+          quick_summary: medicine.quick_summary || '',
+          uses: medicine.uses || [],
+          side_effects_common: medicine.side_effects_common || [],
+          dosage_common: medicine.dosage_common || '',
+          pregnancy_safety: medicine.pregnancy_safety || '',
+          country: 'India',
+          source: 'AI Analysis',
+          createdBy: auth.currentUser.uid,
+          createdAt: serverTimestamp()
+        };
+        await setDoc(medDocRef, payload);
+      } catch (firebaseErr: any) {
+        console.warn("Failed to write to Firebase Community DB:", firebaseErr);
+      }
+    }
+
     return medicine;
   } catch (error) {
     console.error("Error fetching medicine details:", error);

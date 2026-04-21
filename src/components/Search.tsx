@@ -11,18 +11,18 @@ import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHand
 
 interface SearchProps {
   autoFocus?: boolean;
+  placeholder?: string;
 }
 
 const POPULAR_SEARCHES = [
   'Dolo 650',
-  'Paracetamol',
-  'Fever',
-  'Headache',
-  'Cold & cough',
-  'Paracetamol vs Ibuprofen'
+  'Pan-D',
+  'Combiflam',
+  'Azithral 500',
+  'Calpol'
 ];
 
-export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
+export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -317,7 +317,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false }) => {
             setTimeout(() => setIsFocused(false), 200);
           }}
           className={`block w-full pl-16 pr-28 py-6 glass border border-blue-100/50 rounded-[2.5rem] text-xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 transition-all shadow-xl hover:shadow-2xl placeholder:text-slate-300 font-medium ${isListening ? 'ring-4 ring-red-500/20 border-red-200' : ''}`}
-          placeholder={isListening ? t('listening') : t('searchPlaceholder')}
+          placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">
           {isListening && (
