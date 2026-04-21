@@ -88,7 +88,7 @@ export const Home: React.FC = () => {
             Check if your medicine is banned in India
           </h1>
           
-          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-medium">
+          <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
             The simplest way to understand your medicines and safety.
           </p>
           
@@ -202,8 +202,8 @@ export const Home: React.FC = () => {
               {FEATURED_BANNED.map((drug, index) => (
                 <div key={index} className="bg-white p-8 rounded-[2.5rem] border border-rose-100 shadow-sm hover:shadow-lg transition-all group">
                   <AlertTriangle className="w-6 h-6 text-rose-400 mb-6" />
-                  <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight">{drug.name}</h3>
-                  <p className="text-[10px] text-red-600 font-bold leading-relaxed mb-6">
+                  <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight uppercase tracking-tight">{drug.name}</h3>
+                  <p className="text-sm text-red-600 font-bold leading-relaxed mb-6">
                     {drug.reason}
                   </p>
                   <button 
@@ -281,17 +281,35 @@ export const Home: React.FC = () => {
       {/* FAQ Section */}
       <FAQ />
 
-      {/* Disclaimer Footer */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="bg-white border border-gray-100 p-16 rounded-[4rem] text-center shadow-sm">
-          <div className="w-20 h-20 bg-yellow-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
-            <AlertTriangle className="w-10 h-10 text-yellow-500" />
+      {/* Disclaimer Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-20">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="bg-amber-50 border-2 border-amber-200 p-12 md:p-20 rounded-[4rem] text-center shadow-xl relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-200/20 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-300/10 rounded-full -ml-32 -mb-32 blur-3xl opacity-50" />
+          
+          <div className="w-24 h-24 bg-amber-500/10 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 relative z-10 border border-amber-200 shadow-inner">
+            <Shield className="w-12 h-12 text-amber-600" />
           </div>
-          <h2 className="text-3xl font-black mb-6 tracking-tight">{t('medicalDisclaimer')}</h2>
-          <p className="text-xl text-gray-400 font-medium italic max-w-3xl mx-auto leading-relaxed">
-            "{t('disclaimer')}"
-          </p>
-        </div>
+          
+          <h2 className="text-3xl md:text-4xl font-black mb-8 tracking-tighter text-amber-900 relative z-10 flex items-center justify-center gap-3">
+             {t('medicalDisclaimer')}
+          </h2>
+          
+          <div className="space-y-8 relative z-10 max-w-5xl mx-auto">
+            <p className="text-2xl md:text-3xl text-amber-800 font-bold leading-tight tracking-tight">
+              "{t('disclaimer')}"
+            </p>
+            <div className="w-32 h-1.5 bg-amber-200 mx-auto rounded-full opacity-50" />
+            <p className="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-amber-600/60 max-w-2xl mx-auto leading-loose">
+              {t('educationalDisclaimer')}
+            </p>
+          </div>
+        </motion.div>
       </section>
     </div>
   );

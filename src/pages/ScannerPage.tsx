@@ -15,7 +15,9 @@ import {
   Info,
   Lock,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Share2,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../LanguageContext';
@@ -60,6 +62,8 @@ export const ScannerPage: React.FC = () => {
   // States
   const [activeTab, setActiveTab] = useState<ScanTab>('medicine');
   const [image, setImage] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -85,25 +89,35 @@ export const ScannerPage: React.FC = () => {
     setError(null);
     setScanResult(null);
 
+    // Show preview first
+    const reader = new FileReader();
+    reader.onload = (e) => setImage(e.target?.result as string);
+    reader.readAsDataURL(file);
+    
+    setPendingFile(file);
+    setShowPreview(true);
+  };
+
+  const startActualScan = async () => {
+    if (!pendingFile) return;
+    
     // Initial check
     if (!isPremium) {
       const q = checkQuota('free');
       if (!q.allowed) {
         setError("Monthly scan limit reached.");
+        setShowPreview(false);
         return;
       }
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => setImage(e.target?.result as string);
-    reader.readAsDataURL(file);
-
+    setShowPreview(false);
     setLoading(true);
 
     if (isPremium) {
-      handleGeminiScan(file);
+      handleGeminiScan(pendingFile);
     } else {
-      handleTesseractScan(file);
+      handleTesseractScan(pendingFile);
     }
   };
 
@@ -230,22 +244,80 @@ export const ScannerPage: React.FC = () => {
     }
   };
 
+  const handleWhatsAppShare = (med: MedicineResult) => {
+    const isBanned = !!med.is_banned;
+    const message = isBanned 
+      ? `⚠️ BANNED DRUG ALERT: My Aethelcare scan detected ${med.name}. This medication is BANNED in India by CDSCO. Please check your medicines at: https://aethelcare.xyz`
+      : `Check out ${med.name} details on Aethelcare. I just scanned it and got verified medical info: https://aethelcare.xyz/medicine/${encodeURIComponent(med.name)}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
   const downloadPDF = () => {
     if (!scanResult) return;
     const doc = new jsPDF();
-    doc.setFontSize(20);
-    doc.text(`${scanResult.document_type.toUpperCase()} ANALYSIS`, 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Accuracy: ${scanResult.accuracy}`, 20, 30);
-    if (scanResult.patient_name) doc.text(`Patient: ${scanResult.patient_name}`, 20, 40);
     
-    let y = 50;
+    // Watermark
+    doc.setTextColor(240, 240, 240);
+    doc.setFontSize(60);
+    doc.text('VERIFIED BY AETHELCARE', 20, 100, { angle: 45 });
+    
+    // Header
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(22);
+    doc.text(`AETHELCARE AI ${scanResult.document_type.toUpperCase()} ANALYSIS`, 20, 25);
+    
+    doc.setDrawColor(200, 200, 200);
+    doc.line(20, 30, 190, 30);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Report Generated: ${new Date().toLocaleString()}`, 20, 35);
+    doc.text(`Confidence: ${scanResult.accuracy}`, 20, 40);
+    
+    if (scanResult.patient_name) {
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      doc.text(`Patient Name: ${scanResult.patient_name}`, 20, 55);
+    }
+    
+    // Results
+    doc.setFontSize(14);
+    doc.text('Detected Medications:', 20, 70);
+    
+    let y = 80;
+    doc.setFontSize(11);
     scanResult.medicines.forEach((m, i) => {
-      doc.text(`${i + 1}. ${m.name} - ${m.dosage || 'Dosage N/A'}`, 20, y);
-      y += 10;
+      if (y > 250) {
+        doc.addPage();
+        y = 30;
+      }
+      doc.setTextColor(0, 0, 0);
+      doc.text(`${i + 1}. ${m.name}`, 25, y);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generic: ${m.generic_name || 'N/A'} • Dosage: ${m.dosage || 'N/A'}`, 30, y + 5);
+      
+      if (m.is_banned) {
+        doc.setTextColor(200, 0, 0);
+        doc.text('⚠️ BANNED BY CDSCO', 30, y + 10);
+        y += 15;
+      } else {
+        y += 12;
+      }
     });
+
+    // Footer with contact details
+    const pageCount = (doc as any).internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setDrawColor(230, 230, 230);
+      doc.line(20, 280, 190, 280);
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('This is an AI-generated analysis. Always verify with a healthcare professional.', 20, 285);
+      doc.text('Aethelcare India • www.aethelcare.xyz • support@aethelcare.xyz', 20, 290);
+    }
     
-    doc.save(`${scanResult.document_type}-analysis.pdf`);
+    doc.save(`Aethelcare_${scanResult.document_type}_Report.pdf`);
   };
 
   return (
@@ -312,11 +384,54 @@ export const ScannerPage: React.FC = () => {
           })}
         </div>
 
-        {/* Scan Area */}
-        <div className="relative">
-          {!scanResult && !loading && (
+          {/* Preview State */}
+          {showPreview && !loading && image && (
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-[3rem] border border-slate-100 overflow-hidden shadow-2xl"
+            >
+              <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-slate-900">Scan Preview</h3>
+                  <p className="text-slate-500 text-sm font-medium">Verify your photo before processing</p>
+                </div>
+                <button 
+                  onClick={() => { setShowPreview(false); setImage(null); setPendingFile(null); }}
+                  className="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-4 bg-slate-900 flex justify-center">
+                <img 
+                  src={image} 
+                  alt="Scan Preview" 
+                  className="max-h-[400px] object-contain rounded-2xl border-4 border-white/10" 
+                />
+              </div>
+              <div className="p-8 flex flex-col sm:flex-row gap-4">
+                <button 
+                  onClick={() => cameraInputRef.current?.click()}
+                  className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-900 rounded-3xl font-black text-sm uppercase tracking-widest hover:border-slate-900 transition-all"
+                >
+                  Retake Photo
+                </button>
+                <button 
+                  onClick={startActualScan}
+                  className="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all"
+                >
+                  <ShieldCheck className="w-5 h-5" /> Confirm & Analyze
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Scan Area */}
+          <div className="relative">
+            {!scanResult && !loading && !showPreview && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="bg-white border-2 border-dashed border-slate-200 rounded-[3rem] p-12 text-center hover:border-blue-500 transition-all group"
             >
@@ -462,20 +577,40 @@ export const ScannerPage: React.FC = () => {
                       )}
                       
                       <div className="flex flex-col gap-6">
-                        <div className="flex items-start justify-between">
-                           <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
-                              <FlaskConical className="w-6 h-6" />
-                           </div>
-                           <button 
-                             onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                             className="text-xs font-black uppercase tracking-widest text-blue-600 hover:underline flex items-center gap-1"
-                           >
-                             Search <ArrowRight className="w-4 h-4" />
-                           </button>
-                        </div>
+                         <div className="flex items-start justify-between">
+                            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
+                               <FlaskConical className="w-6 h-6" />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <button 
+                                onClick={() => handleWhatsAppShare(med)}
+                                className="p-3 bg-green-50 text-green-600 rounded-2xl hover:bg-green-600 hover:text-white transition-all shadow-sm"
+                                title="Share on WhatsApp"
+                              >
+                                <Share2 className="w-5 h-5" />
+                              </button>
+                              <button 
+                                onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
+                                className="text-xs font-black uppercase tracking-widest text-blue-600 hover:underline flex items-center gap-1"
+                              >
+                                Search <ArrowRight className="w-4 h-4" />
+                              </button>
+                            </div>
+                         </div>
 
                         <div>
-                          <h4 className="text-2xl font-black text-slate-900 mb-1 leading-tight tracking-tight">{med.name}</h4>
+                          <div className="flex items-center justify-between mb-1">
+                            <h4 className="text-2xl font-black text-slate-900 leading-tight tracking-tight">{med.name}</h4>
+                            <button
+                              onClick={() => {
+                                const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
+                                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                              }}
+                              className="px-4 py-2 bg-[#25D366]/10 text-[#075E54] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#25D366] hover:text-white transition-all flex items-center gap-2"
+                            >
+                               <Clock className="w-3.5 h-3.5" /> Refill Reminder
+                            </button>
+                          </div>
                           <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{med.generic_name || 'Generic details unknown'}</p>
                         </div>
 
@@ -537,10 +672,13 @@ export const ScannerPage: React.FC = () => {
       </div>
 
       {/* Footer Disclaimer */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 text-center z-40">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-          Not a diagnostic tool. Always consult a certified doctor before taking medicines.
-        </p>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-slate-900/95 text-white backdrop-blur-xl border-t border-white/10 text-center z-[100] shadow-2xl">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
+          <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0" />
+          <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.1em] leading-tight">
+            Not a medical tool. Always consult a certified doctor before taking any medication.
+          </p>
+        </div>
       </div>
 
     </div>

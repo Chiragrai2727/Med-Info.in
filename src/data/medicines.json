@@ -4869,16 +4869,43 @@
     "id": "calcirol_60k",
     "category": "Vitamin Supplement",
     "drug_name": "Calcirol 60K",
-    "brand_names_india": ["Calcirol", "D3-Must", "Uprise-D3", "Lumia"],
+    "brand_names_india": [
+      "Calcirol",
+      "D3-Must",
+      "Uprise-D3",
+      "Lumia"
+    ],
     "drug_class": "Vitamin D3 Supplement",
     "mechanism_of_action": "Helps the body absorb calcium and phosphorus, essential for building and maintaining strong bones.",
-    "uses": ["Vitamin D deficiency", "Osteoporosis", "Rickets", "Hypocalcemia"],
+    "uses": [
+      "Vitamin D deficiency",
+      "Osteoporosis",
+      "Rickets",
+      "Hypocalcemia"
+    ],
     "dosage_common": "60,000 IU once weekly for 8-12 weeks, or as directed by a physician.",
-    "side_effects_common": ["Constipation", "Nausea", "Vomiting", "Loss of appetite"],
-    "side_effects_serious": ["Hypercalcemia (high calcium levels)", "Kidney stones", "Mental/mood changes"],
+    "side_effects_common": [
+      "Constipation",
+      "Nausea",
+      "Vomiting",
+      "Loss of appetite"
+    ],
+    "side_effects_serious": [
+      "Hypercalcemia (high calcium levels)",
+      "Kidney stones",
+      "Mental/mood changes"
+    ],
     "overdose_effects": "Weakness, bone pain, metallic taste, excessive thirst.",
-    "contraindications": ["High calcium levels", "Severe kidney disease", "High Vitamin D levels"],
-    "drug_interactions": ["Steroids", "Orlistat", "Thiazide diuretics"],
+    "contraindications": [
+      "High calcium levels",
+      "Severe kidney disease",
+      "High Vitamin D levels"
+    ],
+    "drug_interactions": [
+      "Steroids",
+      "Orlistat",
+      "Thiazide diuretics"
+    ],
     "pregnancy_safety": "Generally safe when used in prescribed amounts.",
     "kidney_liver_warning": "Use with caution in kidney disease; monitor calcium levels.",
     "how_it_works_in_body": "Converted in the liver and kidneys to its active form, calcitriol, which assists in intestinal calcium absorption.",
@@ -4890,23 +4917,53 @@
     "quick_summary": "High-dose Vitamin D supplement used for correction of deficiency and bone health.",
     "who_should_take": "Individuals with diagnosed Vitamin D deficiency or bone density issues.",
     "who_should_not_take": "Those with hypercalcemia or known hypersensitivity to Vitamin D.",
-    "food_interactions": ["Better absorbed when taken with a fatty meal."],
+    "food_interactions": [
+      "Better absorbed when taken with a fatty meal."
+    ],
     "alcohol_warning": "No significant interaction, but alcohol can interfere with calcium absorption."
   },
   {
     "id": "candiforce_200",
     "category": "Antifungal",
     "drug_name": "Candiforce 200mg",
-    "brand_names_india": ["Candiforce", "Itaspor", "Itracoe", "Canditral"],
+    "brand_names_india": [
+      "Candiforce",
+      "Itaspor",
+      "Itracoe",
+      "Canditral"
+    ],
     "drug_class": "Triazole Antifungal",
     "mechanism_of_action": "Inhibits the fungal enzyme cytochrome P450 14α-demethylase, which is critical for fungal cell membrane synthesis.",
-    "uses": ["Fungal infections of nails", "Candidiasis", "Aspergillosis", "Blastomycosis"],
+    "uses": [
+      "Fungal infections of nails",
+      "Candidiasis",
+      "Aspergillosis",
+      "Blastomycosis"
+    ],
     "dosage_common": "100-200mg once or twice daily depending on infection severity.",
-    "side_effects_common": ["Nausea", "Stomach upset", "Dizziness", "Headache"],
-    "side_effects_serious": ["Hepatotoxicity (liver damage)", "Congestive heart failure", "Hearing loss"],
+    "side_effects_common": [
+      "Nausea",
+      "Stomach upset",
+      "Dizziness",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Hepatotoxicity (liver damage)",
+      "Congestive heart failure",
+      "Hearing loss"
+    ],
     "overdose_effects": "Severe nausea, abdominal pain, visual disturbances.",
-    "contraindications": ["Ventricular dysfunction", "Liver disease", "Concurrent use of certain statins or ergot alkaloids"],
-    "drug_interactions": ["Rifampin", "Carbamazepine", "Warfarin", "Certain Antacids"],
+    "contraindications": [
+      "Ventricular dysfunction",
+      "Liver disease",
+      "Concurrent use of certain statins or ergot alkaloids"
+    ],
+    "drug_interactions": [
+      "Rifampin",
+      "Carbamazepine",
+      "Warfarin",
+      "Certain Antacids"
+    ],
     "pregnancy_safety": "Not recommended during pregnancy unless strictly necessary.",
     "kidney_liver_warning": "Caution in liver disease; regular monitoring of liver function tests (LFTs) required.",
     "how_it_works_in_body": "Broad-spectrum antifungal that prevents fungal growth by damaging cell membranes.",
@@ -4918,23 +4975,53 @@
     "quick_summary": "Efficient antifungal medication for internal and external fungal infections.",
     "who_should_take": "Patients with confirmed fungal infections under medical supervision.",
     "who_should_not_take": "Individuals with heart failure or severe liver impairment.",
-    "food_interactions": ["Absorption is increased with acidic food/drinks like cola or juice."],
+    "food_interactions": [
+      "Absorption is increased with acidic food/drinks like cola or juice."
+    ],
     "alcohol_warning": "Avoid; increases the risk of liver damage."
   },
   {
     "id": "cardace_5",
     "category": "Antihypertensive",
     "drug_name": "Cardace 5mg",
-    "brand_names_india": ["Cardace", "Ramace", "Hopace", "Corace"],
+    "brand_names_india": [
+      "Cardace",
+      "Ramace",
+      "Hopace",
+      "Corace"
+    ],
     "drug_class": "ACE Inhibitor",
     "mechanism_of_action": "Inhibits the Angiotensin-Converting Enzyme, preventing the production of a substance that narrows blood vessels.",
-    "uses": ["Hypertension (High Blood Pressure)", "Heart Failure", "Post-Heart Attack Recovery", "Kidney protection in diabetes"],
+    "uses": [
+      "Hypertension (High Blood Pressure)",
+      "Heart Failure",
+      "Post-Heart Attack Recovery",
+      "Kidney protection in diabetes"
+    ],
     "dosage_common": "2.5mg to 10mg once daily.",
-    "side_effects_common": ["Dry cough", "Dizziness", "Headache", "Fatigue"],
-    "side_effects_serious": ["Angioedema (swelling of face/throat)", "Hyperkalemia (high potassium)", "Kidney impairment"],
+    "side_effects_common": [
+      "Dry cough",
+      "Dizziness",
+      "Headache",
+      "Fatigue"
+    ],
+    "side_effects_serious": [
+      "Angioedema (swelling of face/throat)",
+      "Hyperkalemia (high potassium)",
+      "Kidney impairment"
+    ],
     "overdose_effects": "Severe hypotension, electrolyte disturbances, renal failure.",
-    "contraindications": ["History of angioedema", "Pregnancy (2nd/3rd trimester)", "Bilateral renal artery stenosis"],
-    "drug_interactions": ["Potassium-sparing diuretics", "NSAIDs", "Lithium", "Valsartan"],
+    "contraindications": [
+      "History of angioedema",
+      "Pregnancy (2nd/3rd trimester)",
+      "Bilateral renal artery stenosis"
+    ],
+    "drug_interactions": [
+      "Potassium-sparing diuretics",
+      "NSAIDs",
+      "Lithium",
+      "Valsartan"
+    ],
     "pregnancy_safety": "Unsafe; can cause serious injury or death to the developing fetus.",
     "kidney_liver_warning": "Caution in renal impairment; monitoring of potassium and creatinine is essential.",
     "how_it_works_in_body": "Relaxes blood vessels and reduces workload on the heart by blocking angiotensin II formation.",
@@ -4946,23 +5033,49 @@
     "quick_summary": "Leading medication for blood pressure control and cardiovascular protection.",
     "who_should_take": "Adults with hypertension or recovered heart attack patients.",
     "who_should_not_take": "Pregnant women or those with a history of serious allergic reactions to ACE inhibitors.",
-    "food_interactions": ["Food does not significantly affect absorption."],
+    "food_interactions": [
+      "Food does not significantly affect absorption."
+    ],
     "alcohol_warning": "Can significantly increase the blood-pressure-lowering effect leading to dizziness."
   },
   {
     "id": "ceftum_500",
     "category": "Antibiotic",
     "drug_name": "Ceftum 500mg",
-    "brand_names_india": ["Ceftum", "Cefakind", "Pulmocef", "Oracef"],
+    "brand_names_india": [
+      "Ceftum",
+      "Cefakind",
+      "Pulmocef",
+      "Oracef"
+    ],
     "drug_class": "Second-Generation Cephalosporin",
     "mechanism_of_action": "Kills bacteria by preventing them from forming their own protective covering (cell wall).",
-    "uses": ["Bacterial Sinusitis", "Bronchitis", "Urinary Tract Infections (UTI)", "Lyme Disease"],
+    "uses": [
+      "Bacterial Sinusitis",
+      "Bronchitis",
+      "Urinary Tract Infections (UTI)",
+      "Lyme Disease"
+    ],
     "dosage_common": "250mg to 500mg twice daily for 5-10 days.",
-    "side_effects_common": ["Diarrhea", "Nausea", "Headache", "Abdominal pain"],
-    "side_effects_serious": ["Severe allergic reactions (Anaphylaxis)", "Clostridioides difficile-associated diarrhea"],
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Headache",
+      "Abdominal pain"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (Anaphylaxis)",
+      "Clostridioides difficile-associated diarrhea"
+    ],
     "overdose_effects": "Could cause neurological irritation including seizures.",
-    "contraindications": ["Hypersensitivity to cephalosporins or penicillins"],
-    "drug_interactions": ["Antacids", "Probenecid", "Blood thinners"],
+    "contraindications": [
+      "Hypersensitivity to cephalosporins or penicillins"
+    ],
+    "drug_interactions": [
+      "Antacids",
+      "Probenecid",
+      "Blood thinners"
+    ],
     "pregnancy_safety": "Considered safe, but only use if clearly needed.",
     "kidney_liver_warning": "Dosage adjustment might be needed in severe kidney disease.",
     "how_it_works_in_body": "Broad-spectrum activity against both Gram-positive and some Gram-negative bacteria.",
@@ -4974,23 +5087,50 @@
     "quick_summary": "Potent antibiotic for community-acquired bacterial infections.",
     "who_should_take": "Individuals with bacterial infections confirmed by a doctor.",
     "who_should_not_take": "Those with history of severe penicillin allergy.",
-    "food_interactions": ["Should be taken after food for better absorption and to reduce stomach upset."],
+    "food_interactions": [
+      "Should be taken after food for better absorption and to reduce stomach upset."
+    ],
     "alcohol_warning": "No major interaction, but best to avoid during infections."
   },
   {
     "id": "cilacar_10",
     "category": "Antihypertensive",
     "drug_name": "Cilacar 10mg",
-    "brand_names_india": ["Cilacar", "Cilny", "Cilamet", "Nexovas"],
+    "brand_names_india": [
+      "Cilacar",
+      "Cilny",
+      "Cilamet",
+      "Nexovas"
+    ],
     "drug_class": "Calcium Channel Blocker (N-type)",
     "mechanism_of_action": "Blocks L-type and N-type calcium channels, dilating blood vessels and reducing nerve-mediated constriction.",
-    "uses": ["Hypertension (High Blood Pressure)", "Post-Stroke Hypertension"],
+    "uses": [
+      "Hypertension (High Blood Pressure)",
+      "Post-Stroke Hypertension"
+    ],
     "dosage_common": "5mg to 20mg once daily.",
-    "side_effects_common": ["Headache", "Swelling of ankles", "Flushing", "Dizziness"],
-    "side_effects_serious": ["Paradoxical chest pain", "Severe hypotension", "Palpitations"],
+    "side_effects_common": [
+      "Headache",
+      "Swelling of ankles",
+      "Flushing",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Paradoxical chest pain",
+      "Severe hypotension",
+      "Palpitations"
+    ],
     "overdose_effects": "Severe dizziness, fainting, rapid or slow heartbeat.",
-    "contraindications": ["Severe hypotension", "Cardiogenic shock", "Advanced heart failure"],
-    "drug_interactions": ["Other BP meds", "Rifampicin", "Cimetidine"],
+    "contraindications": [
+      "Severe hypotension",
+      "Cardiogenic shock",
+      "Advanced heart failure"
+    ],
+    "drug_interactions": [
+      "Other BP meds",
+      "Rifampicin",
+      "Cimetidine"
+    ],
     "pregnancy_safety": "Not recommended during pregnancy.",
     "kidney_liver_warning": "Use with caution in patients with liver or kidney dysfunction.",
     "how_it_works_in_body": "Unique L/N-type channel blocking prevents reflex tachycardia (racing heart) often seen with other CCBs.",
@@ -5002,23 +5142,52 @@
     "quick_summary": "Modern antihypertensive that is gentler on the heart rate compared to older alternatives.",
     "who_should_take": "Patients with hypertension, especially those who experience safe swelling with other drugs.",
     "who_should_not_take": "Individuals with very low blood pressure or serious heart valve issues.",
-    "food_interactions": ["No major food interactions."],
+    "food_interactions": [
+      "No major food interactions."
+    ],
     "alcohol_warning": "Increases risk of low blood pressure and fainting."
   },
   {
     "id": "clopitab_75",
     "category": "Antiplatelet",
     "drug_name": "Clopitab 75mg",
-    "brand_names_india": ["Clopitab", "Clopilet", "Plavix", "Deplatt"],
+    "brand_names_india": [
+      "Clopitab",
+      "Clopilet",
+      "Plavix",
+      "Deplatt"
+    ],
     "drug_class": "P2Y12 Inhibitor",
     "mechanism_of_action": "Prevents platelets (blood cells) from sticking together and forming dangerous blood clots.",
-    "uses": ["Prevention of Heart Attack", "Stroke Prevention", "Unstable Angina", "Peripheral Arterial Disease"],
+    "uses": [
+      "Prevention of Heart Attack",
+      "Stroke Prevention",
+      "Unstable Angina",
+      "Peripheral Arterial Disease"
+    ],
     "dosage_common": "75mg once daily.",
-    "side_effects_common": ["Easy bruising", "Nosebleeds", "Indigestion", "Diarrhea"],
-    "side_effects_serious": ["Severe internal bleeding", "TTP (rare blood disorder)", "Allergic reaction"],
+    "side_effects_common": [
+      "Easy bruising",
+      "Nosebleeds",
+      "Indigestion",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Severe internal bleeding",
+      "TTP (rare blood disorder)",
+      "Allergic reaction"
+    ],
     "overdose_effects": "Excessive bleeding, vomiting blood, black stools.",
-    "contraindications": ["Active bleeding (e.g., stomach ulcer)", "Severe liver disease"],
-    "drug_interactions": ["Aspirin", "NSAIDs", "Omeprazole", "Warfarin"],
+    "contraindications": [
+      "Active bleeding (e.g., stomach ulcer)",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "Aspirin",
+      "NSAIDs",
+      "Omeprazole",
+      "Warfarin"
+    ],
     "pregnancy_safety": "Generally discouraged unless high risk; consult doctor.",
     "kidney_liver_warning": "No major adjustment usually needed, but monitor carefully in liver disease.",
     "how_it_works_in_body": "Irreversibly binds to platelet receptors for the duration of the platelet's life (7-10 days).",
@@ -5030,23 +5199,47 @@
     "quick_summary": "Critical medication for preventing blood clots in heart disease patients.",
     "who_should_take": "Individuals with heart stents or history of stroke/heart attack.",
     "who_should_not_take": "People with current active bleeding or upcoming major surgery.",
-    "food_interactions": ["Can be taken with or without food."],
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
     "alcohol_warning": "Increases the risk of stomach bleeding."
   },
   {
     "id": "creon_25000",
     "category": "Digestive Enzyme",
     "drug_name": "Creon 25000",
-    "brand_names_india": ["Creon", "Pangrol", "Encreatin", "Agna"],
+    "brand_names_india": [
+      "Creon",
+      "Pangrol",
+      "Encreatin",
+      "Agna"
+    ],
     "drug_class": "Pancreatic Enzyme Product (PEP)",
     "mechanism_of_action": "Replaces enzymes that are normally produced by the pancreas to help digest fats, proteins, and sugars.",
-    "uses": ["Pancreatic insufficiency", "Chronic Pancreatitis", "Cystic Fibrosis", "Post-pancreatic surgery"],
+    "uses": [
+      "Pancreatic insufficiency",
+      "Chronic Pancreatitis",
+      "Cystic Fibrosis",
+      "Post-pancreatic surgery"
+    ],
     "dosage_common": "Varies by meal size; usually 25,000-50,000 units per full meal.",
-    "side_effects_common": ["Stomach pain", "Gas", "Dizziness", "Bowel movement changes"],
-    "side_effects_serious": ["Fibrosing colonopathy (rare)", "Severe allergic reactions"],
+    "side_effects_common": [
+      "Stomach pain",
+      "Gas",
+      "Dizziness",
+      "Bowel movement changes"
+    ],
+    "side_effects_serious": [
+      "Fibrosing colonopathy (rare)",
+      "Severe allergic reactions"
+    ],
     "overdose_effects": "High uric acid in blood/urine, severe constipation.",
-    "contraindications": ["Known allergy to pork protein (enzymes are porcine-derived)"],
-    "drug_interactions": ["No major systemic interactions reported."],
+    "contraindications": [
+      "Known allergy to pork protein (enzymes are porcine-derived)"
+    ],
+    "drug_interactions": [
+      "No major systemic interactions reported."
+    ],
     "pregnancy_safety": "Generally considered safe as it acts locally in the gut.",
     "kidney_liver_warning": "No major warnings; use with medical guidance.",
     "how_it_works_in_body": "Enteric-coated microspheres release amylase, protease, and lipase in the small intestine to break down food.",
@@ -5058,23 +5251,51 @@
     "quick_summary": "Essential replacement therapy for patients who cannot digest food naturally.",
     "who_should_take": "Patients with pancreatic insufficiency or chronic digestive issues.",
     "who_should_not_take": "Those with pork allergies or acute pancreatic flare-ups.",
-    "food_interactions": ["MUST be taken with every meal and snack to be effective."],
+    "food_interactions": [
+      "MUST be taken with every meal and snack to be effective."
+    ],
     "alcohol_warning": "No direct interaction, but alcohol significantly worsens pancreatic disease."
   },
   {
     "id": "crestor_10",
     "category": "Dyslipidemic",
     "drug_name": "Crestor 10mg",
-    "brand_names_india": ["Crestor", "Rosuvas", "Razel", "Novostat"],
+    "brand_names_india": [
+      "Crestor",
+      "Rosuvas",
+      "Razel",
+      "Novostat"
+    ],
     "drug_class": "HMG-CoA Reductase Inhibitor (Statin)",
     "mechanism_of_action": "Reduces cholesterol production in the liver and clears 'bad' cholesterol (LDL) from the blood.",
-    "uses": ["High Cholesterol", "Prevention of Heart Attack/Stroke", "Atherosclerosis"],
+    "uses": [
+      "High Cholesterol",
+      "Prevention of Heart Attack/Stroke",
+      "Atherosclerosis"
+    ],
     "dosage_common": "5mg to 40mg once daily, usually at night.",
-    "side_effects_common": ["Muscle pain", "Headache", "Weakness", "Stomach pain"],
-    "side_effects_serious": ["Rhabdomyolysis (muscle breakdown)", "Live damage", "New-onset Diabetes"],
+    "side_effects_common": [
+      "Muscle pain",
+      "Headache",
+      "Weakness",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Rhabdomyolysis (muscle breakdown)",
+      "Live damage",
+      "New-onset Diabetes"
+    ],
     "overdose_effects": "Increased muscle pain symptoms, nausea.",
-    "contraindications": ["Active liver disease", "Pregnancy/Breastfeeding"],
-    "drug_interactions": ["Cyclosporine", "Gemfibrozil", "Certain HIV meds", "Antacids"],
+    "contraindications": [
+      "Active liver disease",
+      "Pregnancy/Breastfeeding"
+    ],
+    "drug_interactions": [
+      "Cyclosporine",
+      "Gemfibrozil",
+      "Certain HIV meds",
+      "Antacids"
+    ],
     "pregnancy_safety": "UNSAFE; causes significant risk of birth defects.",
     "kidney_liver_warning": "Monitor LFTs regularly; check kidney function at high doses.",
     "how_it_works_in_body": "Potent statin that significantly lowers LDL and raises 'good' HDL cholesterol.",
@@ -5086,23 +5307,52 @@
     "quick_summary": "Gold-standard medication for lowering cholesterol and preventing heart disease.",
     "who_should_take": "Individuals with high LDL levels or cardiovascular risk factors.",
     "who_should_not_take": "Pregnant women or those with active liver inflammation.",
-    "food_interactions": ["Can be taken with or without food."],
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
     "alcohol_warning": "Limit; increases risk of liver issues and muscle pain."
   },
   {
     "id": "cyba_d",
     "category": "Gastrointestinal",
     "drug_name": "Cyra D",
-    "brand_names_india": ["Cyra D", "Razo D", "Rabesec D", "Pepo D"],
+    "brand_names_india": [
+      "Cyra D",
+      "Razo D",
+      "Rabesec D",
+      "Pepo D"
+    ],
     "drug_class": "PPI + Prokinetic",
     "mechanism_of_action": "Rabeprazole reduces stomach acid; Domperidone increases gut movement to prevent reflux.",
-    "uses": ["GERD (Acid Reflux)", "Peptic Ulcer", "Dyspepsia", "Nausea with Acidity"],
+    "uses": [
+      "GERD (Acid Reflux)",
+      "Peptic Ulcer",
+      "Dyspepsia",
+      "Nausea with Acidity"
+    ],
     "dosage_common": "One capsule daily, 30 minutes before breakfast.",
-    "side_effects_common": ["Dry mouth", "Headache", "Dizziness", "Diarrhea"],
-    "side_effects_serious": ["Irregular heartbeat (QT prolong)", "Bone fractures (long-term)", "Low magnesium"],
+    "side_effects_common": [
+      "Dry mouth",
+      "Headache",
+      "Dizziness",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Irregular heartbeat (QT prolong)",
+      "Bone fractures (long-term)",
+      "Low magnesium"
+    ],
     "overdose_effects": "Agitation, confusion, drowsiness, seizures (rare).",
-    "contraindications": ["Heart rhythm disorders", "Pituitary tumor", "Severe electrolyte imbalance"],
-    "drug_interactions": ["Ketoconazole", "Clarithromycin", "Digoxin"],
+    "contraindications": [
+      "Heart rhythm disorders",
+      "Pituitary tumor",
+      "Severe electrolyte imbalance"
+    ],
+    "drug_interactions": [
+      "Ketoconazole",
+      "Clarithromycin",
+      "Digoxin"
+    ],
     "pregnancy_safety": "Use only if essential; consult doctor.",
     "kidney_liver_warning": "Use with caution in moderate to severe liver disease.",
     "how_it_works_in_body": "Provides 24-hour acid suppression and improves gastric emptying.",
@@ -5114,7 +5364,1263 @@
     "quick_summary": "Effective combination for treating severe acidity accompanied by nausea.",
     "who_should_take": "Patients with acid reflux who also experience bloating or nausea.",
     "who_should_not_take": "Patients with existing heart rhythm conditions.",
-    "food_interactions": ["MUST be taken on an empty stomach for maximum effect."],
+    "food_interactions": [
+      "MUST be taken on an empty stomach for maximum effect."
+    ],
     "alcohol_warning": "Avoid; increases acid secretion and reduces drug effectiveness."
+  },
+  {
+    "id": "a_to_z_woman",
+    "drug_name": "A TO Z WOMAN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "A TO Z WOMAN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: A TO Z WOMAN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "ab_phylline",
+    "drug_name": "AB PHYLLINE",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AB PHYLLINE"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AB PHYLLINE. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "ab_phylline_sr",
+    "drug_name": "AB PHYLLINE SR",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AB PHYLLINE SR"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AB PHYLLINE SR. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "absolut_woman",
+    "drug_name": "ABSOLUT WOMAN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ABSOLUT WOMAN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ABSOLUT WOMAN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "absolut_3g",
+    "drug_name": "ABSOLUT 3G",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ABSOLUT 3G"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ABSOLUT 3G. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "acitrom",
+    "drug_name": "Acitrom",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Acitrom"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Acitrom. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "actrapid_flexpen",
+    "drug_name": "ACTRAPID FLEXPEN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ACTRAPID FLEXPEN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ACTRAPID FLEXPEN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "actrapid_hm_penfill",
+    "drug_name": "ACTRAPID HM PENFILL",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ACTRAPID HM PENFILL"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ACTRAPID HM PENFILL. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "advanced_kojivit_ultra",
+    "drug_name": "ADVANCED KOJIVIT ULTRA",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ADVANCED KOJIVIT ULTRA"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ADVANCED KOJIVIT ULTRA. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "afogatran",
+    "drug_name": "AFOGATRAN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AFOGATRAN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AFOGATRAN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "afoglip_m",
+    "drug_name": "AFOGLIP M",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AFOGLIP M"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AFOGLIP M. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "afoglip",
+    "drug_name": "AFOGLIP",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AFOGLIP"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AFOGLIP. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "agna_25000",
+    "drug_name": "AGNA 25000",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AGNA 25000"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AGNA 25000. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "ajaduo_25_5mg",
+    "drug_name": "AJADUO 25/5MG",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AJADUO 25/5MG"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AJADUO 25/5MG. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "ajaduo",
+    "drug_name": "AJADUO",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AJADUO"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AJADUO. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "alfoo",
+    "drug_name": "ALFOO",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ALFOO"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ALFOO. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "alfusin_d",
+    "drug_name": "Alfusin D",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Alfusin D"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Alfusin D. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "allegra_m",
+    "drug_name": "ALLEGRA M",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ALLEGRA M"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ALLEGRA M. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "allegra",
+    "drug_name": "ALLEGRA",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ALLEGRA"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ALLEGRA. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "alphagan_z",
+    "drug_name": "ALPHAGAN Z",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ALPHAGAN Z"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ALPHAGAN Z. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "altraz",
+    "drug_name": "ALTRAZ",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ALTRAZ"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ALTRAZ. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amantrel",
+    "drug_name": "AMANTREL",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMANTREL"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMANTREL. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amaryl",
+    "drug_name": "AMARYL",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMARYL"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMARYL. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amaryl_mv",
+    "drug_name": "Amaryl Mv",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Amaryl Mv"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Amaryl Mv. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amaryl_m",
+    "drug_name": "AMARYL M",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMARYL M"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMARYL M. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amaryl_m_forte",
+    "drug_name": "AMARYL M FORTE",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMARYL M FORTE"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMARYL M FORTE. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "ambrican",
+    "drug_name": "AMBRICAN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMBRICAN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMBRICAN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlodac",
+    "drug_name": "Amlodac",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Amlodac"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Amlodac. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlokind_at",
+    "drug_name": "AMLOKIND AT",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMLOKIND AT"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMLOKIND AT. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlong",
+    "drug_name": "AMLONG",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMLONG"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMLONG. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlopin_m",
+    "drug_name": "AMLOPIN M",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AMLOPIN M"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AMLOPIN M. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlopin",
+    "drug_name": "Amlopin",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Amlopin"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Amlopin. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "amlopres_at",
+    "drug_name": "Amlopres At",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Amlopres At"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Amlopres At. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "androanagen",
+    "drug_name": "ANDROANAGEN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ANDROANAGEN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ANDROANAGEN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "anfoe",
+    "drug_name": "ANFOE",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ANFOE"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ANFOE. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "angispan_tr_2_5mg_bottle_of_25_capsules",
+    "drug_name": "ANGISPAN TR 2.5MG BOTTLE OF 25 CAPSULES",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ANGISPAN TR 2.5MG BOTTLE OF 25 CAPSULES"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ANGISPAN TR 2.5MG BOTTLE OF 25 CAPSULES. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "antoxid_hc",
+    "drug_name": "ANTOXID HC",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ANTOXID HC"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ANTOXID HC. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "antoxipan",
+    "drug_name": "Antoxipan",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Antoxipan"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Antoxipan. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "apcod_obis",
+    "drug_name": "APCOD OBIS",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "APCOD OBIS"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: APCOD OBIS. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "apidra_solostar",
+    "drug_name": "Apidra Solostar",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Apidra Solostar"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Apidra Solostar. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "apidra",
+    "drug_name": "Apidra",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Apidra"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Apidra. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "aplazar",
+    "drug_name": "Aplazar",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Aplazar"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Aplazar. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "apresol",
+    "drug_name": "APRESOL",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "APRESOL"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: APRESOL. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "aprezo",
+    "drug_name": "Aprezo",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Aprezo"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Aprezo. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "arg_9",
+    "drug_name": "ARG 9",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ARG 9"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ARG 9. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "argipreg_sf_sach_6_5gm",
+    "drug_name": "Argipreg Sf Sach 6.5gm",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Argipreg Sf Sach 6.5gm"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Argipreg Sf Sach 6.5gm. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "arimidex",
+    "drug_name": "ARIMIDEX",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ARIMIDEX"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ARIMIDEX. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "arkamin",
+    "drug_name": "Arkamin",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Arkamin"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Arkamin. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "arvast",
+    "drug_name": "Arvast",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Arvast"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Arvast. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "asomex",
+    "drug_name": "Asomex",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Asomex"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Asomex. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "asomex_2_5mg",
+    "drug_name": "Asomex 2.5mg",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Asomex 2.5mg"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Asomex 2.5mg. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "asthalin",
+    "drug_name": "ASTHALIN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ASTHALIN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ASTHALIN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "atocor",
+    "drug_name": "ATOCOR",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ATOCOR"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ATOCOR. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "atorfit_cv",
+    "drug_name": "ATORFIT CV",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ATORFIT CV"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ATORFIT CV. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "atorlip_f",
+    "drug_name": "Atorlip F",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Atorlip F"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Atorlip F. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "atorlip",
+    "drug_name": "Atorlip",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Atorlip"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Atorlip. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "atorva",
+    "drug_name": "ATORVA",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "ATORVA"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: ATORVA. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "augmentin_duo",
+    "drug_name": "Augmentin Duo",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Augmentin Duo"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Augmentin Duo. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "autrin",
+    "drug_name": "Autrin",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Autrin"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Autrin. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "axcer",
+    "drug_name": "AXCER",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AXCER"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AXCER. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "azopt",
+    "drug_name": "AZOPT",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AZOPT"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AZOPT. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "azoran",
+    "drug_name": "AZORAN",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AZORAN"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AZORAN. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "aztolet",
+    "drug_name": "AZTOLET",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AZTOLET"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AZTOLET. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "aztor",
+    "drug_name": "Aztor",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "Aztor"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: Aztor. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "azulix_mf",
+    "drug_name": "AZULIX MF",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AZULIX MF"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AZULIX MF. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
+  },
+  {
+    "id": "azulix_mf_forte",
+    "drug_name": "AZULIX MF FORTE",
+    "category": "Pharmaceutical",
+    "brand_names_india": [
+      "AZULIX MF FORTE"
+    ],
+    "quick_summary": "Indian pharmaceutical brand: AZULIX MF FORTE. Information verification in progress with CDSCO.",
+    "uses": [
+      "Consult a physician for specific uses."
+    ],
+    "side_effects_common": [
+      "Common side effects depend on generic constituents."
+    ],
+    "dosage_common": "As prescribed by a doctor.",
+    "pregnancy_safety": "Consult your doctor before use during pregnancy.",
+    "india_regulatory_status": "CDSCO Approved",
+    "source": "Verified Database"
   }
 ]

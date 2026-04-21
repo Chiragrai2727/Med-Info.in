@@ -240,6 +240,12 @@ export const MedicineDetail: React.FC = () => {
     );
   }
 
+  const handleWhatsAppShare = () => {
+    if (!medicine) return;
+    const message = `Check out *${medicine.drug_name}* details on Aethelcare 🇮🇳\n\nClass: ${medicine.drug_class}\nSummary: ${medicine.quick_summary}\n\nFull Details: https://aethelcare.xyz/medicine/${encodeURIComponent(medicine.drug_name)}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -288,11 +294,13 @@ export const MedicineDetail: React.FC = () => {
           {medicine?.source && (
             <div className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2 border shadow-sm ${
               medicine.source === 'Verified Database' ? 'bg-blue-50 text-blue-800 border-blue-100' :
+              medicine.source === 'Community DB' ? 'bg-green-50 text-green-800 border-green-100' :
               medicine.source === 'AI Analysis' ? 'bg-purple-50 text-purple-800 border-purple-100' :
               'bg-gray-50 text-gray-800 border-gray-100'
             }`}>
               <span className={`w-1.5 h-1.5 rounded-full ${
                 medicine.source === 'Verified Database' ? 'bg-blue-400' :
+                medicine.source === 'Community DB' ? 'bg-green-400' :
                 medicine.source === 'AI Analysis' ? 'bg-purple-400' :
                 'bg-gray-400'
               }`} />
@@ -342,7 +350,15 @@ export const MedicineDetail: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+             <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleWhatsAppShare}
+                disabled={isTtsLoading}
+                className="flex items-center gap-2 px-8 py-4 rounded-full text-sm font-black transition-all shadow-xl active:scale-95 bg-green-500 text-white hover:bg-green-600"
+              >
+                <Share2 className="w-4 h-4" />
+                WhatsApp
+              </button>
               <button
                 onClick={toggleSpeech}
                 disabled={isTtsLoading}
@@ -643,19 +659,21 @@ export const MedicineDetail: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-red-50/50 border border-red-100 p-12 rounded-[3rem] text-center mb-16 relative overflow-hidden"
+          className="bg-amber-50 border-2 border-amber-200 p-12 md:p-20 rounded-[4rem] text-center mb-16 relative overflow-hidden shadow-xl"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-red-100/50 rounded-full -mr-16 -mt-16 blur-2xl" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-red-100/50 rounded-full -ml-16 -mb-16 blur-2xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-200/20 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-300/10 rounded-full -ml-32 -mb-32 blur-3xl opacity-50" />
           
-          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-6 relative z-10" />
-          <h2 className="text-3xl font-black mb-4 tracking-tight text-red-900 relative z-10">{t('medicalDisclaimer')}</h2>
-          <div className="space-y-4 relative z-10">
-            <p className="text-xl text-red-900 max-w-2xl mx-auto leading-relaxed font-bold">
-              {t('disclaimer')}
+          <div className="w-20 h-20 bg-amber-500/10 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 relative z-10 border border-amber-200 shadow-inner">
+            <ShieldAlert className="w-10 h-10 text-amber-600" />
+          </div>
+          <h2 className="text-3xl font-black mb-6 tracking-tighter text-amber-900 relative z-10">{t('medicalDisclaimer')}</h2>
+          <div className="space-y-6 relative z-10">
+            <p className="text-2xl text-amber-800 font-bold leading-tight tracking-tight max-w-4xl mx-auto">
+              "{t('disclaimer')}"
             </p>
-            <div className="w-20 h-1 bg-red-200 mx-auto rounded-full" />
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-red-600">
+            <div className="w-20 h-1 bg-amber-200 mx-auto rounded-full opacity-50" />
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-600/60 max-w-2xl mx-auto leading-loose">
               {t('educationalDisclaimer')}
             </p>
           </div>

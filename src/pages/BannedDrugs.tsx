@@ -58,7 +58,7 @@ export const BannedDrugs: React.FC = () => {
 
   const handleWhatsAppShare = (drug: BannedDrug) => {
     const reason = drug.side_effects_serious[0] || drug.quick_summary;
-    const message = `⚠️ WARNING: ${drug.drug_name} is BANNED in India by CDSCO. Reason: ${reason}. Check if your medicines are safe: https://aethelcare.xyz/banned-drugs`;
+    const message = `⚠️ CDSCO BANNED DRUG ALERT 🇮🇳\n\nMedicine: *${drug.drug_name}*\nStatus: *BANNED* for Manufacture & Sale\nReason: ${reason}\n\nCheck your family's medicines on Aethelcare (CDSCO Verified): https://aethelcare.xyz/banned-drugs`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -203,8 +203,8 @@ export const BannedDrugs: React.FC = () => {
                 
                 <div className="mb-6 space-y-4">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Primary Health Risk</p>
-                    <p className="text-red-600 font-bold leading-relaxed">
+                    <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Primary Health Risk</p>
+                    <p className="text-red-600 font-bold leading-relaxed text-sm">
                       {drug.side_effects_serious.join(', ')}
                     </p>
                   </div>

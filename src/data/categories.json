@@ -1,21 +1,107 @@
 {
+  "antidiabetic": [
+    "metformin_500"
+  ],
+  "statins (cholesterol lowering)": [
+    "atorvastatin_10"
+  ],
+  "thyroid hormone": [
+    "levothyroxine_50",
+    "levothyroxine"
+  ],
+  "allergy & asthma": [
+    "montelukast_levocetirizine"
+  ],
+  "painkiller": [
+    "diclofenac_sodium"
+  ],
+  "antacid & antiemetic": [
+    "pantoprazole_domperidone"
+  ],
+  "analgesic & antipyretic": [
+    "paracetamol_650",
+    "paracetamol_mefenamic_acid"
+  ],
+  "cold & cough": [
+    "cetirizine_paracetamol_phenylephrine"
+  ],
+  "antibiotic": [
+    "azithromycin",
+    "amoxicillin_clavulanic_acid",
+    "doxycycline",
+    "ceftum_500"
+  ],
+  "antihypertensive": [
+    "telmisartan",
+    "cardace_5",
+    "cilacar_10"
+  ],
+  "antispasmodic & analgesic": [
+    "drotaverine_mefenamic_acid"
+  ],
+  "antispasmodic": [
+    "dicyclomine"
+  ],
+  "antihistamine & leukotriene antagonist": [
+    "levocetirizine_montelukast"
+  ],
+  "antibiotic & antiamoebic": [
+    "ofloxacin_ornidazole"
+  ],
+  "analgesic & anti-inflammatory": [
+    "aceclofenac_paracetamol_serratiopeptidase"
+  ],
   "anti-cancer drugs": [
     "imatinib",
     "paclitaxel"
   ],
+  "proton pump inhibitors (ppis)": [
+    "pantoprazole",
+    "rabeprazole"
+  ],
+  "antibiotics": [
+    "amoxicillin_clavulanic",
+    "doxycycline",
+    "azithromycin",
+    "amoxicillin_clavulanate",
+    "ciprofloxacin"
+  ],
   "anti-hypertensive drugs": [
-    "amlodipine",
     "telmisartan",
+    "amlodipine",
     "losartan",
     "enalapril",
     "metoprolol"
   ],
+  "cholesterol-lowering drugs": [
+    "atorvastatin"
+  ],
+  "antihistamines": [
+    "levocetirizine"
+  ],
+  "anti-asthmatic drugs": [
+    "montelukast"
+  ],
+  "painkillers": [
+    "diclofenac"
+  ],
+  "anti-emetics": [
+    "domperidone",
+    "ondansetron"
+  ],
+  "anti-parasitic drugs": [
+    "albendazole",
+    "ivermectin"
+  ],
   "anti-diabetic drugs": [
+    "glimepiride",
     "metformin",
     "sitagliptin",
-    "glimepiride",
     "pioglitazone",
     "gliclazide"
+  ],
+  "h2 blockers": [
+    "ranitidine"
   ],
   "autoimmune therapy drugs": [
     "methotrexate",
@@ -24,11 +110,6 @@
   "anti-viral drugs": [
     "oseltamivir",
     "acyclovir"
-  ],
-  "antibiotics": [
-    "azithromycin",
-    "amoxicillin_clavulanate",
-    "ciprofloxacin"
   ],
   "laxatives": [
     "bisacodyl",
@@ -104,52 +185,96 @@
   "antitussive": [
     "dextromethorphan"
   ],
-  "antibiotic": [
-    "doxycycline",
-    "amoxicillin_clavulanic_acid",
-    "azithromycin"
+  "bronchodilator": [
+    "salbutamol_inhaler"
   ],
-  "antispasmodic & analgesic": [
-    "drotaverine_mefenamic_acid"
+  "nsaid (topical)": [
+    "diclofenac_gel"
   ],
-  "antispasmodic": [
-    "dicyclomine"
+  "vitamin supplement": [
+    "calcirol_60k"
   ],
-  "analgesic & antipyretic": [
-    "paracetamol_mefenamic_acid",
-    "paracetamol_650"
+  "antifungal": [
+    "candiforce_200"
   ],
-  "antihistamine & leukotriene antagonist": [
-    "levocetirizine_montelukast"
+  "antiplatelet": [
+    "clopitab_75"
   ],
-  "antibiotic & antiamoebic": [
-    "ofloxacin_ornidazole"
+  "digestive enzyme": [
+    "creon_25000"
   ],
-  "analgesic & anti-inflammatory": [
-    "aceclofenac_paracetamol_serratiopeptidase"
+  "dyslipidemic": [
+    "crestor_10"
   ],
-  "antacid & antiemetic": [
-    "pantoprazole_domperidone"
+  "gastrointestinal": [
+    "cyba_d"
   ],
-  "cold & cough": [
-    "cetirizine_paracetamol_phenylephrine"
-  ],
-  "antihypertensive": [
-    "telmisartan"
-  ],
-  "antidiabetic": [
-    "metformin_500"
-  ],
-  "statins (cholesterol lowering)": [
-    "atorvastatin_10"
-  ],
-  "thyroid hormone": [
-    "levothyroxine_50"
-  ],
-  "allergy & asthma": [
-    "montelukast_levocetirizine"
-  ],
-  "painkiller": [
-    "diclofenac_sodium"
+  "pharmaceutical": [
+    "a_to_z_woman",
+    "ab_phylline",
+    "ab_phylline_sr",
+    "absolut_woman",
+    "absolut_3g",
+    "acitrom",
+    "actrapid_flexpen",
+    "actrapid_hm_penfill",
+    "advanced_kojivit_ultra",
+    "afogatran",
+    "afoglip_m",
+    "afoglip",
+    "agna_25000",
+    "ajaduo_25_5mg",
+    "ajaduo",
+    "alfoo",
+    "alfusin_d",
+    "allegra_m",
+    "allegra",
+    "alphagan_z",
+    "altraz",
+    "amantrel",
+    "amaryl",
+    "amaryl_mv",
+    "amaryl_m",
+    "amaryl_m_forte",
+    "ambrican",
+    "amlodac",
+    "amlokind_at",
+    "amlong",
+    "amlopin_m",
+    "amlopin",
+    "amlopres_at",
+    "androanagen",
+    "anfoe",
+    "angispan_tr_2_5mg_bottle_of_25_capsules",
+    "antoxid_hc",
+    "antoxipan",
+    "apcod_obis",
+    "apidra_solostar",
+    "apidra",
+    "aplazar",
+    "apresol",
+    "aprezo",
+    "arg_9",
+    "argipreg_sf_sach_6_5gm",
+    "arimidex",
+    "arkamin",
+    "arvast",
+    "asomex",
+    "asomex_2_5mg",
+    "asthalin",
+    "atocor",
+    "atorfit_cv",
+    "atorlip_f",
+    "atorlip",
+    "atorva",
+    "augmentin_duo",
+    "autrin",
+    "axcer",
+    "azopt",
+    "azoran",
+    "aztolet",
+    "aztor",
+    "azulix_mf",
+    "azulix_mf_forte"
   ]
 }

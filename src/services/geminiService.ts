@@ -7,7 +7,7 @@ import bannedMedicinesData from "../data/banned_medicines.json";
 import indexData from "../data/index.json";
 import categoriesData from "../data/categories.json";
 import diseasesData from "../data/diseases.json";
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { db, auth } from './firebase';
 
 const getAIClient = (): GoogleGenAI => {
@@ -23,6 +23,36 @@ const allLocalMedicines = [...localMedicines, ...bannedMedicines];
 const searchIndex = indexData as Record<string, string[]>;
 const categoriesIndex = categoriesData as Record<string, string[]>;
 const diseasesIndex = diseasesData as Record<string, string[]>;
+
+async function lazySeedToFirestore(medicine: Medicine) {
+  if (!auth.currentUser) return;
+  const safeId = medicine.id.toLowerCase().replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
+  try {
+    const medDocRef = doc(db, 'medicines', safeId);
+    const docSnap = await getDoc(medDocRef);
+    if (!docSnap.exists()) {
+      const payload = {
+        id: safeId,
+        drug_name: medicine.drug_name,
+        category: medicine.category || 'Unknown',
+        brand_names_india: medicine.brand_names_india || [],
+        quick_summary: medicine.quick_summary || '',
+        uses: medicine.uses || [],
+        side_effects_common: medicine.side_effects_common || [],
+        dosage_common: medicine.dosage_common || '',
+        pregnancy_safety: medicine.pregnancy_safety || '',
+        country: 'India',
+        source: 'Verified Database',
+        createdBy: auth.currentUser.uid,
+        createdAt: serverTimestamp()
+      };
+      await setDoc(medDocRef, payload);
+      console.log(`Lazy seeded ${medicine.drug_name} to Firestore.`);
+    }
+  } catch (err) {
+    console.warn("Lazy seed failed:", err);
+  }
+}
 
 // Initialize Fuse.js for fuzzy searching
 const fuseOptions = {
@@ -57,13 +87,34 @@ export function isDrugBanned(name: string): boolean {
   );
 }
 
-export async function fetchMedicineDetails(query: string, lang: Language = 'en'): Promise<Medicine | null> {
-  const q = query.toLowerCase().trim();
+export async function fetchMedicineDetails(searchQuery: string, lang: Language = 'en'): Promise<Medicine | null> {
+  const q = searchQuery.toLowerCase().trim();
   
-  // 1. Check local map first (fastest)
-  if (medicinesMap[q]) return medicinesMap[q];
+  // 1. Check local map first (fastest) - only keep IDs or very common exact matches here
+  if (medicinesMap[q]) {
+    const med = medicinesMap[q];
+    // If found locally, we'll try to ensure it exists in Firestore too if user is signed in
+    if (auth.currentUser && med.source === 'Verified Database') {
+      lazySeedToFirestore(med);
+    }
+    return med;
+  }
 
-  // 2. Check local dataset with fuzzy match
+  // 2. Check Firestore backend first (Primary Source of Truth)
+  const safeId = q.replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
+  try {
+    const medDocRef = doc(db, 'medicines', safeId);
+    const docSnap = await getDoc(medDocRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data() as Medicine;
+      offlineService.saveMedicine(data);
+      return { ...data, source: 'Verified Database' };
+    }
+  } catch (firebaseErr: any) {
+    console.warn("Firestore fetch error:", firebaseErr);
+  }
+
+  // 3. Fallback to local dataset with fuzzy match
   const cleanQuery = q.replace(/ dosage| side effects| uses| warnings| overdose/g, '').trim();
   const queryWithoutStrength = cleanQuery.replace(/\s*\d+\s*(mg|ml|g|mcg|iu|%)\s*/gi, '').trim();
   
@@ -92,30 +143,15 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
 
   // 4. Check offline cache
   if (!navigator.onLine) {
-    const cached = offlineService.getMedicine(query);
+    const cached = offlineService.getMedicine(searchQuery);
     if (cached) return { ...cached, source: 'Cached Result' };
     return null; // Cannot fetch new data while offline
-  }
-
-  const safeId = q.replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
-  
-  // 5. Check Firebase "Self-Building DB" Cache to save API Quota
-  try {
-    const medDocRef = doc(db, 'medicines', safeId);
-    const docSnap = await getDoc(medDocRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data() as Medicine;
-      offlineService.saveMedicine(data); // ensure offline cache is updated
-      return { ...data, source: 'Verified Database' }; // Flagged as verified to build trust
-    }
-  } catch (firebaseErr: any) {
-    console.warn("Firebase cache miss or error:", firebaseErr);
   }
 
   try {
     const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `Generate detailed medical information for the medicine: "${query}". 
+      contents: `Generate detailed medical information for the medicine: "${searchQuery}". 
       The medicine must be a legally approved medication in India.
       Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines.
       If the medicine is a brand name, identify its generic constituents.
@@ -184,7 +220,7 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
         // Explicitly ensuring fields match the hardened Firestore Blueprint
         const payload = {
           id: safeId,
-          drug_name: medicine.drug_name || query,
+          drug_name: medicine.drug_name || searchQuery,
           category: medicine.category || 'Unknown',
           brand_names_india: medicine.brand_names_india || [],
           quick_summary: medicine.quick_summary || '',
@@ -207,7 +243,7 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
   } catch (error) {
     console.error("Error fetching medicine details:", error);
     // Fallback to cache if network fails
-    const cached = offlineService.getMedicine(query);
+    const cached = offlineService.getMedicine(searchQuery);
     if (cached) return { ...cached, source: 'Cached Result' };
     return null;
   }
@@ -216,12 +252,41 @@ export async function fetchMedicineDetails(query: string, lang: Language = 'en')
 // In-memory search cache for performance
 const searchCache: Record<string, any[]> = {};
 
-export async function searchMedicines(query: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]> {
-  const q = query.toLowerCase().trim();
+export async function searchMedicines(searchQuery: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]> {
+  const q = searchQuery.toLowerCase().trim();
   const cacheKey = `${q}_${lang}`;
   
   if (searchCache[cacheKey]) {
     return searchCache[cacheKey];
+  }
+
+  // 0. Check Backend (Firestore) for community data first
+  let backendResults: any[] = [];
+  try {
+    const qUpper = q.charAt(0).toUpperCase() + q.slice(1);
+    const medicinesRef = collection(db, 'medicines');
+    // Simple "starts with" query for Firestore
+    const queryConstraints = [
+      where('drug_name', '>=', qUpper),
+      where('drug_name', '<=', qUpper + '\uf8ff'),
+      limit(5)
+    ];
+    const qBackend = query(medicinesRef, ...queryConstraints);
+    const querySnapshot = await getDocs(qBackend);
+    
+    backendResults = querySnapshot.docs.map(doc => {
+      const data = doc.data() as Medicine;
+      return {
+        name: data.drug_name,
+        category: data.category,
+        summary: data.quick_summary || (Array.isArray(data.uses) ? data.uses.join(', ') : data.uses),
+        isOffline: false,
+        source: 'Community DB',
+        confidence: 100
+      };
+    });
+  } catch (err) {
+    console.warn("Backend search failed:", err);
   }
 
   // 1. Search in local dataset using Fuse.js (Fuzzy Search)
@@ -296,26 +361,35 @@ export async function searchMedicines(query: string, lang: Language = 'en'): Pro
     })
     .slice(0, 6);
 
-  // If we found local results and they are reasonably strong, return them immediately to speed up search
-  if (localResults.length >= 1 && topScore >= 6000) {
-    searchCache[cacheKey] = localResults;
-    return localResults;
-  }
-
-  // We no longer use AI for autocomplete suggestions to prevent API quota exhaustion.
-  // The AI is only used when the user explicitly submits the search or clicks a result.
-  
-  const cachedResults = (offlineService.getSearchResults(query) || []).map(r => ({ ...r, isOffline: true, source: 'Cached Result' }));
-  const offlineSearch = (offlineService.searchOffline(query) || []).map(r => ({ ...r, isOffline: true, source: 'Local Cache' }));
-  
-  const combined = [...localResults, ...cachedResults];
-  offlineSearch.forEach(res => {
+  // Combine results, prioritizing backend
+  const combined = [...backendResults];
+  localResults.forEach(res => {
     if (!combined.some(c => c.name.toLowerCase() === res.name.toLowerCase())) {
       combined.push(res);
     }
   });
 
-  const finalResults = combined.slice(0, 10);
+  // If we found local results and they are reasonably strong, return them immediately to speed up search
+  if (combined.length >= 1 && (topScore >= 6000 || backendResults.length > 0)) {
+    const final = combined.slice(0, 10);
+    searchCache[cacheKey] = final;
+    return final;
+  }
+
+  // We no longer use AI for autocomplete suggestions to prevent API quota exhaustion.
+  // The AI is only used when the user explicitly submits the search or clicks a result.
+  
+  const cachedResults = (offlineService.getSearchResults(searchQuery) || []).map(r => ({ ...r, isOffline: true, source: 'Cached Result' }));
+  const offlineSearch = (offlineService.searchOffline(searchQuery) || []).map(r => ({ ...r, isOffline: true, source: 'Local Cache' }));
+  
+  const combinedFinal = [...localResults, ...cachedResults];
+  offlineSearch.forEach(res => {
+    if (!combinedFinal.some(c => c.name.toLowerCase() === res.name.toLowerCase())) {
+      combinedFinal.push(res);
+    }
+  });
+
+  const finalResults = combinedFinal.slice(0, 10);
   searchCache[cacheKey] = finalResults;
   return finalResults;
 }
@@ -388,14 +462,14 @@ export async function getMedicinesForCondition(condition: string, lang: Language
   }
 }
 
-export async function interpretQuery(query: string, lang: Language = 'en'): Promise<{ 
+export async function interpretQuery(searchQuery: string, lang: Language = 'en'): Promise<{ 
   intent: 'medicine' | 'disease' | 'compare' | 'mixed'; 
   medicines: string[]; 
   diseases: string[]; 
   specificIntent?: string;
 }> {
   // Basic interpretation logic
-  const lowerQuery = query.toLowerCase().trim();
+  const lowerQuery = searchQuery.toLowerCase().trim();
   
   // Improved comparison detection
   if (lowerQuery.includes(' vs ') || lowerQuery.startsWith('compare ') || lowerQuery.includes(' comparison ')) {
@@ -422,13 +496,13 @@ export async function interpretQuery(query: string, lang: Language = 'en'): Prom
   }
 
   if (!navigator.onLine) {
-    return { intent: 'disease', medicines: [], diseases: [query] };
+    return { intent: 'disease', medicines: [], diseases: [searchQuery] };
   }
 
   try {
     const response = await getAIClient().models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `Analyze the following search query for a medical information app: "${query}".
+      contents: `Analyze the following search query for a medical information app: "${searchQuery}".
       Identify if the user is looking for a specific medicine, a disease/symptom, or comparing two medicines.
       Also identify if they have a specific intent like 'dosage', 'side effects', etc.
       The response must be in English for the keys, but the values should match the query's context.`,
@@ -459,7 +533,7 @@ export async function interpretQuery(query: string, lang: Language = 'en'): Prom
     return JSON.parse(response.text || "{}");
   } catch (error) {
     console.error("Error interpreting query:", error);
-    return { intent: 'medicine', medicines: [query], diseases: [] };
+    return { intent: 'medicine', medicines: [searchQuery], diseases: [] };
   }
 }
 

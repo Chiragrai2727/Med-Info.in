@@ -13,6 +13,79 @@ export const Pricing: React.FC = () => {
   const navigate = useNavigate();
   const [savingsValue, setSavingsValue] = useState(1);
 
+  const handlePayment = async (planId: string) => {
+    if (!user) {
+      openAuthModal();
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId,
+          plan: 'monthly', // default
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (!data.order) throw new Error('Order creation failed');
+
+      const options = {
+        key: (window as any).process?.env?.VITE_RAZORPAY_KEY_ID || "rzp_test_dummy",
+        amount: data.order.amount,
+        currency: "INR",
+        name: "Aethelcare Premium",
+        description: `Upgrade to ${planId.toUpperCase()} Plan`,
+        order_id: data.order.id,
+        handler: async function (response: any) {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+          if (verifyData.success) {
+            if (updateSubscription) {
+              const expiryDate = new Date();
+              expiryDate.setMonth(expiryDate.getMonth() + 1);
+              updateSubscription('monthly', expiryDate.toISOString());
+            }
+            navigate('/dashboard');
+            alert('Payment Successful! Welcome to Premium.');
+          } else {
+            alert('Payment verification failed.');
+          }
+        },
+        prefill: {
+          name: profile?.displayName || "",
+          email: user.email || "",
+          contact: "",
+        },
+        theme: {
+          color: "#2563EB",
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Payment Error:', error);
+      alert('Failed to initiate payment. Please try again.');
+    }
+  };
+
   const handleClaimTrial = () => {
     if (!user) {
       openAuthModal();
@@ -154,8 +227,14 @@ export const Pricing: React.FC = () => {
                 ))}
               </ul>
 
-              <button 
-                onClick={() => navigate(plan.price_inr === 0 ? '/' : '/scan')}
+               <button 
+                onClick={() => {
+                  if (plan.price_inr === 0) {
+                    navigate('/');
+                  } else {
+                    handlePayment(plan.id);
+                  }
+                }}
                 className={`w-full py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 ${
                   plan.highlight 
                     ? 'bg-slate-900 text-white hover:bg-slate-800 shadow-xl' 
