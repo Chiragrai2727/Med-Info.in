@@ -18,21 +18,38 @@ export const handler = async (event: any) => {
   }
 
   try {
-    const { plan } = JSON.parse(event.body || "{}");
+    const { plan, planId } = JSON.parse(event.body || "{}");
     let amount = 0;
 
-    if (plan === "monthly") amount = 79;
-    else if (plan === "yearly") amount = 849;
-    else if (plan === "daily") amount = 99;
-    else return { statusCode: 400, body: JSON.stringify({ error: "Invalid plan" }) };
+    if (planId === "premium") {
+      amount = plan === "yearly" ? 699 : 99;
+    } else if (plan === "daily") {
+      amount = 9; 
+    } else {
+      return { statusCode: 400, body: JSON.stringify({ error: "Invalid plan or planId" }) };
+    }
 
-    const gst = amount * 0.18;
-    const platformFee = amount * 0.02;
-    const totalAmount = amount + gst + platformFee;
+    const totalAmount = amount;
+
+    const razorpayKeyId = process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID;
+    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
+
+    if (!razorpayKeyId || !razorpayKeySecret) {
+      console.warn("Razorpay keys are missing. Simulating order.");
+      return {
+        statusCode: 200,
+        headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order: { id: `order_sim_${Date.now()}`, amount: Math.round(totalAmount * 100), currency: "INR" },
+          amount: totalAmount,
+          key_id: "rzp_test_dummy",
+        }),
+      };
+    }
 
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
-      key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
+      key_id: razorpayKeyId,
+      key_secret: razorpayKeySecret,
     });
 
     const options = {
@@ -49,7 +66,7 @@ export const handler = async (event: any) => {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ order, breakdown: { base: amount, gst, platformFee, total: totalAmount } }),
+      body: JSON.stringify({ order, amount: totalAmount, key_id: razorpayKeyId }),
     };
   } catch (error: any) {
     console.error("Error creating order:", error);
