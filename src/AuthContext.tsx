@@ -79,13 +79,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             let needsUpdate = false;
             
             // Auto-migration for admin role
-            if (currentUser.email === 'aethelcare.help@gmail.com' && profileData.role !== 'admin') {
+            const adminEmails = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'];
+            if (adminEmails.includes(currentUser.email!) && profileData.role !== 'admin') {
               profileData = { ...profileData, role: 'admin' };
               needsUpdate = true;
             }
 
             // Auto-demote unauthorized admins (fixes issue where users manually got admin tag somehow)
-            if (currentUser.email !== 'aethelcare.help@gmail.com' && profileData.role === 'admin') {
+            if (!adminEmails.includes(currentUser.email!) && profileData.role === 'admin') {
               profileData = { ...profileData, role: 'user' };
               needsUpdate = true;
             }
@@ -125,7 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               photoURL: currentUser.photoURL || '',
               isPremium: false,
               createdAt: new Date().toISOString(),
-              role: currentUser.email === 'aethelcare.help@gmail.com' ? 'admin' : 'user'
+              role: ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(currentUser.email!) ? 'admin' : 'user'
             };
             try {
               await setDoc(userRef, newProfile);

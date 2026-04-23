@@ -11,7 +11,12 @@ service cloud.firestore {
     function incoming() { return request.resource.data; }
     function existing() { return resource.data; }
     function isSignedIn() { return request.auth != null; }
-    function isAdmin() { return isSignedIn() && request.auth.token.email == 'aethelcare.help@gmail.com'; }
+    function isAdmin() { 
+      return isSignedIn() && (
+        request.auth.token.email == 'aethelcare.help@gmail.com' ||
+        request.auth.token.email == 'raisahab2727@gmail.com'
+      ); 
+    }
     function isValidId(id) { 
       return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
     }

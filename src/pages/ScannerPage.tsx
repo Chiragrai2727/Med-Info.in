@@ -26,8 +26,9 @@ import { useAuth } from '../AuthContext';
 import { GoogleGenAI } from "@google/genai";
 import { createWorker } from 'tesseract.js';
 import { jsPDF } from 'jspdf';
+import { checkAndIncrementScan } from '../lib/scanLogic';
+import { useUser } from '../hooks/useUser';
 
-import { checkQuota, recordScan, getRemainingScans } from '../utils/quotaManager';
 import medicinesData from '../data/medicines.json';
 import bannedDrugsData from '../data/banned_medicines.json';
 
@@ -53,12 +54,12 @@ interface ScanResult {
 
 export const ScannerPage: React.FC = () => {
   const { t } = useLanguage();
-  const { profile, openAuthModal } = useAuth();
+  const { openAuthModal } = useAuth();
+  const { user } = useUser();
   const navigate = useNavigate();
 
-  // Tier logic
-  const isTrialActive = profile?.trialClaimed && profile?.trialEndsAt && new Date(profile.trialEndsAt) > new Date();
-  const isPremium = profile?.isPremium === true || profile?.role === 'admin' || isTrialActive;
+  // Tier logic via Supabase
+  const isPremium = user?.isPremium === true;
   
   // States
   const [activeTab, setActiveTab] = useState<ScanTab>('medicine');
@@ -69,15 +70,15 @@ export const ScannerPage: React.FC = () => {
   const [loadingMsg, setLoadingMsg] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
-  const [remainingScans, setRemainingScans] = useState(getRemainingScans('free'));
+  const [remainingScans, setRemainingScans] = useState<number>(user?.scansRemaining ?? 3);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setRemainingScans(getRemainingScans('free'));
-  }, [profile]);
+    setRemainingScans(user?.scansRemaining ?? 3);
+  }, [user]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -102,18 +103,27 @@ export const ScannerPage: React.FC = () => {
   const startActualScan = async () => {
     if (!pendingFile) return;
     
-    // Initial check
-    if (!isPremium) {
-      const q = checkQuota('free');
-      if (!q.allowed) {
-        setError("Monthly scan limit reached.");
-        setShowPreview(false);
-        return;
-      }
-    }
-
     setShowPreview(false);
     setLoading(true);
+
+    if (!user) {
+      openAuthModal();
+      setLoading(false);
+      return;
+    }
+
+    // Process scan tracking via backend logic
+    const quotaResult = await checkAndIncrementScan(user.id);
+    
+    if (!quotaResult.allowed) {
+      setError("Monthly scan limit reached. Please upgrade to Premium or wait until next month.");
+      setLoading(false);
+      return;
+    }
+
+    if (quotaResult.remaining !== undefined) {
+      setRemainingScans(quotaResult.remaining);
+    }
 
     if (isPremium) {
       handleGeminiScan(pendingFile);
@@ -181,8 +191,7 @@ export const ScannerPage: React.FC = () => {
       };
 
       setScanResult(result);
-      recordScan('free');
-      setRemainingScans(getRemainingScans('free'));
+      // Scan was already recorded in checkAndIncrementScan
     } catch (err) {
       console.error(err);
       setError("Basic scan failed. Please ensure the text is clear.");
@@ -255,7 +264,7 @@ export const ScannerPage: React.FC = () => {
         medicines: processedMeds,
         accuracy: "99%"
       });
-      recordScan('premium');
+      // Scan recorded automatically in Supabase
     } catch (err) {
       console.error(err);
       setError("AI analysis failed. Please try again.");
