@@ -89,6 +89,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               needsUpdate = true;
             }
 
+            // Auto-demote legacy users who accidentally have premium without an expiry date
+            if (profileData.isPremium && !profileData.subscriptionExpiry && profileData.role !== 'admin') {
+              profileData = { ...profileData, isPremium: false };
+              needsUpdate = true;
+            }
+
             if (needsUpdate) {
               try {
                 await setDoc(userRef, profileData, { merge: true });

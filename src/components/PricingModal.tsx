@@ -69,12 +69,17 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         }),
       });
 
-      if (!response.ok) throw new Error('Order creation failed');
-      const { order } = await response.json();
+      const data = await response.json();
+      
+      if (!response.ok || !data.order) {
+        throw new Error(data.details || data.error || 'Order creation failed');
+      }
+
+      const { order, key_id } = data;
 
       // 2. Open Razorpay Checkout
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_dummy", // Enter the Key ID generated from the Dashboard
+        key: data.key_id || "rzp_test_dummy", // Enter the Key ID generated from the Dashboard
         amount: order.amount,
         currency: order.currency,
         name: "Aethelcare India",
@@ -94,7 +99,11 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
             if (result.success) {
               // 4. Update user profile - calculate expiry
               const expiryDate = new Date();
-              expiryDate.setMonth(expiryDate.getMonth() + 1);
+              if (billingCycle === 'yearly') {
+                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+              } else {
+                expiryDate.setMonth(expiryDate.getMonth() + 1);
+              }
               
               await updateSubscription(planId, expiryDate.toISOString());
               
@@ -127,9 +136,9 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         alert(response.error.description);
       });
       rzp.open();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to initiate payment. Please try again.");
+      alert(`Payment failed to start: ${err.message || 'Please check your connection and API keys.'}`);
       setIsProcessing(null);
     }
   };

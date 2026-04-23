@@ -50,10 +50,12 @@ export const Pricing: React.FC = () => {
 
       const data = await response.json();
       
-      if (!data.order) throw new Error('Order creation failed');
+      if (!response.ok || !data.order) {
+         throw new Error(data.details || data.error || 'Order creation failed');
+      }
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_dummy",
+        key: data.key_id || "rzp_test_dummy",
         amount: data.order.amount,
         currency: "INR",
         name: "Aethelcare Premium",
@@ -76,7 +78,11 @@ export const Pricing: React.FC = () => {
           if (verifyData.success) {
             if (updateSubscription) {
               const expiryDate = new Date();
-              expiryDate.setMonth(expiryDate.getMonth() + 1);
+              if (billingCycle === 'yearly') {
+                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+              } else {
+                expiryDate.setMonth(expiryDate.getMonth() + 1);
+              }
               updateSubscription(planId, expiryDate.toISOString());
             }
             navigate('/dashboard');
@@ -97,9 +103,9 @@ export const Pricing: React.FC = () => {
 
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Payment Error:', error);
-      alert('Failed to initiate payment. Please try again.');
+      alert(`Payment failed to start: ${error.message || 'Please check your connection and API keys.'}`);
     }
   };
 
@@ -107,8 +113,8 @@ export const Pricing: React.FC = () => {
     if (!user) {
       openAuthModal();
     } else {
-      // In a real app, this would trigger a phone verification flow for trial
-      alert('Redirecting to phone verification for your 14-day free trial...');
+      // Redirect to dashboard where the user can enter their phone number to claim the trial
+      navigate('/dashboard');
     }
   };
 

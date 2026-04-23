@@ -116,17 +116,12 @@ export const Dashboard: React.FC = () => {
         {/* Trial Status Banner inside Dashboard */}
         {(!profile.isPremium && profile.role !== 'admin') && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-8">
-             {!hasClaimedTrial ? (
-                <div onClick={() => {}} className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                       <Zap className="w-6 h-6 text-yellow-300" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg">You haven't claimed your 14-Day Free Trial yet!</h3>
-                      <p className="text-blue-100 text-sm">Get instant access to all premium features.</p>
-                    </div>
-                  </div>
+              {!hasClaimedTrial ? (
+                <div className="p-1">
+                  <PhoneTrialSetup onSuccess={() => {
+                    // Update layout on success
+                    window.location.reload();
+                  }} />
                 </div>
               ) : trialActive ? (
                 <div className="bg-indigo-50 border-l-4 border-indigo-600 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
