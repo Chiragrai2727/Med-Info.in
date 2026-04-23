@@ -1,4 +1,7 @@
-export type Language = 'en' | 'hi' | 'mr' | 'ta';
+export type Language = 
+  | 'en' | 'hi' | 'mr' | 'ta' | 'te' | 'kn' | 'ml' | 'gu' | 'pa' | 'bn' 
+  | 'as' | 'or' | 'ur' | 'sa' | 'ks' | 'sd' | 'kok' | 'doi' | 'mni' | 'ne' 
+  | 'mai' | 'brx' | 'sat';
 
 export interface Medicine {
   id: string;
@@ -43,7 +46,26 @@ export const LANGUAGES: { code: Language; name: string }[] = [
   { code: 'en', name: 'English' },
   { code: 'hi', name: 'हिन्दी' },
   { code: 'mr', name: 'मराठी' },
+  { code: 'bn', name: 'বাংলা' },
+  { code: 'te', name: 'తెలుగు' },
   { code: 'ta', name: 'தமிழ்' },
+  { code: 'gu', name: 'ગુજરાતી' },
+  { code: 'kn', name: 'ಕನ್ನಡ' },
+  { code: 'ml', name: 'മലയാളം' },
+  { code: 'pa', name: 'ਪੰਜਾਬੀ' },
+  { code: 'or', name: 'ଓଡ଼ିଆ' },
+  { code: 'as', name: 'অসমীয়া' },
+  { code: 'mai', name: 'मैथिली' },
+  { code: 'kok', name: 'कोंकणी' },
+  { code: 'sa', name: 'संस्कृतम्' },
+  { code: 'ks', name: 'کٲشُر' },
+  { code: 'sd', name: 'سنڌي' },
+  { code: 'ur', name: 'اردو' },
+  { code: 'doi', name: 'डोगरी' },
+  { code: 'mni', name: 'মৈতৈলোন্' },
+  { code: 'ne', name: 'नेपाली' },
+  { code: 'brx', name: 'बर' },
+  { code: 'sat', name: 'ᱥᱟᱱᱛᱟᱲᱤ' },
 ];
 
 export const DISEASES: Disease[] = [

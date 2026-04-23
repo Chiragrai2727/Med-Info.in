@@ -44,10 +44,10 @@ export const FAQ: React.FC = () => {
       <div className="text-center mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest mb-4">
           <HelpCircle className="w-4 h-4" />
-          Got Questions?
+          {t('gotQuestions')}
         </div>
-        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Frequently Asked Questions</h2>
-        <p className="text-xl text-slate-500 font-medium">Everything you need to know about AethelCare</p>
+        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">{t('faqTitle')}</h2>
+        <p className="text-xl text-slate-500 font-medium">{t('faqSubtitle')}</p>
       </div>
 
       <div className="space-y-4">

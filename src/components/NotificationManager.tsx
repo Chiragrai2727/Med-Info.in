@@ -18,11 +18,11 @@ export const NotificationManager: React.FC = () => {
         return;
       }
 
-      const lastFunnyNotif = localStorage.getItem('last_funny_notif');
+      const lastInteractionTip = localStorage.getItem('last_interaction_tip');
       const now = Date.now();
 
-      // Only send a funny notification if it's been at least 4 hours since the last one
-      if (lastFunnyNotif && now - parseInt(lastFunnyNotif) < 1000 * 60 * 60 * 4) {
+      // Only send an interaction tip if it's been at least 4 hours since the last one
+      if (lastInteractionTip && now - parseInt(lastInteractionTip) < 1000 * 60 * 60 * 4) {
         return;
       }
 
@@ -38,11 +38,11 @@ export const NotificationManager: React.FC = () => {
       try {
         if ('serviceWorker' in navigator) {
           const registration = await navigator.serviceWorker.ready;
-          await registration.showNotification("Aethelcare", options);
+          await registration.showNotification("Aethelcare India", options);
         } else {
-          new Notification("Aethelcare", options);
+          new Notification("Aethelcare India", options);
         }
-        localStorage.setItem('last_funny_notif', now.toString());
+        localStorage.setItem('last_interaction_tip', now.toString());
       } catch (e) {
         console.error("Failed to send funny notification", e);
       }

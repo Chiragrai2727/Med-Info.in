@@ -12,6 +12,23 @@ export const Pricing: React.FC = () => {
   const { user, profile, openAuthModal, updateSubscription } = useAuth();
   const navigate = useNavigate();
   const [savingsValue, setSavingsValue] = useState(1);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+
+  const plans = [
+    {
+      ...PLANS.basic,
+      price_display: '₹0',
+      billing: null,
+    },
+    {
+      ...PLANS.premium,
+      price_display: billingCycle === 'monthly' ? '₹99' : '₹699',
+      billing: billingCycle === 'monthly' ? 'per month' : 'per year',
+      price_strikethrough: billingCycle === 'monthly' ? '₹199' : '₹948',
+      savings_amount: billingCycle === 'yearly' ? 'Save ₹489' : null,
+      savings_percent: billingCycle === 'monthly' ? 'Save 50%' : 'Save 26%',
+    }
+  ];
 
   const handlePayment = async (planId: string) => {
     if (!user) {
@@ -27,7 +44,7 @@ export const Pricing: React.FC = () => {
         },
         body: JSON.stringify({
           planId,
-          plan: 'monthly', // default
+          plan: billingCycle,
         }),
       });
 
@@ -36,7 +53,7 @@ export const Pricing: React.FC = () => {
       if (!data.order) throw new Error('Order creation failed');
 
       const options = {
-        key: (window as any).process?.env?.VITE_RAZORPAY_KEY_ID || "rzp_test_dummy",
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_dummy",
         amount: data.order.amount,
         currency: "INR",
         name: "Aethelcare Premium",
@@ -60,10 +77,10 @@ export const Pricing: React.FC = () => {
             if (updateSubscription) {
               const expiryDate = new Date();
               expiryDate.setMonth(expiryDate.getMonth() + 1);
-              updateSubscription('monthly', expiryDate.toISOString());
+              updateSubscription(planId, expiryDate.toISOString());
             }
             navigate('/dashboard');
-            alert('Payment Successful! Welcome to Premium.');
+            alert('Payment Successful! Welcome to ' + planId.charAt(0).toUpperCase() + planId.slice(1) + '.');
           } else {
             alert('Payment verification failed.');
           }
@@ -96,10 +113,10 @@ export const Pricing: React.FC = () => {
   };
 
   const accuracyData = [
-    { feature: 'Printed prescriptions', basic: '75-80%', family: '99%' },
-    { feature: 'Handwritten prescriptions', basic: 'Not available', family: '99%' },
-    { feature: 'Lab reports', basic: 'Not available', family: '99%' },
-    { feature: 'Blurry/dark photos', basic: 'Not available', family: '99%' },
+    { feature: 'Printed prescriptions', basic: '75-80%', premium: '99%' },
+    { feature: 'Handwritten prescriptions', basic: 'Not available', premium: '99%' },
+    { feature: 'Lab reports', basic: 'Not available', premium: '99%' },
+    { feature: 'Blurry/dark photos', basic: 'Not available', premium: '99%' },
   ];
 
   return (
@@ -125,7 +142,7 @@ export const Pricing: React.FC = () => {
               <Zap className="w-4 h-4" /> Limited Time Offer
             </span>
             <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
-              Try Family Plan free for 14 days
+              Try Premium free for 14 days
             </h1>
             <p className="text-xl text-slate-400 font-medium mb-10">
               Verify with your phone number, no credit card needed. Get instant access to the 99% accurate AI scanner.
@@ -145,10 +162,14 @@ export const Pricing: React.FC = () => {
 
             <div className="flex flex-col items-center gap-4">
               <div className="flex -space-x-3 mb-2">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-black text-slate-400">
-                    USER
-                  </div>
+                {[11, 25, 33, 48, 52].map(i => (
+                  <img 
+                    key={i} 
+                    src={`https://i.pravatar.cc/100?u=${i}`} 
+                    alt="Verified User" 
+                    className="w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 object-cover"
+                    referrerPolicy="no-referrer"
+                  />
                 ))}
               </div>
               <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
@@ -159,10 +180,47 @@ export const Pricing: React.FC = () => {
         </motion.div>
       </section>
 
+      {/* Toggle Section */}
+      <section className="max-w-7xl mx-auto px-4 mb-12 flex justify-center">
+        <div className="bg-white p-1.5 rounded-2xl border-2 border-slate-100 flex items-center shadow-sm relative">
+          <button 
+            onClick={() => setBillingCycle('monthly')}
+            className={`px-8 py-3 rounded-xl font-black text-sm transition-all relative z-10 ${
+              billingCycle === 'monthly' ? 'text-white' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            Monthly
+          </button>
+          <button 
+            onClick={() => setBillingCycle('yearly')}
+            className={`px-8 py-3 rounded-xl font-black text-sm transition-all relative z-10 ${
+              billingCycle === 'yearly' ? 'text-white' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            Yearly
+          </button>
+          <motion.div 
+            initial={false}
+            animate={{ x: billingCycle === 'monthly' ? 0 : '100%' }}
+            className="absolute inset-y-1.5 left-1.5 w-[calc(50%-6px)] bg-slate-900 rounded-xl shadow-lg"
+          />
+          
+          {billingCycle === 'yearly' && (
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="absolute -top-10 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap border border-green-200"
+            >
+              Save ₹489 Yearly
+            </motion.div>
+          )}
+        </div>
+      </section>
+
       {/* Plan Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {Object.values(PLANS).map((plan, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto">
+          {plans.map((plan, idx) => (
             <motion.div
               key={plan.id}
               initial={{ opacity: 0, y: 30 }}
@@ -293,7 +351,7 @@ export const Pricing: React.FC = () => {
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Scanner Accuracy Comparison</h2>
-          <p className="text-slate-500 font-medium">Why upgrading to the Family Plan makes sense for your safety.</p>
+          <p className="text-slate-500 font-medium">Why upgrading to the Premium Plan makes sense for your safety.</p>
         </div>
 
         <div className="bg-white border border-slate-100 rounded-[3rem] shadow-sm overflow-hidden">
@@ -302,20 +360,20 @@ export const Pricing: React.FC = () => {
               <tr className="bg-slate-50 border-b border-slate-100">
                 <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-400">Feature</th>
                 <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-400">Basic (Free)</th>
-                <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-900">Family Plan</th>
+                <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-900">Premium Plan</th>
               </tr>
             </thead>
             <tbody>
-              {accuracyData.map((row, i) => (
+              {accuracyData.map((row: any, i) => (
                 <tr key={i} className="border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors">
                   <td className="px-8 py-6 font-bold text-slate-700">{row.feature}</td>
                   <td className="px-8 py-6 font-bold text-slate-400">{row.basic}</td>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-3">
                       <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                        {row.family === '99%' ? <Star className="w-4 h-4 fill-current" /> : <Check className="w-4 h-4" />}
+                        {row.premium === '99%' ? <Star className="w-4 h-4 fill-current" /> : <Check className="w-4 h-4" />}
                       </span>
-                      <span className="font-black text-slate-900">{row.family}</span>
+                      <span className="font-black text-slate-900">{row.premium}</span>
                     </div>
                   </td>
                 </tr>

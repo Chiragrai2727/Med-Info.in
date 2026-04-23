@@ -1,6 +1,38 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
-import { Medicine, Language } from "../types";
+import { Medicine, Language, LANGUAGES } from "../types";
 import { offlineService } from "./offlineService";
+
+const LANGUAGE_NAME_MAP: Record<Language, string> = LANGUAGES.reduce((acc, lang) => {
+  acc[lang.code] = lang.name; // This will give us the native name
+  return acc;
+}, {} as Record<Language, string>);
+
+// Better to have English names for AI prompts
+const PROMPT_LANGUAGE_MAP: Record<Language, string> = {
+  en: 'English',
+  hi: 'Hindi',
+  mr: 'Marathi',
+  ta: 'Tamil',
+  te: 'Telugu',
+  kn: 'Kannada',
+  ml: 'Malayalam',
+  gu: 'Gujarati',
+  pa: 'Punjabi',
+  bn: 'Bengali',
+  as: 'Assamese',
+  or: 'Odia',
+  ur: 'Urdu',
+  sa: 'Sanskrit',
+  ks: 'Kashmiri',
+  sd: 'Sindhi',
+  kok: 'Konkani',
+  doi: 'Dogri',
+  mni: 'Manipuri',
+  ne: 'Nepali',
+  mai: 'Maithili',
+  brx: 'Bodo',
+  sat: 'Santali'
+};
 import Fuse from 'fuse.js';
 import medicinesData from "../data/medicines.json";
 import bannedMedicinesData from "../data/banned_medicines.json";
@@ -155,7 +187,7 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
       The medicine must be a legally approved medication in India.
       Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines.
       If the medicine is a brand name, identify its generic constituents.
-      The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.
+      The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.
       Provide accurate, non-prescriptive information for educational purposes based on the latest Indian medical guidelines.`,
       config: {
         responseMimeType: "application/json",
@@ -435,7 +467,7 @@ export async function getMedicinesForCondition(condition: string, lang: Language
       model: "gemini-3-flash-preview",
       contents: `List 12 common medicines used for "${condition}" in India. 
       For each medicine, provide the name, category, and a 1-line summary.
-      The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.`,
+      The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -574,7 +606,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
         model: "gemini-3-flash-preview",
         contents: `Compare these two medicines: "${med1}" and "${med2}".
         Provide a side-by-side comparison of their key features.
-        The response must be in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.`,
+        The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.`,
         config: {
           responseMimeType: "application/json",
           responseSchema: {
@@ -631,7 +663,7 @@ export async function scanMedication(base64Image: string, lang: Language = 'en')
             {
               "name": "Brand Name + Form/Strength (e.g., 'Carnogram Syrup' or 'Calpol 500mg')",
               "category": "Therapeutic category (e.g., Supplement, Analgesic, Antibiotic)",
-              "description": "A 1-2 sentence simple description of what this medicine is typically used for in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}.",
+              "description": "A 1-2 sentence simple description of what this medicine is typically used for in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.",
               "confidence": 95
             }
             
@@ -741,7 +773,7 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
                   "dosage": "Dosage (e.g., 500mg)",
                   "timing": "Timing/Frequency (e.g., Morning & Night, 1-0-1)",
                   "duration": "Duration (e.g., 5 days)",
-                  "purpose": "Inferred purpose or what it is usually for in ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'Tamil'}"
+                  "purpose": "Inferred purpose or what it is usually for in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}"
                 }
               ],
               "doctorNotes": "Any other advice or notes written by the doctor"

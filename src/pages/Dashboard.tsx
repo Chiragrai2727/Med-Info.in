@@ -68,6 +68,12 @@ export const Dashboard: React.FC = () => {
     trialDaysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
+  const getPlanName = (tier?: string) => {
+    if (!tier) return 'Premium';
+    if (tier === 'premium') return 'Premium';
+    return tier.charAt(0).toUpperCase() + tier.slice(1);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -178,7 +184,7 @@ export const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
                     <p className="text-sm text-blue-600 font-medium mb-1">{t('currentPlan')}</p>
-                    <p className="text-xl font-bold capitalize">{profile.subscriptionTier || 'Monthly'} Pro</p>
+                    <p className="text-xl font-bold">{getPlanName(profile.subscriptionTier)}</p>
                   </div>
                   <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
                     <p className="text-sm text-blue-600 font-medium mb-1">{t('validUntil')}</p>
@@ -205,7 +211,7 @@ export const Dashboard: React.FC = () => {
                 <h3 className="text-lg font-bold text-red-900 mb-2">{t('subscriptionExpired')}</h3>
                 <p className="text-red-700 mb-6 max-w-md mx-auto">
                   {t('subscriptionExpiredDesc')
-                    .replace('{tier}', profile.subscriptionTier || 'premium')
+                    .replace('{tier}', getPlanName(profile.subscriptionTier))
                     .replace('{date}', expiryDate?.toLocaleDateString() || '')}
                 </p>
                 <button 
@@ -297,7 +303,7 @@ export const Dashboard: React.FC = () => {
                             {new Date(payment.date).toLocaleDateString()}
                           </div>
                         </td>
-                        <td className="p-4 font-medium capitalize">{payment.tier}</td>
+                        <td className="p-4 font-medium">{getPlanName(payment.tier)}</td>
                         <td className="p-4 font-bold">₹{payment.amount.toFixed(2)}</td>
                         <td className="p-4">
                           <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${

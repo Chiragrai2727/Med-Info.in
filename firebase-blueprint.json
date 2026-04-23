@@ -9,8 +9,8 @@
         "email": { "type": "string", "format": "email" },
         "displayName": { "type": "string" },
         "photoURL": { "type": "string" },
-        "isPremium": { "type": "boolean", "description": "Whether the user has paid the ₹1 premium fee" },
-        "subscriptionTier": { "type": "string", "description": "none, daily, monthly, yearly" },
+        "isPremium": { "type": "boolean", "description": "Whether the user has an active premium subscription" },
+        "subscriptionTier": { "type": "string", "description": "none, premium, elite" },
         "subscriptionExpiry": { "type": "string", "format": "date-time" },
         "createdAt": { "type": "string", "format": "date-time" }
       },

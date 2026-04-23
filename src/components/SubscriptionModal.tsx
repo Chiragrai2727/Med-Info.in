@@ -18,7 +18,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
   const { user, profile, updateSubscription, openAuthModal } = useAuth();
   const { showToast } = useToast();
   const { t } = useLanguage();
-  const [selectedPlanId, setSelectedPlanId] = useState<string>('family');
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('premium');
   const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isOpen) return null;
@@ -47,7 +47,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          plan: selectedPlanId === 'annual' ? 'yearly' : 'monthly',
+          plan: 'monthly',
           planId: selectedPlanId
         })
       });
@@ -84,10 +84,9 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             if (verifyResult.success) {
               // 3. Update profile
               const expiryDate = new Date();
-              if (selectedPlanId === 'annual') expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-              else expiryDate.setMonth(expiryDate.getMonth() + 1);
+              expiryDate.setMonth(expiryDate.getMonth() + 1);
 
-              await updateSubscription(selectedPlanId === 'annual' ? 'yearly' : 'monthly', expiryDate.toISOString());
+              await updateSubscription(selectedPlanId, expiryDate.toISOString());
               
               // 4. Record payment history
               try {
@@ -143,7 +142,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
     }
   };
 
-  const planOptions = [PLANS.basic, PLANS.family, PLANS.annual];
+  const planOptions = [PLANS.basic, PLANS.premium];
 
   return (
     <AnimatePresence>
@@ -176,8 +175,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           </div>
 
           <div className="p-6 sm:p-8 overflow-y-auto flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
-              {planOptions.map((p) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-4">
+              {planOptions.map((p: any) => (
                 <div
                   key={p.id}
                   onClick={() => setSelectedPlanId(p.id)}

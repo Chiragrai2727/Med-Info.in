@@ -11,7 +11,7 @@ interface UpgradePromptProps {
 
 export const UpgradePrompt: React.FC<UpgradePromptProps> = ({ reason, featureName }) => {
   const [showPricing, setShowPricing] = React.useState(false);
-  const familyPlan = PLANS.family;
+  const premiumPlan = PLANS.premium;
 
   let title = '';
   let subtitle = '';
@@ -20,7 +20,7 @@ export const UpgradePrompt: React.FC<UpgradePromptProps> = ({ reason, featureNam
 
   switch (reason) {
     case 'limit_reached':
-      title = "You've used all 5 free scans.";
+      title = "You've used all 3 free scans.";
       subtitle = "Upgrade to keep understanding your health and digitizing prescriptions.";
       break;
     case 'rate_limited':
@@ -64,11 +64,11 @@ export const UpgradePrompt: React.FC<UpgradePromptProps> = ({ reason, featureNam
           {reason !== 'rate_limited' && (
             <div className="w-full md:w-80 bg-gray-50 rounded-xl p-6 border border-gray-200 shrink-0">
               <div className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-2">Most Popular</div>
-              <h4 className="font-bold text-gray-900 text-lg">{familyPlan.name} Plan</h4>
-              <div className="text-2xl font-bold text-gray-900 my-2">{familyPlan.price_display}<span className="text-sm text-gray-500 font-normal">/mo</span></div>
+              <h4 className="font-bold text-gray-900 text-lg">{premiumPlan.name}</h4>
+              <div className="text-2xl font-bold text-gray-900 my-2">{premiumPlan.price_display}<span className="text-sm text-gray-500 font-normal">/mo</span></div>
               
               <ul className="space-y-2 mt-4 mb-6">
-                {familyPlan.features.slice(0, 3).map((f: string, i: number) => (
+                {premiumPlan.features.slice(0, 3).map((f: string, i: number) => (
                   <li key={i} className="text-xs text-gray-600 flex items-start gap-2">
                     <span className="text-green-500 mt-0.5">✓</span>
                     <span className="leading-tight">{f}</span>
@@ -80,7 +80,7 @@ export const UpgradePrompt: React.FC<UpgradePromptProps> = ({ reason, featureNam
                 onClick={() => setShowPricing(true)}
                 className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm transition-colors shadow-sm"
               >
-                {familyPlan.cta}
+                {premiumPlan.cta}
               </button>
             </div>
           )}

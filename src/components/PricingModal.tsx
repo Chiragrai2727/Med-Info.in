@@ -18,6 +18,23 @@ declare global {
 export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) => {
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
   const { user, profile, openAuthModal, updateSubscription } = useAuth();
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+
+  const plans = [
+    {
+      ...PLANS.basic,
+      price_display: '₹0',
+      billing: null,
+    },
+    {
+      ...PLANS.premium,
+      price_display: billingCycle === 'monthly' ? '₹99' : '₹699',
+      billing: billingCycle === 'monthly' ? 'per month' : 'per year',
+      price_strikethrough: billingCycle === 'monthly' ? '₹199' : '₹948',
+      savings_amount: billingCycle === 'yearly' ? 'Save ₹489 Year' : null,
+      savings_percent: billingCycle === 'monthly' ? 'Save 50%' : 'Save 26%',
+    }
+  ];
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -28,7 +45,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
   }, [isOpen, onClose]);
 
   const handleCheckout = async (planId: string) => {
-    if (planId === 'free') {
+    if (planId === 'basic') {
       onClose();
       return;
     }
@@ -47,7 +64,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          plan: planId === 'annual' ? 'yearly' : 'monthly',
+          plan: billingCycle,
           planId: planId
         }),
       });
@@ -77,13 +94,9 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
             if (result.success) {
               // 4. Update user profile - calculate expiry
               const expiryDate = new Date();
-              if (planId === 'annual') {
-                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-              } else {
-                expiryDate.setMonth(expiryDate.getMonth() + 1);
-              }
+              expiryDate.setMonth(expiryDate.getMonth() + 1);
               
-              await updateSubscription(planId === 'annual' ? 'yearly' : 'monthly', expiryDate.toISOString());
+              await updateSubscription(planId, expiryDate.toISOString());
               
               alert("Payment successful! You are now a Premium member.");
               onClose();
@@ -154,13 +167,39 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
               No hidden fees. Understand your health and manage your family's care with confidence.
             </p>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
-              <Star className="w-4 h-4 fill-current" /> 14-Day Free Trial Available
+            <div className="flex flex-col items-center gap-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
+                <Star className="w-4 h-4 fill-current" /> 14-Day Free Trial Available
+              </div>
+
+              {/* Toggle */}
+              <div className="bg-gray-100 p-1 rounded-xl flex items-center relative w-64">
+                <button 
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`flex-1 py-2 text-xs font-black uppercase tracking-widest transition-all relative z-10 ${
+                    billingCycle === 'monthly' ? 'text-white' : 'text-gray-400'
+                  }`}
+                >
+                  Monthly
+                </button>
+                <button 
+                  onClick={() => setBillingCycle('yearly')}
+                  className={`flex-1 py-2 text-xs font-black uppercase tracking-widest transition-all relative z-10 ${
+                    billingCycle === 'yearly' ? 'text-white' : 'text-gray-400'
+                  }`}
+                >
+                  Yearly
+                </button>
+                <motion.div 
+                  className="absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-gray-900 rounded-lg shadow-sm"
+                  animate={{ x: billingCycle === 'monthly' ? 0 : '100%' }}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Object.values(PLANS).map((plan, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {plans.map((plan: any, i) => (
               <motion.div
                 key={plan.id}
                 initial={{ opacity: 0, y: 20 }}

@@ -26,12 +26,17 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
 
   if (imageError) {
     return (
-      <div className={`flex items-center gap-2 font-black tracking-tighter text-black ${className}`}>
-        <div className={`bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg ${size === 'sm' ? 'p-1' : 'p-2'}`}>
-          <ShieldCheck className={iconSizes[size]} />
-        </div>
-        {showText && <span className={sizeClasses[size].split(' ')[1]}>Aethelcare</span>}
+    <div className={`flex items-center gap-2 font-black tracking-tighter text-black ${className}`}>
+      <div className={`bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-xl ${size === 'sm' ? 'p-1.5' : 'p-2.5'}`}>
+        <ShieldCheck className={iconSizes[size]} />
       </div>
+      {showText && (
+        <div className="flex flex-col leading-none">
+          <span className={sizeClasses[size].split(' ')[1]}>Aethelcare</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 ml-1">India</span>
+        </div>
+      )}
+    </div>
     );
   }
 

@@ -33,14 +33,10 @@ async function startServer() {
       let amount = 0;
 
       // Prices based on plans.ts
-      if (planId === "basic") {
-        amount = plan === "yearly" ? 799 : 99;
-      } else if (planId === "family") {
-        amount = plan === "yearly" ? 1999 : 249;
-      } else if (planId === "clinic") {
-        amount = plan === "yearly" ? 7999 : 999;
+      if (planId === "premium") {
+        amount = plan === "yearly" ? 699 : 99;
       } else if (plan === "daily") {
-        amount = 99; // Legacy daily plan support
+        amount = 9; // Legacy daily support
       } else {
         return res.status(400).json({ error: "Invalid plan or planId" });
       }

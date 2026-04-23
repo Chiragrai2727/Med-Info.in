@@ -57,7 +57,8 @@ export const ScannerPage: React.FC = () => {
   const navigate = useNavigate();
 
   // Tier logic
-  const isPremium = profile?.isPremium === true || profile?.role === 'admin';
+  const isTrialActive = profile?.trialClaimed && profile?.trialEndsAt && new Date(profile.trialEndsAt) > new Date();
+  const isPremium = profile?.isPremium === true || profile?.role === 'admin' || isTrialActive;
   
   // States
   const [activeTab, setActiveTab] = useState<ScanTab>('medicine');
@@ -124,10 +125,25 @@ export const ScannerPage: React.FC = () => {
   const handleTesseractScan = async (file: File) => {
     setLoadingMsg("Scanning with Basic AI... (75-80% accuracy)");
     
+    // Add a safety timeout for OCR
+    const timeout = setTimeout(() => {
+      if (loading) {
+        setLoading(false);
+        setError("Scanning is taking longer than expected. Please try again with a clearer photo.");
+      }
+    }, 45000); // 45s safety net
+    
     try {
-      const worker = await createWorker('eng');
+      const worker = await createWorker('eng', 1, {
+        logger: m => {
+          if (m.status === 'recognizing text') {
+            setLoadingMsg(`Scanning... ${Math.round(m.progress * 100)}%`);
+          }
+        }
+      });
       const { data: { text } } = await worker.recognize(file);
       await worker.terminate();
+      clearTimeout(timeout);
 
       // Simple parsing
       const extractedText = text.toLowerCase();
@@ -179,13 +195,17 @@ export const ScannerPage: React.FC = () => {
     setLoadingMsg("Scanning with Advanced AI... (99% accuracy)");
 
     try {
-      const base64Data = await new Promise<string>((resolve) => {
+      const base64Data = await new Promise<string>((resolve, reject) => {
         const r = new FileReader();
         r.onload = () => resolve((r.result as string).split(',')[1]);
+        r.onerror = () => reject(new Error("Failed to read image file"));
         r.readAsDataURL(file);
       });
 
       const apiKey = process.env.GEMINI_API_KEY || "";
+      if (!apiKey) {
+        throw new Error("AI Service configuration missing. Please report this to support.");
+      }
       const ai = new GoogleGenAI({ apiKey });
 
       const promptText = `Parse this ${activeTab} document for an Indian healthcare context.
@@ -477,7 +497,7 @@ export const ScannerPage: React.FC = () => {
                  </div>
                  <div className="pr-12">
                    <p className="font-bold text-sm">Handwritten prescription?</p>
-                   <p className="text-blue-300 text-xs font-medium">Basic scan may miss details. Family Plan reads any handwriting — ₹79/month</p>
+                   <p className="text-blue-300 text-xs font-medium">Basic scan may miss details. Premium Plan reads any handwriting — ₹99/month</p>
                  </div>
                </div>
                <div className="flex flex-col items-end gap-2 shrink-0">
@@ -528,7 +548,7 @@ export const ScannerPage: React.FC = () => {
                     <p className="font-bold">
                       {isPremium 
                         ? '100% Precise: 99% Accuracy achieved using Advanced AI' 
-                        : 'Basic scan complete. Upgrade to Family Plan for 99% accuracy and handwriting support.'}
+                        : 'Basic scan complete. Upgrade to Premium Plan for 99% accuracy and handwriting support.'}
                     </p>
                   </div>
                 </div>
@@ -546,7 +566,7 @@ export const ScannerPage: React.FC = () => {
                 <div className="bg-slate-900 text-white p-5 rounded-2xl flex items-center gap-4 shadow-xl">
                   <Info className="w-6 h-6 text-blue-400 shrink-0" />
                   <p className="text-sm font-bold">
-                    Reading printed prescription... For handwritten prescriptions, <span className="text-blue-400">upgrade to Family Plan</span>.
+                    Reading printed prescription... For handwritten prescriptions, <span className="text-blue-400">upgrade to Premium Plan</span>.
                   </p>
                 </div>
               )}

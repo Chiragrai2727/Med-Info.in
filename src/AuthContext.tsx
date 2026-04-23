@@ -11,7 +11,7 @@ interface UserProfile {
   displayName: string;
   photoURL: string;
   isPremium: boolean;
-  subscriptionTier?: 'none' | 'daily' | 'monthly' | 'yearly';
+  subscriptionTier?: string;
   subscriptionExpiry?: string;
   createdAt: string;
   role: 'user' | 'admin';
@@ -32,7 +32,7 @@ interface AuthContextType {
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
   upgradeToPremium: () => Promise<void>;
-  updateSubscription: (tier: 'daily' | 'monthly' | 'yearly', expiry: string) => Promise<void>;
+  updateSubscription: (tier: string, expiry: string) => Promise<void>;
   isAuthModalOpen: boolean;
   openAuthModal: () => void;
   closeAuthModal: () => void;
@@ -86,20 +86,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             // Auto-demote unauthorized admins (fixes issue where users manually got admin tag somehow)
             if (currentUser.email !== 'aethelcare.help@gmail.com' && profileData.role === 'admin') {
               profileData = { ...profileData, role: 'user' };
-              needsUpdate = true;
-            }
-
-            // Auto-migration for existing premium users who paid 79rs but lack subscription details
-            if (profileData.isPremium && !profileData.subscriptionTier) {
-              const createdAtDate = new Date(profileData.createdAt || Date.now());
-              const expiryDate = new Date(createdAtDate);
-              expiryDate.setMonth(expiryDate.getMonth() + 1); // Default to 1 month for existing users
-              
-              profileData = {
-                ...profileData,
-                subscriptionTier: 'monthly',
-                subscriptionExpiry: expiryDate.toISOString()
-              };
               needsUpdate = true;
             }
 
@@ -276,7 +262,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const updateSubscription = async (tier: 'daily' | 'monthly' | 'yearly', expiry: string) => {
+  const updateSubscription = async (tier: string, expiry: string) => {
     if (user && profile) {
       const userRef = doc(db, 'users', user.uid);
       try {
