@@ -20,6 +20,7 @@ interface UserProfile {
   trialStartedAt?: string;
   trialEndsAt?: string;
   trialExpiredSmsSent?: boolean;
+  migratedToNewPremiumReset?: boolean;
 }
 
 interface AuthContextType {
@@ -89,9 +90,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               needsUpdate = true;
             }
 
-            // Auto-demote legacy users who accidentally have premium without an expiry date
-            if (profileData.isPremium && !profileData.subscriptionExpiry && profileData.role !== 'admin') {
-              profileData = { ...profileData, isPremium: false };
+            // Force reset premium state for legacy users as requested (start everyone on basic from now on)
+            if (profileData.isPremium && !profileData.migratedToNewPremiumReset) {
+              profileData = { 
+                ...profileData, 
+                isPremium: false, 
+                subscriptionExpiry: undefined,
+                subscriptionTier: 'basic',
+                migratedToNewPremiumReset: true 
+              };
+              needsUpdate = true;
+            } else if (!profileData.migratedToNewPremiumReset) {
+              profileData = { ...profileData, migratedToNewPremiumReset: true };
               needsUpdate = true;
             }
 

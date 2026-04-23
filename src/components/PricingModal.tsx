@@ -60,7 +60,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
 
     try {
       // 1. Create order on server
-      const response = await fetch('/api/create-order', {
+      const response = await fetch('/.netlify/functions/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -89,7 +89,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         handler: async function (response: any) {
           try {
             // 3. Verify payment on server
-            const verifyRes = await fetch('/api/verify-payment', {
+            const verifyRes = await fetch('/.netlify/functions/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(response),

@@ -37,7 +37,7 @@ export const Pricing: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/api/create-order', {
+      const response = await fetch('/.netlify/functions/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export const Pricing: React.FC = () => {
         description: `Upgrade to ${planId.toUpperCase()} Plan`,
         order_id: data.order.id,
         handler: async function (response: any) {
-          const verifyRes = await fetch('/api/verify-payment', {
+          const verifyRes = await fetch('/.netlify/functions/verify-payment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

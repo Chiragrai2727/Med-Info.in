@@ -43,7 +43,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
 
     try {
       // 1. Create order on server
-      const orderResponse = await fetch('/api/create-order', {
+      const orderResponse = await fetch('/.netlify/functions/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -69,7 +69,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
         handler: async function (response: any) {
           try {
             // 2. Verify payment on server
-            const verifyResponse = await fetch('/api/verify-payment', {
+            const verifyResponse = await fetch('/.netlify/functions/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(response)
