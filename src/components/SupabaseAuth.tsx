@@ -20,14 +20,16 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
     const { error } = await supabase.auth.signInWithOtp({ 
       email,
       options: {
-        // Only set this if you want to restrict to specific origins, 
-        // otherwise let Supabase handle redirect
         shouldCreateUser: true
       }
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message.includes("Invalid path") || error.message.includes("URL")) {
+        setError("Configuration Error: The VITE_SUPABASE_URL provided is invalid. Make sure it is your exactly API URL (e.g. https://xyz.supabase.co) and not your Dashboard URL. Also make sure to set it in AI Studio settings, not just Netlify!");
+      } else {
+        setError(error.message);
+      }
     } else {
       setStep('otp');
     }
@@ -52,45 +54,11 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
     }
 
     if (authData.user) {
-      // Setup Trial logic on successful OTP verification (Part 2)
-      try {
-        // Check if user row already exists
-        const { data: existingUser } = await supabase
-          .from('users')
-          .select('id')
-          .eq('id', authData.user.id)
-          .single();
-
-        if (!existingUser) {
-          // Calculate trial dates
-          const now = new Date();
-          const trialEnd = new Date(now);
-          trialEnd.setDate(now.getDate() + 14);
-
-          // Insert new user row with premium trial
-          const { error: insertError } = await supabase
-            .from('users')
-            .insert({
-              id: authData.user.id,
-              email: authData.user.email,
-              plan: 'premium',
-              trial_start: now.toISOString(),
-              trial_end: trialEnd.toISOString()
-            });
-
-          if (insertError) {
-            console.error('Failed to create user row:', insertError);
-          }
-        }
-        
-        if (onSuccess) {
-          onSuccess();
-        } else {
-          // Alternatively, redirect to homepage
-          window.location.href = '/';
-        }
-      } catch (err) {
-        console.error('Setup error:', err);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        // Alternatively, redirect to homepage
+        window.location.href = '/';
       }
     }
     
@@ -99,9 +67,12 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
 
   return (
     <div className="max-w-md w-full mx-auto p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-        Claim Free 14-Day Trial
+      <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+        Welcome
       </h2>
+      <p className="text-gray-500 text-sm text-center mb-6">
+        Sign in or create a new account to continue.
+      </p>
       
       {error && (
         <div className="p-3 mb-4 text-sm text-red-600 bg-red-50 rounded-xl">
@@ -127,7 +98,7 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
             disabled={loading}
             className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 disabled:opacity-50 transition-colors"
           >
-            {loading ? 'Sending Code...' : 'Send Login Code'}
+            {loading ? 'Sending Code...' : 'Send Login/Signup Code'}
           </button>
         </form>
       ) : (

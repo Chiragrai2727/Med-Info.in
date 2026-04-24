@@ -50,13 +50,38 @@ export function useUser() {
     setIsLoading(true);
     try {
       // Fetch user profile from public.users table
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (error) throw error;
+      // If user does not exist yet (PGRST116), create them and grant the 14-day premium trial
+      if (error && error.code === 'PGRST116') {
+        const now = new Date();
+        const trialEnd = new Date(now);
+        trialEnd.setDate(now.getDate() + 14);
+
+        const { data: { user: sessionUserObj } } = await supabase.auth.getUser();
+
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .upsert({
+            id: userId,
+            email: sessionUserObj?.email || '',
+            plan: 'premium',
+            trial_start: now.toISOString(),
+            trial_end: trialEnd.toISOString()
+          }, { onConflict: 'id' })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+        data = newUser;
+        error = null;
+      } else if (error) {
+        throw error;
+      }
 
       let currentData = data as UserData;
 
@@ -89,8 +114,9 @@ export function useUser() {
   };
 
   // Calculate derived state
-  const isPremium = userData?.plan === 'premium';
-  const scansRemaining = Math.max(0, 3 - (userData?.scan_count || 0));
+  const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(userData?.email || '');
+  const isPremium = isAdmin || userData?.plan === 'premium';
+  const scansRemaining = isAdmin ? 9999 : Math.max(0, 3 - (userData?.scan_count || 0));
   
   let trialDaysLeft = 0;
   if (userData?.trial_end) {

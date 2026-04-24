@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
+import { initializeFirestore, getFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
 import firebaseAppletConfig from '../firebase-applet-config.json';
 
 // Allow overriding with environment variables for production (Netlify/Vercel)
@@ -16,7 +16,7 @@ const firebaseConfig = {
   firestoreDatabaseId: import.meta.env.VITE_FIREBASE_DATABASE_ID || firebaseAppletConfig.firestoreDatabaseId
 };
 
-const app = initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 
 // Initialize Firestore. If databaseId is "(default)", omit it from the initialization call
@@ -25,8 +25,17 @@ const firestoreSettings = {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 };
 
-export const db = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)"
-  ? initializeFirestore(app, firestoreSettings, firebaseConfig.firestoreDatabaseId)
-  : initializeFirestore(app, firestoreSettings);
+let dbInstance;
+try {
+  dbInstance = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)"
+    ? initializeFirestore(app, firestoreSettings, firebaseConfig.firestoreDatabaseId)
+    : initializeFirestore(app, firestoreSettings);
+} catch (e) {
+  dbInstance = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)"
+    ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
+    : getFirestore(app);
+}
+
+export const db = dbInstance;
 
 export const googleProvider = new GoogleAuthProvider();

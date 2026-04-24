@@ -40,7 +40,7 @@ import indexData from "../data/index.json";
 import categoriesData from "../data/categories.json";
 import diseasesData from "../data/diseases.json";
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from 'firebase/firestore';
-import { db, auth } from './firebase';
+import { db, auth } from '../firebase';
 
 const getAIClient = (): GoogleGenAI => {
   const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";

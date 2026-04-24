@@ -15,7 +15,7 @@ export async function checkAndIncrementScan(userId: string): Promise<{
     // 1. Read user's current stats
     const { data: user, error: fetchError } = await supabase
       .from('users')
-      .select('plan, scan_count, scan_month')
+      .select('plan, scan_count, scan_month, email')
       .eq('id', userId)
       .single();
 
@@ -23,6 +23,8 @@ export async function checkAndIncrementScan(userId: string): Promise<{
       console.error('Failed to fetch user scan stats:', fetchError);
       return { allowed: false, reason: 'error_fetching_user' };
     }
+
+    const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(user.email || '');
 
     const currentMonth = new Date().toISOString().slice(0, 7); // e.g. "2026-04"
     let currentCount = user.scan_count || 0;
@@ -36,8 +38,8 @@ export async function checkAndIncrementScan(userId: string): Promise<{
         .eq('id', userId);
     }
 
-    // 3. Premium tier gets unlimited scans
-    if (user.plan === 'premium') {
+    // 3. Premium tier and admins get unlimited scans
+    if (user.plan === 'premium' || isAdmin) {
       return { allowed: true, isPremium: true };
     }
 
