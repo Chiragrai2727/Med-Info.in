@@ -114,9 +114,17 @@ export function useUser() {
   };
 
   // Calculate derived state
-  const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(userData?.email || '');
+  const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
   const isPremium = isAdmin || userData?.plan === 'premium';
-  const scansRemaining = isAdmin ? 9999 : Math.max(0, 3 - (userData?.scan_count || 0));
+  
+  // Calculate scans remaining today
+  let scansRemaining = 3;
+  if (isAdmin || isPremium) {
+    scansRemaining = 9999;
+  } else if (userData?.scan_count !== undefined) {
+    // If the scan_month effectively acts as scan_day now or we reset daily using scanLogic
+    scansRemaining = Math.max(0, 3 - userData.scan_count);
+  }
   
   let trialDaysLeft = 0;
   if (userData?.trial_end) {

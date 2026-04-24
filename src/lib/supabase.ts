@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 
 // Use import.meta.env for Vite instead of process.env (Next.js)
 const rawUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseUrl = rawUrl.trim().replace(/\/$/, '');
+// Strip trailing slashes, /rest/v1, or /auth/v1 paths if user accidentally pasted them
+const supabaseUrl = rawUrl.trim().replace(/\/(rest|auth)\/v\d+\/?$/, '').replace(/\/$/, '');
 const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder_key').trim();
 
 // Browser client for general usage

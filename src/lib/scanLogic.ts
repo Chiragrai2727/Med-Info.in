@@ -24,17 +24,17 @@ export async function checkAndIncrementScan(userId: string): Promise<{
       return { allowed: false, reason: 'error_fetching_user' };
     }
 
-    const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(user.email || '');
+    const isAdmin = ['aethelcare.help@gmail.com'].includes(user.email || '');
 
-    const currentMonth = new Date().toISOString().slice(0, 7); // e.g. "2026-04"
+    const currentDay = new Date().toISOString().slice(0, 10); // e.g. "2026-04-24"
     let currentCount = user.scan_count || 0;
     
-    // 2. Check if we need to reset the counter for a new month
-    if (user.scan_month !== currentMonth) {
+    // 2. Check if we need to reset the counter for a new day
+    if (user.scan_month !== currentDay) {
       currentCount = 0;
       await supabase
         .from('users')
-        .update({ scan_count: 0, scan_month: currentMonth })
+        .update({ scan_count: 0, scan_month: currentDay })
         .eq('id', userId);
     }
 
@@ -52,7 +52,7 @@ export async function checkAndIncrementScan(userId: string): Promise<{
     const newCount = currentCount + 1;
     const { error: updateError } = await supabase
       .from('users')
-      .update({ scan_count: newCount, scan_month: currentMonth })
+      .update({ scan_count: newCount, scan_month: currentDay })
       .eq('id', userId);
 
     if (updateError) {
