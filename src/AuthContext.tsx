@@ -79,7 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             let needsUpdate = false;
             
             // Auto-migration for admin role
-            const adminEmails = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'];
+            const adminEmails = ['aethelcare.help@gmail.com'];
             if (adminEmails.includes(currentUser.email!) && profileData.role !== 'admin') {
               profileData = { ...profileData, role: 'admin' };
               needsUpdate = true;
@@ -126,7 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               photoURL: currentUser.photoURL || '',
               isPremium: false,
               createdAt: new Date().toISOString(),
-              role: ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(currentUser.email!) ? 'admin' : 'user'
+              role: ['aethelcare.help@gmail.com'].includes(currentUser.email!) ? 'admin' : 'user'
             };
             try {
               await setDoc(userRef, newProfile);

@@ -122,8 +122,13 @@ export function useUser() {
   if (isAdmin || isPremium) {
     scansRemaining = 9999;
   } else if (userData?.scan_count !== undefined) {
-    // If the scan_month effectively acts as scan_day now or we reset daily using scanLogic
-    scansRemaining = Math.max(0, 3 - userData.scan_count);
+    const currentDay = new Date().toISOString().slice(0, 10);
+    // If scan_month (which is now day) is different, they have full 3 scans
+    if (userData.scan_month !== currentDay) {
+      scansRemaining = 3;
+    } else {
+      scansRemaining = Math.max(0, 3 - userData.scan_count);
+    }
   }
   
   let trialDaysLeft = 0;

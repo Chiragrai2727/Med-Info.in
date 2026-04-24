@@ -116,7 +116,7 @@ export const ScannerPage: React.FC = () => {
     const quotaResult = await checkAndIncrementScan(user.id);
     
     if (!quotaResult.allowed) {
-      setError("Monthly scan limit reached. Please upgrade to Premium or wait until next month.");
+      setError("Daily scan limit reached. Please upgrade to Premium or wait until tomorrow.");
       setLoading(false);
       return;
     }
