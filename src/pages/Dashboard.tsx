@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { db } from '../firebase';
-import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
-import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useLanguage } from '../LanguageContext';
 import { PhoneTrialSetup } from '../components/PhoneTrialSetup';
 
@@ -29,15 +27,24 @@ export const Dashboard: React.FC = () => {
     const fetchPayments = async () => {
       if (!user) return;
       try {
-        const q = query(collection(db, 'users', user.uid, 'payments'), orderBy('date', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const fetchedPayments: PaymentRecord[] = [];
-        querySnapshot.forEach((doc) => {
-          fetchedPayments.push({ id: doc.id, ...doc.data() } as PaymentRecord);
-        });
-        setPayments(fetchedPayments);
+        const { data, error } = await supabase
+          .from('payments')
+          .select('*')
+          .eq('user_id', user.uid)
+          .order('date', { ascending: false });
+
+        if (error) {
+          // If table doesn't exist yet, we just show empty
+          if (error.code === '42P01') {
+            setPayments([]);
+          } else {
+            throw error;
+          }
+        } else {
+          setPayments(data || []);
+        }
       } catch (error) {
-        handleFirestoreError(error, OperationType.LIST, `users/${user.uid}/payments`);
+        console.error('Error fetching payments:', error);
       } finally {
         setLoading(false);
       }

@@ -13,8 +13,7 @@ service cloud.firestore {
     function isSignedIn() { return request.auth != null; }
     function isAdmin() { 
       return isSignedIn() && (
-        request.auth.token.email == 'aethelcare.help@gmail.com' ||
-        request.auth.token.email == 'raisahab2727@gmail.com'
+        request.auth.token.email == 'aethelcare.help@gmail.com'
       ); 
     }
     function isValidId(id) { 

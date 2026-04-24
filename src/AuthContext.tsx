@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db, googleProvider } from './firebase';
-import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
-import { sendWelcomeEmail } from './services/emailService';
+import { supabase } from './lib/supabase';
+import { User } from '@supabase/supabase-js';
 
+// Define the profile schema to match our existing UI expectations
 interface UserProfile {
   uid: string;
   email: string;
@@ -19,12 +17,10 @@ interface UserProfile {
   trialClaimed?: boolean;
   trialStartedAt?: string;
   trialEndsAt?: string;
-  trialExpiredSmsSent?: boolean;
-  migratedToNewPremiumReset?: boolean;
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: any; // Using any for compatibility with existing components
   profile: UserProfile | null;
   loading: boolean;
   isOffline: boolean;
@@ -41,8 +37,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const ADMIN_EMAILS = ['aethelcare.help@gmail.com'];
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -54,108 +52,89 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
     const handleOffline = () => setIsOffline(true);
-
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log('Auth state changed:', currentUser ? 'User logged in' : 'User logged out');
-      if (currentUser) {
-        setUser(currentUser);
-        // Try to fetch profile from Firestore (works offline too due to persistence)
-        const userRef = doc(db, 'users', currentUser.uid);
-        try {
-          const userSnap = await getDoc(userRef);
-          
-          if (userSnap.exists()) {
-            let profileData = userSnap.data() as UserProfile;
-            let needsUpdate = false;
-            
-            // Auto-migration for admin role
-            const adminEmails = ['aethelcare.help@gmail.com'];
-            if (adminEmails.includes(currentUser.email!) && profileData.role !== 'admin') {
-              profileData = { ...profileData, role: 'admin' };
-              needsUpdate = true;
-            }
+  const fetchProfileData = async (supabaseUser: User) => {
+    try {
+      // Fetch from Supabase 'users' table
+      let { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', supabaseUser.id)
+        .single();
 
-            // Auto-demote unauthorized admins (fixes issue where users manually got admin tag somehow)
-            if (!adminEmails.includes(currentUser.email!) && profileData.role === 'admin') {
-              profileData = { ...profileData, role: 'user' };
-              needsUpdate = true;
-            }
+      if (error && error.code === 'PGRST116') {
+        // User not found in 'users' table, create a default entry
+        const now = new Date();
+        const trialEnd = new Date(now);
+        trialEnd.setDate(now.getDate() + 14);
 
-            // Force reset premium state for legacy users as requested (start everyone on basic from now on)
-            if (profileData.isPremium && !profileData.migratedToNewPremiumReset) {
-              profileData = { 
-                ...profileData, 
-                isPremium: false, 
-                subscriptionExpiry: undefined,
-                subscriptionTier: 'basic',
-                migratedToNewPremiumReset: true 
-              };
-              needsUpdate = true;
-            } else if (!profileData.migratedToNewPremiumReset) {
-              profileData = { ...profileData, migratedToNewPremiumReset: true };
-              needsUpdate = true;
-            }
+        const newUserData = {
+          id: supabaseUser.id,
+          email: supabaseUser.email || '',
+          plan: 'premium',
+          trial_start: now.toISOString(),
+          trial_end: trialEnd.toISOString()
+        };
 
-            if (needsUpdate) {
-              try {
-                await setDoc(userRef, profileData, { merge: true });
-              } catch (e) {
-                console.error('Failed to auto-migrate user profile', e);
-              }
-            }
-
-            setProfile(profileData);
-            // Cache profile locally for offline access
-            localStorage.setItem(`profile_${currentUser.uid}`, JSON.stringify(profileData));
-          } else {
-            console.log('No profile found, creating one...');
-            const newProfile: UserProfile = {
-              uid: currentUser.uid,
-              email: currentUser.email || '',
-              displayName: currentUser.displayName || '',
-              photoURL: currentUser.photoURL || '',
-              isPremium: false,
-              createdAt: new Date().toISOString(),
-              role: ['aethelcare.help@gmail.com'].includes(currentUser.email!) ? 'admin' : 'user'
-            };
-            try {
-              await setDoc(userRef, newProfile);
-              localStorage.setItem(`profile_${currentUser.uid}`, JSON.stringify(newProfile));
-              setProfile(newProfile);
-              
-              // Send the welcome email
-              if (newProfile.email) {
-                sendWelcomeEmail({
-                  to_email: newProfile.email,
-                  to_name: newProfile.displayName || newProfile.email.split('@')[0]
-                });
-              }
-            } catch (error) {
-              console.error('Error creating profile:', error);
-              // Don't throw here, just log. This prevents the ErrorBoundary from triggering
-              // if the user is just setting up their Firebase project.
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching profile:', error);
-          // If Firestore fails (e.g. truly offline and not cached yet), try local storage
-          const cachedProfile = localStorage.getItem(`profile_${currentUser.uid}`);
-          if (cachedProfile) {
-            setProfile(JSON.parse(cachedProfile));
-          }
-          // Log the error but don't throw to prevent app crash
-          console.warn('Firestore profile fetch failed. Check your Firebase configuration and authorized domains.');
+        const { data: created, error: insertError } = await supabase
+          .from('users')
+          .upsert(newUserData)
+          .select()
+          .single();
+        
+        if (!insertError) {
+          data = created;
         }
+      }
+
+      if (data) {
+        const isAdmin = ADMIN_EMAILS.includes(supabaseUser.email || '');
+        const mappedProfile: UserProfile = {
+          uid: supabaseUser.id,
+          email: supabaseUser.email || '',
+          displayName: supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || 'User',
+          photoURL: supabaseUser.user_metadata?.avatar_url || '',
+          isPremium: isAdmin || data.plan === 'premium',
+          subscriptionTier: data.plan,
+          subscriptionExpiry: data.trial_end,
+          createdAt: data.created_at || new Date().toISOString(),
+          role: isAdmin ? 'admin' : 'user',
+          trialClaimed: !!data.trial_start,
+          trialStartedAt: data.trial_start,
+          trialEndsAt: data.trial_end
+        };
+        setProfile(mappedProfile);
+      }
+    } catch (err) {
+      console.error('Error fetching Supabase user profile:', err);
+    }
+  };
+
+  useEffect(() => {
+    // 1. Initial Session check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        // Normalize for components expecting Firebase structure (uid key)
+        const normalized = { ...session.user, uid: session.user.id };
+        setUser(normalized);
+        fetchProfileData(session.user);
+      }
+      setLoading(false);
+    });
+
+    // 2. Continuous Listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        const normalized = { ...session.user, uid: session.user.id };
+        setUser(normalized);
+        await fetchProfileData(session.user);
       } else {
         setUser(null);
         setProfile(null);
@@ -163,133 +142,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
 
   const signInWithGoogle = async () => {
-    if (isOffline) {
-      throw new Error('Google Sign-In is not available offline.');
-    }
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
-      throw error;
-    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin }
+    });
+    if (error) throw error;
   };
 
-  const signInWithEmail = async (email: string, pass: string, rememberMe: boolean = false) => {
-    if (isOffline) {
-      // Offline Sign-In Logic
-      const savedCreds = localStorage.getItem('offline_creds');
-      if (savedCreds) {
-        const creds = JSON.parse(savedCreds);
-        const userCreds = creds[email.toLowerCase()];
-        
-        // Simple obfuscation check (Base64)
-        if (userCreds && btoa(pass) === userCreds.password) {
-          // Mock a user object for offline mode
-          const mockUser = {
-            uid: userCreds.uid,
-            email: email,
-            displayName: userCreds.displayName,
-            photoURL: '',
-          } as User;
-          
-          setUser(mockUser);
-          
-          const cachedProfile = localStorage.getItem(`profile_${userCreds.uid}`);
-          if (cachedProfile) {
-            setProfile(JSON.parse(cachedProfile));
-          }
-          return;
-        }
-      }
-      throw new Error('Invalid credentials or no offline data found for this user.');
-    }
-
-    // Online Sign-In
-    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-    
-    if (rememberMe && userCredential.user) {
-      // Save credentials for offline use
-      const savedCreds = localStorage.getItem('offline_creds') || '{}';
-      const creds = JSON.parse(savedCreds);
-      creds[email.toLowerCase()] = {
-        password: btoa(pass), // Obfuscated
-        uid: userCredential.user.uid,
-        displayName: userCredential.user.displayName
-      };
-      localStorage.setItem('offline_creds', JSON.stringify(creds));
-    }
+  const signInWithEmail = async (email: string, pass: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+    if (error) throw error;
   };
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
-    if (isOffline) {
-      throw new Error('Cannot create account while offline.');
-    }
-    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    if (userCredential.user) {
-      await updateProfile(userCredential.user, { displayName: name });
-      
-      const userRef = doc(db, 'users', userCredential.user.uid);
-      const newProfile: UserProfile = {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email || email,
-        displayName: name,
-        photoURL: userCredential.user.photoURL || '',
-        isPremium: false,
-        createdAt: new Date().toISOString(),
-        role: 'user'
-      };
-
-      try {
-        await setDoc(userRef, newProfile, { merge: true });
-        localStorage.setItem(`profile_${userCredential.user.uid}`, JSON.stringify(newProfile));
-      } catch (error) {
-        handleFirestoreError(error, OperationType.UPDATE, `users/${userCredential.user.uid}`);
-      }
-
-      setUser({ ...userCredential.user, displayName: name } as User);
-      setProfile(newProfile);
-    }
+    const { error } = await supabase.auth.signUp({ 
+      email, 
+      password: pass,
+      options: { data: { full_name: name } }
+    });
+    if (error) throw error;
   };
 
   const logout = async () => {
-    try {
-      await signOut(auth);
-      // Optional: Clear offline creds on logout if you want strict security
-      // localStorage.removeItem('offline_creds');
-    } catch (error) {
-      console.error("Error signing out", error);
-    }
+    await supabase.auth.signOut();
   };
 
   const upgradeToPremium = async () => {
-    if (user && profile) {
-      const userRef = doc(db, 'users', user.uid);
-      try {
-        await setDoc(userRef, { isPremium: true }, { merge: true });
-        const updatedProfile = { ...profile, isPremium: true };
-        setProfile(updatedProfile);
-        localStorage.setItem(`profile_${user.uid}`, JSON.stringify(updatedProfile));
-      } catch (error) {
-        handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
-      }
+    if (user) {
+      await supabase.from('users').update({ plan: 'premium' }).eq('id', user.id);
+      if (profile) setProfile({ ...profile, isPremium: true, subscriptionTier: 'premium' });
     }
   };
 
   const updateSubscription = async (tier: string, expiry: string) => {
-    if (user && profile) {
-      const userRef = doc(db, 'users', user.uid);
-      try {
-        const updatedProfile = { ...profile, subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true };
-        await setDoc(userRef, updatedProfile);
-        setProfile(updatedProfile);
-        localStorage.setItem(`profile_${user.uid}`, JSON.stringify(updatedProfile));
-      } catch (error) {
-        handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
-      }
+    if (user) {
+      await supabase.from('users').update({ plan: tier, trial_end: expiry }).eq('id', user.id);
+      if (profile) setProfile({ ...profile, subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
     }
   };
 
