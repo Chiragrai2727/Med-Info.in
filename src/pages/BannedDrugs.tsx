@@ -68,8 +68,25 @@ export const BannedDrugs: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
       <Helmet>
-        <title>Banned Medicines in India 2026 — CDSCO Banned Drug List | Aethelcare</title>
-        <meta name="description" content="Check if your medicine is banned in India. Search 300+ CDSCO-banned drugs instantly. Updated monthly. Free to use." />
+        <title>Banned Medicines in India 2026 — Latest CDSCO Banned Drug List</title>
+        <meta name="description" content="Search the complete registry of 300+ drugs banned by CDSCO in India. Check if your medicines are safe or prohibited. Verified medical safety information." />
+        <meta name="keywords" content="banned drugs list India 2026, CDSCO banned medicines, prohibited drugs India, nimesulide ban India, medicine safety scanner" />
+        <link rel="canonical" href="https://aethelcare.xyz/banned-drugs" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "MedicalGuideline",
+              "name": "CDSCO Banned Medicines List India",
+              "guidelineSubject": "Prohibited Medications in India",
+              "creator": {
+                "@type": "Organization",
+                "name": "CDSCO"
+              },
+              "datePublished": "2026-04-25"
+            }
+          `}
+        </script>
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

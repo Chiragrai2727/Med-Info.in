@@ -5,12 +5,19 @@ import * as Icons from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 export const Conditions: React.FC = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
+      <Helmet>
+        <title>Medicines for Common Health Conditions - Aethelcare</title>
+        <meta name="description" content="Browse medicines by health conditions like fever, cough, diabetes, and more. Understand common treatments and pharmaceutical guidance for various ailments." />
+        <meta name="keywords" content="medicines for fever, medicines for diabetes, cough syrup list India, medical conditions and treatments" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 mb-12">
           <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shadow-xl">

@@ -272,11 +272,26 @@ export const MedicineDetail: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 pt-[calc(10rem+env(safe-area-inset-top))]">
       <Helmet>
-        <title>{medicine.drug_name} Uses, Side Effects & Pricing - Aethelcare</title>
-        <meta name="description" content={`Learn about ${medicine.drug_name}: uses, side effects, precautions, interactions, and details. ${medicine.quick_summary}`} />
-        <meta property="og:title" content={`${medicine.drug_name} Uses & Details - Aethelcare`} />
-        <meta property="og:description" content={`Verified information on ${medicine.drug_name}. ${medicine.quick_summary}`} />
+        <title>{medicine.drug_name} Uses, Side Effects & CDSCO Status - Aethelcare</title>
+        <meta name="description" content={`Learn about ${medicine.drug_name}: uses, side effects, precautions, interactions, and CDSCO status. ${medicine.quick_summary}`} />
+        <meta name="keywords" content={`${medicine.drug_name} uses, ${medicine.drug_name} side effects, ${medicine.drug_name} India price, ${medicine.drug_name} safe for pregnancy, medicine scanner, CDSCO status ${medicine.drug_name}`} />
+        <meta property="og:title" content={`${medicine.drug_name} Detailed Guide - Aethelcare`} />
+        <meta property="og:description" content={`Verified information on ${medicine.drug_name}. Side effects: ${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}`} />
         <link rel="canonical" href={`https://aethelcare.xyz/medicine/${encodeURIComponent(medicine.drug_name)}`} />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Drug",
+              "name": "${medicine.drug_name}",
+              "drugClass": "${medicine.drug_class}",
+              "description": "${medicine.quick_summary}",
+              "legalStatus": "${medicine.india_regulatory_status}",
+              "indication": "${Array.isArray(medicine.uses) ? medicine.uses[0] : medicine.uses}",
+              "sideEffect": "${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}"
+            }
+          `}
+        </script>
       </Helmet>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}

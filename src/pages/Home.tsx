@@ -68,9 +68,27 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 bg-white">
       <Helmet>
-        <title>{t('appName')} - Medical AI Scanner</title>
+        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List</title>
         <meta name="description" content={t('heroDescription')} />
+        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines" />
         <link rel="canonical" href="https://aethelcare.xyz" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "${t('appName')}",
+              "operatingSystem": "Web, Android, iOS",
+              "applicationCategory": "MedicalApplication",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "INR"
+              },
+              "description": "${t('heroDescription')}"
+            }
+          `}
+        </script>
       </Helmet>
 
       {/* Hero Section */}

@@ -6,6 +6,8 @@ import { DISEASES } from '../types';
 import { motion } from 'motion/react';
 import { ChevronLeft, ArrowRight, Loader2, AlertCircle, ShieldCheck } from 'lucide-react';
 
+import { Helmet } from 'react-helmet-async';
+
 export const ConditionPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t, language } = useLanguage();
@@ -46,6 +48,11 @@ export const ConditionPage: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-40 pb-20 pt-[calc(10rem+env(safe-area-inset-top))]">
+      <Helmet>
+        <title>Medicines for {t(condition.id)} - Dosage & Safety Guide | Aethelcare</title>
+        <meta name="description" content={`Find the best medicines for ${t(condition.id)} in India. Learn about treatments, symptoms: ${condition.symptoms.join(', ')}, and safety precautions.`} />
+        <meta name="keywords" content={`medicines for ${t(condition.id)}, ${t(condition.id)} symptoms, how to treat ${t(condition.id)}, medication for ${t(condition.id)} India`} />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-8 font-medium">
           <ChevronLeft className="w-4 h-4" />
