@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from './lib/supabase';
-import { User } from '@supabase/supabase-js';
+import { auth, db, googleProvider } from './firebase';
+import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 
-// Define the profile schema to match our existing UI expectations
 interface UserProfile {
   uid: string;
   email: string;
@@ -20,12 +20,12 @@ interface UserProfile {
 }
 
 interface AuthContextType {
-  user: any; // Using any for compatibility with existing components
+  user: User | null;
   profile: UserProfile | null;
   loading: boolean;
   isOffline: boolean;
   signInWithGoogle: () => Promise<void>;
-  signInWithEmail: (email: string, pass: string, rememberMe?: boolean) => Promise<void>;
+  signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
   upgradeToPremium: () => Promise<void>;
@@ -40,7 +40,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const ADMIN_EMAILS = ['aethelcare.help@gmail.com'];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -60,127 +60,112 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
-  const fetchProfileData = async (supabaseUser: User) => {
+  const fetchProfileData = async (user: User) => {
     try {
-      // Fetch from Supabase 'users' table
-      let { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', supabaseUser.id)
-        .single();
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
 
-      if (error && error.code === 'PGRST116') {
-        // User not found in 'users' table, create a default entry
-        const now = new Date();
-        const trialEnd = new Date(now);
-        trialEnd.setDate(now.getDate() + 14);
-
-        const newUserData = {
-          id: supabaseUser.id,
-          email: supabaseUser.email || '',
-          plan: 'premium',
-          trial_start: now.toISOString(),
-          trial_end: trialEnd.toISOString()
-        };
-
-        const { data: created, error: insertError } = await supabase
-          .from('users')
-          .upsert(newUserData)
-          .select()
-          .single();
-        
-        if (!insertError) {
-          data = created;
-        }
-      }
-
-      if (data) {
-        const isAdmin = ADMIN_EMAILS.includes(supabaseUser.email || '');
-        const mappedProfile: UserProfile = {
-          uid: supabaseUser.id,
-          email: supabaseUser.email || '',
-          displayName: supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || 'User',
-          photoURL: supabaseUser.user_metadata?.avatar_url || '',
-          isPremium: isAdmin || data.plan === 'premium',
-          subscriptionTier: data.plan,
-          subscriptionExpiry: data.trial_end,
-          createdAt: data.created_at || new Date().toISOString(),
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+        setProfile({
+          uid: user.uid,
+          email: user.email || '',
+          displayName: data.displayName || user.displayName || 'User',
+          photoURL: data.photoURL || user.photoURL || '',
+          isPremium: isAdmin || data.isPremium || false,
+          subscriptionTier: data.subscriptionTier,
+          subscriptionExpiry: data.subscriptionExpiry,
+          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
           role: isAdmin ? 'admin' : 'user',
-          trialClaimed: !!data.trial_start,
-          trialStartedAt: data.trial_start,
-          trialEndsAt: data.trial_end
+          phoneNumber: data.phoneNumber,
+          trialClaimed: data.trialClaimed,
+          trialStartedAt: data.trialStartedAt,
+          trialEndsAt: data.trialEndsAt
+        } as UserProfile);
+      } else {
+        // Create initial profile
+        const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+        const newProfile: UserProfile = {
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || 'User',
+          photoURL: user.photoURL || '',
+          isPremium: isAdmin,
+          createdAt: new Date().toISOString(),
+          role: isAdmin ? 'admin' : 'user'
         };
-        setProfile(mappedProfile);
+        await setDoc(userRef, {
+          ...newProfile,
+          createdAt: serverTimestamp()
+        });
+        setProfile(newProfile);
       }
     } catch (err) {
-      console.error('Error fetching Supabase user profile:', err);
+      console.error('Error fetching user profile:', err);
     }
   };
 
   useEffect(() => {
-    // 1. Initial Session check
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        // Normalize for components expecting Firebase structure (uid key)
-        const normalized = { ...session.user, uid: session.user.id };
-        setUser(normalized);
-        fetchProfileData(session.user);
-      }
-      setLoading(false);
-    });
-
-    // 2. Continuous Listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        const normalized = { ...session.user, uid: session.user.id };
-        setUser(normalized);
-        await fetchProfileData(session.user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setUser(user);
+      if (user) {
+        await fetchProfileData(user);
       } else {
-        setUser(null);
         setProfile(null);
       }
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => unsubscribe();
   }, []);
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin }
-    });
-    if (error) throw error;
+    try {
+      await signInWithPopup(auth, googleProvider);
+      closeAuthModal();
+    } catch (error) {
+      console.error('Google Sign In Error:', error);
+      throw error;
+    }
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-    if (error) throw error;
+    await signInWithEmailAndPassword(auth, email, pass);
+    closeAuthModal();
   };
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
-    const { error } = await supabase.auth.signUp({ 
-      email, 
-      password: pass,
-      options: { data: { full_name: name } }
-    });
-    if (error) throw error;
+    const result = await createUserWithEmailAndPassword(auth, email, pass);
+    if (result.user) {
+      await setDoc(doc(db, 'users', result.user.uid), {
+        uid: result.user.uid,
+        email,
+        displayName: name,
+        createdAt: serverTimestamp(),
+        role: 'user',
+        isPremium: false
+      });
+    }
+    closeAuthModal();
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    await signOut(auth);
   };
 
   const upgradeToPremium = async () => {
     if (user) {
-      await supabase.from('users').update({ plan: 'premium' }).eq('id', user.id);
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, { isPremium: true, subscriptionTier: 'premium' });
       if (profile) setProfile({ ...profile, isPremium: true, subscriptionTier: 'premium' });
     }
   };
 
   const updateSubscription = async (tier: string, expiry: string) => {
     if (user) {
-      await supabase.from('users').update({ plan: tier, trial_end: expiry }).eq('id', user.id);
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, { subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
       if (profile) setProfile({ ...profile, subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
     }
   };

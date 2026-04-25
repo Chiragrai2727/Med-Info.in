@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 import { useAuth } from '../AuthContext';
-import { SupabaseAuth } from './SupabaseAuth';
+import { FirebaseAuth } from './FirebaseAuth';
 
 export const AuthModal: React.FC = () => {
   const { isAuthModalOpen, closeAuthModal } = useAuth();
@@ -26,7 +26,7 @@ export const AuthModal: React.FC = () => {
           </button>
           
           <div className="p-4 sm:p-8">
-            <SupabaseAuth onSuccess={closeAuthModal} />
+            <FirebaseAuth onSuccess={closeAuthModal} />
           </div>
         </motion.div>
       </div>

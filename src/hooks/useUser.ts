@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import { User } from '@supabase/supabase-js';
+import { db } from '../firebase';
+import { doc, onSnapshot, getDoc, updateDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { useAuth } from '../AuthContext';
 
 export interface UserData {
   id: string;
@@ -10,124 +11,75 @@ export interface UserData {
   trial_end: string | null;
   scan_count: number;
   scan_month: string;
+  isPremium?: boolean;
 }
 
 export function useUser() {
-  const [sessionUser, setSessionUser] = useState<User | null>(null);
+  const { user: authUser } = useAuth();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSessionUser(session?.user ?? null);
-      if (session?.user) {
-        fetchUserData(session.user.id);
-      } else {
-        setIsLoading(false);
-      }
-    });
+    if (!authUser) {
+      setUserData(null);
+      setIsLoading(false);
+      return;
+    }
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSessionUser(session?.user ?? null);
-        if (session?.user) {
-          await fetchUserData(session.user.id);
-        } else {
-          setUserData(null);
-          setIsLoading(false);
+    const userRef = doc(db, 'users', authUser.uid);
+    
+    // Listen for changes
+    const unsubscribe = onSnapshot(userRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        let currentData = snapshot.data() as UserData;
+        const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
+        
+        // Trial expiry check
+        if (currentData.plan === 'premium' && currentData.trial_end) {
+          const trialEnd = new Date(currentData.trial_end);
+          if (trialEnd < new Date()) {
+            await updateDoc(userRef, { plan: 'basic' });
+            return; // onSnapshot will trigger again
+          }
         }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  const fetchUserData = async (userId: string) => {
-    setIsLoading(true);
-    try {
-      // Fetch user profile from public.users table
-      let { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      // If user does not exist yet (PGRST116), create them and grant the 14-day premium trial
-      if (error && error.code === 'PGRST116') {
+        
+        setUserData({ ...currentData, id: snapshot.id });
+      } else {
+        // Create initial if missing
         const now = new Date();
         const trialEnd = new Date(now);
         trialEnd.setDate(now.getDate() + 14);
-
-        const { data: { user: sessionUserObj } } = await supabase.auth.getUser();
-
-        const { data: newUser, error: insertError } = await supabase
-          .from('users')
-          .upsert({
-            id: userId,
-            email: sessionUserObj?.email || '',
-            plan: 'premium',
-            trial_start: now.toISOString(),
-            trial_end: trialEnd.toISOString()
-          }, { onConflict: 'id' })
-          .select()
-          .single();
-
-        if (insertError) throw insertError;
-        data = newUser;
-        error = null;
-      } else if (error) {
-        throw error;
-      }
-
-      let currentData = data as UserData;
-
-      // Part 4 - Trial expiry check
-      if (currentData.plan === 'premium' && currentData.trial_end) {
-        const trialEnd = new Date(currentData.trial_end);
-        const now = new Date();
         
-        if (trialEnd < now) {
-          // Trial expired, demote to basic
-          const { data: updatedData, error: updateError } = await supabase
-            .from('users')
-            .update({ plan: 'basic' })
-            .eq('id', userId)
-            .select()
-            .single();
-            
-          if (!updateError && updatedData) {
-            currentData = updatedData as UserData;
-          }
-        }
+        const initial = {
+          email: authUser.email || '',
+          plan: 'premium' as const,
+          trial_start: now.toISOString(),
+          trial_end: trialEnd.toISOString(),
+          scan_count: 0,
+          scan_month: now.toISOString().slice(0, 10),
+          createdAt: serverTimestamp()
+        };
+        await setDoc(userRef, initial);
       }
-
-      setUserData(currentData);
-    } catch (err) {
-      console.error('Error fetching user data from Supabase:', err);
-    } finally {
       setIsLoading(false);
-    }
-  };
+    });
 
-  // Calculate derived state
+    return () => unsubscribe();
+  }, [authUser]);
+
+  // Derived state
   const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
-  const isPremium = isAdmin || userData?.plan === 'premium';
+  const isPremium = isAdmin || userData?.plan === 'premium' || (userData as any)?.isPremium === true;
   
-  // Calculate scans remaining today
   let scansRemaining = 3;
-  if (isAdmin || isPremium) {
+  if (isPremium) {
     scansRemaining = 9999;
-  } else if (userData?.scan_count !== undefined) {
+  } else if (userData) {
     const currentDay = new Date().toISOString().slice(0, 10);
-    // If scan_month (which is now day) is different, they have full 3 scans
     if (userData.scan_month !== currentDay) {
       scansRemaining = 3;
     } else {
-      scansRemaining = Math.max(0, 3 - userData.scan_count);
+      scansRemaining = Math.max(0, 3 - (userData.scan_count || 0));
     }
   }
   
@@ -139,15 +91,17 @@ export function useUser() {
   }
 
   return {
-    user: sessionUser ? {
-      ...sessionUser,
-      email: sessionUser.email,
+    user: authUser ? {
+      ...authUser,
+      id: authUser.uid,
+      uid: authUser.uid,
+      email: authUser.email,
       plan: userData?.plan || 'basic',
       isPremium,
       scansRemaining,
       trialDaysLeft,
     } : null,
     isLoading,
-    refreshUser: () => sessionUser && fetchUserData(sessionUser.id)
+    refreshUser: () => {} // Handled by onSnapshot
   };
 }

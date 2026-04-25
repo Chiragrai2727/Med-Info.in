@@ -1,8 +1,9 @@
-import { supabase } from './supabase';
+import { db } from '../firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 /**
  * Validates if the user is allowed to perform a scan and increments their usage counter if applicable.
- * @param userId UUID of the user from Supabase Auth
+ * @param userId UID of the user from Firebase Auth
  * @returns Object indicating if scan is allowed, and details about limits.
  */
 export async function checkAndIncrementScan(userId: string): Promise<{ 
@@ -12,53 +13,35 @@ export async function checkAndIncrementScan(userId: string): Promise<{
   remaining?: number 
 }> {
   try {
-    // 1. Read user's current stats
-    const { data: user, error: fetchError } = await supabase
-      .from('users')
-      .select('plan, scan_count, scan_month, email')
-      .eq('id', userId)
-      .single();
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
 
-    if (fetchError || !user) {
-      console.error('Failed to fetch user scan stats:', fetchError);
-      return { allowed: false, reason: 'error_fetching_user' };
+    if (!userSnap.exists()) {
+      return { allowed: false, reason: 'user_not_found' };
     }
 
-    const isAdmin = ['aethelcare.help@gmail.com'].includes(user.email || '');
+    const userData = userSnap.data();
+    const isAdmin = ['aethelcare.help@gmail.com'].includes(userData.email || '');
 
-    const currentDay = new Date().toISOString().slice(0, 10); // e.g. "2026-04-24"
-    let currentCount = user.scan_count || 0;
+    const currentDay = new Date().toISOString().slice(0, 10);
+    let currentCount = userData.scan_count || 0;
     
-    // 2. Check if we need to reset the counter for a new day
-    if (user.scan_month !== currentDay) {
+    // Check for daily reset
+    if (userData.scan_month !== currentDay) {
       currentCount = 0;
-      await supabase
-        .from('users')
-        .update({ scan_count: 0, scan_month: currentDay })
-        .eq('id', userId);
+      await updateDoc(userRef, { scan_count: 0, scan_month: currentDay });
     }
 
-    // 3. Premium tier and admins get unlimited scans
-    if (user.plan === 'premium' || isAdmin) {
+    if (userData.plan === 'premium' || isAdmin || userData.isPremium) {
       return { allowed: true, isPremium: true };
     }
 
-    // 4. Basic tier limit check (Max 3)
     if (currentCount >= 3) {
       return { allowed: false, reason: 'limit_reached' };
     }
 
-    // 5. Basic tier increment
     const newCount = currentCount + 1;
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ scan_count: newCount, scan_month: currentDay })
-      .eq('id', userId);
-
-    if (updateError) {
-      console.error('Failed to increment scan count:', updateError);
-      return { allowed: false, reason: 'database_error' };
-    }
+    await updateDoc(userRef, { scan_count: newCount, scan_month: currentDay });
 
     return { allowed: true, remaining: 3 - newCount };
 

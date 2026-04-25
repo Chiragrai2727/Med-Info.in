@@ -15,46 +15,59 @@ export const MobileNav: React.FC = () => {
 
   return (
     <div className="md:hidden fixed bottom-6 left-0 right-0 z-[100] px-4 safe-bottom">
-      <div className="max-w-lg mx-auto bg-white/80 backdrop-blur-3xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-[2rem] flex justify-around items-center h-16 border border-white/20 px-2">
+      <div className="max-w-md mx-auto bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-[2.5rem] flex justify-around items-center h-20 border border-white/40 px-2 relative">
         <Link 
           to="/dashboard" 
-          className={`flex-1 flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/dashboard') ? 'text-blue-600' : 'text-gray-400 hover:text-gray-500'}`}
+          className={`flex-1 flex flex-col items-center gap-1.5 transition-all duration-300 ${isActive('/dashboard') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <LayoutDashboard className={`w-5 h-5 transition-transform duration-300 ${isActive('/dashboard') ? 'scale-110' : ''}`} />
-          <span className="text-[10px] font-black uppercase tracking-wider">{t('dashboard')}</span>
+          <div className="relative group">
+            <LayoutDashboard className={`w-5 h-5 transition-transform duration-300 ${isActive('/dashboard') ? 'scale-110' : 'group-hover:scale-110'}`} />
+            {isActive('/dashboard') && <motion.div layoutId="nav-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full" />}
+          </div>
+          <span className="text-[10px] font-black uppercase tracking-widest">{t('dashboard')}</span>
         </Link>
         
         <Link 
           to="/timetable" 
-          className={`flex-1 flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/timetable') ? 'text-blue-600' : 'text-gray-400 hover:text-gray-500'}`}
+          className={`flex-1 flex flex-col items-center gap-1.5 transition-all duration-300 ${isActive('/timetable') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <Calendar className={`w-5 h-5 transition-transform duration-300 ${isActive('/timetable') ? 'scale-110' : ''}`} />
-          <span className="text-[10px] font-black uppercase tracking-wider">{t('timetable')}</span>
+          <div className="relative group">
+            <Calendar className={`w-5 h-5 transition-transform duration-300 ${isActive('/timetable') ? 'scale-110' : 'group-hover:scale-110'}`} />
+            {isActive('/timetable') && <motion.div layoutId="nav-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full" />}
+          </div>
+          <span className="text-[10px] font-black uppercase tracking-widest">{t('timetable')}</span>
         </Link>
 
-        <div className="flex-shrink-0 -mt-10 px-2">
+        <div className="flex-shrink-0 px-2 -mt-12">
           <Link 
             to="/scan" 
-            className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] border-4 border-[#F8FAFC] transition-all hover:scale-105 active:scale-90"
+            className="flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-[2rem] shadow-[0_12px_24px_rgba(37,99,235,0.4)] border-[6px] border-[#FDFCFB] transition-all hover:scale-105 active:scale-95 relative group overflow-hidden"
           >
-            <Camera className="w-7 h-7" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Camera className="w-8 h-8 relative z-10" />
           </Link>
         </div>
 
         <Link 
           to="/pricing" 
-          className={`flex-1 flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/pricing') ? 'text-blue-600' : 'text-gray-400 hover:text-gray-500'}`}
+          className={`flex-1 flex flex-col items-center gap-1.5 transition-all duration-300 ${isActive('/pricing') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <div className={`w-5 h-5 flex items-center justify-center font-black text-sm transition-transform duration-300 ${isActive('/pricing') ? 'scale-125' : ''}`}>₱</div>
-          <span className="text-[10px] font-black uppercase tracking-wider">Plans</span>
+          <div className="relative group">
+            <div className={`w-5 h-5 flex items-center justify-center font-black text-sm transition-transform duration-300 ${isActive('/pricing') ? 'scale-110' : 'group-hover:scale-110'}`}>₹</div>
+            {isActive('/pricing') && <motion.div layoutId="nav-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full" />}
+          </div>
+          <span className="text-[10px] font-black uppercase tracking-widest">Plans</span>
         </Link>
 
         <Link 
           to="/" 
-          className={`flex-1 flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/') ? 'text-blue-600' : 'text-gray-400 hover:text-gray-500'}`}
+          className={`flex-1 flex flex-col items-center gap-1.5 transition-all duration-300 ${isActive('/') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <UserIcon className={`w-5 h-5 transition-transform duration-300 ${isActive('/') ? 'scale-110' : ''}`} />
-          <span className="text-[10px] font-black uppercase tracking-wider">Home</span>
+          <div className="relative group">
+            <UserIcon className={`w-5 h-5 transition-transform duration-300 ${isActive('/') ? 'scale-110' : 'group-hover:scale-110'}`} />
+            {isActive('/') && <motion.div layoutId="nav-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full" />}
+          </div>
+          <span className="text-[10px] font-black uppercase tracking-widest">Home</span>
         </Link>
       </div>
     </div>
