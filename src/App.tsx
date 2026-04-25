@@ -20,6 +20,7 @@ import { OfflineBanner } from './components/OfflineBanner';
 import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
 import { NotificationManager } from './components/NotificationManager';
+import { MobileNav } from './components/MobileNav';
 import { TrialBanner } from './components/TrialBanner';
 
 import { CompareProvider } from './CompareContext';
@@ -122,10 +123,11 @@ export default function App() {
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                   </Routes>
                 </main>
+                <MobileNav />
                 <AuthModal />
                 
-                <footer className="py-12 border-t border-[var(--color-ink)]/10 bg-white">
-                  <div className="max-w-7xl mx-auto px-4">
+                <footer className="py-12 pb-28 md:pb-12 border-t border-[var(--color-ink)]/10 bg-white">
+                  <div className="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-12">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
                       <div>
                         <h3 className="font-bold text-lg mb-4 text-[var(--color-ink)]">{t('appName')}</h3>

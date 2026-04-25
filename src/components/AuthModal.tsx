@@ -25,7 +25,7 @@ export const AuthModal: React.FC = () => {
             <X className="w-6 h-6" />
           </button>
           
-          <div className="p-8">
+          <div className="p-4 sm:p-8">
             <SupabaseAuth onSuccess={closeAuthModal} />
           </div>
         </motion.div>

@@ -83,7 +83,7 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="max-w-md w-full mx-auto p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div className="max-w-md w-full mx-auto p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
         Welcome
       </h2>

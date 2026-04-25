@@ -82,37 +82,37 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gray-50 pt-24 sm:pt-32 pb-12 px-4 sm:px-6 lg:px-12 2xl:px-24 transition-all duration-300">
+      <div className="max-w-[2000px] mx-auto space-y-8 2xl:space-y-16">
         
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{t('myDashboard')}</h1>
-          <p className="text-gray-500 mt-2">{t('dashboardDesc')}</p>
+          <h1 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-gray-900">{t('myDashboard')}</h1>
+          <p className="text-gray-500 mt-2 text-sm sm:text-base 2xl:text-3xl">{t('dashboardDesc')}</p>
         </div>
 
         {/* Profile Section */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-6 sm:p-8 flex items-center gap-6">
+        <div className="bg-white rounded-3xl 2xl:rounded-[4rem] shadow-sm border border-gray-100 overflow-hidden">
+          <div className="p-6 sm:p-8 2xl:p-16 flex flex-col sm:flex-row items-center gap-6 2xl:gap-12">
             {profile.photoURL ? (
-              <img src={profile.photoURL} alt="Profile" className="w-20 h-20 rounded-full border-4 border-gray-50" referrerPolicy="no-referrer" />
+              <img src={profile.photoURL} alt="Profile" className="w-20 h-20 sm:w-24 sm:h-24 2xl:w-48 2xl:h-48 rounded-full border-4 border-gray-50 shadow-md" referrerPolicy="no-referrer" />
             ) : (
-              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-gray-400">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 2xl:w-48 2xl:h-48 bg-gray-100 rounded-full flex items-center justify-center">
+                <span className="text-2xl sm:text-3xl 2xl:text-6xl font-bold text-gray-400">
                   {profile.displayName ? profile.displayName.charAt(0).toUpperCase() : profile.email.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">{profile.displayName || t('user')}</h2>
-              <p className="text-gray-500">{profile.email}</p>
-              <div className="mt-3 flex gap-2">
-                <span className={`px-3 py-1 text-xs font-bold rounded-full capitalize ${
+            <div className="text-center sm:text-left">
+              <h2 className="text-2xl sm:text-3xl 2xl:text-6xl font-black text-gray-900">{profile.displayName || t('user')}</h2>
+              <p className="text-gray-500 2xl:text-3xl">{profile.email}</p>
+              <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
+                <span className={`px-4 py-1.5 2xl:px-8 2xl:py-3 text-xs 2xl:text-xl font-bold rounded-full capitalize ${
                   profile.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
                 }`}>
                   {t('role')}: {profile.role}
                 </span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
+                <span className="px-4 py-1.5 2xl:px-8 2xl:py-3 bg-gray-100 text-gray-600 text-xs 2xl:text-xl font-bold rounded-full">
                   {t('joined')}: {new Date(profile.createdAt).toLocaleDateString()}
                 </span>
               </div>

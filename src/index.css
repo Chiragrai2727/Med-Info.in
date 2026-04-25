@@ -6,6 +6,7 @@
   --color-bg: #F8FAFC;
   --color-ink: #0F172A;
   --color-accent: #2563EB;
+  --breakpoint-xs: 375px;
 }
 
 @layer base {

@@ -83,6 +83,8 @@ const translations: Record<Language, Record<string, string>> = {
     frequencyLabel: 'Frequency',
     todaysDoses: "Today's Doses",
     otherDays: 'Other Days',
+    menu: 'Menu',
+    close: 'Close',
     timetableEmpty: 'Your reminders are empty',
     timetableEmptyDesc: 'Add your first medication to stay on track.',
     markAsTaken: 'Mark as Taken',
