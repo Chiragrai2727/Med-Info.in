@@ -74,30 +74,25 @@ export const Home: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-12 2xl:px-24 text-center mb-20 relative z-50">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <div className="flex flex-col items-center mb-12">
-            <div className="2xl:hidden">
-              <Logo size="xl" className="mb-8" />
-            </div>
-            <div className="hidden 2xl:block">
-              <Logo size="xl" className="mb-8 scale-150" />
-            </div>
+            <Logo size="xl" className="mb-8" />
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl 2xl:text-9xl font-extrabold text-slate-900 mb-6 tracking-tight max-w-6xl mx-auto leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight max-w-4xl mx-auto leading-tight">
             Check if your medicine is banned in India
           </h1>
           
-          <p className="text-xl md:text-2xl 2xl:text-5xl text-slate-600 mb-10 max-w-3xl 2xl:max-w-7xl mx-auto font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
             The simplest way to understand your medicines and safety.
           </p>
           
-          <div className="mb-10 relative max-w-2xl 2xl:max-w-5xl mx-auto z-40">
+          <div className="mb-10 relative max-w-2xl mx-auto z-40">
             <Search 
               autoFocus 
               placeholder="Search any medicine name..."
@@ -105,13 +100,13 @@ export const Home: React.FC = () => {
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <button 
                 onClick={() => navigate('/banned-drugs')}
-                className="px-8 py-3 2xl:px-16 2xl:py-8 2xl:text-3xl bg-red-600 text-white rounded-xl 2xl:rounded-3xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
+                className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
               >
                 Check Banned List
               </button>
               <button 
                 onClick={() => navigate('/scan')}
-                className="px-8 py-3 2xl:px-16 2xl:py-8 2xl:text-3xl bg-white text-slate-900 border-2 border-slate-200 rounded-xl 2xl:rounded-3xl font-bold hover:border-blue-500 hover:text-blue-600 transition-all"
+                className="px-8 py-3 bg-white text-slate-900 border-2 border-slate-200 rounded-xl font-bold hover:border-blue-500 hover:text-blue-600 transition-all"
               >
                 Search Free
               </button>
@@ -133,32 +128,32 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Popular Medicines Section */}
-      <section className="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-12 2xl:px-24 mb-24">
-        <h2 className="text-3xl 2xl:text-6xl font-black text-slate-900 mb-10 tracking-tight">Popular Medicines</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 2xl:gap-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <h2 className="text-3xl font-black text-slate-900 mb-10 tracking-tight">Popular Medicines</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {POPULAR_MEDS.map((med, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -5 }}
               onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-              className="p-8 2xl:p-16 bg-white rounded-[2.5rem] 2xl:rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all group cursor-pointer relative overflow-hidden"
+              className="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group cursor-pointer relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-24 h-24 2xl:w-48 2xl:h-48 bg-slate-50 rounded-full -mr-8 -mt-8 2xl:-mr-16 2xl:-mt-16 flex items-center justify-center">
-                <HelpCircle className="w-5 h-5 2xl:w-10 h-10 text-slate-200 translate-x-[-8px] translate-y-[8px]" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-full -mr-8 -mt-8 flex items-center justify-center">
+                <HelpCircle className="w-5 h-5 text-slate-200 translate-x-[-8px] translate-y-[8px]" />
               </div>
               <div className="flex flex-col gap-2 mb-6">
-                <span className="text-[10px] 2xl:text-lg font-black uppercase tracking-[0.2em] text-slate-400">{med.category}</span>
-                <div className="flex items-center gap-1.5 text-[9px] 2xl:text-lg font-black uppercase tracking-widest text-green-600">
-                  <ShieldCheck className="w-3 h-3 2xl:w-6 h-6" /> Drug Verified
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{med.category}</span>
+                <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-green-600">
+                  <ShieldCheck className="w-3 h-3" /> Drug Verified
                 </div>
               </div>
-              <h3 className="text-2xl 2xl:text-5xl font-black text-slate-900 mb-3 tracking-tighter leading-none">{med.name}</h3>
-              <p className="text-sm 2xl:text-2xl text-slate-500 mb-8 font-medium leading-relaxed line-clamp-2">
+              <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tighter leading-none">{med.name}</h3>
+              <p className="text-sm text-slate-500 mb-8 font-medium leading-relaxed line-clamp-2">
                 {med.summary}
               </p>
-              <div className="flex items-center justify-between text-[10px] 2xl:text-lg font-black uppercase tracking-[0.2em] text-blue-600">
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">
                 <span>View Details</span>
-                <ArrowRight className="w-4 h-4 2xl:w-8 h-8 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </motion.div>
           ))}
