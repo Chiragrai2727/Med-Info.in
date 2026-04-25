@@ -158,7 +158,7 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
       ) : (
         <form onSubmit={handleVerifyOtp} className="space-y-4">
           <div className="text-sm text-gray-600 text-center mb-4">
-            We sent a 6-digit code to <strong>{email}</strong>
+            We sent a verification code to <strong>{email}</strong>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Enter Code</label>
@@ -168,8 +168,8 @@ export const SupabaseAuth: React.FC<SupabaseAuthProps> = ({ onSuccess }) => {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               className="w-full px-4 py-3 text-center tracking-widest text-lg bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              placeholder="000000"
-              maxLength={6}
+              placeholder="00000000"
+              maxLength={10}
             />
           </div>
           <button
