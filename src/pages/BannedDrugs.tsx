@@ -66,7 +66,7 @@ export const BannedDrugs: React.FC = () => {
   const isFound = searchQuery.trim().length > 0 && filteredDrugs.length > 0;
 
   return (
-    <div className="min-h-screen pt-40 pb-20 bg-[#FAFAFA] pt-[calc(10rem+env(safe-area-inset-top))]">
+    <div className="min-h-screen pt-40 pb-20 bg-transparent pt-[calc(10rem+env(safe-area-inset-top))]">
       <Helmet>
         <title>Banned Medicines in India 2026 — Latest CDSCO Banned Drug List</title>
         <meta name="description" content="Search the complete registry of 300+ drugs banned by CDSCO in India. Check if your medicines are safe or prohibited. Verified medical safety information." />
@@ -88,27 +88,27 @@ export const BannedDrugs: React.FC = () => {
           `}
         </script>
       </Helmet>
-
+ 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-8 font-medium">
+        <Link to="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors mb-12 font-black text-xs uppercase tracking-widest">
           <ChevronLeft className="w-4 h-4" />
           {t('backToHome')}
         </Link>
-
+ 
         {/* Page Header */}
-        <div className="bg-red-600 text-white p-10 md:p-16 rounded-[4rem] relative overflow-hidden mb-16 shadow-2xl">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+        <div className="bg-red-600 text-white p-12 md:p-20 rounded-[5rem] relative overflow-hidden mb-20 shadow-[0_40px_80px_rgba(220,38,38,0.2)] border-2 border-red-400">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 blur-[100px]" />
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 backdrop-blur-md bg-white/20 text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-full mb-8 border border-white/20">
               <ShieldAlert className="w-4 h-4" /> {t('officialCDSCOData')}
             </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">{t('bannedDrugsRegistry')}</h1>
-            <div className="space-y-2 mb-8">
-              <p className="text-xl md:text-2xl text-red-100 font-medium max-w-3xl leading-relaxed">
+            <h1 className="text-5xl md:text-8xl font-black tracking-[-0.05em] mb-6 leading-[0.8]">{t('bannedDrugsRegistry')}</h1>
+            <div className="space-y-4 mb-12">
+              <p className="text-xl md:text-3xl text-red-100 font-bold max-w-4xl leading-tight tracking-tight">
                 Updated with latest CDSCO notifications • {bannedDrugsData.length} medicines currently banned in India
               </p>
-              <div className="flex items-center gap-2 text-red-200 text-sm font-bold uppercase tracking-widest">
-                Source: <a href="https://cdsco.gov.in" target="_blank" rel="noreferrer" className="underline hover:text-white flex items-center gap-1">CDSCO.gov.in <ExternalLink className="w-3 h-3" /></a>
+              <div className="flex items-center gap-2 text-red-200 text-xs font-black uppercase tracking-[0.2em]">
+                Verified Source: <a href="https://cdsco.gov.in" target="_blank" rel="noreferrer" className="underline hover:text-white flex items-center gap-2">CDSCO.gov.in <ExternalLink className="w-4 h-4" /></a>
               </div>
             </div>
             <button 
@@ -116,155 +116,154 @@ export const BannedDrugs: React.FC = () => {
                 const el = document.getElementById('full-registry');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="bg-white text-red-600 px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-red-50 transition-all shadow-xl active:scale-95"
+              className="bg-white text-red-600 px-12 py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-red-50 transition-all shadow-2xl active:scale-95"
             >
-              See all {bannedDrugsData.length} banned medicines in India →
+              See all {bannedDrugsData.length} banned medicines →
             </button>
           </div>
         </div>
-
+ 
         {/* Recently Banned Section */}
-        <div className="mb-16">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-gray-200" />
-            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Recently Banned Alerts</h2>
-            <div className="h-px flex-1 bg-gray-200" />
+        <div className="mb-20">
+          <div className="flex items-center gap-6 mb-12">
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400 whitespace-nowrap">Recently Banned Alerts</h2>
+            <div className="h-px flex-1 bg-slate-200 opacity-30" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {recentlyBanned.map((drug) => (
               <motion.div 
                 key={`recent-${drug.id}`}
-                whileHover={{ y: -5 }}
-                className="bg-white p-6 rounded-[2.5rem] border-2 border-red-50 shadow-sm relative overflow-hidden group"
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="backdrop-blur-xl bg-white/60 p-10 rounded-[3.5rem] border-2 border-red-50/50 shadow-[0_12px_40px_rgba(0,0,0,0.03)] relative overflow-hidden group"
               >
-                <div className="absolute top-4 right-4 px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg z-10">
+                <div className="absolute top-6 right-6 px-4 py-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg z-10">
                   NEW
                 </div>
-                <h3 className="text-lg font-black text-gray-900 mb-2 pr-12">{drug.drug_name}</h3>
-                <p className="text-sm text-red-600 font-bold mb-4 line-clamp-2">{drug.side_effects_serious[0]}</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tighter leading-none pr-12">{drug.drug_name}</h3>
+                <p className="text-base text-red-600 font-bold mb-8 leading-tight">{drug.side_effects_serious[0]}</p>
                 <button 
                    onClick={() => handleWhatsAppShare(drug)}
-                   className="w-full flex items-center justify-center gap-2 py-3 bg-green-50 text-green-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-100 transition-colors"
+                   className="w-full flex items-center justify-center gap-3 py-4 backdrop-blur-md bg-emerald-50/50 text-emerald-700 border border-emerald-100/50 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"
                 >
-                   <Share2 className="w-3.5 h-3.5" /> Warn a friend
+                   <Share2 className="w-4 h-4" /> Warn a friend
                 </button>
               </motion.div>
             ))}
           </div>
         </div>
-
-        {/* Search Improvements */}
-        <div className="mb-12 relative" id="search-section">
-          <div className="absolute inset-y-0 left-0 pl-8 flex items-center pointer-events-none">
-            <Search className="h-6 w-6 text-gray-400" />
+ 
+        {/* Search Header */}
+        <div className="mb-16 relative" id="search-section">
+          <div className="absolute inset-y-0 left-0 pl-10 flex items-center pointer-events-none">
+            <Search className="h-8 w-8 text-slate-300" />
           </div>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search medicine name, brand, or salt composition..."
-            className="block w-full pl-20 pr-8 py-8 bg-white border-2 border-gray-100 rounded-[3rem] text-xl focus:ring-8 focus:ring-red-500/5 focus:border-red-500 transition-all shadow-sm font-medium placeholder:text-gray-300"
+            className="block w-full pl-24 pr-10 py-10 backdrop-blur-2xl bg-white/70 border-2 border-white rounded-[4rem] text-2xl focus:ring-8 focus:ring-red-500/5 focus:border-red-500 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.04)] font-black tracking-tight placeholder:text-slate-200"
           />
           
           <AnimatePresence>
             {isNotFound && (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-6 p-6 bg-green-50 border-2 border-green-200 rounded-[2rem] flex items-center gap-4 text-green-800"
+                className="mt-10 p-10 backdrop-blur-xl bg-emerald-50/60 border border-emerald-200/50 rounded-[3.5rem] flex items-center gap-8 text-emerald-900 shadow-[0_12px_40px_rgba(0,0,0,0.03)]"
               >
-                <div className="w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
-                  <CheckCircle2 className="w-6 h-6" />
+                <div className="w-16 h-16 backdrop-blur-md bg-emerald-600 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-xl">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <div>
-                  <p className="text-lg font-black tracking-tight">✓ {searchQuery} is not banned in India</p>
-                  <p className="text-sm font-medium opacity-80">This medicine is not in the current CDSCO prohibited list as of April 2026.</p>
+                  <p className="text-3xl font-black tracking-tight leading-none mb-2">✓ {searchQuery} is not banned in India</p>
+                  <p className="text-lg font-bold opacity-60 tracking-tight leading-none">This medicine is not in the current CDSCO prohibited list as of April 2026.</p>
                 </div>
               </motion.div>
             )}
-
+ 
             {isFound && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-6 flex items-center gap-2 px-6 text-red-600 font-bold uppercase tracking-widest text-[10px]"
+                className="mt-8 flex items-center gap-3 px-10 text-red-600 font-black uppercase tracking-[0.3em] text-[11px]"
               >
-                <AlertTriangle className="w-4 h-4" /> Matched {filteredDrugs.length} banned results
+                <AlertTriangle className="w-5 h-5" /> Matched {filteredDrugs.length} Results in registry
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-
+ 
         {/* Banned Drug Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="full-registry">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="full-registry">
           {filteredDrugs.map((drug, index) => (
             <motion.div
               key={drug.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(index * 0.05, 0.5) }}
-              className={`bg-white rounded-[3rem] border-2 transition-all shadow-sm flex flex-col group relative overflow-hidden ${
-                expandedId === drug.id ? 'border-red-400 ring-4 ring-red-500/5' : 'border-gray-100 hover:border-red-200 hover:shadow-xl'
+              className={`backdrop-blur-xl bg-white/70 rounded-[4rem] border transition-all shadow-[0_8px_32px_rgba(0,0,0,0.03)] flex flex-col group relative overflow-hidden ${
+                expandedId === drug.id ? 'border-red-400 ring-8 ring-red-500/5' : 'border-white hover:border-red-200 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]'
               }`}
             >
-              <div className="p-8 pb-4">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-all shadow-sm">
-                    <Ban className="w-7 h-7 text-red-600 group-hover:text-white" />
+              <div className="p-12 pb-6">
+                <div className="flex items-start justify-between mb-8">
+                  <div className="w-16 h-16 backdrop-blur-md bg-red-50 rounded-[1.5rem] flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-all shadow-sm border border-red-100/50">
+                    <Ban className="w-8 h-8 text-red-600 group-hover:text-white" />
                   </div>
-                  <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-lg">
+                  <span className="px-4 py-1.5 bg-red-50/80 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-xl border border-red-100/50">
                     BANNED BY CDSCO
                   </span>
                 </div>
-                <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tighter leading-none">{drug.drug_name}</h3>
+                <h3 className="text-4xl font-black text-slate-900 mb-6 tracking-[-0.04em] leading-[0.9]">{drug.drug_name}</h3>
                 
-                <div className="mb-6 space-y-4">
+                <div className="mb-8 space-y-6">
                   <div>
-                    <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Primary Health Risk</p>
-                    <p className="text-red-600 font-bold leading-relaxed text-sm">
+                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Primary Health Risk</p>
+                    <p className="text-red-600 font-bold leading-tight text-lg tracking-tight">
                       {drug.side_effects_serious.join(', ')}
                     </p>
                   </div>
                   
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Notice Summary</p>
-                    <p className="text-gray-600 font-medium text-sm leading-relaxed">
+                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Notice Summary</p>
+                    <p className="text-slate-500 font-bold text-base leading-relaxed tracking-tight">
                       {drug.quick_summary}
                     </p>
                   </div>
                 </div>
-
+ 
                 <button 
                   onClick={() => setExpandedId(expandedId === drug.id ? null : drug.id)}
-                  className="w-full flex items-center justify-between py-4 border-t border-gray-50 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors"
+                  className="w-full flex items-center justify-between py-6 border-t border-black/5 text-xs font-black uppercase tracking-[0.2em] text-slate-400 hover:text-red-600 transition-colors"
                 >
-                  {expandedId === drug.id ? 'Hide Details' : 'Why it was banned →'}
+                  {expandedId === drug.id ? 'Hide Details' : 'Detailed CDSCO Report →'}
                   {expandedId === drug.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
-
+ 
                 <AnimatePresence>
                   {expandedId === drug.id && (
                     <motion.div 
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden border-t border-red-50 pt-6 pb-2"
+                      className="overflow-hidden bg-slate-50 rounded-[2rem] mb-6 animate-in slide-in-from-top-2"
                     >
-                      <div className="bg-red-50/50 p-5 rounded-2xl space-y-4">
-                        <div className="flex items-start gap-3">
-                          <ShieldAlert className="w-5 h-5 text-red-600 mt-1 shrink-0" />
+                      <div className="p-8 space-y-6">
+                        <div className="flex items-start gap-4">
+                          <ShieldAlert className="w-6 h-6 text-red-600 mt-1 shrink-0" />
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-red-900 mb-1">Gazette Notification</p>
-                            <p className="text-sm font-bold text-red-700">Ref: CDSCO/BANNED/${drug.id.toUpperCase()}</p>
-                            <p className="text-xs font-medium text-red-600 mt-0.5 flex items-center gap-1"><Calendar className="w-3 h-3" /> Updated: 14 Oct 2025</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Gazette Notification</p>
+                            <p className="text-base font-black text-slate-900 tracking-tight">Ref: CDSCO/BANNED/${drug.id.toUpperCase()}</p>
+                            <p className="text-[10px] font-black text-slate-400 mt-1 flex items-center gap-2 uppercase tracking-widest"><Calendar className="w-3.5 h-3.5" /> Updated: Oct 2025</p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3">
-                          <AlertCircle className="w-5 h-5 text-red-600 mt-1 shrink-0" />
+                        <div className="flex items-start gap-4">
+                          <AlertCircle className="w-6 h-6 text-red-600 mt-1 shrink-0" />
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-red-900 mb-1">Health Explanation</p>
-                            <p className="text-sm font-medium text-red-800 leading-relaxed">
-                              This substance was found to have an unfavorable risk-benefit ratio for human use under the clinical trials and rules of the Drugs and Cosmetics Act. Prohibited for manufacture, sale, and distribution across India.
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Health Rationale</p>
+                            <p className="text-sm font-bold text-slate-600 leading-relaxed tracking-tight">
+                              Prohibited under Section 26A of Drugs and Cosmetics Act. Clinical data suggests significant potential for health complications without matching therapeutic benefit.
                             </p>
                           </div>
                         </div>
@@ -273,33 +272,33 @@ export const BannedDrugs: React.FC = () => {
                   )}
                 </AnimatePresence>
               </div>
-
-              <div className="mt-auto p-4 bg-gray-50/50 flex gap-2">
+ 
+              <div className="mt-auto p-6 bg-slate-50/50 border-t border-black/5 flex gap-3">
                  <button 
                   onClick={() => handleWhatsAppShare(drug)}
-                  className="flex-1 flex items-center justify-center gap-2 py-4 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-green-700 transition-all shadow-lg active:scale-95"
+                  className="flex-1 flex items-center justify-center gap-3 py-6 bg-emerald-600 text-white rounded-3xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-xl active:scale-95"
                  >
-                   <Share2 className="w-4 h-4" /> Warn a friend →
+                   <Share2 className="w-5 h-5" /> Warn Family →
                  </button>
                  <button 
                    onClick={() => navigate(`/medicine/${encodeURIComponent(drug.drug_name)}`)}
-                   className="w-14 h-14 bg-white border border-gray-200 text-gray-400 rounded-2xl flex items-center justify-center hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
+                   className="w-16 h-16 bg-white border border-slate-200 text-slate-400 rounded-3xl flex items-center justify-center hover:text-red-600 hover:border-red-200 transition-all shadow-sm group-hover:scale-105 active:scale-90"
                  >
-                   <ArrowRight className="w-5 h-5" />
+                   <ArrowRight className="w-6 h-6" />
                  </button>
               </div>
             </motion.div>
           ))}
         </div>
-
+ 
         {/* Global Empty State */}
         {searchQuery.trim().length > 0 && searchQuery.trim().length <= 2 && (
-          <div className="text-center py-20">
-            <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
-              <Search className="w-10 h-10 text-gray-300" />
+          <div className="text-center py-32">
+            <div className="w-24 h-24 bg-slate-50 rounded-[3rem] flex items-center justify-center mx-auto mb-8 border border-slate-100 shadow-inner">
+              <Search className="w-10 h-10 text-slate-200" />
             </div>
-            <h3 className="text-2xl font-black text-gray-900 mb-2">Keep typing...</h3>
-            <p className="text-gray-500 font-medium text-lg">Enter at least 3 characters to search the registry.</p>
+            <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight leading-none uppercase">Keep typing...</h3>
+            <p className="text-slate-400 font-bold text-xl tracking-tight leading-none">Enter at least 3 characters to search the registry.</p>
           </div>
         )}
       </div>

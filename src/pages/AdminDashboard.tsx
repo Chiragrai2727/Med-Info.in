@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, deleteDoc, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion } from 'motion/react';
@@ -26,6 +27,7 @@ interface SearchData {
 
 export const AdminDashboard: React.FC = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [users, setUsers] = useState<UserData[]>([]);
   const [searches, setSearches] = useState<SearchData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -148,51 +150,65 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  const totalUsers = users.length;
+  const premiumUsers = users.filter(u => u.isPremium).length;
+  const conversionRate = totalUsers > 0 ? ((premiumUsers / totalUsers) * 100).toFixed(1) : '0.0';
+
   if (profile?.role !== 'admin') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900">Access Denied</h1>
-          <p className="text-gray-500 mt-2">You do not have permission to view this page.</p>
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
+        <div className="text-center backdrop-blur-xl bg-white/70 p-20 rounded-[4rem] border-2 border-white shadow-2xl">
+          <AlertTriangle className="w-24 h-24 text-red-500 mx-auto mb-8 animate-bounce" />
+          <h1 className="text-5xl font-black text-slate-900 uppercase tracking-tighter mb-4">Access Denied</h1>
+          <p className="text-slate-400 font-bold text-xl tracking-tight opacity-70">High-level clearance required for this terminal.</p>
+          <button 
+            onClick={() => navigate('/')}
+            className="mt-12 px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl"
+          >
+            Return to Surface
+          </button>
         </div>
       </div>
     );
   }
 
-  const totalUsers = users.length;
-  const premiumUsers = users.filter(u => u.isPremium).length;
-  const conversionRate = totalUsers > 0 ? ((premiumUsers / totalUsers) * 100).toFixed(1) : '0.0';
-
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-transparent pt-32 sm:pt-40 pb-24 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-black text-gray-900 flex items-center gap-3 tracking-tighter">
-              <ShieldCheck className="w-8 h-8 text-blue-600" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <h1 className="text-4xl md:text-6xl font-black text-slate-900 flex items-center gap-6 tracking-[-0.05em] uppercase leading-none">
+              <div className="w-16 h-16 bg-slate-900 rounded-[2rem] flex items-center justify-center text-white shadow-2xl rotate-3">
+                <ShieldCheck className="w-10 h-10" />
+              </div>
               Admin Control Center
             </h1>
-            <p className="text-gray-500 mt-1 font-medium italic">High-level pharmaceutical intelligence oversight.</p>
-          </div>
-          <div className="flex items-center gap-3">
+            <p className="text-xl md:text-2xl text-slate-400 mt-6 font-bold tracking-tight opacity-70 leading-none italic uppercase">
+              High-level pharmaceutical intelligence oversight.
+            </p>
+          </motion.div>
+          
+          <div className="flex items-center gap-4">
             <button 
               onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all shadow-sm"
+              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-white border-2 border-white rounded-[2rem] text-xs font-black uppercase tracking-widest text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 group"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
               Export CSV
             </button>
             <button 
               onClick={handleClearOldUsers}
               disabled={resetting}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-xl text-sm font-bold text-red-600 hover:bg-red-100 transition-all shadow-sm disabled:opacity-50"
+              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-red-500/10 border-2 border-red-500/20 rounded-[2rem] text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-600 hover:text-white transition-all shadow-2xl disabled:opacity-50 active:scale-95 group"
             >
               {resetting ? 'Resetting...' : (
                 <>
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                   System Reset
                 </>
               )}
@@ -204,150 +220,180 @@ export const AdminDashboard: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3 text-green-700 font-bold"
+            className="p-10 backdrop-blur-3xl bg-emerald-500/10 border-2 border-emerald-500/20 rounded-[3rem] flex items-center gap-6 text-emerald-700 font-black uppercase tracking-widest text-xs shadow-2xl"
           >
-            <CheckCircle2 className="w-5 h-5" />
+            <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
+              <CheckCircle2 className="w-7 h-7" />
+            </div>
             Platform purged successfully. Started fresh medical registry.
           </motion.div>
         )}
 
         {loading ? (
-          <div className="p-12 text-center text-gray-500">Loading admin data...</div>
+          <div className="p-32 text-center">
+             <div className="w-20 h-20 border-4 border-slate-900 border-t-transparent rounded-full animate-spin mx-auto mb-8 shadow-xl" />
+             <p className="text-slate-400 font-black uppercase tracking-[0.4em] text-xs opacity-60">Initializing Command...</p>
+          </div>
         ) : (
           <>
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center gap-4 group hover:border-blue-200 transition-colors">
-                <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110">
-                  <Users className="w-7 h-7" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+              >
+                <div className="w-20 h-20 bg-blue-500/10 rounded-[2.5rem] flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                  <Users className="w-10 h-10" />
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">Medical Registry</p>
-                  <p className="text-4xl font-black text-gray-900 tracking-tighter">{totalUsers}</p>
+                <div className="relative z-10">
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Medical Registry</p>
+                  <p className="text-5xl font-black text-slate-900 tracking-[-0.05em] uppercase leading-none">{totalUsers}</p>
                 </div>
-              </div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+              </motion.div>
               
-              <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center gap-4 group hover:border-green-200 transition-colors">
-                <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 transition-transform group-hover:scale-110">
-                  <ShieldCheck className="w-7 h-7" />
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+              >
+                <div className="w-20 h-20 bg-emerald-500/10 rounded-[2.5rem] flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                  <ShieldCheck className="w-10 h-10" />
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">Verified Premium</p>
-                  <p className="text-4xl font-black text-green-600 tracking-tighter">{premiumUsers}</p>
+                <div className="relative z-10">
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Premium</p>
+                  <p className="text-5xl font-black text-emerald-600 tracking-[-0.05em] uppercase leading-none">{premiumUsers}</p>
                 </div>
-              </div>
-
-              <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center gap-4 group hover:border-purple-200 transition-colors">
-                <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110">
-                  <Activity className="w-7 h-7" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+              </motion.div>
+ 
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+              >
+                <div className="w-20 h-20 bg-purple-500/10 rounded-[2.5rem] flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                  <Activity className="w-10 h-10" />
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">Confidence Score</p>
-                  <p className="text-4xl font-black text-purple-600 tracking-tighter">{conversionRate}%</p>
+                <div className="relative z-10">
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Confidence Score</p>
+                  <p className="text-5xl font-black text-purple-600 tracking-[-0.05em] uppercase leading-none">{conversionRate}<span className="text-2xl ml-1">%</span></p>
                 </div>
-              </div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+              </motion.div>
             </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+ 
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Popular Searches */}
-              <div className="lg:col-span-1 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[600px]">
-                <div className="p-6 border-b border-gray-100">
-                  <h2 className="text-xl font-bold flex items-center gap-2">
-                    <SearchIcon className="w-5 h-5 text-blue-600" />
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="lg:col-span-1 backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col h-[700px]"
+              >
+                <div className="p-10 border-b border-white/50 bg-white/30">
+                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
+                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl rotate-6">
+                      <SearchIcon className="w-6 h-6" />
+                    </div>
                     Top Searches
                   </h2>
                 </div>
-                <div className="overflow-y-auto flex-1 p-0">
+                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
                   <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-gray-50 border-b border-gray-100">
-                      <tr className="text-xs text-gray-500 uppercase tracking-wider">
-                        <th className="p-4 font-bold">Query</th>
-                        <th className="p-4 font-bold text-right">Count</th>
+                    <thead className="sticky top-0 bg-slate-900 text-white z-20">
+                      <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
+                        <th className="p-8">Medical Query</th>
+                        <th className="p-8 text-right">Frequency</th>
                       </tr>
                     </thead>
                     <tbody className="text-sm">
                       {searches.map((search) => (
-                        <tr key={search.id} className="border-b border-gray-50 hover:bg-gray-50/50">
-                          <td className="p-4 font-medium text-gray-900 capitalize">{search.query}</td>
-                          <td className="p-4 text-right font-bold text-blue-600">{search.count}</td>
+                        <tr key={search.id} className="border-b border-white hover:bg-slate-900 hover:text-white transition-all group">
+                          <td className="p-8 font-black uppercase tracking-tight text-lg italic leading-none">{search.query}</td>
+                          <td className="p-8 text-right font-black text-2xl tracking-tighter text-blue-500 group-hover:text-white leading-none">{search.count}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
-
+              </motion.div>
+ 
               {/* User Directory */}
-              <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[600px] hover:shadow-md transition-shadow">
-                <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                  <h2 className="text-xl font-black flex items-center gap-2 tracking-tight">
-                    <Users className="w-5 h-5 text-blue-600" />
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="lg:col-span-2 backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col h-[700px] hover:shadow-2xl transition-all"
+              >
+                <div className="p-10 border-b border-white/50 flex justify-between items-center bg-white/30">
+                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
+                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl -rotate-6">
+                      <Users className="w-6 h-6" />
+                    </div>
                     Patient Registry
                   </h2>
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] backdrop-blur-md bg-white border border-white px-6 py-2 rounded-full shadow-inner">
                     {users.length} Total Patients
                   </span>
                 </div>
-                <div className="overflow-y-auto flex-1 p-0">
+                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
                   <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-white border-b border-gray-100 z-10">
-                      <tr className="text-[10px] text-gray-400 uppercase font-black tracking-[0.2em] bg-white">
-                        <th className="p-5">Personal Details</th>
-                        <th className="p-5">Verified Status</th>
-                        <th className="p-5">Registration</th>
+                    <thead className="sticky top-0 bg-slate-900 text-white z-20">
+                      <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
+                        <th className="p-10">Personal Details</th>
+                        <th className="p-10">Verified Status</th>
+                        <th className="p-10">Registration</th>
                       </tr>
                     </thead>
-                    <tbody className="text-sm divide-y divide-gray-50">
+                    <tbody className="divide-y divide-white">
                       {users.map((u) => (
-                        <tr key={u.uid} className="hover:bg-blue-50/30 transition-colors group">
-                          <td className="p-5">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shadow-sm ${u.isPremium ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                        <tr key={u.uid} className="hover:bg-slate-900 hover:text-white transition-all group">
+                          <td className="p-10">
+                            <div className="flex items-center gap-6">
+                              <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center text-xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-12 ${u.isPremium ? 'bg-emerald-500 text-white' : 'backdrop-blur-md bg-white text-slate-400 border border-white'}`}>
                                 {u.displayName ? u.displayName.charAt(0).toUpperCase() : 'A'}
                               </div>
                               <div>
-                                <div className="font-bold text-gray-900 leading-none mb-1">{u.displayName || 'Anonymous Patient'}</div>
-                                <div className="text-gray-400 text-[11px] font-medium">{u.email}</div>
+                                <div className="font-black text-2xl tracking-tighter uppercase leading-none mb-2 group-hover:text-white text-slate-900">{u.displayName || 'Anonymous Patient'}</div>
+                                <div className="text-slate-400 text-sm font-bold tracking-tight group-hover:text-white/50">{u.email}</div>
                                 {u.phoneNumber ? (
-                                  <div className="text-blue-500 text-[10px] mt-1 font-black flex items-center gap-1.5 p-1 bg-blue-50 rounded-lg w-fit">
-                                    <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+                                  <div className="text-emerald-500 text-[10px] mt-3 font-black flex items-center gap-2 p-2 backdrop-blur-md bg-emerald-500/5 rounded-xl w-fit border border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-400 transition-all">
+                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse group-hover:bg-white shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
                                     {u.phoneNumber}
                                   </div>
                                 ) : (
-                                  <div className="text-gray-300 text-[10px] mt-1 italic">No phone linked</div>
+                                  <div className="text-slate-200 text-[10px] mt-3 italic font-bold tracking-widest uppercase opacity-40 group-hover:opacity-100 group-hover:text-white/30">No phone linked</div>
                                 )}
                               </div>
                             </div>
                           </td>
-                          <td className="p-5">
-                            <div className="flex flex-col gap-1.5">
+                          <td className="p-10">
+                            <div className="flex flex-col gap-3">
                               {u.isPremium ? (
-                                <span className="w-fit flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-full uppercase tracking-wider border border-emerald-100">
-                                  <CheckCircle2 className="w-3 h-3" />
+                                <span className="w-fit flex items-center gap-2 px-5 py-2 backdrop-blur-md bg-emerald-500 text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-xl shadow-emerald-500/20">
+                                  <CheckCircle2 className="w-4 h-4" />
                                   {getTierLabel(u.subscriptionTier)}
                                 </span>
                               ) : (
-                                <span className="w-fit px-3 py-1 bg-gray-50 text-gray-400 text-[10px] font-bold rounded-full uppercase tracking-wider border border-gray-100">
+                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-white border border-white text-slate-400 text-[10px] font-black rounded-full uppercase tracking-widest shadow-inner group-hover:text-white group-hover:bg-white/10 group-hover:border-white/20">
                                   Standard
                                 </span>
                               )}
                               {u.role === 'admin' && (
-                                <span className="w-fit px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-black rounded-full uppercase tracking-wider border border-indigo-100">
+                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-slate-900 text-white text-[10px] font-black rounded-full uppercase tracking-widest border border-slate-700 shadow-2xl group-hover:bg-white group-hover:text-slate-900 group-hover:border-white">
                                   Super Admin
                                 </span>
                               )}
                             </div>
                           </td>
-                          <td className="p-5">
-                            <div className="text-gray-900 font-bold text-xs">{new Date(u.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</div>
-                            <div className="text-gray-400 text-[10px] mt-0.5">{new Date(u.createdAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</div>
+                          <td className="p-10">
+                            <div className="text-slate-900 group-hover:text-white font-black text-lg tracking-tighter uppercase leading-none">{new Date(u.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                            <div className="text-slate-400 group-hover:text-white/50 text-[10px] mt-2 font-black uppercase tracking-widest">{new Date(u.createdAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </>
         )}

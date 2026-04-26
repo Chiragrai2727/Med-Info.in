@@ -350,41 +350,41 @@ export const ScannerPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24 pb-32">
+    <div className="min-h-screen bg-transparent pt-32 sm:pt-48 pb-32">
       <div className="max-w-4xl mx-auto px-4">
         
         {/* Header & Counter */}
         {!isPremium && (
-          <div className="mb-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs">Monthly Scan Usage</h3>
-              <span className="text-sm font-black text-blue-600">{3 - remainingScans} of 3 free scans used</span>
+          <div className="mb-12 p-8 backdrop-blur-xl bg-white/70 rounded-[3rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] opacity-60">Usage Tracker</h3>
+              <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">{3 - remainingScans} / 3 scans used</span>
             </div>
-            <div className="h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div className="h-5 bg-black/5 rounded-full overflow-hidden p-1 shadow-inner">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${((3 - remainingScans) / 3) * 100}%` }}
-                className="h-full bg-blue-600 rounded-full shadow-lg"
+                className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg"
               />
             </div>
             {remainingScans === 0 && (
               <button 
                 onClick={() => navigate('/pricing')}
-                className="mt-6 w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2"
+                className="mt-8 w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3"
               >
-                Upgrade to scan unlimited <ArrowRight className="w-5 h-5" />
+                Unlock Unlimited Scans <ArrowRight className="w-5 h-5 text-yellow-400" />
               </button>
             )}
           </div>
         )}
-
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">AI Health Scanner</h1>
-          <p className="text-slate-500 font-medium">Scan prescriptions or medicine strips for instant AI analysis.</p>
+ 
+        <div className="text-center mb-16 px-4">
+          <h1 className="text-4xl md:text-7xl font-black text-slate-900 mb-6 tracking-[-0.05em] uppercase leading-[0.8]">AI Health Scanner</h1>
+          <p className="text-slate-400 font-bold tracking-tight text-lg md:text-xl opacity-70">Instantly analyze prescriptions or medicine strips with 99% accuracy.</p>
         </div>
-
+ 
         {/* Tabs */}
-        <div className="flex p-1 bg-slate-200/50 rounded-2xl mb-8 border border-slate-200">
+        <div className="flex p-2 backdrop-blur-xl bg-white/40 rounded-[2.5rem] mb-12 border border-white shadow-sm overflow-hidden">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
             const isLocked = !isPremium && tab === 'lab';
             return (
@@ -400,275 +400,287 @@ export const ScannerPage: React.FC = () => {
                     setImage(null);
                   }
                 }}
-                className={`flex-1 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.25em] transition-all flex items-center justify-center gap-3 ${
                   activeTab === tab 
-                    ? 'bg-blue-600 text-white shadow-lg' 
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-slate-900 text-white shadow-xl' 
+                    : 'text-slate-400 hover:text-slate-900'
                 }`}
               >
                 {tab}
-                {isLocked && <Lock className="w-3.5 h-3.5" />}
+                {isLocked && <Lock className="w-4 h-4 opacity-50" />}
               </button>
             );
           })}
         </div>
-
+ 
           {/* Preview State */}
           {showPreview && !loading && image && (
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-[3rem] border border-slate-100 overflow-hidden shadow-2xl"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="backdrop-blur-3xl bg-white/70 rounded-[4rem] border border-white overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.08)]"
             >
-              <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+              <div className="p-10 border-b border-black/5 flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-slate-900">Scan Preview</h3>
-                  <p className="text-slate-500 text-sm font-medium">Verify your photo before processing</p>
+                  <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Scan Preview</h3>
+                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-1 opacity-60">Ready for AI Analysis</p>
                 </div>
                 <button 
                   onClick={() => { setShowPreview(false); setImage(null); setPendingFile(null); }}
-                  className="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
+                  className="w-12 h-12 backdrop-blur-md bg-white text-slate-400 rounded-2xl flex items-center justify-center border border-white shadow-sm hover:bg-rose-50 hover:text-rose-600 transition-all"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
-              <div className="p-4 bg-slate-900 flex justify-center">
+              <div className="p-6 bg-slate-900/5 flex justify-center">
                 <img 
                   src={image} 
                   alt="Scan Preview" 
-                  className="max-h-[400px] object-contain rounded-2xl border-4 border-white/10" 
+                  className="max-h-[450px] object-contain rounded-[2rem] shadow-2xl border-4 border-white" 
                 />
               </div>
-              <div className="p-8 flex flex-col sm:flex-row gap-4">
+              <div className="p-10 flex flex-col sm:flex-row gap-6">
                 <button 
                   onClick={() => cameraInputRef.current?.click()}
-                  className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-900 rounded-3xl font-black text-sm uppercase tracking-widest hover:border-slate-900 transition-all"
+                  className="flex-1 py-6 backdrop-blur-md bg-white border-2 border-slate-100 text-slate-400 font-black text-xs uppercase tracking-widest rounded-[2rem] hover:border-slate-900 hover:text-slate-900 transition-all shadow-sm"
                 >
-                  Retake Photo
+                  Take Another
                 </button>
                 <button 
                   onClick={startActualScan}
-                  className="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all"
+                  className="flex-1 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-4 shadow-2xl hover:bg-black active:scale-95 transition-all"
                 >
-                  <ShieldCheck className="w-5 h-5" /> Confirm & Analyze
+                  <ShieldCheck className="w-5 h-5 text-emerald-400" /> Confirm & Process
                 </button>
               </div>
             </motion.div>
           )}
-
+ 
           {/* Scan Area */}
           <div className="relative">
             {!scanResult && !loading && !showPreview && (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white border-2 border-dashed border-slate-200 rounded-[3rem] p-12 text-center hover:border-blue-500 transition-all group"
+                initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="backdrop-blur-xl bg-white/60 border-[3px] border-dashed border-white rounded-[5rem] p-16 text-center hover:bg-white/80 transition-all duration-700 group shadow-[0_20px_50px_rgba(0,0,0,0.02)]"
             >
-              <div className="flex flex-col items-center gap-6">
-                <div className="w-24 h-24 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg active:scale-95">
-                  <Camera className="w-10 h-10" />
+              <div className="flex flex-col items-center gap-10">
+                <div 
+                  onClick={() => cameraInputRef.current?.click()}
+                  className="w-32 h-32 bg-slate-100 rounded-[3rem] flex items-center justify-center text-slate-300 group-hover:bg-slate-900 group-hover:text-white transition-all duration-700 shadow-xl cursor-pointer active:scale-90"
+                >
+                  <Camera className="w-12 h-12" />
                 </div>
-                <div className="max-w-xs">
-                  <h3 className="text-lg font-black text-slate-900 mb-2">Ready to Scan?</h3>
-                  <p className="text-slate-500 font-medium text-sm">Position your {activeTab} in center. Ensure good lighting.</p>
+                <div className="max-w-md">
+                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase leading-none">Ready to start?</h3>
+                  <p className="text-slate-400 font-bold tracking-tight text-lg opacity-80 leading-relaxed px-4">Ensure your {activeTab} is centered and stable for the highest accuracy.</p>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <div className="flex flex-col sm:flex-row gap-6 w-full max-w-lg">
                   <button 
                     disabled={remainingScans === 0 && !isPremium}
                     onClick={() => cameraInputRef.current?.click()}
-                    className="flex-1 py-5 bg-slate-900 text-white rounded-3xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 disabled:opacity-50 active:scale-95 shadow-xl hover:bg-slate-800"
+                    className="flex-1 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-2xl hover:bg-black border border-slate-700"
                   >
-                    Take Photo
+                    Open Camera
                   </button>
                   <button 
                     disabled={remainingScans === 0 && !isPremium}
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-900 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 disabled:opacity-50 active:scale-95 hover:border-slate-900"
+                    className="flex-1 py-6 backdrop-blur-md bg-white border-2 border-white text-slate-900 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-sm hover:border-slate-900"
                   >
-                    Upload Image
+                    Upload File
                   </button>
                 </div>
               </div>
-
+ 
               <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleImageUpload} />
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
             </motion.div>
           )}
-
+ 
           {/* Upgrade Nudge Banner */}
           {!isPremium && !nudgeDismissed && !scanResult && !loading && (
-            <div className="mt-8 bg-blue-900 text-white p-6 rounded-[2rem] flex items-center justify-between shadow-2xl relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-xl" />
-               <div className="flex items-center gap-4 relative z-10">
-                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-6 h-6 text-blue-300" />
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-12 backdrop-blur-2xl bg-slate-900 p-10 rounded-[3.5rem] flex items-center justify-between shadow-2xl relative overflow-hidden group border-2 border-slate-700"
+            >
+               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-[100px] group-hover:scale-150 transition-transform duration-1000" />
+               <div className="flex items-center gap-6 relative z-10">
+                 <div className="w-14 h-14 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shrink-0 shadow-lg">
+                    <Zap className="w-7 h-7 text-yellow-400 fill-yellow-400" />
                  </div>
                  <div className="pr-12">
-                   <p className="font-bold text-sm">Handwritten prescription?</p>
-                   <p className="text-blue-300 text-xs font-medium">Basic scan may miss details. Premium Plan reads any handwriting — ₹99/month</p>
+                   <p className="font-black text-white text-xl tracking-tight mb-2 uppercase leading-none">Handwriting Detected?</p>
+                   <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] leading-relaxed">Basic scan may miss details. Get AI-Vision precise results with Premium — ₹99/mo</p>
                  </div>
                </div>
-               <div className="flex flex-col items-end gap-2 shrink-0">
-                 <button onClick={() => navigate('/pricing')} className="p-2 bg-blue-500 rounded-lg hover:bg-blue-400">
-                    <ChevronRight className="w-5 h-5" />
+               <div className="flex flex-col items-end gap-3 shrink-0 relative z-10">
+                 <button onClick={() => navigate('/pricing')} className="p-3 bg-white text-slate-900 rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-xl">
+                    <ChevronRight className="w-6 h-6" />
                  </button>
-                 <button onClick={() => setNudgeDismissed(true)} className="text-[10px] uppercase font-black tracking-widest text-blue-400/50 hover:text-white">Dismiss</button>
+                 <button onClick={() => setNudgeDismissed(true)} className="text-[9px] uppercase font-black tracking-[0.3em] text-slate-500 hover:text-white transition-opacity">Dismiss</button>
                </div>
-            </div>
+            </motion.div>
           )}
-
+ 
           {/* Loading State */}
           {loading && (
-            <div className="py-20 text-center flex flex-col items-center">
-              <div className="relative w-32 h-32 mb-8">
-                <div className="absolute inset-0 border-[6px] border-blue-100 rounded-[2.5rem]" />
+            <div className="py-32 text-center flex flex-col items-center">
+              <div className="relative w-48 h-48 mb-12">
+                <div className="absolute inset-0 border-[8px] border-slate-100 rounded-[3.5rem]" />
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 border-[6px] border-blue-600 rounded-[2.5rem] border-t-transparent shadow-lg"
+                  className="absolute inset-0 border-[8px] border-slate-900 rounded-[3.5rem] border-t-transparent shadow-2xl"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Zap className="w-10 h-10 text-blue-600 animate-pulse" />
+                  <Zap className="w-14 h-14 text-slate-900 fill-yellow-400 animate-pulse" />
                 </div>
               </div>
-              <h3 className="text-xl font-black text-slate-900 mb-2">{loadingMsg}</h3>
-              <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Deciphering Medical Data</p>
+              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase leading-none">{loadingMsg}</h3>
+              <p className="text-slate-400 font-extrabold uppercase tracking-[0.4em] text-[10px]">Processing Neuro-Medical Patterns</p>
             </div>
           )}
-
+ 
           {/* Results Area */}
           {scanResult && !loading && (
-            <div className="space-y-8 pb-32">
+            <div className="space-y-12 pb-32">
               {/* Scan Info Banner */}
-              <div className={`p-6 rounded-[2rem] border flex items-center justify-between ${
-                isPremium ? 'bg-green-50 border-green-100 text-green-900' : 'bg-amber-50 border-amber-100 text-amber-900'
+              <div className={`p-10 rounded-[4rem] border shadow-2xl flex items-center justify-between backdrop-blur-xl ${
+                isPremium ? 'bg-emerald-50/60 border-emerald-200/50 text-emerald-900' : 'bg-amber-50/60 border-amber-200/50 text-amber-900'
               }`}>
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                    isPremium ? 'bg-green-600 text-white' : 'bg-amber-600 text-white animate-pulse'
+                <div className="flex items-center gap-6">
+                  <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-lg ${
+                    isPremium ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
                   }`}>
-                    {isPremium ? <CheckCircle2 className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+                    {isPremium ? <CheckCircle2 className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
                   </div>
                   <div>
-                    <h4 className="font-black uppercase tracking-widest text-xs mb-1">
-                      {isPremium ? 'Premium Scan Complete' : 'Basic Scan Complete'}
+                    <h4 className="font-black uppercase tracking-[0.3em] text-[10px] mb-2 opacity-60">
+                      {isPremium ? 'Analysis Verified' : 'Standard Logic Active'}
                     </h4>
-                    <p className="font-bold">
+                    <p className="text-2xl font-black tracking-tight leading-none">
                       {isPremium 
-                        ? '100% Precise: 99% Accuracy achieved using Advanced AI' 
-                        : 'Basic scan complete. Upgrade to Premium Plan for 99% accuracy and handwriting support.'}
+                        ? '100% Precise Results' 
+                        : 'Standard accuracy achieved'}
                     </p>
                   </div>
                 </div>
                 {isPremium && (
                   <button 
                     onClick={downloadPDF}
-                    className="flex items-center gap-2 px-4 py-2 bg-white border border-green-200 text-green-700 rounded-xl font-black text-xs uppercase tracking-widest hover:border-green-600 transition-all shadow-sm"
+                    className="flex items-center gap-3 px-8 py-4 bg-white border-2 border-emerald-100 text-emerald-700 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all shadow-sm"
                   >
-                    <Download className="w-4 h-4" /> PDF
+                    <Download className="w-5 h-5" /> Download Report
                   </button>
                 )}
               </div>
-
+ 
               {activeTab === 'prescription' && !isPremium && (
-                <div className="bg-slate-900 text-white p-5 rounded-2xl flex items-center gap-4 shadow-xl">
-                  <Info className="w-6 h-6 text-blue-400 shrink-0" />
-                  <p className="text-sm font-bold">
-                    Reading printed prescription... For handwritten prescriptions, <span className="text-blue-400">upgrade to Premium Plan</span>.
+                <div className="bg-slate-900 shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-slate-700">
+                  <div className="w-12 h-12 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
+                    <Info className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <p className="text-lg font-bold tracking-tight">
+                    Basic AI reads printed text. <span className="text-blue-400">Upgrade to Premium Plan</span> for cursive/handwritten scripts.
                   </p>
                 </div>
               )}
-
+ 
               {/* Medicine Cards */}
-              <div className="space-y-4">
-                <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs px-4">Detected Medicines</h3>
+              <div className="space-y-8">
+                <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">Detected Profile</h3>
                 {scanResult.medicines.length === 0 && (
-                  <div className="p-12 text-center bg-white rounded-[3rem] border border-slate-100">
-                    <p className="text-slate-400 font-bold tracking-tight">No medicines detected. Try a clearer photo.</p>
+                  <div className="p-20 text-center backdrop-blur-xl bg-white/70 rounded-[4rem] border border-white shadow-sm">
+                    <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-slate-100 shadow-inner">
+                        <ImageIcon className="w-10 h-10 text-slate-200" />
+                    </div>
+                    <p className="text-slate-400 font-bold tracking-tight text-lg">No medical patterns detected. Try a clearer scan profile.</p>
                   </div>
                 )}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {scanResult.medicines.map((med, i) => (
                     <motion.div 
                       key={i}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: i * 0.1 }}
-                      className={`p-8 bg-white rounded-[3rem] border-2 shadow-sm transition-all relative overflow-hidden ${
-                         med.is_banned ? 'border-red-500 bg-red-50/10' : 'border-slate-100 hover:border-blue-500'
+                      className={`p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
+                         med.is_banned ? 'border-rose-500/50 bg-rose-50/20' : 'border-white hover:border-slate-900'
                       }`}
                     >
                       {med.is_banned && (
-                        <div className="absolute top-0 right-0 bg-red-600 text-white px-6 py-2 rounded-bl-3xl font-black text-[10px] uppercase tracking-[0.2em] shadow-xl z-20">
+                        <div className="absolute top-0 right-0 bg-rose-600 text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
                           Banned Alert
                         </div>
                       )}
                       
-                      <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-10">
                          <div className="flex items-start justify-between">
-                            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
-                               <FlaskConical className="w-6 h-6" />
+                            <div className="p-4 bg-slate-50 text-slate-900 rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
+                               <FlaskConical className="w-8 h-8" />
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-3">
                               <button 
                                 onClick={() => handleWhatsAppShare(med)}
-                                className="p-3 bg-green-50 text-green-600 rounded-2xl hover:bg-green-600 hover:text-white transition-all shadow-sm"
+                                className="p-3.5 backdrop-blur-md bg-white text-emerald-600 rounded-[1.25rem] hover:bg-emerald-600 hover:text-white transition-all shadow-sm border border-white"
                                 title="Share on WhatsApp"
                               >
-                                <Share2 className="w-5 h-5" />
+                                <Share2 className="w-6 h-6" />
                               </button>
                               <button 
                                 onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                                className="text-xs font-black uppercase tracking-widest text-blue-600 hover:underline flex items-center gap-1"
+                                className="p-3.5 backdrop-blur-md bg-white text-slate-900 rounded-[1.25rem] hover:bg-slate-900 hover:text-white transition-all shadow-sm border border-white"
                               >
-                                Search <ArrowRight className="w-4 h-4" />
+                                <ArrowRight className="w-6 h-6" />
                               </button>
                             </div>
                          </div>
-
+ 
                         <div>
-                          <div className="flex items-center justify-between mb-1">
-                            <h4 className="text-2xl font-black text-slate-900 leading-tight tracking-tight">{med.name}</h4>
-                            <button
-                              onClick={() => {
-                                const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
-                                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
-                              }}
-                              className="px-4 py-2 bg-[#25D366]/10 text-[#075E54] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#25D366] hover:text-white transition-all flex items-center gap-2"
-                            >
-                               <Clock className="w-3.5 h-3.5" /> Refill Reminder
-                            </button>
+                          <div className="flex flex-col gap-3 mb-6">
+                            <h4 className="text-3xl font-black text-slate-900 leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
                           </div>
-                          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{med.generic_name || 'Generic details unknown'}</p>
+                          <button
+                            onClick={() => {
+                              const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
+                              window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                            }}
+                            className="inline-flex px-6 py-3 backdrop-blur-md bg-white border border-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all items-center gap-3 shadow-sm"
+                          >
+                             <Clock className="w-4 h-4" /> Refill Reminder
+                          </button>
                         </div>
-
+ 
                         {med.dosage && (
-                          <div className="py-2 px-3 bg-slate-50 border border-slate-100 rounded-xl inline-block max-w-fit">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-0.5">Dosage</span>
-                            <span className="font-bold text-slate-900 text-sm">{med.dosage}</span>
+                          <div className="py-3 px-6 backdrop-blur-md bg-slate-500/5 border border-white rounded-2xl inline-block max-w-fit shadow-inner">
+                            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Prescribed Dosage</span>
+                            <span className="font-black text-slate-900 text-base tracking-tight">{med.dosage}</span>
                           </div>
                         )}
-
-                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-50">
+ 
+                        <div className="grid grid-cols-2 gap-8 pt-10 border-t border-black/5">
                            <div>
-                              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">MRP</span>
-                              <span className="font-black text-slate-900">{med.mrp}</span>
+                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Market Price</span>
+                              <span className="text-xl font-black text-slate-900 tracking-tighter">{med.mrp}</span>
                            </div>
-                           <div className="bg-green-50 p-3 rounded-2xl border border-green-100">
-                             <span className="text-[10px] font-black uppercase tracking-widest text-green-600 block mb-1">Generic Alt</span>
-                             <div className="flex flex-col">
-                               <span className="font-black text-green-700 text-xs">{med.generic_alternative?.name || 'Searching...'}</span>
-                               <span className="font-bold text-green-600 text-[10px]">{med.generic_alternative?.price || ''}</span>
+                           <div className="backdrop-blur-md bg-emerald-50 p-5 rounded-[1.5rem] border border-emerald-100 shadow-sm">
+                             <span className="text-[8px] font-black uppercase tracking-[0.3em] text-emerald-600 block mb-2">Smart Alternative</span>
+                             <div className="flex flex-col gap-1">
+                               <span className="font-black text-emerald-900 text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
+                               <span className="font-bold text-emerald-600 text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
                              </div>
                            </div>
                         </div>
-
+ 
                         {med.is_banned && (
-                          <div className="bg-red-600 text-white p-4 rounded-2xl flex items-start gap-3 shadow-lg shadow-red-900/20">
-                             <AlertTriangle className="w-6 h-6 shrink-0" />
-                             <p className="text-xs font-bold leading-relaxed">
-                               This medicine is BANNED by CDSCO in India. Consult your doctor immediately to stop use.
+                          <div className="backdrop-blur-md bg-rose-600 p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-rose-500 border-t-rose-400">
+                             <AlertTriangle className="w-8 h-8 text-white shrink-0 animate-pulse" />
+                             <p className="text-xs font-black uppercase tracking-widest text-white/90 leading-relaxed">
+                               This medicine is BANNED in India. Stop use and consult a doctor immediately.
                              </p>
                           </div>
                         )}
@@ -677,20 +689,20 @@ export const ScannerPage: React.FC = () => {
                   ))}
                 </div>
               </div>
-
+ 
               {/* Reset Button */}
-              <div className="flex flex-col items-center gap-6 mt-16 pb-20">
+              <div className="flex flex-col items-center gap-10 mt-24 pb-20">
                  {!isPremium && (
                    <button 
                      onClick={() => navigate('/pricing')}
-                     className="text-sm font-black text-blue-600 hover:underline uppercase tracking-widest"
+                     className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-[0.4em] transition-colors"
                    >
-                     Was this scan unclear? → Upgrade for precise results
+                     Scan unclear? → Try Premium AI-Vision
                    </button>
                  )}
                  <button 
                   onClick={() => { setScanResult(null); setImage(null); }}
-                  className="px-10 py-5 bg-white border-2 border-slate-900 text-slate-900 rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-xl active:scale-95"
+                  className="px-14 py-6 bg-white border-2 border-slate-900 text-slate-900 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-[0_20px_50px_rgba(0,0,0,0.1)] active:scale-95"
                  >
                    Scan Another Document
                  </button>
@@ -699,17 +711,17 @@ export const ScannerPage: React.FC = () => {
           )}
         </div>
       </div>
-
+ 
       {/* Footer Disclaimer */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-slate-900/95 text-white backdrop-blur-xl border-t border-white/10 text-center z-[100] shadow-2xl">
-        <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
-          <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0" />
-          <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.1em] leading-tight">
-            Not a medical tool. Always consult a certified doctor before taking any medication.
+      <div className="fixed bottom-0 left-0 right-0 p-5 backdrop-blur-3xl bg-slate-900/90 text-white border-t border-white/10 text-center z-[100] shadow-[0_-10px_50px_rgba(0,0,0,0.2)]">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-4">
+          <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0" />
+          <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] leading-tight opacity-80">
+            Aethelcare is an AI analysis tool and not a substitute for professional medical advice.
           </p>
         </div>
       </div>
-
+ 
     </div>
   );
 };

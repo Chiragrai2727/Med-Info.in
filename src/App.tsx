@@ -48,8 +48,39 @@ export default function App() {
     <ErrorBoundary>
       <CompareProvider>
         <Router>
-          <div className="min-h-screen bg-[var(--color-bg)] font-sans selection:bg-[var(--color-ink)] selection:text-[var(--color-bg)]">
-                <Navbar />
+          <div className="min-h-screen bg-[#FDFCFB] font-sans selection:bg-blue-600 selection:text-white transition-colors duration-300 overflow-x-hidden">
+            {/* Liquid Glass Background Elements */}
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+              <motion.div 
+                animate={{ 
+                  x: [0, 100, 0],
+                  y: [0, -50, 0],
+                  scale: [1, 1.2, 1]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-100/40 rounded-full blur-[120px]" 
+              />
+              <motion.div 
+                animate={{ 
+                  x: [0, -100, 0],
+                  y: [0, 100, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-indigo-100/30 rounded-full blur-[120px]" 
+              />
+              <motion.div 
+                animate={{ 
+                  x: [0, 50, 0],
+                  y: [0, -100, 0]
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                className="absolute bottom-0 left-[10%] w-[40%] h-[40%] bg-purple-100/20 rounded-full blur-[120px]" 
+              />
+            </div>
+
+            <div className="relative z-10">
+              <Navbar />
 
                 {/* Global Refill Reminders */}
                 <div className="fixed top-20 right-4 z-[90] flex flex-col gap-2">
@@ -198,8 +229,9 @@ export default function App() {
                   </div>
                 </footer>
               </div>
-            </Router>
-          </CompareProvider>
+            </div>
+        </Router>
+      </CompareProvider>
     </ErrorBoundary>
   );
 }

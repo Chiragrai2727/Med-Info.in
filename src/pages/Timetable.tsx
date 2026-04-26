@@ -337,33 +337,36 @@ export const Timetable: React.FC = () => {
   const isPremium = profile?.isPremium === true || profile?.role === 'admin';
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 bg-gray-50">
+    <div className="min-h-screen bg-transparent pt-32 sm:pt-40 pb-24 px-4 overflow-x-hidden">
       <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
-          <div>
-            <h1 className="text-4xl font-black tracking-tight text-gray-900 mb-2">{t('timetableTitle')}</h1>
-            <p className="text-gray-500 font-medium">{t('timetableSubtitle')}</p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <h1 className="text-4xl md:text-6xl font-black tracking-[-0.05em] text-slate-900 mb-4 uppercase leading-none">{t('timetableTitle')}</h1>
+            <p className="text-slate-400 font-bold tracking-tight text-xl opacity-70 leading-none">{t('timetableSubtitle')}</p>
             {notificationsEnabled && (
-              <p className="text-xs text-green-600 font-bold mt-2 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> {t('notificationsActive')}
+              <p className="text-[10px] text-emerald-600 font-black uppercase tracking-[0.2em] mt-6 flex items-center gap-2 backdrop-blur-md bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/20 w-fit">
+                <CheckCircle2 className="w-3.5 h-3.5" /> {t('notificationsActive')}
               </p>
             )}
-          </div>
+          </motion.div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={requestNotifications}
-              className={`p-3 rounded-xl transition-all ${notificationsEnabled ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400 hover:text-black'}`}
+              className={`p-5 rounded-[2rem] backdrop-blur-xl transition-all shadow-2xl ${notificationsEnabled ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-white/70 text-slate-400 hover:text-slate-900 border border-white'}`}
               title={notificationsEnabled ? t('notificationsEnabled') : t('enableNotifications')}
             >
-              {notificationsEnabled ? <Bell className="w-5 h-5" /> : <BellOff className="w-5 h-5" />}
+              {notificationsEnabled ? <Bell className="w-6 h-6" /> : <BellOff className="w-6 h-6" />}
             </button>
             {!isAdding && (
               <button 
                 onClick={() => setIsAdding(true)}
-                className="px-6 py-3 bg-black text-white rounded-xl font-bold flex items-center gap-2 hover:bg-gray-900 transition-colors shadow-lg"
+                className="px-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-black transition-all shadow-2xl active:scale-95 group"
               >
-                <Plus className="w-5 h-5" /> {t('addMed')}
+                <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" /> {t('addMed')}
               </button>
             )}
           </div>
@@ -371,22 +374,24 @@ export const Timetable: React.FC = () => {
 
         {isAdding && (
           <motion.form 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             onSubmit={handleAddSchedule}
-            className="bg-white p-8 rounded-[2.5rem] shadow-2xl mb-12 border border-gray-100 relative"
+            className="backdrop-blur-3xl bg-white/70 p-12 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.08)] mb-16 border-2 border-white relative overflow-hidden"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-900/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10 relative z-10">
               <div className="relative" ref={searchRef}>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('medicineName')}</label>
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
+                <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('medicineName')}</label>
+                <div className="relative group">
+                  <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-slate-900 transition-colors" />
                   <input 
                     type="text" 
                     required
                     value={newSchedule.medicineName}
                     onChange={e => setNewSchedule({...newSchedule, medicineName: e.target.value})}
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-black/5 focus:border-black font-bold transition-all"
+                    className="w-full pl-16 pr-6 py-6 backdrop-blur-md bg-white border-2 border-white rounded-[2rem] focus:ring-0 focus:border-slate-900 font-bold text-lg transition-all shadow-inner placeholder:text-slate-300"
                     placeholder={t('medicineSearchPlaceholder')}
                   />
                 </div>
@@ -394,10 +399,10 @@ export const Timetable: React.FC = () => {
                 <AnimatePresence>
                   {suggestions.length > 0 && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute z-50 w-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden"
+                      exit={{ opacity: 0, y: 15 }}
+                      className="absolute z-50 w-full mt-4 backdrop-blur-2xl bg-white/90 border-2 border-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.1)] overflow-hidden"
                     >
                       {suggestions.map((s, i) => (
                         <button
@@ -407,19 +412,19 @@ export const Timetable: React.FC = () => {
                             setNewSchedule({...newSchedule, medicineName: s.name});
                             setSuggestions([]);
                           }}
-                          className="w-full text-left px-6 py-4 hover:bg-gray-50 flex flex-col gap-0.5 border-b border-gray-50 last:border-0"
+                          className="w-full text-left px-8 py-6 hover:bg-slate-900 hover:text-white transition-all flex flex-col gap-1 border-b border-white last:border-0 group"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-bold text-gray-900">{s.name}</span>
+                            <span className="font-black text-lg tracking-tight uppercase">{s.name}</span>
                             {s.source && (
-                              <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${
-                                s.source === 'Verified Database' ? 'bg-blue-50 text-blue-600' : 'bg-gray-100 text-gray-400'
+                              <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-lg ${
+                                s.source === 'Verified Database' ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-200 text-slate-500 group-hover:bg-white/20 group-hover:text-white'
                               }`}>
                                 {s.source}
                               </span>
                             )}
                           </div>
-                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{s.category}</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-white/50">{s.category}</span>
                         </button>
                       ))}
                     </motion.div>
@@ -430,43 +435,43 @@ export const Timetable: React.FC = () => {
                   <motion.div 
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3"
+                    className="mt-6 p-6 backdrop-blur-md bg-red-500/10 border border-red-500/20 rounded-[2rem] flex items-start gap-4"
                   >
-                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-700 font-bold leading-tight">{bannedWarning}</p>
+                    <AlertCircle className="w-6 h-6 text-red-600 shrink-0" />
+                    <p className="text-sm text-red-700 font-bold leading-tight tracking-tight uppercase">{bannedWarning}</p>
                   </motion.div>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('dosageLabel')}</label>
+                <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('dosageLabel')}</label>
                 <input 
                   type="text" 
                   required
                   value={newSchedule.dosage}
                   onChange={e => setNewSchedule({...newSchedule, dosage: e.target.value})}
-                  className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-black/5 focus:border-black font-bold transition-all"
+                  className="w-full px-8 py-6 backdrop-blur-md bg-white border-2 border-white rounded-[2rem] focus:ring-0 focus:border-slate-900 font-bold text-lg transition-all shadow-inner placeholder:text-slate-300"
                   placeholder={t('dosagePlaceholder')}
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 relative z-10">
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('timeLabel')}</label>
-                <div className="relative">
-                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
+                <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('timeLabel')}</label>
+                <div className="relative group">
+                  <Clock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-slate-900 transition-colors" />
                   <input 
                     type="time" 
                     required
                     value={newSchedule.time}
                     onChange={e => setNewSchedule({...newSchedule, time: e.target.value})}
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-black/5 focus:border-black font-bold transition-all"
+                    className="w-full pl-16 pr-6 py-6 backdrop-blur-md bg-white border-2 border-white rounded-[2rem] focus:ring-0 focus:border-slate-900 font-bold text-lg transition-all shadow-inner"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-black uppercase tracking-widest text-gray-400 mb-3">{t('frequencyLabel')}</label>
-                <div className="flex flex-wrap gap-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('frequencyLabel')}</label>
+                <div className="flex flex-wrap gap-2.5">
                   {DAYS.map(day => (
                     <button
                       key={day}
@@ -479,10 +484,10 @@ export const Timetable: React.FC = () => {
                             : [...prev.days, day]
                         }));
                       }}
-                      className={`w-10 h-10 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${
+                      className={`w-12 h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${
                         newSchedule.days.includes(day) 
-                          ? 'bg-black text-white shadow-lg scale-110' 
-                          : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+                          ? 'bg-slate-900 text-white shadow-2xl scale-110 -translate-y-1' 
+                          : 'backdrop-blur-md bg-white text-slate-400 hover:bg-slate-900 hover:text-white border border-white'
                       }`}
                     >
                       {day[0]}
@@ -492,17 +497,17 @@ export const Timetable: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-4 border-t border-gray-50">
+            <div className="flex justify-end gap-6 pt-10 border-t border-white/50 relative z-10">
               <button 
                 type="button"
                 onClick={() => setIsAdding(false)}
-                className="px-8 py-4 text-gray-500 font-black uppercase tracking-widest text-xs hover:bg-gray-50 rounded-2xl transition-all"
+                className="px-10 py-5 text-slate-400 font-black uppercase tracking-[0.2em] text-[10px] hover:text-slate-900 transition-all"
               >
                 {t('cancel')}
               </button>
               <button 
                 type="submit"
-                className="px-10 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-900 transition-all shadow-xl hover:shadow-2xl active:scale-95"
+                className="px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black uppercase tracking-widest text-[10px] hover:bg-black transition-all shadow-2xl active:scale-95"
               >
                 {t('saveSchedule')}
               </button>
@@ -511,78 +516,100 @@ export const Timetable: React.FC = () => {
         )}
 
         {schedules.length === 0 ? (
-          <div className="bg-white rounded-[3rem] p-20 text-center shadow-sm border-2 border-dashed border-gray-100">
-            <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
-              <CalendarIcon className="w-10 h-10 text-gray-200" />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="backdrop-blur-xl bg-white/40 rounded-[5rem] p-24 text-center shadow-sm border-4 border-dashed border-white/50"
+          >
+            <div className="w-24 h-24 backdrop-blur-md bg-white rounded-[3rem] flex items-center justify-center mx-auto mb-10 shadow-2xl rotate-3">
+              <CalendarIcon className="w-12 h-12 text-slate-200" />
             </div>
-            <p className="text-2xl text-gray-400 font-black tracking-tight">{t('timetableEmpty')}</p>
-            <p className="text-gray-400 font-medium mt-2">{t('timetableEmptyDesc')}</p>
-          </div>
+            <p className="text-3xl font-black tracking-[-0.05em] text-slate-900 uppercase leading-none mb-4">{t('timetableEmpty')}</p>
+            <p className="text-slate-400 font-bold tracking-tight text-xl opacity-60 italic max-w-md mx-auto">"{t('timetableEmptyDesc')}"</p>
+          </motion.div>
         ) : (
-          <div className="space-y-12">
+          <div className="space-y-20">
             {/* Today's Section */}
             {todaySchedules.length > 0 && (
               <section>
-                <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">{t('todaysDoses')}</h2>
-                  <div className="h-px flex-grow bg-gray-100" />
-                  <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full">
+                <div className="flex items-center gap-6 mb-12">
+                  <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400 opacity-60 shrink-0">{t('todaysDoses')}</h2>
+                  <div className="h-px w-full bg-slate-900/10" />
+                  <span className="px-5 py-2 backdrop-blur-md bg-white/70 border border-white text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm shrink-0">
                     {t(`day_${today.toLowerCase()}`)}
                   </span>
                 </div>
-                <div className="grid gap-4">
+                <div className="grid gap-6">
                   {todaySchedules.map((schedule) => {
                     const isTaken = schedule.lastTakenDate === todayDate;
                     return (
                       <motion.div 
                         key={schedule.id}
                         layout
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className={`bg-white p-8 rounded-[2.5rem] shadow-sm border transition-all flex flex-col md:flex-row md:items-center justify-between gap-8 ${isTaken ? 'opacity-60 grayscale border-green-100 bg-green-50/10' : 'border-gray-100 hover:shadow-xl hover:border-black'}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`p-10 rounded-[4rem] backdrop-blur-xl border-2 transition-all flex flex-col md:flex-row md:items-center justify-between gap-10 group relative overflow-hidden ${
+                          isTaken 
+                            ? 'bg-emerald-500/5 grayscale border-emerald-500/20' 
+                            : 'bg-white/70 border-white hover:shadow-2xl hover:border-slate-900'
+                        }`}
                       >
-                        <div className="flex items-center gap-8">
-                          <div className={`w-20 h-20 rounded-3xl flex flex-col items-center justify-center border transition-all ${isTaken ? 'bg-green-100 border-green-200' : 'bg-gray-50 border-gray-100'}`}>
+                        <div className="flex items-center gap-10">
+                          <div className={`w-24 h-24 rounded-[2.5rem] flex flex-col items-center justify-center border-2 transition-all shadow-inner shrink-0 ${
+                            isTaken 
+                              ? 'bg-emerald-500 text-white border-emerald-400 scale-95 rotate-3 shadow-emerald-500/20' 
+                              : 'backdrop-blur-md bg-slate-50 border-white group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-3'
+                          }`}>
                             {isTaken ? (
-                              <CheckCircle2 className="w-8 h-8 text-green-600" />
+                              <CheckCircle2 className="w-12 h-12" />
                             ) : (
                               <>
-                                <Clock className="w-6 h-6 text-gray-400 mb-1" />
-                                <span className="text-sm font-black text-gray-900">{schedule.time}</span>
+                                <Clock className="w-6 h-6 mb-2 opacity-30" />
+                                <span className="text-lg font-black tracking-tighter uppercase">{schedule.time}</span>
                               </>
                             )}
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 mb-1">
-                              <h3 className={`text-2xl font-black tracking-tight ${isTaken ? 'text-gray-400 line-through' : 'text-gray-900'}`}>
+                            <div className="flex items-center gap-4 mb-2">
+                              <h3 className={`text-3xl md:text-4xl font-black tracking-[-0.05em] uppercase leading-none ${isTaken ? 'text-slate-400 italic line-through' : 'text-slate-900'}`}>
                                 {schedule.medicineName}
                               </h3>
-                              {isDrugBanned(schedule.medicineName) && (
-                                <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[8px] font-black uppercase tracking-widest rounded-md">{t('banned')}</span>
-                              )}
+                              <AnimatePresence>
+                                {isDrugBanned(schedule.medicineName) && (
+                                  <motion.span 
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="px-3 py-1 bg-red-500 text-white text-[8px] font-black uppercase tracking-widest rounded-lg shadow-lg shadow-red-500/20"
+                                  >
+                                    {t('banned')}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
                             </div>
-                            <p className="text-lg text-gray-500 font-medium">{schedule.dosage}</p>
+                            <p className="text-xl md:text-2xl text-slate-400 font-bold tracking-tight italic opacity-70">"{schedule.dosage}"</p>
                           </div>
                         </div>
                         
-                         <div className="flex items-center justify-between md:justify-end gap-6 text-sm">
+                         <div className="flex items-center justify-between md:justify-end gap-6">
                            <button
                              onClick={() => handleToggleTaken(schedule)}
-                             className={`px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center gap-2 ${
+                             className={`px-12 py-5 rounded-[2rem] font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-3 shadow-2xl active:scale-95 ${
                                isTaken 
-                                 ? 'bg-green-600 text-white shadow-lg' 
-                                 : 'bg-black text-white shadow-xl hover:bg-gray-900'
+                                 ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-500/20' 
+                                 : 'bg-slate-900 text-white hover:bg-black'
                              }`}
                            >
                              {isTaken ? t('taken') : t('markAsTaken')}
                            </button>
                            <button 
                              onClick={() => handleDelete(schedule.id)}
-                             className="p-4 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                             className="p-5 backdrop-blur-md bg-white border border-white text-slate-300 hover:text-red-500 hover:bg-red-500/10 rounded-[1.5rem] transition-all shadow-sm active:scale-90"
                            >
-                             <Trash2 className="w-5 h-5" />
+                             <Trash2 className="w-6 h-6" />
                            </button>
                         </div>
+                        
+                        <div className={`absolute top-0 right-0 w-48 h-48 rounded-full -mr-24 -mt-24 blur-3xl opacity-10 transition-transform duration-1000 group-hover:scale-150 ${isTaken ? 'bg-emerald-500' : 'bg-slate-900'}`} />
                       </motion.div>
                     );
                   })}
@@ -593,37 +620,39 @@ export const Timetable: React.FC = () => {
             {/* Other Days Section */}
             {otherSchedules.length > 0 && (
               <section>
-                <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-xl font-black uppercase tracking-[0.2em] text-gray-400">{t('otherDays')}</h2>
-                  <div className="h-px flex-grow bg-gray-100" />
+                <div className="flex items-center gap-6 mb-12">
+                  <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400 opacity-60 shrink-0">{t('otherDays')}</h2>
+                  <div className="h-px w-full bg-slate-900/10" />
                 </div>
-                <div className="grid gap-4">
+                <div className="grid gap-6">
                   {otherSchedules.map((schedule) => (
                     <motion.div 
                       key={schedule.id}
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-8 hover:shadow-xl transition-all"
+                      className="backdrop-blur-xl bg-white/50 p-10 rounded-[4rem] border-2 border-white flex flex-col lg:flex-row lg:items-center justify-between gap-10 group hover:shadow-2xl hover:border-slate-900 transition-all relative overflow-hidden"
                     >
-                      <div className="flex items-center gap-8">
-                        <div className="w-16 h-16 bg-gray-50 rounded-2xl flex flex-col items-center justify-center border border-gray-100">
-                          <Clock className="w-5 h-5 text-gray-400 mb-1" />
-                          <span className="text-xs font-black text-gray-900">{schedule.time}</span>
+                      <div className="flex items-center gap-10 relative z-10">
+                        <div className="w-20 h-20 backdrop-blur-md bg-white rounded-[2rem] flex flex-col items-center justify-center border border-white shadow-inner shrink-0 group-hover:bg-slate-900 group-hover:text-white transition-all">
+                          <Clock className="w-5 h-5 opacity-30 mb-1" />
+                          <span className="text-sm font-black tracking-tighter uppercase">{schedule.time}</span>
                         </div>
                         <div>
-                          <h3 className="text-xl font-black text-gray-900 mb-1">{schedule.medicineName}</h3>
-                          <p className="text-gray-500 font-medium">{schedule.dosage}</p>
+                          <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tight uppercase leading-none">{schedule.medicineName}</h3>
+                          <p className="text-lg text-slate-400 font-bold tracking-tight italic opacity-70">"{schedule.dosage}"</p>
                         </div>
                       </div>
                       
-                      <div className="flex items-center justify-between md:justify-end gap-8 flex-1">
-                        <div className="flex gap-1.5">
+                      <div className="flex items-center justify-between lg:justify-end gap-10 flex-1 relative z-10">
+                        <div className="flex gap-2 p-3 backdrop-blur-md bg-white border border-white rounded-[2rem] shadow-inner">
                           {DAYS.map(day => (
                             <span 
                               key={day}
                               title={t(`day_${day.toLowerCase()}`)}
-                              className={`text-[8px] font-black uppercase tracking-wider w-8 h-8 flex items-center justify-center rounded-xl transition-all ${
-                                schedule.days.includes(day) ? 'bg-black text-white shadow-md' : 'bg-gray-50 text-gray-200'
+                              className={`text-[8px] font-black uppercase tracking-wider w-9 h-9 flex items-center justify-center rounded-xl transition-all ${
+                                schedule.days.includes(day) 
+                                  ? 'bg-slate-900 text-white shadow-lg -translate-y-1' 
+                                  : 'text-slate-200'
                               }`}
                             >
                               {day[0]}
@@ -632,11 +661,13 @@ export const Timetable: React.FC = () => {
                         </div>
                         <button 
                           onClick={() => handleDelete(schedule.id)}
-                          className="p-4 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                          className="p-5 backdrop-blur-md bg-white border border-white text-slate-300 hover:text-red-500 hover:bg-red-500/10 rounded-[1.5rem] transition-all shadow-sm active:scale-90"
                         >
-                          <Trash2 className="w-5 h-5" />
+                          <Trash2 className="w-6 h-6" />
                         </button>
                       </div>
+                      
+                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-slate-900/5 rounded-full -ml-16 -mb-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
                     </motion.div>
                   ))}
                 </div>

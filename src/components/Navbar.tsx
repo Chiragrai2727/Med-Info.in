@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const { user, profile, openAuthModal, logout } = useAuth();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] glass border-b border-blue-100/20 pt-safe transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-white/70 border-b border-white/40 pt-safe transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           <Link to="/" className="group flex-shrink-0">
@@ -55,12 +55,13 @@ export const Navbar: React.FC = () => {
                       </div>
                     )}
                   </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-[var(--color-bg)] rounded-2xl shadow-xl border border-[var(--color-ink)]/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="p-4 border-b border-[var(--color-ink)]/5">
-                      <p className="text-sm font-bold truncate">{profile?.displayName || user.email}</p>
+                  <div className="absolute right-0 mt-2 w-56 backdrop-blur-[32px] bg-white/80 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-2">
+                    <div className="p-5 border-b border-black/5">
+                      <p className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1">Account</p>
+                      <p className="text-sm font-black truncate text-gray-900">{profile?.displayName || user.email}</p>
                     </div>
-                    <Link to="/dashboard" className="w-full text-left px-4 py-3 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">
-                      <LayoutDashboard className="w-4 h-4" />
+                    <Link to="/dashboard" className="w-full text-left px-5 py-3 text-sm text-gray-700 hover:bg-blue-50/50 font-bold flex items-center gap-3 transition-colors">
+                      <LayoutDashboard className="w-4 h-4 text-blue-600" />
                       {t('dashboard')}
                     </Link>
                     {profile?.role === 'admin' && (

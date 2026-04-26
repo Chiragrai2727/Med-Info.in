@@ -126,72 +126,72 @@ export const Pricing: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-32 pb-20 bg-slate-50">
+    <div className="min-h-screen pt-40 pb-24 bg-transparent pt-[calc(10rem+env(safe-area-inset-top))]">
       <Helmet>
         <title>Pricing - {t('appName')}</title>
         <meta name="description" content="Choose the best plan for your family's health and safety." />
       </Helmet>
-
+ 
       {/* Hero / Free Trial Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-slate-900 rounded-[3rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl"
+          className="backdrop-blur-3xl bg-slate-900 p-12 md:p-24 rounded-[5rem] text-center text-white relative overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.1)] border-2 border-slate-700"
         >
           {/* Background Decorative Circles */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full -ml-32 -mb-32 blur-3xl" />
-
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 text-xs font-black uppercase tracking-[0.2em] rounded-full mb-8">
-              <Zap className="w-4 h-4" /> Limited Time Offer
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full -mr-48 -mt-48 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full -ml-48 -mb-48 blur-[100px]" />
+ 
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <span className="inline-flex items-center gap-2 px-6 py-2.5 backdrop-blur-md bg-white/10 text-blue-300 text-[10px] font-black uppercase tracking-[0.25em] rounded-full mb-10 border border-white/5">
+              <Zap className="w-4 h-4 fill-current" /> Limited Time Trial
             </span>
-            <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-8xl font-black mb-8 tracking-[-0.05em] leading-[0.8]">
               Try Premium free for 14 days
             </h1>
-            <p className="text-xl text-slate-400 font-medium mb-10">
-              Verify with your phone number, no credit card needed. Get instant access to the 99% accurate AI scanner.
+            <p className="text-xl md:text-3xl text-slate-400 font-bold mb-14 tracking-tight leading-tight">
+              Verify with your phone, no credit card needed. Get instant access to the top-tier 99% accuracy scanner.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-16">
               <button 
                 onClick={handleClaimTrial}
-                className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-900/50 flex items-center gap-3 active:scale-95"
+                className="px-12 py-6 bg-white text-slate-900 rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-slate-100 transition-all shadow-[0_20px_50px_rgba(255,255,255,0.1)] flex items-center gap-3 active:scale-95"
               >
                 Claim Free Trial <ArrowRight className="w-6 h-6" />
               </button>
-              <div className="flex items-center gap-2 text-slate-400 font-bold">
+              <div className="flex items-center gap-3 text-slate-400 font-black uppercase tracking-[0.2em] text-[10px]">
                 <Phone className="w-5 h-5" /> Phone Verified Only
               </div>
             </div>
-
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex -space-x-3 mb-2">
+ 
+            <div className="flex flex-col items-center gap-6">
+              <div className="flex -space-x-4 mb-2">
                 {[11, 25, 33, 48, 52].map(i => (
                   <img 
                     key={i} 
-                    src={`https://i.pravatar.cc/100?u=${i}`} 
+                    src={`https://i.pravatar.cc/120?u=${i}`} 
                     alt="Verified User" 
-                    className="w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 object-cover"
+                    className="w-14 h-14 rounded-full border-4 border-slate-900 bg-slate-800 object-cover shadow-xl"
                     referrerPolicy="no-referrer"
                   />
                 ))}
               </div>
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
-                Join 10,000+ Indian families saving on medicines
+              <p className="text-xs font-black text-slate-500 uppercase tracking-[0.3em]">
+                Join 10,000+ Indian families saving on meds
               </p>
             </div>
           </div>
         </motion.div>
       </section>
-
+ 
       {/* Toggle Section */}
-      <section className="max-w-7xl mx-auto px-4 mb-12 flex justify-center">
-        <div className="bg-white p-1.5 rounded-2xl border-2 border-slate-100 flex items-center shadow-sm relative">
+      <section className="max-w-7xl mx-auto px-4 mb-20 flex justify-center">
+        <div className="backdrop-blur-xl bg-white/70 p-2 rounded-[2rem] border-2 border-white flex items-center shadow-sm relative">
           <button 
             onClick={() => setBillingCycle('monthly')}
-            className={`px-8 py-3 rounded-xl font-black text-sm transition-all relative z-10 ${
+            className={`px-12 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all relative z-10 ${
               billingCycle === 'monthly' ? 'text-white' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
@@ -199,7 +199,7 @@ export const Pricing: React.FC = () => {
           </button>
           <button 
             onClick={() => setBillingCycle('yearly')}
-            className={`px-8 py-3 rounded-xl font-black text-sm transition-all relative z-10 ${
+            className={`px-12 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all relative z-10 ${
               billingCycle === 'yearly' ? 'text-white' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
@@ -208,89 +208,92 @@ export const Pricing: React.FC = () => {
           <motion.div 
             initial={false}
             animate={{ x: billingCycle === 'monthly' ? 0 : '100%' }}
-            className="absolute inset-y-1.5 left-1.5 w-[calc(50%-6px)] bg-slate-900 rounded-xl shadow-lg"
+            className="absolute inset-y-2 left-2 w-[calc(50%-8px)] bg-slate-900 rounded-[1.5rem] shadow-xl"
           />
           
           {billingCycle === 'yearly' && (
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="absolute -top-10 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap border border-green-200"
+              className="absolute -top-12 left-1/2 -translate-x-1/2 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap shadow-lg border border-emerald-400"
             >
-              Save ₹489 Yearly
+              SAVE ₹489 YEARLY
             </motion.div>
           )}
         </div>
       </section>
-
+ 
       {/* Plan Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch max-w-6xl mx-auto">
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className={`relative flex flex-col p-8 md:p-10 rounded-[3rem] bg-white transition-all duration-300 border-2 ${
+              whileHover={{ y: -12 }}
+              className={`relative flex flex-col p-12 md:p-16 rounded-[4.5rem] backdrop-blur-xl transition-all duration-700 border-2 ${
                 plan.highlight 
-                  ? 'border-slate-900 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] scale-105 z-10' 
-                  : 'border-slate-100 hover:border-slate-300 shadow-sm'
+                  ? 'bg-white/90 border-slate-900 shadow-[0_40px_100px_rgba(0,0,0,0.1)] z-10' 
+                  : 'bg-white/60 border-white hover:border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.03)]'
               }`}
             >
               {plan.badge && (
-                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl ${
-                  plan.highlight ? 'bg-slate-900 text-white' : 'bg-white text-slate-900 border border-slate-100'
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.3em] shadow-2xl ${
+                  plan.highlight ? 'bg-slate-900 text-white' : 'backdrop-blur-md bg-white text-slate-900 border border-slate-100'
                 }`}>
                   {plan.badge}
                 </div>
               )}
-
-              <div className="mb-8">
-                <h3 className="text-2xl font-black text-slate-900 mb-2">{plan.name}</h3>
+ 
+              <div className="mb-10">
+                <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase leading-none">{plan.name}</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black text-slate-900">{plan.price_display}</span>
-                  {plan.billing && <span className="text-slate-400 font-bold">/{plan.billing === 'per year' ? 'year' : 'mo'}</span>}
+                  <span className="text-7xl font-black text-slate-900 tracking-[-0.05em] leading-none">{plan.price_display}</span>
+                  {plan.billing && <span className="text-slate-400 font-black uppercase tracking-widest text-xs opacity-60">/{plan.billing === 'per year' ? 'year' : 'mo'}</span>}
                 </div>
                 {'price_strikethrough' in plan && plan.price_strikethrough && (
-                  <div className="mt-2 flex items-center gap-3">
-                    <span className="text-slate-400 line-through font-bold">{plan.price_strikethrough}</span>
-                    <span className="text-green-600 font-black text-xs uppercase tracking-widest bg-green-50 px-2 py-0.5 rounded">
+                  <div className="mt-4 flex items-center gap-4">
+                    <span className="text-slate-300 line-through font-black text-xl tracking-tight leading-none">{plan.price_strikethrough}</span>
+                    <span className="text-emerald-600 font-black text-[10px] uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100">
                       {'savings_percent' in plan ? plan.savings_percent : ''}
                     </span>
                   </div>
                 )}
                 {'savings_amount' in plan && plan.savings_amount && (
-                  <div className="mt-2 text-green-600 font-black text-xs uppercase tracking-widest bg-green-50 px-3 py-1 rounded inline-block">
+                  <div className="mt-4 text-emerald-600 font-black text-[10px] uppercase tracking-widest bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100 inline-block shadow-sm">
                     {plan.savings_amount}
                   </div>
                 )}
               </div>
-
-              <div className="mb-8 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="flex items-center gap-3 text-slate-900 font-bold text-sm">
-                  <ShieldCheck className="w-5 h-5 text-blue-600" />
+ 
+              <div className="mb-10 p-6 backdrop-blur-md bg-slate-500/5 rounded-[2rem] border border-white/50 shadow-inner">
+                <div className="flex items-center gap-4 text-slate-900 font-black text-xs uppercase tracking-[0.2em] leading-none">
+                  <div className="p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+                    <ShieldCheck className="w-5 h-5 text-white" />
+                  </div>
                   {plan.scans_label}
                 </div>
               </div>
-
-              <ul className="space-y-4 mb-10 flex-1">
+ 
+              <ul className="space-y-6 mb-12 flex-1">
                 {plan.features.map((feature, fIdx) => (
-                  <li key={fIdx} className="flex items-start gap-3">
-                    <div className="mt-1 w-5 h-5 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-green-600" />
+                  <li key={fIdx} className="flex items-start gap-4">
+                    <div className="mt-1 w-6 h-6 bg-emerald-100/50 backdrop-blur-md border border-emerald-100 rounded-full flex items-center justify-center shrink-0">
+                      <Check className="w-4 h-4 text-emerald-600" strokeWidth={3} />
                     </div>
-                    <span className="text-slate-600 font-medium leading-tight">{feature}</span>
+                    <span className="text-slate-600 font-bold text-lg tracking-tight leading-none pt-0.5">{feature}</span>
                   </li>
                 ))}
                 {plan.not_included.map((feature, fIdx) => (
-                  <li key={`not-${fIdx}`} className="flex items-start gap-3 opacity-40">
-                    <X className="w-5 h-5 text-slate-300 mt-0.5 shrink-0" />
-                    <span className="text-slate-400 font-medium leading-tight line-through">{feature}</span>
+                  <li key={`not-${fIdx}`} className="flex items-start gap-4 opacity-30">
+                    <X className="w-6 h-6 text-slate-300 mt-0.5 shrink-0" />
+                    <span className="text-slate-400 font-bold text-lg tracking-tight leading-none pt-0.5 line-through">{feature}</span>
                   </li>
                 ))}
               </ul>
-
+ 
                <button 
                 onClick={() => {
                   if (plan.price_inr === 0) {
@@ -299,10 +302,10 @@ export const Pricing: React.FC = () => {
                     handlePayment(plan.id);
                   }
                 }}
-                className={`w-full py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 ${
+                className={`w-full py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all active:scale-95 shadow-2xl ${
                   plan.highlight 
-                    ? 'bg-slate-900 text-white hover:bg-slate-800 shadow-xl' 
-                    : 'bg-white text-slate-900 border-2 border-slate-200 hover:border-slate-900'
+                    ? 'bg-slate-900 text-white hover:bg-slate-800' 
+                    : 'bg-white/80 text-slate-900 border-2 border-white hover:bg-white'
                 }`}
               >
                 {plan.cta}
@@ -311,75 +314,75 @@ export const Pricing: React.FC = () => {
           ))}
         </div>
       </section>
-
+ 
       {/* Savings Calculator Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="bg-white border-2 border-slate-100 rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-sm">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-full -mr-16 -mt-16" />
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="backdrop-blur-xl bg-white/70 border-2 border-white rounded-[5rem] p-12 md:p-20 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-50 rounded-full -mr-24 -mt-24 blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-1000" />
           
-          <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
-            <div className="w-24 h-24 bg-green-100 rounded-3xl flex items-center justify-center shrink-0">
-              <Calculator className="w-12 h-12 text-green-600" />
+          <div className="flex flex-col md:flex-row items-center gap-16 relative z-10">
+            <div className="w-28 h-28 bg-emerald-100/50 backdrop-blur-md border border-emerald-100 rounded-[2.5rem] flex items-center justify-center shrink-0 shadow-lg group-hover:rotate-12 transition-transform duration-700">
+              <Calculator className="w-14 h-14 text-emerald-600" />
             </div>
             
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Smart Savings Calculator</h2>
-              <p className="text-lg text-slate-500 font-medium mb-8">
-                Medicine errors cost the average Indian family ₹15,000 yearly. Avoid them with AI scanning.
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-[-0.04em] leading-none uppercase">Smart Savings Calculator</h2>
+              <p className="text-xl text-slate-500 font-bold mb-10 tracking-tight leading-relaxed max-w-2xl">
+                Medicine errors cost the average Indian family ₹15,000 yearly. Avoid them with expert AI scanning.
               </p>
               
-              <div className="p-8 bg-slate-50 border border-slate-100 rounded-[2rem]">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-black text-slate-900 text-lg uppercase tracking-tight">Potential Medicine Errors</span>
-                  <div className="flex items-center gap-4">
+              <div className="p-10 backdrop-blur-md bg-slate-500/5 border border-white rounded-[3rem] shadow-inner">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-8 mb-8">
+                  <span className="font-black text-slate-900 text-xl uppercase tracking-widest leading-none">Avoidable Medical Errors</span>
+                  <div className="flex items-center gap-6">
                     <button 
                       onClick={() => setSavingsValue(Math.max(1, savingsValue - 1))}
-                      className="w-10 h-10 bg-white border border-slate-200 rounded-xl font-black hover:border-slate-900"
+                      className="w-12 h-12 backdrop-blur-md bg-white border border-slate-200 rounded-2xl font-black text-xl flex items-center justify-center hover:border-slate-900 transition-all active:scale-90"
                     >-</button>
-                    <span className="text-2xl font-black text-slate-900 w-8 text-center">{savingsValue}</span>
+                    <span className="text-4xl font-black text-slate-900 w-10 text-center tracking-tighter">{savingsValue}</span>
                     <button 
                       onClick={() => setSavingsValue(savingsValue + 1)}
-                      className="w-10 h-10 bg-white border border-slate-200 rounded-xl font-black hover:border-slate-900"
+                      className="w-12 h-12 backdrop-blur-md bg-white border border-slate-200 rounded-2xl font-black text-xl flex items-center justify-center hover:border-slate-900 transition-all active:scale-90"
                     >+</button>
                   </div>
                 </div>
-                <div className="pt-6 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
-                  <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">If you avoid {savingsValue} wrong medicine this year...</span>
-                  <span className="text-3xl font-black text-green-600">You save ₹{(savingsValue * 10000).toLocaleString()} +</span>
+                <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                  <span className="text-slate-400 font-black uppercase tracking-[0.25em] text-[10px]">Estimated Medical Recovery Savings:</span>
+                  <span className="text-5xl font-black text-emerald-600 tracking-[-0.05em] leading-none">₹{(savingsValue * 10000).toLocaleString()} +</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
+ 
       {/* Accuracy Table */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Scanner Accuracy Comparison</h2>
-          <p className="text-slate-500 font-medium">Why upgrading to the Premium Plan makes sense for your safety.</p>
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-[-0.04em] leading-none uppercase">Scanner Benchmarks</h2>
+          <p className="text-xl text-slate-400 font-bold tracking-tight">Why upgrading to Premium is a safety mandate for your home.</p>
         </div>
-
-        <div className="bg-white border border-slate-100 rounded-[3rem] shadow-sm overflow-hidden">
-          <table className="w-full text-left border-collapse">
+ 
+        <div className="backdrop-blur-xl bg-white/70 border-2 border-white rounded-[4rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] overflow-hidden">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-400">Feature</th>
-                <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-400">Basic (Free)</th>
-                <th className="px-8 py-6 text-xs font-black uppercase tracking-[0.2em] text-slate-900">Premium Plan</th>
+              <tr className="bg-slate-50/50 border-b border-black/5">
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">Analysis Type</th>
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">Basic Scanner</th>
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-900">Premium AI-Vision</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-lg">
               {accuracyData.map((row: any, i) => (
-                <tr key={i} className="border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors">
-                  <td className="px-8 py-6 font-bold text-slate-700">{row.feature}</td>
-                  <td className="px-8 py-6 font-bold text-slate-400">{row.basic}</td>
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-3">
-                      <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                        {row.premium === '99%' ? <Star className="w-4 h-4 fill-current" /> : <Check className="w-4 h-4" />}
-                      </span>
-                      <span className="font-black text-slate-900">{row.premium}</span>
+                <tr key={i} className="border-b border-black/5 last:border-0 hover:bg-slate-50/50 transition-colors">
+                  <td className="px-12 py-8 font-black text-slate-700 tracking-tight">{row.feature}</td>
+                  <td className="px-12 py-8 font-bold text-slate-300 italic tracking-tight">{row.basic}</td>
+                  <td className="px-12 py-8">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 backdrop-blur-md bg-blue-100 border border-blue-200 rounded-xl flex items-center justify-center text-blue-600 shadow-sm">
+                        {row.premium === '99%' ? <Star className="w-5 h-5 fill-current" /> : <Check className="w-5 h-5" />}
+                      </div>
+                      <span className="font-black text-slate-900 tracking-tight text-xl">{row.premium}</span>
                     </div>
                   </td>
                 </tr>
@@ -388,15 +391,14 @@ export const Pricing: React.FC = () => {
           </table>
         </div>
         
-        <div className="mt-12 flex flex-col items-center gap-6">
-          <p className="text-slate-400 font-medium text-sm flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4" /> CDSCO and AI Safety Verified Standards
-          </p>
-          <div className="flex items-center gap-8 opacity-40 grayscale h-8">
-            {/* Logos/Trust icons could go here */}
-            <Users className="w-8 h-8" />
-            <ShieldCheck className="w-8 h-8" />
-            <IndianRupee className="w-6 h-6" />
+        <div className="mt-20 flex flex-col items-center gap-8">
+          <div className="px-8 py-3 backdrop-blur-md bg-white border border-slate-100 rounded-full text-slate-400 font-black text-[11px] uppercase tracking-[0.3em] flex items-center gap-3 shadow-sm">
+            <ShieldCheck className="w-5 h-5 text-blue-600" /> CDSCO & AI SAFETY VERIFIED STANDARDS
+          </div>
+          <div className="flex items-center gap-12 opacity-20 grayscale h-10 transition-opacity hover:opacity-100 duration-1000">
+            <Users className="w-10 h-10" />
+            <ShieldCheck className="w-10 h-10" />
+            <IndianRupee className="w-8 h-8" />
           </div>
         </div>
       </section>
