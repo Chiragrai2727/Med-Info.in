@@ -108,11 +108,10 @@ export const About: React.FC = () => {
                 <img 
                   src="/chirag.jpg" 
                   alt="Chirag Rai" 
-                  className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-1000 ease-in-out group-hover:scale-110" 
+                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'; }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               </div>
               <div className="text-center max-w-md">
                 <div className="flex items-center justify-center gap-4 mb-6">
@@ -140,11 +139,10 @@ export const About: React.FC = () => {
                 <img 
                   src="/sagar.jpg" 
                   alt="Dr. Sagar Rai" 
-                  className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-1000 ease-in-out group-hover:scale-110" 
+                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800'; }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               </div>
               <div className="text-center max-w-md">
                 <div className="flex items-center justify-center gap-4 mb-6">
