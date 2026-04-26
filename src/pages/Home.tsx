@@ -93,16 +93,39 @@ export const Home: React.FC = () => {
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-50">
+        {/* Subtle Background Decor */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] pointer-events-none z-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-50/50 rounded-full blur-[120px]" />
+          <div className="absolute top-20 right-1/4 w-96 h-96 bg-indigo-50/50 rounded-full blur-[120px]" />
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="relative z-10"
         >
-          <div className="flex flex-col items-center mb-12">
-            <Logo size="xl" className="mb-8" />
+          {/* Hero Badges */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {[
+              { icon: Sparkles, text: 'AI Intelligence', color: 'text-blue-600 bg-blue-50 border-blue-100' },
+              { icon: ShieldCheck, text: 'CDSCO Verified', color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
+              { icon: Shield, text: 'Privacy Protected', color: 'text-slate-600 bg-slate-50 border-slate-100' },
+            ].map((badge, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider shadow-sm ${badge.color}`}
+              >
+                <badge.icon className="w-3.5 h-3.5" />
+                {badge.text}
+              </motion.div>
+            ))}
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight max-w-4xl mx-auto leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight max-w-5xl mx-auto leading-[0.95]">
             Check if your medicine is banned in India
           </h1>
           
