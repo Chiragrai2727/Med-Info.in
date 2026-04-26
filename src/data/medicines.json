@@ -6622,5 +6622,558 @@
     "pregnancy_safety": "Consult your doctor before use during pregnancy.",
     "india_regulatory_status": "CDSCO Approved",
     "source": "Verified Database"
-  }
+  },
+  {
+    "id": "candiforce_200",
+    "category": "Antifungal",
+    "drug_name": "Candiforce 200mg",
+    "brand_names_india": [
+      "Candiforce",
+      "Itracol",
+      "Itracin",
+      "Canditral"
+    ],
+    "drug_class": "Triazole Antifungal",
+    "mechanism_of_action": "Inhibits the synthesis of ergosterol, a vital component of fungal cell membranes, leading to fungal cell death.",
+    "uses": [
+      "Fungal skin infections",
+      "Vaginal candidiasis",
+      "Fungal nail infections",
+      "Systemic fungal infections"
+    ],
+    "dosage_common": "100-200mg once or twice daily, depending on the severity.",
+    "side_effects_common": [
+      "Nausea",
+      "Dizziness",
+      "Headache",
+      "Stomach pain"
+    ],
+    "side_effects_serious": [
+      "Liver damage",
+      "Heart failure (rare)",
+      "Hearing loss"
+    ],
+    "overdose_effects": "Severe nausea, liver issues, allergic reactions.",
+    "contraindications": [
+      "Heart failure",
+      "Pregnancy",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "Simvastatin",
+      "Atorvastatin",
+      "Digoxin",
+      "Warfarin"
+    ],
+    "pregnancy_safety": "Category C - Avoid unless strictly necessary.",
+    "kidney_liver_warning": "Requires close monitoring in liver disease.",
+    "how_it_works_in_body": "Stops the fungus from growing and replicating by destroying its cell wall.",
+    "onset_of_action": "1-2 days (clinical improvement in weeks)",
+    "duration_of_effect": "24-48 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A potent antifungal used for stubborn skin and nail fungal infections.",
+    "who_should_take": "Patients with fungal infections as prescribed by a dermatologist or physician.",
+    "who_should_not_take": "Patients with a history of congestive heart failure.",
+    "food_interactions": [
+      "Better absorbed when taken with a full meal or acidic drinks like cola (if patient has low stomach acid)."
+    ],
+    "alcohol_warning": "Avoid excessive alcohol due to potential liver strain.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "cardivas_12_5",
+    "category": "Antihypertensive",
+    "drug_name": "Cardivas 12.5mg",
+    "brand_names_india": [
+      "Cardivas",
+      "Carca",
+      "Carvil",
+      "Carloc"
+    ],
+    "drug_class": "Beta Blocker & Alpha-1 Blocker",
+    "mechanism_of_action": "Blocks both beta-1, beta-2, and alpha-1 receptors, lowering heart rate and dilating blood vessels to reduce blood pressure.",
+    "uses": [
+      "High blood pressure",
+      "Heart failure",
+      "Post-heart attack recovery"
+    ],
+    "dosage_common": "Starts at 3.125mg or 6.25mg twice daily, adjusted by a doctor.",
+    "side_effects_common": [
+      "Dizziness",
+      "Fatigue",
+      "Low blood pressure",
+      "Weight gain"
+    ],
+    "side_effects_serious": [
+      "Slow heart rate",
+      "Severe allergic reaction",
+      "Worsening heart failure"
+    ],
+    "overdose_effects": "Extreme low blood pressure, fainting, difficulty breathing.",
+    "contraindications": [
+      "Asthma",
+      "Severe liver disease",
+      "Second or third-degree heart block"
+    ],
+    "drug_interactions": [
+      "Insulin",
+      "Digoxin",
+      "Calcium channel blockers",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Category C/D - Consult your doctor; beta blockers can affect fetal blood flow.",
+    "kidney_liver_warning": "Use with caution in liver impairment.",
+    "how_it_works_in_body": "Reduces the workload of the heart and helps it pump more efficiently.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A specialized blood pressure medication that also helps in heart failure management.",
+    "who_should_take": "Patients with high blood pressure or heart failure as prescribed.",
+    "who_should_not_take": "Patients with severe asthma or very low heart rate.",
+    "food_interactions": [
+      "Should be taken with food to reduce the risk of a sudden drop in blood pressure."
+    ],
+    "alcohol_warning": "Avoid; can cause sudden, dangerous drops in blood pressure.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "carnisure_500",
+    "category": "Nutritional Supplement",
+    "drug_name": "Carnisure 500mg",
+    "brand_names_india": [
+      "Carnisure",
+      "Carnitor",
+      "Levecarnitine"
+    ],
+    "drug_class": "Amino Acid Derivative",
+    "mechanism_of_action": "Transports long-chain fatty acids into mitochondria, where they are oxidized for energy production.",
+    "uses": [
+      "L-carnitine deficiency",
+      "Heart disease support",
+      "Muscle cramps in kidney disease",
+      "Male infertility (some cases)"
+    ],
+    "dosage_common": "500-1000mg twice daily.",
+    "side_effects_common": [
+      "Stomach upset",
+      "Nausea",
+      "Vomiting",
+      "Fishy body odor (rare)"
+    ],
+    "side_effects_serious": [
+      "Seizures (rare)",
+      "Muscle weakness"
+    ],
+    "overdose_effects": "Diarrhea and stomach pain.",
+    "contraindications": [
+      "Known allergy",
+      "History of seizures"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Acenocoumarol"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe; consulted if necessary.",
+    "kidney_liver_warning": "Safe in kidney disease; often used in dialysis patients.",
+    "how_it_works_in_body": "Helps the body convert fat into energy more efficiently.",
+    "onset_of_action": "Within hours (metabolic effects take days)",
+    "duration_of_effect": "8-12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A supplement that helps the body use energy and supports heart and muscle health.",
+    "who_should_take": "People with carnitine deficiency or specific metabolic needs.",
+    "who_should_not_take": "People with a history of seizures without medical supervision.",
+    "food_interactions": [
+      "Best taken with or after food."
+    ],
+    "alcohol_warning": "No major interaction, but moderate use is advised.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "cidmus_100",
+    "category": "Heart Failure Therapy",
+    "drug_name": "Cidmus 100mg",
+    "brand_names_india": [
+      "Cidmus",
+      "Vymada",
+      "Azmarda"
+    ],
+    "drug_class": "ARNI (Angiotensin Receptor-Neprilysin Inhibitor)",
+    "mechanism_of_action": "Contains Sacubitril (neprilysin inhibitor) and Valsartan (ARB). It increases protective hormones and blocks harmful ones to improve heart function.",
+    "uses": [
+      "Chronic Heart Failure",
+      "Reduced Ejection Fraction heart failure"
+    ],
+    "dosage_common": "Starts low (e.g. 50mg or 100mg) and increases to 200mg twice daily.",
+    "side_effects_common": [
+      "Low blood pressure",
+      "High potassium",
+      "Decreased kidney function",
+      "Cough"
+    ],
+    "side_effects_serious": [
+      "Angioedema (swelling of face/throat)",
+      "Severe kidney failure",
+      "Severe hypotension"
+    ],
+    "overdose_effects": "Extreme low blood pressure, severe dehydration.",
+    "contraindications": [
+      "History of angioedema",
+      "Use with ACE inhibitors",
+      "Pregnancy",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "ACE inhibitors (must wait 36 hours after stopping)",
+      "Lithium",
+      "Potassium-sparing diuretics",
+      "NSAIDs"
+    ],
+    "pregnancy_safety": "Category D - STRICTLY AVOID; can cause fetal death.",
+    "kidney_liver_warning": "Requires close monitoring of kidney function.",
+    "how_it_works_in_body": "Dual action reduces strain on the heart and prevents fluid buildup.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A breakthrough medication for managing advanced heart failure and improving survival.",
+    "who_should_take": "Patients with specific types of chronic heart failure prescribed by cardiologists.",
+    "who_should_not_take": "Pregnant women or those with a history of severe swelling reactions.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Avoid; increases risk of dangerous low blood pressure.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "clexane_40",
+    "category": "Anticoagulant",
+    "drug_name": "Clexane 40mg Injection",
+    "brand_names_india": [
+      "Clexane",
+      "Lovenox",
+      "Enoxaparin",
+      "Lonopin"
+    ],
+    "drug_class": "Low Molecular Weight Heparin (LMWH)",
+    "mechanism_of_action": "Inhibits blood clotting factors (mainly Factor Xa and IIa) to prevent the formation of blood clots.",
+    "uses": [
+      "Blood clot prevention (DVT)",
+      "Treatment of pulmonary embolism",
+      "Unstable angina",
+      "Heart attack prevention"
+    ],
+    "dosage_common": "Often 40mg once daily for prevention, higher for treatment (subcutaneous injection).",
+    "side_effects_common": [
+      "Bleeding",
+      "Pain at injection site",
+      "Easy bruising",
+      "Anemia"
+    ],
+    "side_effects_serious": [
+      "Internal bleeding",
+      "Thrombocytopenia (low platelets)",
+      "Allergic shock"
+    ],
+    "overdose_effects": "Severe, uncontrollable bleeding.",
+    "contraindications": [
+      "Active major bleeding",
+      "Major surgery recently",
+      "Low platelet count"
+    ],
+    "drug_interactions": [
+      "Aspirin",
+      "Warfarin",
+      "NSAIDs",
+      "Clopidogrel"
+    ],
+    "pregnancy_safety": "Category B - Generally considered safe and often used when anticoagulation is needed in pregnancy.",
+    "kidney_liver_warning": "Requires dose adjustment in severe kidney disease.",
+    "how_it_works_in_body": "Keeps blood thin and flowing, preventing dangerous clots from clogging up arteries or veins.",
+    "onset_of_action": "3-5 hours",
+    "duration_of_effect": "12-24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "An essential injectable blood thinner used to prevent and treat dangerous blood clots.",
+    "who_should_take": "People at high risk of blood clots, e.g., post-surgery or during hospitalization.",
+    "who_should_not_take": "Individuals with active bleeding or severe bleeding disorders.",
+    "food_interactions": [
+      "No major food interactions; strictly injectable."
+    ],
+    "alcohol_warning": "Avoid; increases the risk of internal bleeding.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "concor_5",
+    "category": "Antihypertensive",
+    "drug_name": "Concor 5mg",
+    "brand_names_india": [
+      "Concor",
+      "Biselect",
+      "Bisoprolol",
+      "Besic"
+    ],
+    "drug_class": "Selective Beta-1 Blocker",
+    "mechanism_of_action": "Selectively blocks beta-1 receptors in the heart, reducing heart rate and blood pressure without significantly affecting the lungs.",
+    "uses": [
+      "High blood pressure",
+      "Angina (chest pain)",
+      "Chronic heart failure"
+    ],
+    "dosage_common": "2.5mg to 10mg once daily.",
+    "side_effects_common": [
+      "Fatigue",
+      "Cold hands and feet",
+      "Dizziness",
+      "Slow heartbeat"
+    ],
+    "side_effects_serious": [
+      "Shortness of breath",
+      "Weight gain",
+      "Severe heart block"
+    ],
+    "overdose_effects": "Extreme fatigue, very slow heart rate, fainting.",
+    "contraindications": [
+      "Severe heart failure",
+      "Asthma",
+      "Low heart rate",
+      "Certain heart block conditions"
+    ],
+    "drug_interactions": [
+      "Verapamil",
+      "Diltiazem",
+      "Digoxin",
+      "Other BP medications"
+    ],
+    "pregnancy_safety": "Category C - Consult doctor; may reduce placental blood flow.",
+    "kidney_liver_warning": "Safe in most but check with doctor if severe.",
+    "how_it_works_in_body": "Makes the heart beat slower and with less force, lowering blood pressure and heart workload.",
+    "onset_of_action": "1-2 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A highly selective beta blocker used for blood pressure and heart protection.",
+    "who_should_take": "Patients with hypertension or heart disease as prescribed.",
+    "who_should_not_take": "People with very slow heart rate or severe heart conditions.",
+    "food_interactions": [
+      "Can be taken with or without food."
+    ],
+    "alcohol_warning": "Limit; can increase dizziness and drowsiness.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "creon_10000",
+    "category": "Digestive Enzyme",
+    "drug_name": "Creon 10000",
+    "brand_names_india": [
+      "Creon",
+      "Pancrelipase",
+      "Pangal",
+      "Enzar"
+    ],
+    "drug_class": "Pancreatic Enzyme Treatment",
+    "mechanism_of_action": "Contains Lipase, Protease, and Amylase which replace natural pancreatic enzymes to help digest fats, proteins, and sugars.",
+    "uses": [
+      "Pancreatic insufficiency",
+      "Cystic fibrosis",
+      "Chronic pancreatitis",
+      "Post-pancreatic surgery"
+    ],
+    "dosage_common": "Taken with every meal and snack; dose depends on meals.",
+    "side_effects_common": [
+      "Stomach pain",
+      "Gas",
+      "Nausea",
+      "Constipation"
+    ],
+    "side_effects_serious": [
+      "Bowel obstruction (rare)",
+      "Severe allergic reaction",
+      "Urinary problems"
+    ],
+    "overdose_effects": "Severe stomach pain and digestive distress.",
+    "contraindications": [
+      "Pork allergy",
+      "Acute pancreatitis flare (sometimes)"
+    ],
+    "drug_interactions": [
+      "Acarbose",
+      "Miglitol",
+      "Antacids"
+    ],
+    "pregnancy_safety": "Category C - Consult doctor; generally considered low risk if clinically indicated.",
+    "kidney_liver_warning": "Safe for most patients.",
+    "how_it_works_in_body": "Provides the enzymes necessary for food breakdown when the pancreas isn't working correctly.",
+    "onset_of_action": "Immediate (during meal digestion)",
+    "duration_of_effect": "1-2 hours (meal specific)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Essential enzyme replacement for people who cannot digest food due to pancreas problems.",
+    "who_should_take": "Patients with chronic pancreatitis or digestive enzyme deficiency.",
+    "who_should_not_take": "People allergic to pork products (enzymes are porcine-derived).",
+    "food_interactions": [
+      "MUST be taken with food. Do not skip when eating."
+    ],
+    "alcohol_warning": "Alcohol severely worsens underlying pancreatitis; strictly avoid if you have it.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "cyra_20",
+    "category": "Antacid",
+    "drug_name": "Cyra 20mg",
+    "brand_names_india": [
+      "Cyra",
+      "Rabium",
+      "Razo",
+      "Pari",
+      "Veloz"
+    ],
+    "drug_class": "Proton Pump Inhibitor (PPI)",
+    "mechanism_of_action": "Blocks the hydrogen-potassium ATPase pump in the stomach lining, effectively stopping acid production.",
+    "uses": [
+      "Acid reflux (GERD)",
+      "Stomach ulcers",
+      "Excessive stomach acid",
+      "H. pylori infection"
+    ],
+    "dosage_common": "20mg once daily, preferably 30 min before breakfast.",
+    "side_effects_common": [
+      "Diarrhea",
+      "Headache",
+      "Gas",
+      "Vomiting"
+    ],
+    "side_effects_serious": [
+      "Vitamin B12 deficiency (long term)",
+      "Low magnesium",
+      "Bone fractures (rare/long term)"
+    ],
+    "overdose_effects": "Nausea, vomiting, confusion, increased heart rate.",
+    "contraindications": [
+      "Severe liver disease",
+      "Allergy to PPIs"
+    ],
+    "drug_interactions": [
+      "Clopidogrel",
+      "Atazanavir",
+      "Ketoconazole",
+      "Methotrexate"
+    ],
+    "pregnancy_safety": "Category B - Generally safe; consult doctor.",
+    "kidney_liver_warning": "Use with caution in severe liver disease.",
+    "how_it_works_in_body": "Directly stops the source of acid production, providing relief from burning and pain.",
+    "onset_of_action": "1-2 hours (full effect in 2-3 days)",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A powerful antacid used for severe acidity, ulcers, and acid reflux.",
+    "who_should_take": "People with chronic acidity or stomach ulcers as prescribed.",
+    "who_should_not_take": "Patients with a known allergy to rabeprazole or similar medicines.",
+    "food_interactions": [
+      "Most effective on an empty stomach, 30 minutes before breakfast."
+    ],
+    "alcohol_warning": "Avoid; alcohol increases stomach acid and worsens symptoms.",
+    "source": "Verified Database"
+  },
+  {
+    "id": "cipcal_500",
+    "category": "Nutritional Supplement",
+    "drug_name": "Cipcal 500mg",
+    "brand_names_india": [
+      "Cipcal",
+      "Shelcal",
+      "Gemcal",
+      "Calcirol"
+    ],
+    "drug_class": "Calcium & Vitamin D3 Supplement",
+    "mechanism_of_action": "Provides essential calcium for bone strength and Vitamin D3 (Cholecalciferol) to help the body absorb the calcium.",
+    "uses": [
+      "Calcium deficiency",
+      "Osteoporosis",
+      "Rickets",
+      "Pregnancy/Nursing support"
+    ],
+    "dosage_common": "1-2 tablets daily or as directed by a doctor.",
+    "side_effects_common": [
+      "Constipation",
+      "Stomach upset",
+      "Nausea",
+      "Excessive gas"
+    ],
+    "side_effects_serious": [
+      "Kidney stones",
+      "Hypercalcemia (too much calcium in blood)",
+      "Confusion"
+    ],
+    "overdose_effects": "Nausea, vomiting, thirst, constipation, and muscle weakness.",
+    "contraindications": [
+      "Hypercalcemia",
+      "Severe kidney stones",
+      "Hyperparathyroidism"
+    ],
+    "drug_interactions": [
+      "Tetracycline antibiotics",
+      "Iron supplements",
+      "Thyroid medicines"
+    ],
+    "pregnancy_safety": "Category A - Safe and often recommended during pregnancy.",
+    "kidney_liver_warning": "Use with caution in kidney disease due to risk of stones.",
+    "how_it_works_in_body": "Replenishes the body's calcium stores and maintains bone density.",
+    "onset_of_action": "Immediate absorption (bone effects takes months)",
+    "duration_of_effect": "Hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "OTC / Approved",
+    "quick_summary": "A common calcium and vitamin D supplement for bone health.",
+    "who_should_take": "People with poor calcium intake or bone thinning.",
+    "who_should_not_take": "People with high calcium levels in blood or recurring kidney stones.",
+    "food_interactions": [
+      "Best taken after meals for better absorption and less stomach upset."
+    ],
+    "alcohol_warning": "No major interaction, but high alcohol can decrease bone density.",
+    "source": "Verified Database"
+  },
+  { "id": "calutide_50", "drug_name": "CALUTIDE 50MG", "category": "Anti-cancer", "brand_names_india": ["Calutide"], "quick_summary": "Commonly used for prostate cancer.", "uses": ["Prostate Cancer"], "side_effects_common": ["Hot flashes", "Nausea"], "dosage_common": "50mg daily", "pregnancy_safety": "Category X", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "canditral_100", "drug_name": "CANDITRAL 100MG", "category": "Antifungal", "brand_names_india": ["Canditral"], "quick_summary": "Treats fungal infections.", "uses": ["Fungal infections"], "side_effects_common": ["Nausea"], "dosage_common": "As prescribed", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cartilox_sachet", "drug_name": "CARTILOX SACHET", "category": "Supplements", "brand_names_india": ["Cartilox"], "quick_summary": "Supports joint health.", "uses": ["Joint health"], "side_effects_common": ["Mild stomach upset"], "dosage_common": "1 sachet daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "carvidon_mr_35", "drug_name": "CARVIDON MR 35MG", "category": "Heart Medicine", "brand_names_india": ["Carvidon MR"], "quick_summary": "Used for angina prevention.", "uses": ["Angina"], "side_effects_common": ["Dizziness"], "dosage_common": "35mg twice daily", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cellcept_500", "drug_name": "Cellcept 500mg", "category": "Immunosuppressant", "brand_names_india": ["Cellcept"], "quick_summary": "Prevents organ rejection.", "uses": ["Organ transplant"], "side_effects_common": ["Diarrhea", "Nausea"], "dosage_common": "As prescribed", "pregnancy_safety": "Category D", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cetanil_10", "drug_name": "CETANIL 10MG", "category": "Antihypertensive", "brand_names_india": ["Cetanil"], "quick_summary": "Lowers blood pressure.", "uses": ["Hypertension"], "side_effects_common": ["Swelling", "Headache"], "dosage_common": "10mg once daily", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cilamin_250", "drug_name": "Cilamin 250mg", "category": "Chelating Agent", "brand_names_india": ["Cilamin"], "quick_summary": "Used for Wilson's disease and Rheumatoid arthritis.", "uses": ["Wilson's Disease", "Rheumatoid Arthritis"], "side_effects_common": ["Nausea"], "dosage_common": "As prescribed", "pregnancy_safety": "Category D", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cinod_10", "drug_name": "CINOD 10MG", "category": "Antihypertensive", "brand_names_india": ["Cinod"], "quick_summary": "Calcium channel blocker for blood pressure.", "uses": ["Hypertension"], "side_effects_common": ["Swelling"], "dosage_common": "10mg daily", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cintodac", "drug_name": "CINTODAC", "category": "Gastrointestinal", "brand_names_india": ["Cintodac"], "quick_summary": "Used for GERD and acidity.", "uses": ["GERD", "Acidity"], "side_effects_common": ["Stomach pain"], "dosage_common": "As prescribed", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cirrosam_400", "drug_name": "CIRROSAM 400MG", "category": "Liver Support", "brand_names_india": ["Cirrosam"], "quick_summary": "Used for liver health.", "uses": ["Liver disease"], "side_effects_common": ["Nausea"], "dosage_common": "400mg daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "clavix_75", "drug_name": "Clavix 75mg", "category": "Antiplatelet", "brand_names_india": ["Clavix"], "quick_summary": "Prevents blood clots.", "uses": ["Heart attack prevention"], "side_effects_common": ["Bleeding"], "dosage_common": "75mg daily", "pregnancy_safety": "Category B", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cobadex_czs", "drug_name": "COBADEX CZS", "category": "Multivitamin", "brand_names_india": ["Cobadex CZS"], "quick_summary": "Potent multivitamin and mineral supplement.", "uses": ["Vitamin deficiency"], "side_effects_common": ["Mild nausea"], "dosage_common": "1 tablet daily", "pregnancy_safety": "Generally safe", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cognicare", "drug_name": "COGNICARE", "category": "Cognitive Support", "brand_names_india": ["Cognicare"], "quick_summary": "Supports brain health.", "uses": ["Memory support"], "side_effects_common": ["None common"], "dosage_common": "As prescribed", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "collashot_c2", "drug_name": "COLLASHOT C2", "category": "Supplements", "brand_names_india": ["Collashot C2"], "quick_summary": "Type 2 collagen for joints.", "uses": ["Joint pain"], "side_effects_common": ["Mild digestive upset"], "dosage_common": "1 capsule daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "colospa_retard_200", "drug_name": "COLOSPA RETARD 200MG", "category": "Antispasmodic", "brand_names_india": ["Colospa"], "quick_summary": "Used for IBS and muscle spasms.", "uses": ["IBS"], "side_effects_common": ["Dizziness"], "dosage_common": "200mg daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "combigan", "drug_name": "COMBIGAN", "category": "Eye Drops", "brand_names_india": ["Combigan"], "quick_summary": "Used for glaucoma.", "uses": ["Glaucoma"], "side_effects_common": ["Eye irritation"], "dosage_common": "1 drop twice daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "coralan_5", "drug_name": "CORALAN 5MG", "category": "Heart Medicine", "brand_names_india": ["Coralan"], "quick_summary": "Used for chronic heart failure or angina.", "uses": ["Heart Failure", "Angina"], "side_effects_common": ["Vision changes", "Slow heart rate"], "dosage_common": "5mg twice daily", "pregnancy_safety": "Category X", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cordarone_100", "drug_name": "CORDARONE 100MG", "category": "Anti-arrhythmic", "brand_names_india": ["Cordarone"], "quick_summary": "Used for irregular heartbeat.", "uses": ["Arrhythmia"], "side_effects_common": ["Vision blurred", "Nausea"], "dosage_common": "As prescribed", "pregnancy_safety": "Category D", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "coversyl_4", "drug_name": "Coversyl 4mg", "category": "Antihypertensive", "brand_names_india": ["Coversyl"], "quick_summary": "ACE inhibitor for blood pressure.", "uses": ["Hypertension"], "side_effects_common": ["Cough", "Dizziness"], "dosage_common": "4mg once daily", "pregnancy_safety": "Category D", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cremalax_10", "drug_name": "CREMALAX 10MG", "category": "Laxative", "brand_names_india": ["Cremalax"], "quick_summary": "Relieves constipation.", "uses": ["Constipation"], "side_effects_common": ["Stomach cramps"], "dosage_common": "10mg at night", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cresp_40", "drug_name": "CRESP 40MCG", "category": "Anemia Therapy", "brand_names_india": ["Cresp"], "quick_summary": "Used for anemia due to kidney disease.", "uses": ["Anemia"], "side_effects_common": ["High blood pressure"], "dosage_common": "As prescribed", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "crevast_10", "drug_name": "CREVAST 10MG", "category": "Statin", "brand_names_india": ["Crevast"], "quick_summary": "Lowers cholesterol.", "uses": ["High cholesterol"], "side_effects_common": ["Muscle pain"], "dosage_common": "10mg daily", "pregnancy_safety": "Category X", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "crinone_8", "drug_name": "CRINONE 8%", "category": "Hormone", "brand_names_india": ["Crinone"], "quick_summary": "Progesterone supplement for fertility support.", "uses": ["Fertility support"], "side_effects_common": ["Breast tenderness"], "dosage_common": "As prescribed", "pregnancy_safety": "Used during pregnancy support", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cyblex_mv", "drug_name": "CYBLEX MV", "category": "Antidiabetic", "brand_names_india": ["Cyblex MV"], "quick_summary": "Combination therapy for Type 2 Diabetes.", "uses": ["Diabetes"], "side_effects_common": ["Hypoglycemia"], "dosage_common": "As prescribed", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cytogard_od_60", "drug_name": "CYTOGARD OD 60MG", "category": "Anti-anginal", "brand_names_india": ["Cytogard"], "quick_summary": "Used for angina prevention.", "uses": ["Angina"], "side_effects_common": ["Dizziness"], "dosage_common": "60mg once daily", "pregnancy_safety": "Category C", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "calpol_500", "drug_name": "Calpol 500mg", "category": "Analgesic & Antipyretic", "brand_names_india": ["Calpol", "Calpol 650", "Calpol 250"], "quick_summary": "Relieves pain and fever.", "uses": ["Fever", "Headache", "Muscle Pain"], "side_effects_common": ["None common if taken in recommended dose"], "dosage_common": "500-650mg every 4-6 hours", "pregnancy_safety": "Category B", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cetzine", "drug_name": "Cetzine 10mg", "category": "Antihistamine", "brand_names_india": ["Cetzine"], "quick_summary": "Relieves allergy symptoms like runny nose and itching.", "uses": ["Allergic Rhinitis", "Urticaria"], "side_effects_common": ["Sleepiness", "Dry mouth"], "dosage_common": "10mg once daily", "pregnancy_safety": "Category B", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cipladine", "drug_name": "Cipladine 5% Ointment", "category": "Antiseptic", "brand_names_india": ["Cipladine"], "quick_summary": "Povidone-iodine based antiseptic for wounds.", "uses": ["Wound care", "Antiseptic"], "side_effects_common": ["Local irritation"], "dosage_common": "Apply as needed", "pregnancy_safety": "Use with caution", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cremaffin", "drug_name": "Cremaffin Syrup", "category": "Laxative", "brand_names_india": ["Cremaffin", "Cremaffin Plus"], "quick_summary": "Used for relief from constipation and acidity.", "uses": ["Constipation", "Acidity"], "side_effects_common": ["Stomach cramps"], "dosage_common": "15ml at bedtime", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "chericof", "drug_name": "Chericof Syrup", "category": "Cough Suppressant", "brand_names_india": ["Chericof"], "quick_summary": "Used for relief from dry cough.", "uses": ["Dry Cough"], "side_effects_common": ["Drowsiness"], "dosage_common": "5ml three times daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "chymoral_forte", "drug_name": "Chymoral Forte", "category": "Enzyme", "brand_names_india": ["Chymoral Forte"], "quick_summary": "Reduces swelling and inflammation after surgery or injury.", "uses": ["Inflammation", "Swelling"], "side_effects_common": ["None common"], "dosage_common": "1 tablet three times daily", "pregnancy_safety": "Consult doctor", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" },
+  { "id": "cefi_200", "drug_name": "Cefi 200mg", "category": "Antibiotic", "brand_names_india": ["Cefi", "Cefi-O"], "quick_summary": "Cephalosporin antibiotic for bacterial infections.", "uses": ["UTI", "Typhoid", "Respiratory infections"], "side_effects_common": ["Diarrhea", "Nausea"], "dosage_common": "200mg twice daily", "pregnancy_safety": "Category B", "india_regulatory_status": "CDSCO Approved", "source": "Verified Database" }
 ]
+

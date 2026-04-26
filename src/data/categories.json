@@ -20,21 +20,27 @@
   ],
   "analgesic & antipyretic": [
     "paracetamol_650",
-    "paracetamol_mefenamic_acid"
+    "paracetamol_mefenamic_acid",
+    "calpol_500"
   ],
   "cold & cough": [
-    "cetirizine_paracetamol_phenylephrine"
+    "cetirizine_paracetamol_phenylephrine",
+    "chericof"
   ],
   "antibiotic": [
     "azithromycin",
     "amoxicillin_clavulanic_acid",
     "doxycycline",
-    "ceftum_500"
+    "ceftum_500",
+    "cefi_200"
   ],
   "antihypertensive": [
     "telmisartan",
     "cardace_5",
-    "cilacar_10"
+    "cilacar_10",
+    "cardivas_12_5",
+    "concor_5",
+    "ctd_6_25"
   ],
   "antispasmodic & analgesic": [
     "drotaverine_mefenamic_acid"
@@ -170,7 +176,8 @@
     "paracetamol"
   ],
   "antihistamine": [
-    "levocetirizine"
+    "levocetirizine",
+    "cetzine"
   ],
   "analgesic": [
     "mefenamic_acid",
@@ -180,7 +187,8 @@
     "montelukast"
   ],
   "antacid": [
-    "rabeprazole"
+    "rabeprazole",
+    "cyra_20"
   ],
   "antitussive": [
     "dextromethorphan"
@@ -191,17 +199,22 @@
   "nsaid (topical)": [
     "diclofenac_gel"
   ],
-  "vitamin supplement": [
-    "calcirol_60k"
+  "nutritional supplement": [
+    "calcirol_60k",
+    "cipcal_500",
+    "carnisure_500"
   ],
   "antifungal": [
-    "candiforce_200"
+    "candiforce_200",
+    "canditral"
   ],
   "antiplatelet": [
     "clopitab_75"
   ],
   "digestive enzyme": [
-    "creon_25000"
+    "creon_25000",
+    "creon_10000",
+    "chymoral_forte"
   ],
   "dyslipidemic": [
     "crestor_10"

@@ -68,10 +68,25 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 bg-transparent">
       <Helmet>
-        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List</title>
+        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List India</title>
         <meta name="description" content={t('heroDescription')} />
-        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines" />
+        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines, generic medicine finder India, pharm-easy alternative India" />
         <link rel="canonical" href="https://aethelcare.xyz" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aethelcare.xyz/" />
+        <meta property="og:title" content={`${t('appName')} - AI Medical Scanner & Banned Drugs India`} />
+        <meta property="og:description" content={t('heroDescription')} />
+        <meta property="og:image" content="https://aethelcare.xyz/og-image.png" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://aethelcare.xyz/" />
+        <meta property="twitter:title" content={`${t('appName')} - AI Medical Scanner & Banned Drugs India`} />
+        <meta property="twitter:description" content={t('heroDescription')} />
+        <meta property="twitter:image" content="https://aethelcare.xyz/og-image.png" />
+
         <script type="application/ld+json">
           {`
             {
