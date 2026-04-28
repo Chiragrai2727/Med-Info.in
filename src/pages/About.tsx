@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ShieldCheck } from 'lucide-react';
 import { Logo } from '../components/Logo';
 import { useLanguage } from '../LanguageContext';
 
@@ -15,22 +14,14 @@ export const About: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="pt-24 pb-32 text-center flex flex-col items-center"
         >
-          <div className="mb-16">
-            <motion.div 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1 }}
-              className="w-32 h-32 bg-gradient-to-tr from-blue-600 to-indigo-400 rounded-[2.5rem] shadow-3xl shadow-blue-500/20 flex items-center justify-center relative overflow-hidden group"
-            >
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <ShieldCheck className="w-16 h-16 text-white relative z-10" />
-            </motion.div>
+          <div className="backdrop-blur-2xl bg-white/30 p-8 rounded-[4rem] border border-white/50 mb-16 shadow-2xl">
+            <Logo size="xl" showText={false} />
           </div>
           
-          <h1 className="text-6xl md:text-9xl font-black text-slate-900 leading-[0.8] tracking-[-0.05em] mb-12 max-w-5xl mx-auto uppercase">
+          <h1 className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.8] tracking-[-0.05em] mb-12 max-w-5xl mx-auto uppercase">
             {t('aboutHeadline')}
           </h1>
           <p className="text-xl md:text-3xl text-slate-500 font-bold tracking-tight leading-tight max-w-4xl mx-auto opacity-70">
@@ -117,7 +108,7 @@ export const About: React.FC = () => {
                 <img 
                   src="/chirag.jpg" 
                   alt="Chirag Rai" 
-                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110 filter-none" 
+                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'; }}
                 />
@@ -135,7 +126,7 @@ export const About: React.FC = () => {
                 </p>
               </div>
             </motion.div>
-
+ 
             {/* Dr. Sagar Rai */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -148,7 +139,7 @@ export const About: React.FC = () => {
                 <img 
                   src="/sagar.jpg" 
                   alt="Dr. Sagar Rai" 
-                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110 filter-none" 
+                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800'; }}
                 />

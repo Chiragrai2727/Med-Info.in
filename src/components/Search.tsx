@@ -8,10 +8,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { offlineService } from '../services/offlineService';
 
 interface SearchProps {
   autoFocus?: boolean;
   placeholder?: string;
+  onActiveChange?: (active: boolean) => void;
 }
 
 const POPULAR_SEARCHES = [
@@ -22,7 +24,7 @@ const POPULAR_SEARCHES = [
   'Calpol'
 ];
 
-export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }) => {
+export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, onActiveChange }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,33 +61,24 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
   };
 
   useEffect(() => {
+    onActiveChange?.(showSuggestions || (query.length === 0 && isFocused));
+  }, [showSuggestions, isFocused, query, onActiveChange]);
+
+  useEffect(() => {
     const timer = setTimeout(async () => {
       if (query.length > 2) {
         setIsLoading(true);
         // We can't easily check if it will fallback to AI here without calling the service
         // but we know searchMedicines will handle it.
         const results = await searchMedicines(query, language);
-        
-        // Mix in common search queries that match the current input
-        const matchingQueries = POPULAR_SEARCHES.filter(
-          ps => ps.toLowerCase().includes(query.toLowerCase()) && 
-          !results.some(r => r.name.toLowerCase() === ps.toLowerCase())
-        ).map(ps => ({
-          name: ps,
-          category: 'Common Query',
-          summary: 'Search for this topic',
-          source: 'Suggested',
-          confidence: 100
-        }));
-
-        setSuggestions([...matchingQueries, ...results]);
+        setSuggestions(results);
         setIsLoading(false);
         setShowSuggestions(true);
       } else {
         setSuggestions([]);
         setShowSuggestions(false);
       }
-    }, 300);
+    }, 150);
 
     return () => clearTimeout(timer);
   }, [query, language]);
@@ -122,8 +115,18 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
 
     setIsLoading(true);
     saveRecentSearch(query.trim());
+    
     const interpretation = await interpretQuery(query, language);
     setIsLoading(false);
+
+    // Save to history if we have interpretation data
+    if (interpretation.medicines.length > 0) {
+      offlineService.saveToHistory({
+        name: interpretation.medicines[0],
+        category: 'Searched',
+        summary: `Result for "${query}"`
+      });
+    }
 
     if (interpretation.intent === 'compare' && interpretation.medicines.length >= 2) {
       navigate(`/compare/${encodeURIComponent(interpretation.medicines[0])}/${encodeURIComponent(interpretation.medicines[1])}`);
@@ -136,11 +139,12 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
     setShowSuggestions(false);
   };
 
-  const handleSelect = (name: string) => {
-    saveRecentSearch(name);
-    setQuery(name);
+  const handleSelect = (item: { name: string; category: string; summary: string }) => {
+    saveRecentSearch(item.name);
+    offlineService.saveToHistory(item);
+    setQuery(item.name);
     setShowSuggestions(false);
-    navigate(`/medicine/${encodeURIComponent(name)}`);
+    navigate(`/medicine/${encodeURIComponent(item.name)}`);
   };
 
   const toggleVoiceSearch = async () => {
@@ -371,7 +375,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
                     {recentSearches.map((term, i) => (
                       <button
                         key={i}
-                        onClick={() => handleSelect(term)}
+                        onClick={() => handleSelect({ name: term, category: 'Recent', summary: 'Search history' })}
                         className="w-full text-left px-8 py-4 hover:bg-black/5 transition-all flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-4">
@@ -392,7 +396,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
                     {POPULAR_SEARCHES.map((term, i) => (
                       <button
                         key={i}
-                        onClick={() => handleSelect(term)}
+                        onClick={() => handleSelect({ name: term, category: 'Popular', summary: 'Trending search' })}
                         className="w-full text-left px-8 py-4 hover:bg-black/5 transition-all flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-4">
@@ -422,7 +426,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
                 {suggestions.map((item, index) => (
                   <button
                     key={index}
-                    onClick={() => handleSelect(item.name)}
+                    onClick={() => handleSelect(item)}
                     className="w-full text-left px-8 py-6 hover:bg-black/5 transition-all flex flex-col gap-1 group"
                   >
                     <div className="flex justify-between items-center">
@@ -468,6 +472,29 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
                     <p className="text-base text-gray-400 font-medium line-clamp-1 group-hover:text-gray-600 transition-colors">{item.summary}</p>
                   </button>
                 ))}
+                
+                {/* Global Search Option */}
+                <button
+                  onClick={() => handleSearch()}
+                  className="w-full text-left px-8 py-6 bg-blue-50/50 hover:bg-blue-50 transition-all flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-black text-blue-900 group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                        Full Search: "{query}"
+                        <span className="px-2 py-0.5 bg-blue-600 text-[9px] text-white rounded-md uppercase tracking-widest font-black">AI Powered</span>
+                      </div>
+                      <p className="text-sm text-blue-400 font-medium italic">Deep search in global medical datasets & research</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-900">Press Enter</span>
+                    <TrendingUp className="w-4 h-4 text-blue-600" />
+                  </div>
+                </button>
               </div>
             ) : (
               <div className="p-16 text-center">
@@ -475,9 +502,29 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder }
                   <SearchIcon className="w-10 h-10 text-gray-200" />
                 </div>
                 <p className="text-2xl font-black text-black mb-2">{t('noResults')}</p>
-                <p className="text-gray-400 font-medium">
-                  Try <button onClick={() => setQuery('fever')} className="text-black underline decoration-2 underline-offset-4">fever</button> or <button onClick={() => setQuery('paracetamol')} className="text-black underline decoration-2 underline-offset-4">paracetamol</button>
+                <p className="text-gray-400 font-medium mb-8">
+                  Couldn't find any direct matches in our quick database.
                 </p>
+                
+                <button
+                  onClick={() => handleSearch()}
+                  className="inline-flex items-center gap-4 px-10 py-5 bg-black text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
+                >
+                  <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
+                  Search with AI Assistant
+                  <div className="ml-4 px-2 py-1 bg-white/20 rounded-md text-[10px] border border-white/10 group-hover:bg-blue-500 transition-colors">
+                    Enter
+                  </div>
+                </button>
+                
+                <div className="mt-12 text-gray-300">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">Or try searching for</p>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <button onClick={() => setQuery('fever')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">fever</button>
+                    <button onClick={() => setQuery('paracetamol')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">paracetamol</button>
+                    <button onClick={() => setQuery('diabetes')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">diabetes</button>
+                  </div>
+                </div>
               </div>
             )}
           </motion.div>

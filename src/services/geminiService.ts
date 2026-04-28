@@ -89,14 +89,14 @@ async function lazySeedToFirestore(medicine: Medicine) {
 // Initialize Fuse.js for fuzzy searching
 const fuseOptions = {
   includeScore: true,
-  threshold: 0.45, // Increased for better typo tolerance
-  ignoreLocation: true, // Fix for "Tab./Cap." problem
+  threshold: 0.55, // Increased further for even better typo tolerance
+  ignoreLocation: true,
   minMatchCharLength: 2,
   keys: [
-    { name: 'drug_name', weight: 0.7 },
-    { name: 'brand_names_india', weight: 0.5 },
-    { name: 'category', weight: 0.1 },
-    { name: 'uses', weight: 0.1 }
+    { name: 'drug_name', weight: 0.8 },
+    { name: 'brand_names_india', weight: 0.6 },
+    { name: 'category', weight: 0.2 },
+    { name: 'uses', weight: 0.2 }
   ]
 };
 const fuse = new Fuse(allLocalMedicines, fuseOptions);
@@ -292,108 +292,146 @@ export async function searchMedicines(searchQuery: string, lang: Language = 'en'
     return searchCache[cacheKey];
   }
 
-  // 0. Check Backend (Firestore) for community data first
-  let backendResults: any[] = [];
-  try {
-    const qUpper = q.charAt(0).toUpperCase() + q.slice(1);
-    const medicinesRef = collection(db, 'medicines');
-    // Simple "starts with" query for Firestore
-    const queryConstraints = [
-      where('drug_name', '>=', qUpper),
-      where('drug_name', '<=', qUpper + '\uf8ff'),
-      limit(5)
-    ];
-    const qBackend = query(medicinesRef, ...queryConstraints);
-    const querySnapshot = await getDocs(qBackend);
+  // Instant Prefix/Exact Match Check (Pre-Parallelization)
+  const prefixSuggestions = allLocalMedicines
+    .filter(m => 
+      m.drug_name.toLowerCase().startsWith(q) || 
+      m.brand_names_india.some(b => b.toLowerCase().startsWith(q))
+    )
+    .sort((a, b) => a.drug_name.length - b.drug_name.length)
+    .slice(0, 8);
+
+  if (prefixSuggestions.length > 0 && q.length >= 2) {
+    const instantResults = prefixSuggestions.map(m => ({
+      name: m.drug_name,
+      category: m.category,
+      summary: m.quick_summary || (Array.isArray(m.uses) ? m.uses.join(', ') : m.uses),
+      isOffline: !navigator.onLine,
+      source: 'Verified Database',
+      confidence: 100
+    }));
     
-    backendResults = querySnapshot.docs.map(doc => {
-      const data = doc.data() as Medicine;
-      return {
-        name: data.drug_name,
-        category: data.category,
-        summary: data.quick_summary || (Array.isArray(data.uses) ? data.uses.join(', ') : data.uses),
-        isOffline: false,
-        source: 'Community DB',
-        confidence: 100
-      };
-    });
-  } catch (err) {
-    console.warn("Backend search failed:", err);
+    // For very strong matches (length 1 or exact start), return immediately for "lightning fast" feel
+    if (q.length >= 3 || prefixSuggestions.some(m => m.drug_name.toLowerCase() === q)) {
+      searchCache[cacheKey] = instantResults;
+      return instantResults;
+    }
   }
 
-  // 1. Search in local dataset using Fuse.js (Fuzzy Search)
-  const fuseResults = fuse.search(q);
-  
-  const diseaseMatches = new Set(diseasesIndex[q] || []);
-  const categoryMatches = new Set(categoriesIndex[q] || []);
+  // Parallelize backend and local search
+  const [backendResults, localResults] = await Promise.all([
+    (async () => {
+      try {
+        const qUpper = q.charAt(0).toUpperCase() + q.slice(1);
+        const medicinesRef = collection(db, 'medicines');
+        // Simple "starts with" query for Firestore
+        const queryConstraints = [
+          where('drug_name', '>=', qUpper),
+          where('drug_name', '<=', qUpper + '\uf8ff'),
+          limit(5)
+        ];
+        const qBackend = query(medicinesRef, ...queryConstraints);
+        const querySnapshot = await getDocs(qBackend);
+        
+        return querySnapshot.docs.map(doc => {
+          const data = doc.data() as Medicine;
+          return {
+            name: data.drug_name,
+            category: data.category,
+            summary: data.quick_summary || (Array.isArray(data.uses) ? data.uses.join(', ') : data.uses),
+            isOffline: false,
+            source: 'Community DB',
+            confidence: 100
+          };
+        });
+      } catch (err) {
+        console.warn("Backend search failed:", err);
+        return [];
+      }
+    })(),
+    (async () => {
+      // 1. Search in local dataset using Fuse.js (Fuzzy Search)
+      const fuseResults = fuse.search(q);
+      
+      const diseaseMatches = new Set(diseasesIndex[q] || []);
+      const categoryMatches = new Set(categoriesIndex[q] || []);
 
-  const scoredResults = fuseResults.map(result => {
-    let score = 0;
-    // Fuse score is 0 (perfect) to 1 (mismatch). Threshold expanded to 0.45.
-    const baseScore = Math.max(0, (0.45 - (result.score || 0)) / 0.45) * 20000;
-    score += baseScore;
+      const scoredResults = fuseResults.map(result => {
+        let score = 0;
+        // Fuse score is 0 (perfect) to 1 (mismatch). Threshold expanded to 0.55.
+        const baseScore = Math.max(0, (0.55 - (result.score || 0)) / 0.55) * 20000;
+        score += baseScore;
 
-    const drugNameLower = result.item.drug_name.toLowerCase();
-    const brandsLower = result.item.brand_names_india.map(b => b.toLowerCase());
+        const drugNameLower = result.item.drug_name.toLowerCase();
+        const brandsLower = result.item.brand_names_india.map(b => b.toLowerCase());
 
-    // Exact match boost (Highest priority - Hierarchical)
-    if (drugNameLower === q) {
-      score += 150000; // Generic chemical exact match
-    } else if (brandsLower.includes(q)) {
-      score += 100000; // Brand exact match
-    } 
-    // Starts with boost (High priority)
-    else if (drugNameLower.startsWith(q)) {
-      score += 60000;
-    } else if (brandsLower.some(b => b.startsWith(q))) {
-      score += 50000;
-    }
-    // Substring / Word Boundary token match (e.g. "plus")
-    else if (drugNameLower.includes(` ${q}`) || drugNameLower.includes(`${q} `) ||
-             brandsLower.some(b => b.includes(` ${q}`) || b.includes(`${q} `))) {
-      score += 25000;
-    }
+        // Exact match boost (Highest priority - Hierarchical)
+        if (drugNameLower === q) {
+          score += 150000; // Generic chemical exact match
+        } else if (brandsLower.includes(q)) {
+          score += 100000; // Brand exact match
+        } 
+        // Starts with boost (High priority)
+        else if (drugNameLower.startsWith(q)) {
+          score += 60000;
+        } else if (brandsLower.some(b => b.startsWith(q))) {
+          score += 50000;
+        }
+        // Substring / Word Boundary token match (e.g. "plus")
+        else if (drugNameLower.includes(` ${q}`) || drugNameLower.includes(`${q} `) ||
+                 brandsLower.some(b => b.includes(` ${q}`) || b.includes(`${q} `))) {
+          score += 25000;
+        }
 
-    // Semantic Fallback Boost
-    if (diseaseMatches.has(result.item.id) || categoryMatches.has(result.item.id)) {
-      score += 30000;
-    }
+        // Semantic Fallback Boost
+        if (diseaseMatches.has(result.item.id) || categoryMatches.has(result.item.id)) {
+          score += 40000;
+        }
 
-    // Penalty for banned drugs to rank safe alternatives higher
-    if (result.item.is_banned && score > 0) {
-      score -= 100;
-    }
-    
-    // Index boost (exact matches in our pre-built index)
-    if (searchIndex[q]?.includes(result.item.id)) score += 20000;
+        // Penalty for banned drugs to rank safe alternatives higher
+        if (result.item.is_banned && score > 0) {
+          score -= 100;
+        }
+        
+        // Index boost (exact matches in our pre-built index)
+        if (searchIndex[q]?.includes(result.item.id)) score += 20000;
 
-    return { medicine: result.item, score };
-  }).filter(item => item.score >= 500);
+        return { medicine: result.item, score };
+      });
 
-  const sorted = scoredResults.sort((a, b) => b.score - a.score);
-  const topScore = sorted.length > 0 ? sorted[0].score : 0;
-  
-  // If we have very strong matches, only show those
-  const filtered = topScore >= 50000 
-    ? sorted.filter(item => item.score >= 25000)
-    : sorted;
+      // Add index-based matches that might have been missed by fuzzy search
+      const indexMatches = new Set([...diseaseMatches, ...categoryMatches, ...(searchIndex[q] || [])]);
+      indexMatches.forEach(id => {
+        if (!scoredResults.some(r => r.medicine.id === id)) {
+          const med = medicinesMap[id];
+          if (med) {
+            scoredResults.push({ medicine: med, score: 35000 });
+          }
+        }
+      });
 
-  const localResults = filtered
-    .map(item => {
-      // Calculate a confidence score (0-100) based on the internal score
-      const confidence = Math.min(100, Math.round((item.score / 20000) * 100));
-      return {
-        name: item.medicine.drug_name,
-        category: item.medicine.category,
-        summary: item.medicine.quick_summary || (Array.isArray(item.medicine.uses) ? item.medicine.uses.join(', ') : item.medicine.uses),
-        isOffline: !navigator.onLine,
-        source: 'Verified Database',
-        confidence
-      };
-    })
-    .slice(0, 6);
+      const finalScored = scoredResults.filter(item => item.score >= 500);
+      const sorted = finalScored.sort((a, b) => b.score - a.score);
+      
+      // More inclusive filtering to show more results
+      const filtered = sorted.slice(0, 15);
 
-  // Combine results, prioritizing backend
+      return filtered.map(item => {
+        // Calculate a confidence score (0-100) based on the internal score
+        const confidence = Math.min(100, Math.round((item.score / 20000) * 100));
+        return {
+          name: item.medicine.drug_name,
+          category: item.medicine.category,
+          summary: item.medicine.quick_summary || (Array.isArray(item.medicine.uses) ? item.medicine.uses.join(', ') : item.medicine.uses),
+          isOffline: !navigator.onLine,
+          source: 'Verified Database',
+          confidence
+        };
+      });
+    })()
+  ]);
+
+  // Combine results, prioritizing backend (Community DB)
   const combined = [...backendResults];
   localResults.forEach(res => {
     if (!combined.some(c => c.name.toLowerCase() === res.name.toLowerCase())) {
@@ -401,29 +439,10 @@ export async function searchMedicines(searchQuery: string, lang: Language = 'en'
     }
   });
 
-  // If we found local results and they are reasonably strong, return them immediately to speed up search
-  if (combined.length >= 1 && (topScore >= 6000 || backendResults.length > 0)) {
-    const final = combined.slice(0, 10);
-    searchCache[cacheKey] = final;
-    return final;
-  }
-
-  // We no longer use AI for autocomplete suggestions to prevent API quota exhaustion.
-  // The AI is only used when the user explicitly submits the search or clicks a result.
-  
-  const cachedResults = (offlineService.getSearchResults(searchQuery) || []).map(r => ({ ...r, isOffline: true, source: 'Cached Result' }));
-  const offlineSearch = (offlineService.searchOffline(searchQuery) || []).map(r => ({ ...r, isOffline: true, source: 'Local Cache' }));
-  
-  const combinedFinal = [...localResults, ...cachedResults];
-  offlineSearch.forEach(res => {
-    if (!combinedFinal.some(c => c.name.toLowerCase() === res.name.toLowerCase())) {
-      combinedFinal.push(res);
-    }
-  });
-
-  const finalResults = combinedFinal.slice(0, 10);
-  searchCache[cacheKey] = finalResults;
-  return finalResults;
+  // Ensure we include at least some matches if they exist
+  const final = combined.slice(0, 10);
+  searchCache[cacheKey] = final;
+  return final;
 }
 
 export async function getMedicinesForCondition(condition: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; india_regulatory_status?: string }[]> {

@@ -395,7 +395,7 @@ export const Pricing: React.FC = () => {
           <div className="px-8 py-3 backdrop-blur-md bg-white border border-slate-100 rounded-full text-slate-400 font-black text-[11px] uppercase tracking-[0.3em] flex items-center gap-3 shadow-sm">
             <ShieldCheck className="w-5 h-5 text-blue-600" /> CDSCO & AI SAFETY VERIFIED STANDARDS
           </div>
-          <div className="flex items-center gap-12 opacity-50 h-10 transition-opacity hover:opacity-100 duration-1000">
+          <div className="flex items-center gap-12 opacity-20 grayscale h-10 transition-opacity hover:opacity-100 duration-1000">
             <Users className="w-10 h-10" />
             <ShieldCheck className="w-10 h-10" />
             <IndianRupee className="w-8 h-8" />

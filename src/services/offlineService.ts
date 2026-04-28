@@ -21,6 +21,30 @@ interface SearchCacheItem {
 }
 
 export const offlineService = {
+  // Clear all cached data
+  clearCache: () => {
+    try {
+      localStorage.removeItem(MEDICINE_CACHE_KEY);
+      localStorage.removeItem(SEARCH_CACHE_KEY);
+      // Also clear banned drugs cache if we add it
+      localStorage.removeItem('medinfo_banned_drugs_cache');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
+  // Clear search history specifically
+  clearHistory: () => {
+    try {
+      localStorage.removeItem('recentSearches_v2'); // We'll use a new versioned key for better data
+      localStorage.removeItem('recentSearches'); 
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
   // Save medicine details to cache
   saveMedicine: (medicine: Medicine) => {
     try {
@@ -63,7 +87,44 @@ export const offlineService = {
     }
   },
 
-  // Save search results to cache
+  // Cache banned drugs for offline access
+  cacheBannedDrugs: (drugs: any[]) => {
+    try {
+      localStorage.setItem('medinfo_banned_drugs_cache', JSON.stringify({
+        data: drugs,
+        timestamp: Date.now()
+      }));
+    } catch (e) {}
+  },
+
+  getBannedDrugs: (): any[] | null => {
+    try {
+      const cached = localStorage.getItem('medinfo_banned_drugs_cache');
+      return cached ? JSON.parse(cached).data : null;
+    } catch (e) {
+      return null;
+    }
+  },
+
+  // Save search results as History
+  saveToHistory: (medicine: SearchResult) => {
+    try {
+      const history: SearchResult[] = JSON.parse(localStorage.getItem('recentSearches_v2') || '[]');
+      // Filter out existing and add to front
+      const updated = [medicine, ...history.filter(h => h.name !== medicine.name)].slice(0, 20);
+      localStorage.setItem('recentSearches_v2', JSON.stringify(updated));
+    } catch (e) {}
+  },
+
+  getHistory: (): SearchResult[] => {
+    try {
+      return JSON.parse(localStorage.getItem('recentSearches_v2') || '[]');
+    } catch (e) {
+      return [];
+    }
+  },
+
+  // Legacy compatibility for existing search term list
   saveSearchResults: (query: string, results: SearchResult[]) => {
     try {
       const cache: Record<string, SearchCacheItem> = JSON.parse(localStorage.getItem(SEARCH_CACHE_KEY) || '{}');

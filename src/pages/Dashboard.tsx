@@ -2,10 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle } from 'lucide-react';
+import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { useLanguage } from '../LanguageContext';
 import { PhoneTrialSetup } from '../components/PhoneTrialSetup';
+import { offlineService } from '../services/offlineService';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '../ToastContext';
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed',
+    platform: string
+  }>;
+  prompt(): Promise<void>;
+}
 
 interface PaymentRecord {
   id: string;
@@ -20,14 +32,33 @@ interface PaymentRecord {
 export const Dashboard: React.FC = () => {
   const { user, profile } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<any[]>([]);
 
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
+    setSearchHistory(offlineService.getHistory());
   }, []);
+
+  const handleClearHistory = () => {
+    if (window.confirm('Are you sure you want to clear your search history?')) {
+      offlineService.clearHistory();
+      setSearchHistory([]);
+      showToast('Search history cleared', 'success');
+    }
+  };
+
+  const handleClearCache = () => {
+    if (window.confirm('This will clear all offline data. You will need to re-fetch medicine details while online. Continue?')) {
+      offlineService.clearCache();
+      showToast('Offline cache cleared', 'success');
+    }
+  };
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -225,6 +256,70 @@ export const Dashboard: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Search History Section */}
+          <div className="backdrop-blur-xl bg-white/70 rounded-[4rem] shadow-sm border border-white overflow-hidden">
+            <div className="p-10 sm:p-14 border-b border-black/5 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-slate-100 text-slate-900 rounded-2xl shadow-sm">
+                  <History className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-[-0.04em]">Search History</h2>
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Available Offline</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={handleClearHistory}
+                  className="p-3 text-slate-400 hover:text-red-600 transition-colors"
+                  title="Clear History"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={handleClearCache}
+                  className="p-3 text-slate-400 hover:text-blue-600 transition-colors"
+                  title="Clear All Cache"
+                >
+                  <Database className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-6 sm:p-10">
+              {searchHistory.length > 0 ? (
+                <div className="grid grid-cols-1 gap-4">
+                  {searchHistory.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() => navigate(`/medicine/${encodeURIComponent(item.name)}`)}
+                      className="w-full text-left p-6 bg-white rounded-3xl border border-slate-100 hover:border-blue-500/30 hover:shadow-xl transition-all group flex items-center justify-between"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1">
+                          <h4 className="text-xl font-black text-slate-900 tracking-tight">{item.name}</h4>
+                          <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-md">{item.category}</span>
+                        </div>
+                        <p className="text-slate-400 text-sm font-medium line-clamp-1">{item.summary}</p>
+                      </div>
+                      <div className="p-3 bg-slate-50 text-slate-300 rounded-2xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-all">
+                        <ChevronRight className="w-5 h-5" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20">
+                  <div className="w-20 h-20 bg-slate-50 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                    <History className="w-8 h-8 text-slate-200" />
+                  </div>
+                  <h3 className="text-slate-400 font-black uppercase tracking-[0.3em] text-xs mb-2">No Search History</h3>
+                  <p className="text-slate-300 text-sm font-bold tracking-tight">Your searched medicines will appear here.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
  

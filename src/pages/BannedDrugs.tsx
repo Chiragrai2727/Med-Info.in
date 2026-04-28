@@ -19,6 +19,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useLanguage } from '../LanguageContext';
+import { offlineService } from '../services/offlineService';
 
 interface BannedDrug {
   id: string;
@@ -33,6 +34,7 @@ export const BannedDrugs: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [allDrugs, setAllDrugs] = useState<BannedDrug[]>(bannedDrugsData);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
@@ -42,19 +44,27 @@ export const BannedDrugs: React.FC = () => {
     if (query) {
       setSearchQuery(query);
     }
+    
+    // Cache for offline use if we are online
+    if (navigator.onLine) {
+      offlineService.cacheBannedDrugs(bannedDrugsData);
+    } else {
+      const cached = offlineService.getBannedDrugs();
+      if (cached) setAllDrugs(cached);
+    }
   }, [searchParams]);
 
   const filteredDrugs = useMemo(() => {
-    if (!searchQuery.trim()) return bannedDrugsData.slice(0, 50);
+    if (!searchQuery.trim()) return allDrugs.slice(0, 50);
     const query = searchQuery.toLowerCase();
-    return bannedDrugsData.filter(drug => 
+    return allDrugs.filter(drug => 
       drug.drug_name.toLowerCase().includes(query) ||
       drug.side_effects_serious.some(se => se.toLowerCase().includes(query)) ||
       (drug.drug_class && drug.drug_class.toLowerCase().includes(query))
     );
-  }, [searchQuery]);
+  }, [searchQuery, allDrugs]);
 
-  const recentlyBanned = useMemo(() => bannedDrugsData.slice(0, 3), []);
+  const recentlyBanned = useMemo(() => allDrugs.slice(0, 3), [allDrugs]);
 
   const handleWhatsAppShare = (drug: BannedDrug) => {
     const reason = drug.side_effects_serious[0] || drug.quick_summary;

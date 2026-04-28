@@ -27,31 +27,31 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
           
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+            <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors flex-shrink-0">
               About
             </Link>
-            <Link to="/pricing" className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors whitespace-nowrap">
+            <Link to="/pricing" className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors whitespace-nowrap flex-shrink-0">
               <span className="hidden xs:inline">Plans</span>
-              <span className="xs:hidden">₱</span>
+              <span className="xs:hidden">₹</span>
             </Link>
             {user ? (
               <>
-                <Link to="/timetable" className="hidden sm:flex items-center gap-2 px-2 sm:px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold text-xs sm:text-sm">
-                  <Calendar className="w-4 h-4 sm:w-5 h-5" />
+                <Link to="/timetable" className="hidden sm:flex items-center gap-2 px-2 sm:px-3 py-2 text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors font-bold text-xs sm:text-sm flex-shrink-0">
+                  <Calendar className="w-4 h-4 sm:w-5 h-5 flex-shrink-0" />
                   <span>{t('timetable')}</span>
                 </Link>
-                <Link to="/scan" className="hidden sm:flex items-center gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 text-xs sm:text-sm">
-                  <Camera className="w-3.5 h-3.5 sm:w-4 h-4" />
+                <Link to="/scan" className="hidden sm:flex items-center gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 text-xs sm:text-sm flex-shrink-0">
+                  <Camera className="w-3.5 h-3.5 sm:w-4 h-4 flex-shrink-0" />
                   <span>{t('scan')}</span>
                 </Link>
-                <div className="relative group">
-                  <button className="flex items-center gap-2">
+                <div className="relative group flex-shrink-0">
+                  <button className="flex items-center justify-center p-0.5 rounded-full hover:bg-black/5 transition-all">
                     {profile?.photoURL ? (
-                      <img src={profile.photoURL} alt="Profile" className="w-7 h-7 sm:w-8 h-8 rounded-full border border-[var(--color-ink)]/20" referrerPolicy="no-referrer" />
+                      <img src={profile.photoURL} alt="Profile" className="w-8 h-8 sm:w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" referrerPolicy="no-referrer" />
                     ) : (
-                      <div className="w-7 h-7 sm:w-8 h-8 bg-[var(--color-ink)]/10 rounded-full flex items-center justify-center">
-                        <UserIcon className="w-3.5 h-3.5 sm:w-4 h-4 text-[var(--color-ink)]/50" />
+                      <div className="w-8 h-8 sm:w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                        <UserIcon className="w-4 h-4 sm:w-5 h-5 text-blue-600" />
                       </div>
                     )}
                   </button>

@@ -5,6 +5,7 @@ import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Medicine } from '../types';
 import { fetchMedicineDetails, generateTTS } from '../services/geminiService';
+import { offlineService } from '../services/offlineService';
 import { Search } from '../components/Search';
 import { motion } from 'motion/react';
 import { 
@@ -57,8 +58,29 @@ export const MedicineDetail: React.FC = () => {
     const loadData = async () => {
       if (name) {
         setLoading(true);
+        
+        // Try cache first
+        const cacheData = offlineService.getMedicine(name);
+        if (cacheData) {
+          setMedicine(cacheData);
+          setLoading(false);
+          // Still fetch in background if online to get updates
+          if (navigator.onLine) {
+            fetchMedicineDetails(name, language).then(freshData => {
+              if (freshData) {
+                setMedicine(freshData);
+                offlineService.saveMedicine(freshData);
+              }
+            });
+          }
+          return;
+        }
+
         const data = await fetchMedicineDetails(name, language);
-        setMedicine(data);
+        if (data) {
+          setMedicine(data);
+          offlineService.saveMedicine(data);
+        }
         setLoading(false);
       }
     };

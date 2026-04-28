@@ -5,15 +5,23 @@ import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
 import { DiseaseGrid } from '../components/DiseaseGrid';
 import { motion } from 'motion/react';
-import { AlertTriangle, ArrowRight, Sparkles, TrendingUp, Scale, Shield, ShieldCheck, Ban, Search as SearchIcon, Camera, CalendarClock, HelpCircle } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Sparkles, TrendingUp, Scale, Shield, ShieldCheck, Ban, Search as SearchIcon, Camera, CalendarClock, HelpCircle, Download } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCompare } from '../CompareContext';
 import { CompareSearch } from '../components/CompareSearch';
 import { FAQ } from '../components/FAQ';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
-
 import { Logo } from '../components/Logo';
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed',
+    platform: string
+  }>;
+  prompt(): Promise<void>;
+}
 
 export const Home: React.FC = () => {
   const { t } = useLanguage();
@@ -23,6 +31,28 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [bannedDrugs, setBannedDrugs] = useState<any[]>([]);
   const [bannedSearchQuery, setBannedSearchQuery] = useState('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+      showToast('Aethelcare is being installed!', 'success');
+    }
+  };
 
   const POPULAR_MEDS = [
     { name: 'Dolo 650', category: t('category_analgesic'), summary: t('doloSummary') },
@@ -68,25 +98,10 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 bg-transparent">
       <Helmet>
-        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List India</title>
+        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List</title>
         <meta name="description" content={t('heroDescription')} />
-        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines, generic medicine finder India, pharm-easy alternative India" />
+        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines" />
         <link rel="canonical" href="https://aethelcare.xyz" />
-        
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aethelcare.xyz/" />
-        <meta property="og:title" content={`${t('appName')} - AI Medical Scanner & Banned Drugs India`} />
-        <meta property="og:description" content={t('heroDescription')} />
-        <meta property="og:image" content="https://aethelcare.xyz/og-image.png" />
-
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://aethelcare.xyz/" />
-        <meta property="twitter:title" content={`${t('appName')} - AI Medical Scanner & Banned Drugs India`} />
-        <meta property="twitter:description" content={t('heroDescription')} />
-        <meta property="twitter:image" content="https://aethelcare.xyz/og-image.png" />
-
         <script type="application/ld+json">
           {`
             {
@@ -115,7 +130,17 @@ export const Home: React.FC = () => {
           className="relative z-10"
         >
           {/* Hero Badges */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {deferredPrompt && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                onClick={handleInstall}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:bg-blue-700 transition-all active:scale-95 animate-pulse-slow"
+              >
+                <Download className="w-4 h-4" /> Download App
+              </motion.button>
+            )}
             {[
               { icon: Sparkles, text: 'AI Intelligence', color: 'text-blue-600 bg-white/60 border-white/80' },
               { icon: ShieldCheck, text: 'CDSCO Verified', color: 'text-emerald-600 bg-white/60 border-white/80' },
@@ -147,22 +172,29 @@ export const Home: React.FC = () => {
               <Search 
                 autoFocus 
                 placeholder="Search any medicine name..."
+                onActiveChange={setIsSearchActive}
               />
             </div>
-            <div className="mt-10 flex flex-wrap justify-center gap-5">
-              <button 
-                onClick={() => navigate('/banned-drugs')}
-                className="px-10 py-4 bg-red-600 text-white rounded-[1.5rem] font-bold hover:bg-red-700 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
+            {!isSearchActive && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-10 flex flex-wrap justify-center gap-5"
               >
-                Check Banned List
-              </button>
-              <button 
-                onClick={() => navigate('/scan')}
-                className="px-10 py-4 backdrop-blur-xl bg-white/60 text-slate-900 border border-white/80 rounded-[1.5rem] font-bold hover:bg-white transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
-              >
-                Scan Free
-              </button>
-            </div>
+                <button 
+                  onClick={() => navigate('/banned-drugs')}
+                  className="px-10 py-4 bg-red-600 text-white rounded-[1.5rem] font-bold hover:bg-red-700 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
+                >
+                  Check Banned List
+                </button>
+                <button 
+                  onClick={() => navigate('/scan')}
+                  className="px-10 py-4 backdrop-blur-xl bg-white/60 text-slate-900 border border-white/80 rounded-[1.5rem] font-bold hover:bg-white transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
+                >
+                  Scan Free
+                </button>
+              </motion.div>
+            )}
           </div>
  
           <div className="flex flex-wrap justify-center gap-3 items-center">
