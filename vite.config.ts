@@ -12,7 +12,7 @@ export default defineConfig(({mode}) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'robots.txt'],
+        includeAssets: ['favicon.svg', 'robots.txt', 'sitemap.xml'],
         workbox: {
           maximumFileSizeToCacheInBytes: 5000000,
         },

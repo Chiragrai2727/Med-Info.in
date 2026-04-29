@@ -48,13 +48,13 @@ service cloud.firestore {
     match /schedules/{scheduleId} {
       function isValidSchedule(data) {
         return data.keys().hasAll(['userId', 'medicineName', 'dosage', 'time', 'days', 'createdAt'])
-          && data.keys().size() <= 8
+          && data.keys().size() <= 10
           && data.userId == request.auth.uid
           && data.medicineName is string && data.medicineName.size() <= 100
           && data.dosage is string && data.dosage.size() <= 100
           && data.time is string && data.time.size() <= 10
           && data.days is list && data.days.size() <= 7 && data.days.size() > 0 && data.days[0] is string
-          && data.createdAt == request.time;
+          && data.createdAt is timestamp;
       }
       
       allow get: if isSignedIn() && existing().userId == request.auth.uid;
@@ -62,13 +62,17 @@ service cloud.firestore {
       
       allow create: if isSignedIn() 
         && isValidId(scheduleId) 
-        && isValidSchedule(incoming());
+        && isValidSchedule(incoming())
+        && incoming().createdAt == request.time;
         
       allow update: if isSignedIn() 
         && existing().userId == request.auth.uid
         && incoming().userId == existing().userId 
         && incoming().createdAt == existing().createdAt
-        && incoming().diff(existing()).affectedKeys().hasOnly(['medicineName', 'dosage', 'time', 'days']);
+        && incoming().diff(existing()).affectedKeys().hasOnly(['medicineName', 'dosage', 'time', 'days', 'lastTakenDate', 'updatedAt'])
+        && (
+          !incoming().keys().hasAny(['updatedAt']) || incoming().updatedAt == request.time
+        );
         
       allow delete: if isSignedIn() && existing().userId == request.auth.uid;
     }

@@ -122,7 +122,10 @@ export const Timetable: React.FC = () => {
     }
 
     const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
+    console.log("Setting up schedules listener for:", user.uid);
+    
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      console.log(`Received schedules snapshot: ${snapshot.size} documents`);
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -131,6 +134,7 @@ export const Timetable: React.FC = () => {
       data.sort((a, b) => a.time.localeCompare(b.time));
       setSchedules(data);
     }, (error) => {
+      console.error("Firestore onSnapshot error:", error);
       handleFirestoreError(error, OperationType.LIST, 'schedules');
       showToast(t('timetableLoadError'), "error");
     });
@@ -185,10 +189,17 @@ export const Timetable: React.FC = () => {
     }
   };
 
-  const today = DAYS[(new Date().getDay() + 6) % 7]; // Adjust for Mon-Sun array
+  const getDayIndex = (d: Date) => (d.getDay() + 6) % 7;
+  const todayIndex = getDayIndex(new Date());
+  const today = DAYS[todayIndex]; 
   const todayDate = new Date().toLocaleDateString('en-CA');
-  const todaySchedules = schedules.filter(s => s.days.includes(today));
-  const otherSchedules = schedules.filter(s => !s.days.includes(today));
+  
+  const isDayActive = (scheduleDays: string[], day: string) => {
+    return (scheduleDays || []).some(d => d.substring(0, 3) === day.substring(0, 3));
+  };
+
+  const todaySchedules = schedules.filter(s => isDayActive(s.days, today));
+  const otherSchedules = schedules.filter(s => !isDayActive(s.days, today));
 
   const isPremium = profile?.isPremium === true || profile?.role === 'admin';
 
@@ -506,7 +517,7 @@ export const Timetable: React.FC = () => {
                               key={day}
                               title={t(`day_${day.toLowerCase()}`)}
                               className={`text-[8px] font-black uppercase tracking-wider w-9 h-9 flex items-center justify-center rounded-xl transition-all ${
-                                schedule.days.includes(day) 
+                                isDayActive(schedule.days, day) 
                                   ? 'bg-slate-900 text-white shadow-lg -translate-y-1' 
                                   : 'text-slate-200'
                               }`}

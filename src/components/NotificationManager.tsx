@@ -12,6 +12,7 @@ interface Schedule {
   time: string;
   days: string[];
   userId: string;
+  lastTakenDate?: string | null;
 }
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -153,7 +154,12 @@ export const NotificationManager: React.FC = () => {
       let stateChanged = false;
 
       for (const schedule of schedules) {
-        if (!schedule.days.includes(currentDay)) continue;
+        // Normalize days to handle potential legacy formats or case sensitivity
+        const activeDays = (schedule.days || []).map(d => d.substring(0, 3));
+        if (!activeDays.includes(currentDay)) continue;
+        
+        // Skip if already taken today
+        if (schedule.lastTakenDate === todayStr) continue;
 
         const [schedHour, schedMinute] = schedule.time.split(':').map(Number);
         const nowMinutes = currentHour * 60 + currentMinute;
@@ -161,13 +167,13 @@ export const NotificationManager: React.FC = () => {
 
         // Check if the scheduled time is within the last 5 minutes
         if (nowMinutes >= schedMinutes && nowMinutes < schedMinutes + 5) {
-          const notificationKey = `${schedule.id}-${todayStr}`;
+          const notificationKey = `notif-${schedule.id}-${todayStr}`;
           if (!notifiedRef.current[notificationKey]) {
             const tips = [t('tip1'), t('tip2'), t('tip3'), t('tip4'), t('tip5'), t('tip6')];
             const randomTip = tips[Math.floor(Math.random() * tips.length)];
             
             sendNotification(`💊 ${t('timeFor')} ${schedule.medicineName}`, `${t('dosageLabel')}: ${schedule.dosage}\n\nTip: ${randomTip}`, {
-              tag: schedule.id,
+              tag: `med-${schedule.id}`,
               requireInteraction: true,
               data: { url: '/timetable' },
               actions: [
