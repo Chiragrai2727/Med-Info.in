@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PLANS } from '../config/plans';
 import { X, Check, Loader2, Star } from 'lucide-react';
 import { useAuth } from '../AuthContext';
+import { useToast } from '../ToastContext';
+import { loadScript } from '../lib/scripts';
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -18,6 +20,7 @@ declare global {
 export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) => {
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
   const { user, profile, openAuthModal, updateSubscription } = useAuth();
+  const { showToast } = useToast();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
   const plans = [
@@ -59,6 +62,9 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
     setIsProcessing(planId);
 
     try {
+      // Lazy load Razorpay
+      await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+
       // 1. Create order on server
       const response = await fetch('/.netlify/functions/create-order', {
         method: 'POST',
@@ -107,14 +113,14 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
               
               await updateSubscription(planId, expiryDate.toISOString());
               
-              alert("Payment successful! You are now a Premium member.");
+              showToast("Payment successful! You are now a Premium member.", "success");
               onClose();
             } else {
-              alert("Payment verification failed. Please contact support.");
+              showToast("Payment verification failed. Please contact support.", "error");
             }
           } catch (err) {
             console.error(err);
-            alert("Something went wrong during verification.");
+            showToast("Something went wrong during verification.", "error");
           } finally {
             setIsProcessing(null);
           }
@@ -133,12 +139,12 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
       rzp.on('payment.failed', function (response: any) {
         setIsProcessing(null);
         console.error(response.error);
-        alert(response.error.description);
+        showToast(response.error.description, "error");
       });
       rzp.open();
     } catch (err: any) {
       console.error(err);
-      alert(`Payment failed to start: ${err.message || 'Please check your connection and API keys.'}`);
+      showToast(`Payment failed to start: ${err.message || 'Please check your connection and API keys.'}`, "error");
       setIsProcessing(null);
     }
   };

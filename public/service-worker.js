@@ -83,15 +83,19 @@ self.addEventListener('fetch', (event) => {
 // Handle messages from the app
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
-    const { title, body, icon, data, actions } = event.data;
-    self.registration.showNotification(title, {
-      body,
-      icon: icon || '/favicon.svg',
-      badge: '/favicon.svg',
-      data,
-      actions,
-      vibrate: [200, 100, 200]
-    });
+    if (self.Notification.permission === 'granted') {
+      const { title, body, icon, data, actions } = event.data;
+      self.registration.showNotification(title, {
+        body,
+        icon: icon || '/favicon.svg',
+        badge: '/favicon.svg',
+        data,
+        actions,
+        vibrate: [200, 100, 200]
+      });
+    } else {
+      console.warn('SHOW_NOTIFICATION received but permission not granted');
+    }
   }
 });
 

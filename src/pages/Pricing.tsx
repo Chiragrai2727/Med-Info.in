@@ -3,13 +3,17 @@ import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useAuth } from '../AuthContext';
+import { useToast } from '../ToastContext';
 import { PLANS } from '../config/plans';
 import { Check, X, ShieldCheck, Zap, Star, Phone, ArrowRight, Calculator, IndianRupee, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+import { loadScript } from '../lib/scripts';
+
 export const Pricing: React.FC = () => {
   const { t } = useLanguage();
   const { user, profile, openAuthModal, updateSubscription } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [savingsValue, setSavingsValue] = useState(1);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
@@ -37,6 +41,9 @@ export const Pricing: React.FC = () => {
     }
 
     try {
+      // Load Razorpay dynamically
+      await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+      
       const response = await fetch('/.netlify/functions/create-order', {
         method: 'POST',
         headers: {
@@ -86,9 +93,9 @@ export const Pricing: React.FC = () => {
               updateSubscription(planId, expiryDate.toISOString());
             }
             navigate('/dashboard');
-            alert('Payment Successful! Welcome to ' + planId.charAt(0).toUpperCase() + planId.slice(1) + '.');
+            showToast('Payment Successful! Welcome to ' + planId.charAt(0).toUpperCase() + planId.slice(1) + '.', 'success');
           } else {
-            alert('Payment verification failed.');
+            showToast('Payment verification failed.', 'error');
           }
         },
         prefill: {
@@ -105,7 +112,7 @@ export const Pricing: React.FC = () => {
       rzp.open();
     } catch (error: any) {
       console.error('Payment Error:', error);
-      alert(`Payment failed to start: ${error.message || 'Please check your connection and API keys.'}`);
+      showToast(`Payment failed to start: ${error.message || 'Please check your connection and API keys.'}`, 'error');
     }
   };
 

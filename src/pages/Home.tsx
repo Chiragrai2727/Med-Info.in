@@ -403,8 +403,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
  
-      {/* Common Queries SEO Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      {/* Common Queries SEO Section - Hidden from UI but preserved for SEO bots */}
+      <section className="sr-only">
         <div className="flex items-center gap-4 mb-12">
           <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center border border-emerald-200">
             <TrendingUp className="w-6 h-6 text-emerald-600" />

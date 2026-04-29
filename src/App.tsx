@@ -36,7 +36,10 @@ export default function App() {
   const [reminders, setReminders] = useState<RefillReminder[]>([]);
 
   useEffect(() => {
-    setReminders(checkDueReminders());
+    const check = () => setReminders(checkDueReminders());
+    check();
+    const interval = setInterval(check, 60000); // Check for refills every minute
+    return () => clearInterval(interval);
   }, []);
 
   const handleDismissReminder = (medicineName: string) => {

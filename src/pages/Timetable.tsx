@@ -51,7 +51,6 @@ export const Timetable: React.FC = () => {
   });
 
   const searchRef = useRef<HTMLDivElement>(null);
-  const notifiedRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     if ("Notification" in window) {
@@ -65,123 +64,6 @@ export const Timetable: React.FC = () => {
       }
     }
   }, [user]);
-
-  // Notification logic
-  useEffect(() => {
-    if (!notificationsEnabled || schedules.length === 0) return;
-
-    // Load previously notified items from localStorage to survive page refreshes
-    const loadNotifiedState = () => {
-      try {
-        const saved = localStorage.getItem('medinfo_notified');
-        if (saved) {
-          notifiedRef.current = JSON.parse(saved);
-        }
-      } catch (e) {
-        console.error("Failed to load notified state", e);
-      }
-    };
-    loadNotifiedState();
-
-    const saveNotifiedState = () => {
-      try {
-        // Clean up old dates to prevent localStorage from growing indefinitely
-        const todayStr = new Date().toLocaleDateString('en-CA');
-        const cleanedState: Record<string, string> = {};
-        for (const [key, date] of Object.entries(notifiedRef.current)) {
-          if (date === todayStr) {
-            cleanedState[key] = date;
-          }
-        }
-        notifiedRef.current = cleanedState;
-        localStorage.setItem('medinfo_notified', JSON.stringify(cleanedState));
-      } catch (e) {
-        console.error("Failed to save notified state", e);
-      }
-    };
-
-    const checkReminders = async () => {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      
-      // Use local date string to avoid UTC timezone issues
-      const todayStr = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
-      const dayIndex = (now.getDay() + 6) % 7;
-      const currentDay = DAYS[dayIndex];
-
-      let stateChanged = false;
-
-      for (const schedule of schedules) {
-        if (!schedule.days.includes(currentDay)) continue;
-
-        const [schedHour, schedMinute] = schedule.time.split(':').map(Number);
-        
-        // Check if the scheduled time is within the last 5 minutes
-        // This handles browser throttling of setInterval in background tabs
-        const nowMinutes = currentHour * 60 + currentMinute;
-        const schedMinutes = schedHour * 60 + schedMinute;
-        
-        if (nowMinutes >= schedMinutes && nowMinutes < schedMinutes + 5) {
-          const notificationKey = `${schedule.id}-${todayStr}`;
-          if (!notifiedRef.current[notificationKey]) {
-            try {
-              const tips = [t('tip1'), t('tip2'), t('tip3'), t('tip4'), t('tip5'), t('tip6')];
-              const randomTip = tips[Math.floor(Math.random() * tips.length)];
-              const title = `💊 ${t('timeFor')} ${schedule.medicineName}`;
-              const options: any = {
-                body: `${t('dosageLabel')}: ${schedule.dosage}\n\nTip: ${randomTip}`,
-                icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
-                badge: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
-                tag: schedule.id,
-                requireInteraction: true,
-                vibrate: [200, 100, 200, 100, 200],
-                silent: false,
-                data: {
-                  url: window.location.origin + '/timetable',
-                  medicineName: schedule.medicineName
-                }
-              };
-
-              // Actions are only supported in ServiceWorker notifications
-              if ('serviceWorker' in navigator) {
-                options.actions = [
-                  { action: 'taken', title: t('markAsTaken') },
-                  { action: 'snooze', title: t('snooze') }
-                ];
-                try {
-                  const registration = await Promise.race([
-                    navigator.serviceWorker.ready,
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
-                  ]) as ServiceWorkerRegistration;
-                  await registration.showNotification(title, options);
-                } catch (e) {
-                  console.warn("Service worker notification failed, falling back to standard Notification", e);
-                  new Notification(title, options);
-                }
-              } else {
-                new Notification(title, options);
-              }
-              
-              notifiedRef.current[notificationKey] = todayStr;
-              stateChanged = true;
-            } catch (err) {
-              console.error("Failed to send notification:", err);
-            }
-          }
-        }
-      }
-
-      if (stateChanged) {
-        saveNotifiedState();
-      }
-    };
-
-    // Check immediately then every 30 seconds to be more responsive
-    checkReminders();
-    const interval = setInterval(checkReminders, 30000);
-    return () => clearInterval(interval);
-  }, [notificationsEnabled, schedules]);
 
   const requestNotifications = async () => {
     if (!("Notification" in window)) {
@@ -198,32 +80,6 @@ export const Timetable: React.FC = () => {
     setNotificationsEnabled(permission === "granted");
     if (permission === "granted") {
       showToast(t('notificationsEnabled'), "success");
-      try {
-        const title = `🔔 ${t('appName')} ${t('enabled')}`;
-        const options: any = {
-          body: t('notificationsReadyDesc'),
-          icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
-          vibrate: [100, 50, 100]
-        };
-
-        if ('serviceWorker' in navigator) {
-          try {
-            // Use Promise.race to prevent hanging if SW is not fully active
-            const registration = await Promise.race([
-              navigator.serviceWorker.ready,
-              new Promise((_, reject) => setTimeout(() => reject(new Error('SW timeout')), 2000))
-            ]) as ServiceWorkerRegistration;
-            await registration.showNotification(title, options);
-          } catch (e) {
-            console.warn("Service worker notification failed, falling back to standard Notification", e);
-            new Notification(title, options);
-          }
-        } else {
-          new Notification(title, options);
-        }
-      } catch (err) {
-        console.error("Failed to send test notification:", err);
-      }
     }
   };
 

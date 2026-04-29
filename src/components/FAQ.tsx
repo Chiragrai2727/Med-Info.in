@@ -36,6 +36,21 @@ export const FAQ: React.FC = () => {
       id: 'q5',
       question: t('faq_q5'),
       answer: t('faq_a5')
+    },
+    {
+      id: 'seo1',
+      question: "What are Calpol 650 uses in Hindi?",
+      answer: "Calpol 650 (Paracetamol) is primarily used for fever and mild to moderate pain relief. Clinical reports recommend it for headaches, muscle pains, and post-vaccination fever. On Aethelcare, you can scan the strip to see detailed uses in Hindi and English, verified by CDSCO safe-usage guidelines."
+    },
+    {
+      id: 'seo2',
+      question: "What is the recommended Paracetamol 125 mg dosage for my baby?",
+      answer: "Pediatric dosage for Paracetamol 125 mg oral suspension is calculated based on the baby's exact weight (usually 10-15 mg/kg per dose). Always consult a pediatrician before administering. Aethelcare's clinical scanner can help you interpret the label instructions found on popular syrups like Calpol P and Crocin Drops."
+    },
+    {
+      id: 'seo3',
+      question: "Where can I find the latest CDSCO banned drugs list 2026?",
+      answer: "Aethelcare maintains a real-time registry of medications prohibited by CDSCO in India. This includes dangerous FDC (Fixed Dose Combination) drugs like Nimesulide + Paracetamol or Aceclofenac + Paracetamol which were banned due to potential health risks. You can search our 'Banned Drugs' section to check your medicine cabinet instantly."
     }
   ];
 

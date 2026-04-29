@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../ToastContext';
 import { collection, getDocs, query, orderBy, limit, deleteDoc, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion } from 'motion/react';
@@ -27,6 +28,7 @@ interface SearchData {
 
 export const AdminDashboard: React.FC = () => {
   const { profile } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [users, setUsers] = useState<UserData[]>([]);
   const [searches, setSearches] = useState<SearchData[]>([]);
@@ -144,7 +146,7 @@ export const AdminDashboard: React.FC = () => {
       await fetchAdminData();
     } catch (error) {
       console.error("Failed to reset data:", error);
-      alert("Failed to reset data. Check permissions.");
+      showToast("Failed to reset data. Check permissions.", "error");
     } finally {
       setResetting(false);
     }
