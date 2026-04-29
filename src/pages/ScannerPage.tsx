@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { 
   Camera, 
   Image as ImageIcon, 
@@ -351,6 +352,12 @@ export const ScannerPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-transparent pt-32 sm:pt-48 pb-32">
+      <Helmet>
+        <title>AI Medicine & Prescription Scanner - Aethelcare India</title>
+        <meta name="description" content="Use Aethelcare's advanced AI scanner to analyze medicine strips, prescriptions, and lab reports. Get 99% accuracy on drug names, side effects, and CDSCO ban status." />
+        <meta name="keywords" content="AI medicine scanner, prescription reader India, scan medicine strip, CDSCO drug checker, Aethelcare AI scanner" />
+        <link rel="canonical" href="https://aethelcare.xyz/scan" />
+      </Helmet>
       <div className="max-w-4xl mx-auto px-4">
         
         {/* Header & Counter */}

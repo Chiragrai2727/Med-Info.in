@@ -128,8 +128,10 @@ export const Pricing: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-24 bg-transparent pt-[calc(10rem+env(safe-area-inset-top))]">
       <Helmet>
-        <title>Pricing - {t('appName')}</title>
-        <meta name="description" content="Choose the best plan for your family's health and safety." />
+        <title>Pricing Plans - Aethelcare India Premium Health Intelligence</title>
+        <meta name="description" content="Choose the best plan for your family's health and safety. Get access to 99% accurate AI prescription scanning, clinical reports, and CDSCO drug safety alerts in India." />
+        <meta name="keywords" content="Aethelcare pricing, medicine scanner subscription India, premium drug safety alerts India, CDSCO verified medicines scanner" />
+        <link rel="canonical" href="https://aethelcare.xyz/pricing" />
       </Helmet>
  
       {/* Hero / Free Trial Section */}

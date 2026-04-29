@@ -35,6 +35,7 @@ export const Home: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [showPWAHint, setShowPWAHint] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
@@ -52,8 +53,18 @@ export const Home: React.FC = () => {
     const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
     setIsStandalone(isStandaloneMode);
 
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-  }, []);
+    // Show hint if not installed and prompt didn't fire (likely in iframe)
+    const hintTimer = setTimeout(() => {
+      if (!isStandaloneMode && !deferredPrompt && !isIOSDevice) {
+        setShowPWAHint(true);
+      }
+    }, 100); // Reduced to 100ms for instant appearance
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      clearTimeout(hintTimer);
+    };
+  }, [deferredPrompt]);
 
   const handleInstall = async () => {
     if (deferredPrompt) {
@@ -65,6 +76,8 @@ export const Home: React.FC = () => {
       }
     } else if (isIOS) {
       showToast('To install: Tap Share button and then "Add to Home Screen"', 'info');
+    } else {
+      showToast('Open Aethelcare in a new window to install as an App!', 'info');
     }
   };
 
@@ -76,12 +89,12 @@ export const Home: React.FC = () => {
   ];
 
   const TRENDING_SEARCHES = [
-    { title: 'Dolo 650 dosage', desc: 'Commonly searched for fever management', path: '/medicine/Dolo 650', type: 'Dosage', accent: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
-    { title: 'Ibuprofen side effects', desc: 'Important safety information for pain relief', path: '/medicine/Ibuprofen', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
-    { title: 'Best medicine for dry cough', desc: 'Seasonal ailment query', path: '/medicine/Benadryl', type: 'Usage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-    { title: 'Antibiotics for throat infection', desc: 'Frequent bacterial infection query', path: '/medicine/Azithral 500', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
-    { title: 'Metformin uses', desc: 'Top searched for diabetes management', path: '/medicine/Metformin', type: 'Usage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-    { title: 'Amlodipine side effects', desc: 'Common blood pressure medication query', path: '/medicine/Amlodipine', type: 'Precaution', accent: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
+    { title: 'Calpol 650 uses in Hindi', desc: 'Frequent query for fever management in India', path: '/medicine/Calpol 650', type: 'Usage', accent: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
+    { title: 'Aceclofenac & Paracetamol', desc: 'Common pain and inflammation relief query', path: '/medicine/Aceclofenac', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
+    { title: 'Paracetamol baby dosage', desc: 'Pediatric oral suspension safety guide', path: '/medicine/Paracetamol', type: 'Dosage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
+    { title: 'Diclofenac Sodium tablets', desc: 'Powerful pain reliever safety reports', path: '/medicine/Diclofenac', type: 'Safety', accent: 'text-red-400 bg-red-500/10 border-red-500/20' },
+    { title: 'Azithromycin side effects', desc: 'Antibiotic safety and precaution insights', path: '/medicine/Azithromycin', type: 'Usage', accent: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
+    { title: 'Ranitidine uses vs safe', desc: 'Acidity medication safety check', path: '/medicine/Ranitidine', type: 'Precaution', accent: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
   ];
 
   const FEATURED_BANNED = [
@@ -112,20 +125,21 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 bg-transparent">
       <Helmet>
-        <title>{t('appName')} - Medical AI Scanner & CDSCO Banned List</title>
-        <meta name="description" content={t('heroDescription')} />
-        <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines" />
+        <title>Aethelcare India - Smart AI Medicine Scanner & Drug Safety Platform</title>
+        <meta name="title" content="Aethelcare India - Smart AI Medicine Scanner & Drug Safety Platform" />
+        <meta name="description" content="Check if your medicines are banned in India by CDSCO instantly. Use our pharmaceutical AI scanner to understand Calpol 650 uses, Paracetamol baby dosage, and drug interactions. The most trusted pharmaceutical AI for India." />
+        <meta name="keywords" content="medicine scanner India, CDSCO banned drugs list, Calpol 650 uses, Paracetamol 125mg baby dosage, Aceclofenac and Paracetamol tablet, Diclofenac Sodium, Azithromycin, pharmaceutical AI scanner, Indian drug safety" />
         <link rel="canonical" href="https://aethelcare.xyz" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Aethelcare" />
+        <meta name="apple-mobile-web-app-title" content="Aethelcare India" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              "name": "${t('appName')}",
+              "name": "Aethelcare India",
               "operatingSystem": "Web, Android, iOS",
               "applicationCategory": "MedicalApplication",
               "offers": {
@@ -133,7 +147,7 @@ export const Home: React.FC = () => {
                 "price": "0",
                 "priceCurrency": "INR"
               },
-              "description": "${t('heroDescription')}"
+              "description": "Smart AI Medicine Scanner and CDSCO Banned Drug Safety platform for India."
             }
           `}
         </script>
@@ -149,14 +163,15 @@ export const Home: React.FC = () => {
         >
           {/* Hero Badges */}
           <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {(!isStandalone && (deferredPrompt || isIOS)) && (
+            {(!isStandalone && (deferredPrompt || isIOS || showPWAHint)) && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={handleInstall}
                 className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:bg-blue-700 transition-all active:scale-95 animate-pulse-slow"
               >
-                <Download className="w-4 h-4" /> {isIOS && !deferredPrompt ? 'Install App' : 'Download App'}
+                <Download className="w-4 h-4" /> 
+                {isIOS && !deferredPrompt ? 'Install App' : (deferredPrompt ? 'Download App' : 'Get Mobile App')}
               </motion.button>
             )}
             {[
@@ -388,6 +403,36 @@ export const Home: React.FC = () => {
         </div>
       </section>
  
+      {/* Common Queries SEO Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="flex items-center gap-4 mb-12">
+          <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center border border-emerald-200">
+            <TrendingUp className="w-6 h-6 text-emerald-600" />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Health Insights & Safety Guides</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-slate-800">Calpol 650 & 500 Uses</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Calpol is widely searched in India for fever and pain management. Our scanner helps you understand <strong>Calpol 650 uses in Hindi</strong>, correct dosage patterns, and safety verified by CDSCO. Always check the banned list before purchasing FDC combinations of Paracetamol.
+            </p>
+          </div>
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-slate-800">Pediatric Dosage Safety</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Parents frequently ask about <strong>Paracetamol 125 mg dosage for baby</strong>. Safety is our priority; Aethelcare provides clinical insights into pediatric oral suspensions, ensuring you never miscalculate drug drops or syrup measurements for kids.
+            </p>
+          </div>
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-slate-800">Dangerous Drug Combinations</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Queries like <strong>Aceclofenac paracetamol tablet uses in Telugu</strong> or Tamil show a high need for local language safety. We identify if your Diclofenac Sodium or Ibuprofen combinations are part of the latest CDSCO banned drugs list 2026.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <FAQ />
  

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Logo } from '../components/Logo';
 import { useLanguage } from '../LanguageContext';
@@ -7,6 +8,12 @@ export const About: React.FC = () => {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-transparent relative overflow-hidden pt-[calc(10rem+env(safe-area-inset-top))]">
+      <Helmet>
+        <title>About Aethelcare India - Our Mission for Drug Safety</title>
+        <meta name="description" content="Discover the mission behind Aethelcare India. Founded by Chirag Rai and Dr. Sagar Rai, we are dedicated to providing smart AI pharmaceutical intelligence and ensuring drug safety for all Indian citizens." />
+        <meta name="keywords" content="Aethelcare mission, Chirag Rai Aethelcare, Dr Sagar Rai, drug safety India, pharmaceutical intelligence, about Aethelcare" />
+        <link rel="canonical" href="https://aethelcare.xyz/about" />
+      </Helmet>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         

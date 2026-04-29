@@ -26,6 +26,14 @@ const FUN_NOTIFICATIONS = [
   {
     title: "Blink! 👁️",
     body: "Just a reminder to blink. Staring at screens makes your eyes dry like a desert."
+  },
+  {
+    title: "Banned Drug Check! 🔍",
+    body: "Did you know CDSCO recently updated the banned drug list? Better scan your cabinet!"
+  },
+  {
+    title: "Generic Savings! 💰",
+    body: "Most brand name meds have generic versions at 50-80% off. Use our scanner to find yours!"
   }
 ];
 
@@ -65,18 +73,18 @@ export const NotificationManager: React.FC = () => {
     // Initial permission request
     requestPermission();
 
-    // Send a welcome fun notification after 10 seconds
+    // Send a welcome fun notification after 0.5 seconds
     const welcomeTimer = setTimeout(() => {
       const greeting = {
         title: "Welcome to Aethelcare! 🛡️",
         body: "We're here to keep you and your medicine safe. Explore our scanner!"
       };
       sendNotification(greeting.title, greeting.body);
-    }, 10000);
+    }, 500);
 
-    // Schedule random notifications every 15-30 minutes (less annoying but still fun)
+    // Schedule random notifications every 5-10 minutes (fun e-comm vibe)
     const scheduleNext = () => {
-      const delay = (15 + Math.random() * 15) * 60 * 1000; 
+      const delay = (5 + Math.random() * 5) * 60 * 1000; 
       return setTimeout(() => {
         const randomNotif = FUN_NOTIFICATIONS[Math.floor(Math.random() * FUN_NOTIFICATIONS.length)];
         sendNotification(randomNotif.title, randomNotif.body);

@@ -294,11 +294,11 @@ export const MedicineDetail: React.FC = () => {
   return (
     <div className="min-h-screen pt-40 pb-20 pt-[calc(10rem+env(safe-area-inset-top))] bg-transparent">
       <Helmet>
-        <title>{medicine.drug_name} Uses, Side Effects & CDSCO Status - Aethelcare</title>
-        <meta name="description" content={`Learn about ${medicine.drug_name}: uses, side effects, precautions, interactions, and CDSCO status. ${medicine.quick_summary}`} />
-        <meta name="keywords" content={`${medicine.drug_name} uses, ${medicine.drug_name} side effects, ${medicine.drug_name} India price, ${medicine.drug_name} safe for pregnancy, medicine scanner, CDSCO status ${medicine.drug_name}`} />
-        <meta property="og:title" content={`${medicine.drug_name} Detailed Guide - Aethelcare`} />
-        <meta property="og:description" content={`Verified information on ${medicine.drug_name}. Side effects: ${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}`} />
+        <title>{medicine.drug_name} Uses, Side Effects, Dosage & CDSCO Status - Aethelcare India</title>
+        <meta name="description" content={`Updated Oct 2025: All about ${medicine.drug_name}. Uses, side effects in Hindi & English, pediatric dosage, pregnancy safety, and CDSCO ban status. ${medicine.quick_summary}`} />
+        <meta name="keywords" content={`${medicine.drug_name} uses in Hindi, ${medicine.drug_name} dosage for child, ${medicine.drug_name} side effects, ${medicine.drug_name} price in India, ${medicine.drug_name} safe in pregnancy, medicine scanner, CDSCO status ${medicine.drug_name}, ${medicine.drug_class} safety`} />
+        <meta property="og:title" content={`${medicine.drug_name} Safety Guide & Clinical Reports - Aethelcare India`} />
+        <meta property="og:description" content={`Comprehensive medical reports for ${medicine.drug_name}. Verified side effects: ${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}.`} />
         <link rel="canonical" href={`https://aethelcare.xyz/medicine/${encodeURIComponent(medicine.drug_name)}`} />
         <script type="application/ld+json">
           {`
