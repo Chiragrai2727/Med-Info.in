@@ -28,6 +28,7 @@ import { GoogleGenAI } from "@google/genai";
 import { createWorker } from 'tesseract.js';
 import { jsPDF } from 'jspdf';
 import { checkAndIncrementScan } from '../lib/scanLogic';
+import { DEFAULT_MODEL } from '../services/geminiService';
 import { useUser } from '../hooks/useUser';
 
 import medicinesData from '../data/medicines.json';
@@ -42,12 +43,24 @@ interface MedicineResult {
   mrp?: number | string;
   generic_alternative?: { name: string; price: string };
   is_banned?: boolean;
+  purpose?: string;
+}
+
+interface LabResult {
+  test_name: string;
+  result: string;
+  unit: string;
+  reference_range: string;
+  interpretation: string;
 }
 
 interface ScanResult {
   document_type: string;
-  medicines: MedicineResult[];
+  medicines: (MedicineResult & { timing?: string; duration?: string })[];
+  lab_results?: LabResult[];
   patient_name?: string | null;
+  age?: string | null;
+  gender?: string | null;
   date?: string | null;
   notes?: string | null;
   accuracy: string;
@@ -218,20 +231,50 @@ export const ScannerPage: React.FC = () => {
       }
       const ai = new GoogleGenAI({ apiKey });
 
-      const promptText = `Parse this ${activeTab} document for an Indian healthcare context.
-      Return JSON with structure:
-      {
-        "document_type": "${activeTab}",
-        "patient_name": "string",
-        "date": "string",
-        "medicines": [
-          { "name": "string", "generic_name": "string", "dosage": "string", "mrp": "₹...", "generic_alternative": { "name": "string", "price": "₹..." } }
-        ],
-        "notes": "string"
-      }`;
+      let promptText = "";
+      if (activeTab === 'medicine') {
+        promptText = `Parse this medicine strip/packaging for an Indian healthcare context.
+        Return JSON:
+        {
+          "document_type": "medicine",
+          "medicines": [
+            { "name": "string", "generic_name": "string", "dosage": "string", "mrp": "₹...", "is_banned": boolean, "generic_alternative": { "name": "string", "price": "₹..." }, "purpose": "string" }
+          ],
+          "notes": "string"
+        }`;
+      } else if (activeTab === 'prescription') {
+        promptText = `Parse this doctor's prescription for an Indian healthcare context.
+        Return JSON:
+        {
+          "document_type": "prescription",
+          "patient_name": "string",
+          "age": "string",
+          "gender": "string",
+          "date": "string",
+          "medicines": [
+            { "name": "string", "generic_name": "string", "dosage": "string", "timing": "string", "duration": "string", "purpose": "string" }
+          ],
+          "notes": "string"
+        }`;
+      } else {
+        promptText = `Parse this lab/diagnostic report (blood test, urine, etc.) for an Indian healthcare context. 
+        Extract any abnormal findings carefully.
+        Return JSON:
+        {
+          "document_type": "lab",
+          "patient_name": "string",
+          "age": "string",
+          "gender": "string",
+          "date": "string",
+          "lab_results": [
+            { "test_name": "string", "result": "string", "unit": "string", "reference_range": "string", "interpretation": "string" }
+          ],
+          "notes": "string"
+        }`;
+      }
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: DEFAULT_MODEL,
         contents: {
           parts: [
             { text: promptText },
@@ -285,69 +328,171 @@ export const ScannerPage: React.FC = () => {
   const downloadPDF = () => {
     if (!scanResult) return;
     const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
     
     // Watermark
     doc.setTextColor(240, 240, 240);
     doc.setFontSize(60);
     doc.text('VERIFIED BY AETHELCARE', 20, 100, { angle: 45 });
     
-    // Header
-    doc.setTextColor(0, 0, 0);
+    // Header Backdrop
+    doc.setFillColor(15, 23, 42); // slate-900
+    doc.rect(0, 0, pageWidth, 40, 'F');
+    
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
     doc.text(`AETHELCARE AI ${scanResult.document_type.toUpperCase()} ANALYSIS`, 20, 25);
     
-    doc.setDrawColor(200, 200, 200);
-    doc.line(20, 30, 190, 30);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text('GEN-AI MEDICAL ANALYSIS REPORT • CONFIDENTIAL', 20, 33);
     
+    // Meta Info
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Report Generated: ${new Date().toLocaleString()}`, 20, 35);
-    doc.text(`Confidence: ${scanResult.accuracy}`, 20, 40);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 50);
+    doc.text(`Confidence: ${scanResult.accuracy}`, pageWidth - 60, 50);
+
+    doc.setDrawColor(230, 230, 230);
+    doc.line(20, 55, pageWidth - 20, 55);
     
-    if (scanResult.patient_name) {
+    let y = 65;
+
+    // Patient Info
+    if (scanResult.patient_name || scanResult.date) {
       doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.text(`Patient Name: ${scanResult.patient_name}`, 20, 55);
+      doc.setFont('helvetica', 'bold');
+      if (scanResult.patient_name) {
+        doc.text(`Patient: ${scanResult.patient_name}`, 20, y);
+        if (scanResult.age || scanResult.gender) {
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          doc.text(`${scanResult.age ? 'Age: ' + scanResult.age : ''} ${scanResult.gender ? ' • Gender: ' + scanResult.gender : ''}`, 20, y + 5);
+          y += 15;
+        } else {
+          y += 10;
+        }
+      }
+      if (scanResult.date) {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Document Date: ${scanResult.date}`, 20, y);
+        y += 10;
+      }
+      doc.setDrawColor(240, 240, 240);
+      doc.line(20, y - 2, pageWidth - 20, y - 2);
+      y += 10;
     }
     
-    // Results
-    doc.setFontSize(14);
-    doc.text('Detected Medications:', 20, 70);
-    
-    let y = 80;
-    doc.setFontSize(11);
-    scanResult.medicines.forEach((m, i) => {
-      if (y > 250) {
-        doc.addPage();
-        y = 30;
-      }
-      doc.setTextColor(0, 0, 0);
-      doc.text(`${i + 1}. ${m.name}`, 25, y);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`Generic: ${m.generic_name || 'N/A'} • Dosage: ${m.dosage || 'N/A'}`, 30, y + 5);
-      
-      if (m.is_banned) {
-        doc.setTextColor(200, 0, 0);
-        doc.text('⚠️ BANNED BY CDSCO', 30, y + 10);
-        y += 15;
-      } else {
-        y += 12;
-      }
-    });
+    // Content
+    if (scanResult.document_type === 'lab' && scanResult.lab_results) {
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Lab Results Analysis:', 20, y);
+      y += 10;
 
-    // Footer with contact details
+      scanResult.lab_results.forEach((res, i) => {
+        if (y > 260) { doc.addPage(); y = 30; }
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text(`${i + 1}. ${res.test_name}`, 20, y);
+        y += 6;
+        
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 50);
+        doc.text(`Result: ${res.result} ${res.unit}`, 25, y);
+        doc.text(`Range: ${res.reference_range}`, 100, y);
+        y += 6;
+        
+        doc.setFont('helvetica', 'italic');
+        const interp = doc.splitTextToSize(`Interpretation: ${res.interpretation}`, pageWidth - 50);
+        doc.text(interp, 25, y);
+        y += (interp.length * 5) + 5;
+      });
+    } else if (scanResult.medicines && scanResult.medicines.length > 0) {
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Detected Medications:', 20, y);
+      y += 10;
+      
+      scanResult.medicines.forEach((m, i) => {
+        if (y > 260) { doc.addPage(); y = 30; }
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text(`${i + 1}. ${m.name}`, 20, y);
+        y += 6;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(70, 70, 70);
+        doc.text(`Generic: ${m.generic_name || 'N/A'}`, 25, y);
+        y += 5;
+        
+        if (m.dosage || m.timing) {
+          doc.text(`Dosage: ${m.dosage || 'N/A'} ${m.timing ? ' • Timing: ' + m.timing : ''}`, 25, y);
+          y += 5;
+        }
+
+        if (m.duration) {
+          doc.text(`Duration: ${m.duration}`, 25, y);
+          y += 5;
+        }
+
+        if (m.purpose) {
+          doc.text(`Purpose: ${m.purpose}`, 25, y);
+          y += 5;
+        }
+
+        if (m.is_banned) {
+          doc.setTextColor(200, 0, 0);
+          doc.setFont('helvetica', 'bold');
+          doc.text('⚠️ BANNED BY CDSCO INDIA', 25, y);
+          doc.setFont('helvetica', 'normal');
+          y += 5;
+        }
+
+        if (m.mrp || m.generic_alternative) {
+          doc.setTextColor(0, 100, 0);
+          doc.text(`Price: ${m.mrp || 'N/A'} ${m.generic_alternative ? ' • Generic Alt: ' + m.generic_alternative.name + ' (' + m.generic_alternative.price + ')' : ''}`, 25, y);
+          y += 5;
+        }
+        
+        y += 5;
+      });
+    }
+
+    if (scanResult.notes) {
+      if (y > 250) { doc.addPage(); y = 30; }
+      y += 5;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text('Additional AI Notes:', 20, y);
+      y += 8;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      const splitNotes = doc.splitTextToSize(scanResult.notes, pageWidth - 40);
+      doc.text(splitNotes, 20, y);
+    }
+
+    // Footer
     const pageCount = (doc as any).internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setDrawColor(230, 230, 230);
-      doc.line(20, 280, 190, 280);
+      doc.line(20, 280, pageWidth - 20, 280);
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text('This is an AI-generated analysis. Always verify with a healthcare professional.', 20, 285);
-      doc.text('Aethelcare India • www.aethelcare.xyz • support@aethelcare.xyz', 20, 290);
+      doc.text('This is an AI-generated analysis based on image recognition. NOT a medical diagnosis.', 20, 285);
+      doc.text('Always verify with a healthcare professional before making clinical decisions.', 20, 289);
+      doc.text(`Aethelcare India • page ${i} of ${pageCount}`, pageWidth - 60, 290);
     }
     
-    doc.save(`Aethelcare_${scanResult.document_type}_Report.pdf`);
+    doc.save(`Aethelcare_${scanResult.document_type.charAt(0).toUpperCase() + scanResult.document_type.slice(1)}_Report.pdf`);
   };
 
   return (
@@ -556,34 +701,63 @@ export const ScannerPage: React.FC = () => {
             <div className="space-y-12 pb-32">
               {/* Scan Info Banner */}
               <div className={`p-10 rounded-[4rem] border shadow-2xl flex items-center justify-between backdrop-blur-xl ${
-                isPremium ? 'bg-emerald-50/60 border-emerald-200/50 text-emerald-900' : 'bg-amber-50/60 border-amber-200/50 text-amber-900'
+                isPremium ? 'bg-emerald-50/60 border-emerald-200/50 text-emerald-900' : 'bg-blue-50/60 border-blue-200/50 text-blue-900'
               }`}>
                 <div className="flex items-center gap-6">
                   <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-lg ${
-                    isPremium ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
+                    isPremium ? 'bg-emerald-600 text-white' : 'bg-blue-500 text-white'
                   }`}>
-                    {isPremium ? <CheckCircle2 className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
+                    {isPremium ? <CheckCircle2 className="w-8 h-8" /> : <Zap className="w-8 h-8" />}
                   </div>
                   <div>
                     <h4 className="font-black uppercase tracking-[0.3em] text-[10px] mb-2 opacity-60">
-                      {isPremium ? 'Analysis Verified' : 'Standard Logic Active'}
+                      {isPremium ? 'Analysis Verified' : 'AI Analysis Ready'}
                     </h4>
                     <p className="text-2xl font-black tracking-tight leading-none">
                       {isPremium 
                         ? '100% Precise Results' 
-                        : 'Standard accuracy achieved'}
+                        : 'Review Your Scan'}
                     </p>
                   </div>
                 </div>
-                {isPremium && (
-                  <button 
-                    onClick={downloadPDF}
-                    className="flex items-center gap-3 px-8 py-4 bg-white border-2 border-emerald-100 text-emerald-700 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all shadow-sm"
-                  >
-                    <Download className="w-5 h-5" /> Download Report
-                  </button>
-                )}
+                <button 
+                  onClick={downloadPDF}
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-sm ${
+                    isPremium 
+                      ? 'bg-white border-2 border-emerald-100 text-emerald-700 hover:bg-emerald-500 hover:text-white'
+                      : 'bg-white border-2 border-blue-100 text-blue-700 hover:bg-blue-600 hover:text-white'
+                  }`}
+                >
+                  <Download className="w-5 h-5" /> Download Report
+                </button>
               </div>
+
+              {/* Patient Meta */}
+              {(scanResult.patient_name || scanResult.date) && (
+                <div className="px-10 py-8 backdrop-blur-xl bg-white/40 border border-white rounded-[3rem] shadow-sm flex flex-wrap gap-10">
+                  {scanResult.patient_name && (
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-1">Patient Name</span>
+                      <p className="text-xl font-black text-slate-900 uppercase">{scanResult.patient_name}</p>
+                      {(scanResult.age || scanResult.gender) && (
+                        <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">
+                          {scanResult.age && `${scanResult.age} Years`} {scanResult.gender && `• ${scanResult.gender}`}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {scanResult.date && (
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-1">Document Date</span>
+                      <p className="text-xl font-black text-slate-900">{scanResult.date}</p>
+                    </div>
+                  )}
+                  <div className="ml-auto flex items-center gap-3 bg-emerald-50 text-emerald-600 px-6 py-3 rounded-2xl border border-emerald-100">
+                    <ShieldCheck className="w-5 h-5" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Accuracy: {scanResult.accuracy}</span>
+                  </div>
+                </div>
+              )}
  
               {activeTab === 'prescription' && !isPremium && (
                 <div className="bg-slate-900 shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-slate-700">
@@ -596,10 +770,11 @@ export const ScannerPage: React.FC = () => {
                 </div>
               )}
  
-              {/* Medicine Cards */}
-              <div className="space-y-8">
-                <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">Detected Profile</h3>
-                {scanResult.medicines.length === 0 && (
+              {/* Results Display */}
+              <div className="space-y-12">
+                <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">AI-Extracted Details</h3>
+                
+                {scanResult.medicines.length === 0 && (!scanResult.lab_results || scanResult.lab_results.length === 0) && (
                   <div className="p-20 text-center backdrop-blur-xl bg-white/70 rounded-[4rem] border border-white shadow-sm">
                     <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-slate-100 shadow-inner">
                         <ImageIcon className="w-10 h-10 text-slate-200" />
@@ -607,96 +782,154 @@ export const ScannerPage: React.FC = () => {
                     <p className="text-slate-400 font-bold tracking-tight text-lg">No medical patterns detected. Try a clearer scan profile.</p>
                   </div>
                 )}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {scanResult.medicines.map((med, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.1 }}
-                      className={`p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
-                         med.is_banned ? 'border-rose-500/50 bg-rose-50/20' : 'border-white hover:border-slate-900'
-                      }`}
-                    >
-                      {med.is_banned && (
-                        <div className="absolute top-0 right-0 bg-rose-600 text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
-                          Banned Alert
+
+                {/* Lab Results Specific Grid */}
+                {scanResult.document_type === 'lab' && scanResult.lab_results && scanResult.lab_results.length > 0 && (
+                  <div className="grid grid-cols-1 gap-6">
+                    {scanResult.lab_results.map((res, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="p-8 backdrop-blur-xl bg-white/70 rounded-[3rem] border border-white shadow-sm flex flex-col md:flex-row gap-8 items-start md:items-center"
+                      >
+                        <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center shrink-0">
+                          <FlaskConical className="w-7 h-7" />
                         </div>
-                      )}
-                      
-                      <div className="flex flex-col gap-10">
-                         <div className="flex items-start justify-between">
-                            <div className="p-4 bg-slate-50 text-slate-900 rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
-                               <FlaskConical className="w-8 h-8" />
-                            </div>
-                            <div className="flex items-center gap-3">
-                              <button 
-                                onClick={() => handleWhatsAppShare(med)}
-                                className="p-3.5 backdrop-blur-md bg-white text-emerald-600 rounded-[1.25rem] hover:bg-emerald-600 hover:text-white transition-all shadow-sm border border-white"
-                                title="Share on WhatsApp"
-                              >
-                                <Share2 className="w-6 h-6" />
-                              </button>
-                              <button 
-                                onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                                className="p-3.5 backdrop-blur-md bg-white text-slate-900 rounded-[1.25rem] hover:bg-slate-900 hover:text-white transition-all shadow-sm border border-white"
-                              >
-                                <ArrowRight className="w-6 h-6" />
-                              </button>
-                            </div>
-                         </div>
- 
-                        <div>
-                          <div className="flex flex-col gap-3 mb-6">
-                            <h4 className="text-3xl font-black text-slate-900 leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-black text-slate-900 mb-1 leading-tight uppercase tracking-tight">{res.test_name}</h4>
+                          <div className="flex flex-wrap gap-4 text-xs font-bold text-slate-400">
+                             <span className="bg-slate-50 px-3 py-1 rounded-lg">Reference: {res.reference_range}</span>
+                             <span className="bg-slate-50 px-3 py-1 rounded-lg">Unit: {res.unit}</span>
                           </div>
-                          <button
-                            onClick={() => {
-                              const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
-                              window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
-                            }}
-                            className="inline-flex px-6 py-3 backdrop-blur-md bg-white border border-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all items-center gap-3 shadow-sm"
-                          >
-                             <Clock className="w-4 h-4" /> Refill Reminder
-                          </button>
                         </div>
- 
-                        {med.dosage && (
-                          <div className="py-3 px-6 backdrop-blur-md bg-slate-500/5 border border-white rounded-2xl inline-block max-w-fit shadow-inner">
-                            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Prescribed Dosage</span>
-                            <span className="font-black text-slate-900 text-base tracking-tight">{med.dosage}</span>
-                          </div>
-                        )}
- 
-                        <div className="grid grid-cols-2 gap-8 pt-10 border-t border-black/5">
-                           <div>
-                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Market Price</span>
-                              <span className="text-xl font-black text-slate-900 tracking-tighter">{med.mrp}</span>
-                           </div>
-                           <div className="backdrop-blur-md bg-emerald-50 p-5 rounded-[1.5rem] border border-emerald-100 shadow-sm">
-                             <span className="text-[8px] font-black uppercase tracking-[0.3em] text-emerald-600 block mb-2">Smart Alternative</span>
-                             <div className="flex flex-col gap-1">
-                               <span className="font-black text-emerald-900 text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
-                               <span className="font-bold text-emerald-600 text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
-                             </div>
-                           </div>
+                        <div className="flex flex-col items-end gap-1">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 opacity-60">Result Value</span>
+                          <span className="text-3xl font-black text-slate-900">{res.result}</span>
                         </div>
- 
+                        <div className="md:w-64 p-5 bg-black/[0.02] rounded-2xl border border-black/5">
+                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 block mb-2">Interpretation</span>
+                           <p className="text-[11px] font-bold text-slate-600 leading-relaxed italic">{res.interpretation}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Medicine Cards */}
+                {scanResult.medicines && scanResult.medicines.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {scanResult.medicines.map((med, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                        className={`p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
+                          med.is_banned ? 'border-rose-500/50 bg-rose-50/20' : 'border-white hover:border-slate-900'
+                        }`}
+                      >
                         {med.is_banned && (
-                          <div className="backdrop-blur-md bg-rose-600 p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-rose-500 border-t-rose-400">
-                             <AlertTriangle className="w-8 h-8 text-white shrink-0 animate-pulse" />
-                             <p className="text-xs font-black uppercase tracking-widest text-white/90 leading-relaxed">
-                               This medicine is BANNED in India. Stop use and consult a doctor immediately.
-                             </p>
+                          <div className="absolute top-0 right-0 bg-rose-600 text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
+                            Banned Alert
                           </div>
                         )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                        
+                        <div className="flex flex-col gap-8">
+                          <div className="flex items-start justify-between">
+                              <div className="p-4 bg-slate-50 text-slate-900 rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
+                                <FlaskConical className="w-8 h-8" />
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <button 
+                                  onClick={() => handleWhatsAppShare(med)}
+                                  className="p-3.5 backdrop-blur-md bg-white text-emerald-600 rounded-[1.25rem] hover:bg-emerald-600 hover:text-white transition-all shadow-sm border border-white"
+                                  title="Share on WhatsApp"
+                                >
+                                  <Share2 className="w-6 h-6" />
+                                </button>
+                                <button 
+                                  onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
+                                  className="p-3.5 backdrop-blur-md bg-white text-slate-900 rounded-[1.25rem] hover:bg-slate-900 hover:text-white transition-all shadow-sm border border-white"
+                                >
+                                  <ArrowRight className="w-6 h-6" />
+                                </button>
+                              </div>
+                          </div>
+  
+                          <div>
+                            <div className="flex flex-col gap-2 mb-4">
+                              <h4 className="text-3xl font-black text-slate-900 leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
+                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
+                              {med.purpose && (
+                                <p className="text-[11px] font-bold text-blue-600 italic mt-1 leading-tight">
+                                  Purpose: {med.purpose}
+                                </p>
+                              )}
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2 mb-6">
+                              {med.timing && <span className="bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.timing}</span>}
+                              {med.duration && <span className="bg-slate-50 text-slate-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.duration}</span>}
+                            </div>
+
+                            <button
+                              onClick={() => {
+                                const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
+                                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                              }}
+                              className="inline-flex px-6 py-3 backdrop-blur-md bg-white border border-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all items-center gap-3 shadow-sm"
+                            >
+                              <Clock className="w-4 h-4" /> Refill Reminder
+                            </button>
+                          </div>
+  
+                          {med.dosage && (
+                            <div className="py-3 px-6 backdrop-blur-md bg-slate-500/5 border border-white rounded-2xl inline-block max-w-fit shadow-inner">
+                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Detected Dosage</span>
+                              <span className="font-black text-slate-900 text-base tracking-tight">{med.dosage}</span>
+                            </div>
+                          )}
+  
+                          {scanResult.document_type === 'medicine' && (
+                            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-black/5">
+                              <div>
+                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Market Price</span>
+                                  <span className="text-xl font-black text-slate-900 tracking-tighter">{med.mrp || 'N/A'}</span>
+                              </div>
+                              <div className="backdrop-blur-md bg-emerald-50 p-5 rounded-[1.5rem] border border-emerald-100 shadow-sm">
+                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-emerald-600 block mb-2">Smart Alternative</span>
+                                <div className="flex flex-col gap-1">
+                                  <span className="font-black text-emerald-900 text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
+                                  <span className="font-bold text-emerald-600 text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+  
+                          {med.is_banned && (
+                            <div className="backdrop-blur-md bg-rose-600 p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-rose-500 border-t-rose-400">
+                              <AlertTriangle className="w-8 h-8 text-white shrink-0 animate-pulse" />
+                              <p className="text-xs font-black uppercase tracking-widest text-white/90 leading-relaxed">
+                                This medicine is BANNED in India. Stop use and consult a doctor immediately.
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {scanResult.notes && (
+                  <div className="p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border border-white shadow-sm mt-12">
+                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-4 opacity-60">AI Clinical Observations</span>
+                     <p className="text-xl font-bold text-slate-600 leading-relaxed italic">{scanResult.notes}</p>
+                  </div>
+                )}
               </div>
- 
+
               {/* Reset Button */}
               <div className="flex flex-col items-center gap-10 mt-24 pb-20">
                  {!isPremium && (
@@ -732,4 +965,3 @@ export const ScannerPage: React.FC = () => {
     </div>
   );
 };
-

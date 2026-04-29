@@ -244,12 +244,14 @@ export const Timetable: React.FC = () => {
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             onSubmit={handleAddSchedule}
-            className="backdrop-blur-3xl bg-white/70 p-12 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.08)] mb-16 border-2 border-white relative overflow-hidden"
+            className="backdrop-blur-3xl bg-white/70 p-12 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.08)] mb-16 border-2 border-white relative"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-900/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+            <div className="absolute inset-0 rounded-[4rem] overflow-hidden pointer-events-none">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-slate-900/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10 relative z-10">
-              <div className="relative" ref={searchRef}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10 relative">
+              <div className="relative z-30" ref={searchRef}>
                 <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('medicineName')}</label>
                 <div className="relative group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-slate-900 transition-colors" />
@@ -269,7 +271,7 @@ export const Timetable: React.FC = () => {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 15 }}
-                      className="absolute z-50 w-full mt-4 backdrop-blur-2xl bg-white/90 border-2 border-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.1)] overflow-hidden"
+                      className="absolute z-50 w-full mt-4 bg-white border-2 border-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.15)] overflow-hidden"
                     >
                       {suggestions.map((s, i) => (
                         <button
@@ -309,7 +311,7 @@ export const Timetable: React.FC = () => {
                   </motion.div>
                 )}
               </div>
-              <div>
+              <div className="relative z-20">
                 <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('dosageLabel')}</label>
                 <input 
                   type="text" 
@@ -323,7 +325,7 @@ export const Timetable: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 relative z-10">
-              <div>
+              <div className="relative z-10">
                 <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4 ml-4">{t('timeLabel')}</label>
                 <div className="relative group">
                   <Clock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-slate-900 transition-colors" />

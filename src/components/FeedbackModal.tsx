@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageSquareWarning, Send, Loader2 } from 'lucide-react';
 import { useToast } from '../ToastContext';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 interface FeedbackModalProps {
@@ -29,10 +29,19 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, m
         message: message.trim(),
         medicineName: medicineName || 'General',
         createdAt: new Date().toISOString(),
+        userId: auth.currentUser?.uid || 'guest',
+        email: auth.currentUser?.email || null,
         status: 'new'
       });
       
-      showToast('Thank you for your feedback! We will review it shortly.', 'success');
+      showToast('Thank you! Feedback saved and opening email client...', 'success');
+      
+      // Delay mailto slightly so the user sees the success message
+      const text = `Type: ${feedbackType}\nMedicine: ${medicineName || 'General'}\n\nMessage: ${message.trim()}`;
+      setTimeout(() => {
+        window.location.href = `mailto:aethelcare.help@gmail.com?subject=Report/Feedback: ${medicineName || 'Platform'}&body=${encodeURIComponent(text)}`;
+      }, 1000);
+
       setMessage('');
       onClose();
     } catch (error) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Camera, Calendar, LayoutDashboard, User as UserIcon } from 'lucide-react';
+import { Camera, Calendar, LayoutDashboard, User as UserIcon, Mail } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../LanguageContext';
 import { useAuth } from '../AuthContext';
@@ -15,60 +15,50 @@ export const MobileNav: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="md:hidden fixed bottom-6 left-0 right-0 z-[100] px-4 safe-bottom">
-      <div className="max-w-md mx-auto bg-white/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-[2.5rem] flex h-20 border border-white/50 px-1 relative items-stretch">
+    <div className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] safe-bottom px-4 w-full flex justify-center">
+      <div className="bg-[var(--color-ink)]/90 backdrop-blur-2xl px-2 py-2 rounded-full flex items-center gap-1 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
         <Link 
-          to="/dashboard" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/dashboard') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          to="/" 
+          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
         >
-          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
-            <LayoutDashboard className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${isActive('/dashboard') ? 'scale-110' : 'group-hover:scale-110'}`} />
-          </div>
-          <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Status</span>
+          {profile?.photoURL ? (
+            <img src={profile.photoURL} alt="" className={`w-5 h-5 rounded-full object-cover border transition-all ${isActive('/') ? 'border-white' : 'border-transparent opacity-40'}`} referrerPolicy="no-referrer" />
+          ) : (
+            <UserIcon className="w-5 h-5" />
+          )}
+          {isActive('/') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-[var(--color-accent)] rounded-full -z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]" />}
         </Link>
         
         <Link 
+          to="/scan" 
+          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/scan') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
+        >
+          <Camera className="w-5 h-5" />
+          {isActive('/scan') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-[var(--color-accent)] rounded-full -z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]" />}
+        </Link>
+
+        <Link 
+          to="/dashboard" 
+          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/dashboard') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
+        >
+          <LayoutDashboard className="w-5 h-5" />
+          {isActive('/dashboard') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-[var(--color-accent)] rounded-full -z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]" />}
+        </Link>
+
+        <Link 
+          to="/contact" 
+          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/contact') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
+        >
+          <Mail className="w-5 h-5" />
+          {isActive('/contact') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-[var(--color-accent)] rounded-full -z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]" />}
+        </Link>
+
+        <Link 
           to="/timetable" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/timetable') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/timetable') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
         >
-          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
-            <Calendar className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${isActive('/timetable') ? 'scale-110' : 'group-hover:scale-110'}`} />
-          </div>
-          <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Reminder</span>
-        </Link>
-
-        <div className="flex-shrink-0 flex items-center justify-center w-20 relative -top-6">
-          <Link 
-            to="/scan" 
-            className="flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-[2rem] shadow-[0_12px_24px_rgba(37,99,235,0.4)] border-[6px] border-white transition-all hover:scale-105 active:scale-95 relative group overflow-hidden z-[110]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <Camera className="w-8 h-8 relative z-10 flex-shrink-0" />
-          </Link>
-        </div>
-
-        <Link 
-          to="/pricing" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/pricing') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
-        >
-          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
-            <div className={`w-5 h-5 flex items-center justify-center font-black text-sm transition-transform duration-300 flex-shrink-0 ${isActive('/pricing') ? 'scale-110' : 'group-hover:scale-110'}`}>₹</div>
-          </div>
-          <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Plans</span>
-        </Link>
-
-        <Link 
-          to="/" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
-        >
-          <div className="relative group flex flex-col items-center flex-shrink-0 w-8 h-8 flex items-center justify-center">
-            {profile?.photoURL ? (
-              <img src={profile.photoURL} alt="" className={`w-6 h-6 aspect-square rounded-full object-cover flex-shrink-0 border transition-all duration-300 ${isActive('/') ? 'border-blue-600 scale-110' : 'border-slate-200'}`} referrerPolicy="no-referrer" />
-            ) : (
-              <UserIcon className={`w-6 h-6 aspect-square transition-transform duration-300 flex-shrink-0 ${isActive('/') ? 'scale-110' : 'group-hover:scale-110'}`} />
-            )}
-          </div>
-          <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Home</span>
+          <Calendar className="w-5 h-5" />
+          {isActive('/timetable') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-[var(--color-accent)] rounded-full -z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]" />}
         </Link>
       </div>
     </div>

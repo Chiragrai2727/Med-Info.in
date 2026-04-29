@@ -5,7 +5,7 @@ import { useToast } from '../ToastContext';
 import { collection, getDocs, query, orderBy, limit, deleteDoc, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion } from 'motion/react';
-import { Users, ShieldCheck, Search as SearchIcon, Activity, AlertTriangle, Download, Trash2, CheckCircle2 } from 'lucide-react';
+import { Users, ShieldCheck, Search as SearchIcon, Activity, AlertTriangle, Download, Trash2, CheckCircle2, MessageSquareWarning } from 'lucide-react';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 interface UserData {
@@ -26,12 +26,35 @@ interface SearchData {
   lastSearchedAt: string;
 }
 
+interface FeedbackData {
+  id: string;
+  type: string;
+  message: string;
+  medicineName?: string;
+  email?: string;
+  userId?: string;
+  status: string;
+  createdAt: string;
+}
+
+interface ContactRequestData {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  userId: string;
+  createdAt: string;
+}
+
 export const AdminDashboard: React.FC = () => {
   const { profile } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [users, setUsers] = useState<UserData[]>([]);
   const [searches, setSearches] = useState<SearchData[]>([]);
+  const [feedbacks, setFeedbacks] = useState<FeedbackData[]>([]);
+  const [contactRequests, setContactRequests] = useState<ContactRequestData[]>([]);
   const [loading, setLoading] = useState(true);
   const [resetting, setResetting] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
@@ -62,6 +85,24 @@ export const AdminDashboard: React.FC = () => {
         fetchedSearches.push({ id: doc.id, ...doc.data() } as SearchData);
       });
       setSearches(fetchedSearches);
+
+      // Fetch Feedback
+      const feedbackQuery = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'), limit(100));
+      const feedbackSnapshot = await getDocs(feedbackQuery);
+      const fetchedFeedbacks: FeedbackData[] = [];
+      feedbackSnapshot.forEach((doc) => {
+        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as FeedbackData);
+      });
+      setFeedbacks(fetchedFeedbacks);
+
+      // Fetch Contact Requests
+      const contactQuery = query(collection(db, 'contactRequests'), orderBy('createdAt', 'desc'), limit(100));
+      const contactSnapshot = await getDocs(contactQuery);
+      const fetchedContacts: ContactRequestData[] = [];
+      contactSnapshot.forEach((doc) => {
+        fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
+      });
+      setContactRequests(fetchedContacts);
 
     } catch (error) {
       console.error("Error fetching admin data:", error);
@@ -283,7 +324,88 @@ export const AdminDashboard: React.FC = () => {
               </motion.div>
             </div>
  
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Feedbacks */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col max-h-[800px]"
+              >
+                <div className="p-10 border-b border-white/50 bg-white/30 flex justify-between items-center">
+                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
+                    <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-xl rotate-3">
+                      <MessageSquareWarning className="w-6 h-6" />
+                    </div>
+                    Feedback
+                  </h2>
+                </div>
+                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
+                  {feedbacks.length === 0 ? (
+                    <div className="p-20 text-center opacity-30">
+                       <p className="text-sm font-black uppercase tracking-widest">No feedback received</p>
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-white">
+                      {feedbacks.map((f) => (
+                        <div key={f.id} className="p-10 hover:bg-slate-900 hover:text-white transition-all group">
+                          <div className="flex justify-between items-start mb-4">
+                            <span className="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 border border-blue-200 group-hover:bg-white group-hover:text-black">
+                              {f.type}
+                            </span>
+                            <span className="text-[10px] font-black text-slate-400 group-hover:text-white/50 uppercase tracking-widest">
+                              {new Date(f.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <p className="text-sm font-medium leading-relaxed mb-4">{f.message}</p>
+                          {f.email && <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest group-hover:text-blue-300">{f.email}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
+              {/* Contact Requests */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col max-h-[800px]"
+              >
+                <div className="p-10 border-b border-white/50 bg-white/30 flex justify-between items-center">
+                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
+                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl -rotate-3">
+                      <Users className="w-6 h-6" />
+                    </div>
+                    Contact Requests
+                  </h2>
+                </div>
+                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
+                  {contactRequests.length === 0 ? (
+                    <div className="p-20 text-center opacity-30">
+                       <p className="text-sm font-black uppercase tracking-widest">No contact requests</p>
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-white">
+                      {contactRequests.map((c) => (
+                        <div key={c.id} className="p-10 hover:bg-slate-900 hover:text-white transition-all group">
+                          <div className="flex justify-between items-start mb-4">
+                            <span className="text-sm font-black uppercase tracking-tight">{c.name}</span>
+                            <span className="text-[10px] font-black text-slate-400 group-hover:text-white/50 uppercase tracking-widest">
+                               {new Date(c.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="flex gap-4 mb-4">
+                            <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest group-hover:text-blue-300">{c.email}</span>
+                            {c.phone && <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest group-hover:text-emerald-300">{c.phone}</span>}
+                          </div>
+                          <p className="text-sm font-medium leading-relaxed">{c.message}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
               {/* Popular Searches */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}

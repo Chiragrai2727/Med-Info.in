@@ -61,6 +61,35 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["id", "drug_name", "createdBy", "createdAt"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User queries, suggestions, and inaccuracy reports.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["inaccuracy", "suggestion", "general", "query"] },
+        "message": { "type": "string" },
+        "medicineName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "userId": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "reviewed", "resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "message", "createdAt"]
+    },
+    "ContactRequest": {
+      "title": "ContactRequest",
+      "description": "A multi-step contact form submission.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "message": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message", "createdAt"]
     }
   },
   "firestore": {
@@ -79,6 +108,14 @@
     "/searchAnalytics/{queryId}": {
       "schema": { "$ref": "#/entities/SearchAnalytics" },
       "description": "Stores aggregated search counts."
+    },
+    "/feedback/{feedbackId}": {
+      "schema": { "$ref": "#/entities/Feedback" },
+      "description": "Stores user feedback, queries, and reports."
+    },
+    "/contactRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/ContactRequest" },
+      "description": "Stores contact form submissions."
     }
   }
 }

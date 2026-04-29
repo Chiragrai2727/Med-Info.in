@@ -105,5 +105,34 @@ service cloud.firestore {
       allow write: if isSignedIn(); // Allow users to contribute to analytics via search
       allow delete: if isAdmin();
     }
+
+    match /feedback/{feedbackId} {
+      function isValidFeedback(data) {
+        return data.keys().hasAll(['type', 'message', 'createdAt'])
+          && data.keys().size() <= 10
+          && data.type in ['inaccuracy', 'suggestion', 'general', 'query']
+          && data.message is string && data.message.size() <= 5000
+          && data.createdAt is string; // Using ISO string from client as seen in FeedbackModal
+      }
+      
+      allow get, list: if isAdmin();
+      allow create: if isValidId(feedbackId) && isValidFeedback(incoming());
+      allow update, delete: if isAdmin();
+    }
+
+    match /contactRequests/{requestId} {
+      function isValidContact(data) {
+        return data.keys().hasAll(['name', 'email', 'message', 'createdAt'])
+          && data.keys().size() <= 6
+          && data.name is string && data.name.size() <= 200
+          && data.email is string && data.email.size() <= 200
+          && data.message is string && data.message.size() <= 5000
+          && data.createdAt is string;
+      }
+      
+      allow get, list: if isAdmin();
+      allow create: if isValidId(requestId) && isValidContact(incoming());
+      allow update, delete: if isAdmin();
+    }
   }
 }

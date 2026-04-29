@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck } from 'lucide-react';
+import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { useAuth } from '../AuthContext';
@@ -30,6 +30,9 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors flex-shrink-0">
               About
+            </Link>
+            <Link to="/contact" className="hidden lg:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors flex-shrink-0">
+              Contact
             </Link>
             <Link to="/pricing" className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors whitespace-nowrap flex-shrink-0">
               <span className="hidden xs:inline">Plans</span>
@@ -63,6 +66,10 @@ export const Navbar: React.FC = () => {
                     <Link to="/dashboard" className="w-full text-left px-5 py-3 text-sm text-gray-700 hover:bg-blue-50/50 font-bold flex items-center gap-3 transition-colors">
                       <LayoutDashboard className="w-4 h-4 text-blue-600" />
                       {t('dashboard')}
+                    </Link>
+                    <Link to="/contact" className="w-full text-left px-5 py-3 text-sm text-gray-700 hover:bg-blue-50/50 font-bold flex items-center gap-3 transition-colors">
+                      <Mail className="w-4 h-4 text-blue-600" />
+                      Contact Us
                     </Link>
                     {profile?.role === 'admin' && (
                       <Link to="/admin" className="w-full text-left px-4 py-3 text-sm text-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 font-bold flex items-center gap-2 border-b border-[var(--color-ink)]/5">

@@ -49,6 +49,10 @@ const getAIClient = (): GoogleGenAI => {
   return new GoogleGenAI({ apiKey });
 };
 
+export const DEFAULT_MODEL = "gemini-3-flash-preview";
+export const PRO_MODEL = "gemini-3.1-pro-preview";
+export const TTS_MODEL = "gemini-3.1-flash-tts-preview";
+
 const localMedicines = medicinesData as Medicine[];
 const bannedMedicines = (bannedMedicinesData as any[]).map(m => ({ ...m, is_banned: true })) as Medicine[];
 const allLocalMedicines = [...localMedicines, ...bannedMedicines];
@@ -182,7 +186,7 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
 
   try {
     const response = await getAIClient().models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: DEFAULT_MODEL,
       contents: `Generate detailed medical information for the medicine: "${searchQuery}". 
       The medicine must be a legally approved medication in India.
       Verify the information against CDSCO (Central Drugs Standard Control Organization) guidelines.
@@ -622,7 +626,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
 
     try {
       const response = await getAIClient().models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: DEFAULT_MODEL,
         contents: `Compare these two medicines: "${med1}" and "${med2}".
         Provide a side-by-side comparison of their key features.
         The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.`,
@@ -722,20 +726,18 @@ export async function scanMedication(base64Image: string, lang: Language = 'en')
   };
 
   try {
-    // Try FLASH first because it has a 15 RPM limit (Pro only has 2 RPM and causes constant quota errors)
-    return await attemptScan("gemini-3-flash-preview");
+    // Try FLASH first because it has a 15 RPM limit
+    return await attemptScan(DEFAULT_MODEL);
   } catch (error: any) {
     console.warn("Primary model (flash) failed, attempting fallback to pro model...", error);
     
-    // If it's an auth or quota error, don't bother falling back. 
-    // If Flash hit a quota limit (15 RPM), Pro will definitely fail (2 RPM limit).
     if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
       throw error;
     }
 
     try {
       // Fallback to the Pro model only for reasoning/parsing failures
-      return await attemptScan("gemini-3.1-pro-preview");
+      return await attemptScan(PRO_MODEL);
     } catch (fallbackError: any) {
       console.error("Both primary and fallback models failed:", fallbackError);
       throw fallbackError; // Throw the final error so the UI can display it
@@ -764,6 +766,7 @@ export interface LabReportResult {
   }[];
 }
 
+// Prescription scan helper
 export async function scanPrescription(base64Image: string, lang: Language = 'en'): Promise<PrescriptionResult | null> {
   const attemptScan = async (modelName: string) => {
     const response = await getAIClient().models.generateContent({
@@ -840,15 +843,16 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
   };
 
   try {
-    return await attemptScan("gemini-3-flash-preview");
+    return await attemptScan(DEFAULT_MODEL);
   } catch (error: any) {
     if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
       throw error;
     }
-    return await attemptScan("gemini-3.1-pro-preview");
+    return await attemptScan(PRO_MODEL);
   }
 }
 
+// Lab report scan helper
 export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
   const attemptScan = async (modelName: string) => {
     const response = await getAIClient().models.generateContent({
@@ -923,45 +927,26 @@ export async function scanLabReport(base64Image: string, lang: Language = 'en'):
   };
 
   try {
-    return await attemptScan("gemini-3-flash-preview");
+    return await attemptScan(DEFAULT_MODEL);
   } catch (error: any) {
     if (error.message?.includes("API key") || error.message?.includes("403") || error.message?.includes("quota") || error.message?.includes("429")) {
       throw error;
     }
-    return await attemptScan("gemini-3.1-pro-preview");
+    return await attemptScan(PRO_MODEL);
   }
 }
 
 export async function generateTTS(text: string): Promise<string | null> {
-  try {
-    const response = await getAIClient().models.generateContent({
-      model: "gemini-2.5-flash-preview-tts",
-      contents: [{ parts: [{ text }] }],
-      config: {
-        responseModalities: [Modality.AUDIO],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Kore' },
-          },
-        },
-      },
-    });
-
-    const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (base64Audio) {
-      return `data:audio/pcm;base64,${base64Audio}`;
-    }
-    return null;
-  } catch (error) {
-    console.error("Error generating TTS:", error);
-    return null;
-  }
+  // Speech synthesis is much faster and reliable for browser-based TTS than AI generation in most cases.
+  // However, if we want to use Gemini 2.0's real-time voice, it requires specific model selection.
+  // For now, we will fallback to browser SpeechSynthesis as it is more robust across devices.
+  return null; 
 }
 
 export async function transcribeAudio(base64Audio: string, lang: Language = 'en'): Promise<string | null> {
   try {
     const response = await getAIClient().models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: DEFAULT_MODEL,
       contents: {
         parts: [
           {

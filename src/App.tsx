@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
+import { useToast } from './ToastContext';
+import { collection, addDoc } from 'firebase/firestore';
+import { db, auth } from './firebase';
+import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
 import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { MedicineDetail } from './pages/MedicineDetail';
@@ -14,6 +18,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { About } from './pages/About';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
+import { Contact } from './pages/Contact';
 import { Conditions } from './pages/Conditions';
 import { Pricing } from './pages/Pricing';
 import { OfflineBanner } from './components/OfflineBanner';
@@ -33,7 +38,9 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const { t } = useLanguage();
+  const { showToast } = useToast();
   const [reminders, setReminders] = useState<RefillReminder[]>([]);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
     const check = () => setReminders(checkDueReminders());
@@ -130,6 +137,7 @@ export default function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />
                     <Route path="/compare/:med1/:med2" element={<Compare />} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route 
                       path="/timetable" 
                       element={
@@ -209,12 +217,40 @@ export default function App() {
                           We value your feedback. Let us know how we can improve.
                         </p>
                         <form 
-                          onSubmit={(e) => {
+                          onSubmit={async (e) => {
                             e.preventDefault();
+                            if (isSubmittingFeedback) return;
+                            
                             const form = e.target as HTMLFormElement;
                             const text = (form.elements.namedItem('feedback') as HTMLTextAreaElement).value;
-                            window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
-                            form.reset();
+                            
+                            setIsSubmittingFeedback(true);
+                            try {
+                              // 1. Save to Firestore for reliability
+                              await addDoc(collection(db, 'feedback'), {
+                                type: 'general',
+                                message: text,
+                                createdAt: new Date().toISOString(),
+                                userId: auth.currentUser?.uid || 'guest',
+                                email: auth.currentUser?.email || null,
+                                status: 'new'
+                              });
+
+                              showToast('Feedback saved! Opening your email client...', 'success');
+                              
+                              // 2. Open email client as requested
+                              setTimeout(() => {
+                                window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
+                              }, 1000);
+                              
+                              form.reset();
+                            } catch (err) {
+                              handleFirestoreError(err, OperationType.CREATE, 'feedback');
+                              showToast('Error saving feedback, but opening email client anyway.', 'info');
+                              window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
+                            } finally {
+                              setIsSubmittingFeedback(false);
+                            }
                           }}
                           className="flex flex-col gap-2 relative z-50">
                           <textarea 
@@ -223,8 +259,12 @@ export default function App() {
                             placeholder="Type your feedback here..." 
                             className="w-full text-sm p-3 rounded-xl border border-[var(--color-ink)]/20 bg-[var(--color-ink)]/5 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] pointer-events-auto resize-none h-24"
                           />
-                          <button type="submit" className="bg-[var(--color-accent)] text-white text-sm font-bold py-2 px-4 rounded-xl hover:bg-[var(--color-accent)]/90 transition-colors pointer-events-auto cursor-pointer">
-                            Submit Feedback
+                          <button 
+                            type="submit" 
+                            disabled={isSubmittingFeedback}
+                            className="bg-[var(--color-accent)] text-white text-sm font-bold py-2 px-4 rounded-xl hover:bg-[var(--color-accent)]/90 transition-colors pointer-events-auto cursor-pointer disabled:opacity-50"
+                          >
+                            {isSubmittingFeedback ? 'Sending...' : 'Submit Feedback'}
                           </button>
                         </form>
                       </div>
@@ -236,6 +276,7 @@ export default function App() {
                       </p>
                       <div className="flex justify-center gap-6 mt-4 relative z-50">
                         <Link to="/about" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">About Us</Link>
+                        <Link to="/contact" className="text-xs font-bold text-blue-600 hover:opacity-70 transition-colors uppercase tracking-widest underline decoration-2 underline-offset-4 pointer-events-auto cursor-pointer">Contact Us</Link>
                         <Link to="/privacy" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">{t('privacyPolicy')}</Link>
                         <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] transition-colors font-bold uppercase tracking-widest pointer-events-auto cursor-pointer">{t('cdscoOfficial')}</a>
                       </div>
