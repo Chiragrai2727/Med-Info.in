@@ -7,7 +7,7 @@ import { useAuth } from '../AuthContext';
 
 export const MobileNav: React.FC = () => {
   const { t } = useLanguage();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const location = useLocation();
 
   if (!user) return null;
@@ -19,20 +19,20 @@ export const MobileNav: React.FC = () => {
       <div className="max-w-md mx-auto bg-white/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-[2.5rem] flex h-20 border border-white/50 px-1 relative items-stretch">
         <Link 
           to="/dashboard" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 ${isActive('/dashboard') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/dashboard') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <div className="relative group">
-            <LayoutDashboard className={`w-5 h-5 transition-transform duration-300 ${isActive('/dashboard') ? 'scale-110' : 'group-hover:scale-110'}`} />
+          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
+            <LayoutDashboard className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${isActive('/dashboard') ? 'scale-110' : 'group-hover:scale-110'}`} />
           </div>
           <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Status</span>
         </Link>
         
         <Link 
           to="/timetable" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 ${isActive('/timetable') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/timetable') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <div className="relative group">
-            <Calendar className={`w-5 h-5 transition-transform duration-300 ${isActive('/timetable') ? 'scale-110' : 'group-hover:scale-110'}`} />
+          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
+            <Calendar className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${isActive('/timetable') ? 'scale-110' : 'group-hover:scale-110'}`} />
           </div>
           <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Reminder</span>
         </Link>
@@ -43,26 +43,30 @@ export const MobileNav: React.FC = () => {
             className="flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-[2rem] shadow-[0_12px_24px_rgba(37,99,235,0.4)] border-[6px] border-white transition-all hover:scale-105 active:scale-95 relative group overflow-hidden z-[110]"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <Camera className="w-8 h-8 relative z-10" />
+            <Camera className="w-8 h-8 relative z-10 flex-shrink-0" />
           </Link>
         </div>
 
         <Link 
           to="/pricing" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 ${isActive('/pricing') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/pricing') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <div className="relative group">
-            <div className={`w-5 h-5 flex items-center justify-center font-black text-sm transition-transform duration-300 ${isActive('/pricing') ? 'scale-110' : 'group-hover:scale-110'}`}>₹</div>
+          <div className="relative group flex flex-col items-center w-8 h-8 flex items-center justify-center">
+            <div className={`w-5 h-5 flex items-center justify-center font-black text-sm transition-transform duration-300 flex-shrink-0 ${isActive('/pricing') ? 'scale-110' : 'group-hover:scale-110'}`}>₹</div>
           </div>
           <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Plans</span>
         </Link>
 
         <Link 
           to="/" 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 ${isActive('/') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-300 min-w-[48px] ${isActive('/') ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <div className="relative group">
-            <UserIcon className={`w-5 h-5 transition-transform duration-300 ${isActive('/') ? 'scale-110' : 'group-hover:scale-110'}`} />
+          <div className="relative group flex flex-col items-center flex-shrink-0 w-8 h-8 flex items-center justify-center">
+            {profile?.photoURL ? (
+              <img src={profile.photoURL} alt="" className={`w-6 h-6 aspect-square rounded-full object-cover flex-shrink-0 border transition-all duration-300 ${isActive('/') ? 'border-blue-600 scale-110' : 'border-slate-200'}`} referrerPolicy="no-referrer" />
+            ) : (
+              <UserIcon className={`w-6 h-6 aspect-square transition-transform duration-300 flex-shrink-0 ${isActive('/') ? 'scale-110' : 'group-hover:scale-110'}`} />
+            )}
           </div>
           <span className="text-[8px] font-black uppercase tracking-tight text-center leading-none">Home</span>
         </Link>

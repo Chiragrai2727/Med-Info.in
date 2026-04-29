@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
           
-          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-[var(--color-ink)]/70 hover:text-[var(--color-ink)] transition-colors flex-shrink-0">
               About
             </Link>
@@ -46,12 +46,12 @@ export const Navbar: React.FC = () => {
                   <span>{t('scan')}</span>
                 </Link>
                 <div className="relative group flex-shrink-0">
-                  <button className="flex items-center justify-center p-0.5 rounded-full hover:bg-black/5 transition-all">
+                  <button className="flex items-center justify-center w-8 h-8 sm:w-10 h-10 rounded-full hover:bg-black/5 transition-all flex-shrink-0">
                     {profile?.photoURL ? (
-                      <img src={profile.photoURL} alt="Profile" className="w-8 h-8 sm:w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" referrerPolicy="no-referrer" />
+                      <img src={profile.photoURL} alt="Profile" className="w-full h-full aspect-square rounded-full border-2 border-white shadow-sm object-cover flex-shrink-0" referrerPolicy="no-referrer" />
                     ) : (
-                      <div className="w-8 h-8 sm:w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                        <UserIcon className="w-4 h-4 sm:w-5 h-5 text-blue-600" />
+                      <div className="w-full h-full aspect-square bg-blue-100 rounded-full flex items-center justify-center border-2 border-white shadow-sm flex-shrink-0">
+                        <UserIcon className="w-4 h-4 sm:w-5 h-5 text-blue-600 flex-shrink-0" />
                       </div>
                     )}
                   </button>

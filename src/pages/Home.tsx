@@ -33,6 +33,8 @@ export const Home: React.FC = () => {
   const [bannedSearchQuery, setBannedSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
@@ -41,16 +43,28 @@ export const Home: React.FC = () => {
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    
+    // Check if iOS
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    setIsIOS(isIOSDevice);
+    
+    // Check if already installed
+    const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+    setIsStandalone(isStandaloneMode);
+
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
   }, []);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setDeferredPrompt(null);
-      showToast('Aethelcare is being installed!', 'success');
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+        showToast('Aethelcare is being installed!', 'success');
+      }
+    } else if (isIOS) {
+      showToast('To install: Tap Share button and then "Add to Home Screen"', 'info');
     }
   };
 
@@ -102,6 +116,10 @@ export const Home: React.FC = () => {
         <meta name="description" content={t('heroDescription')} />
         <meta name="keywords" content="medicine scanner, CDSCO banned drugs India, dolo 650 uses, medical AI, pharmaceutical intelligence, check banned medicines" />
         <link rel="canonical" href="https://aethelcare.xyz" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Aethelcare" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <script type="application/ld+json">
           {`
             {
@@ -131,14 +149,14 @@ export const Home: React.FC = () => {
         >
           {/* Hero Badges */}
           <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {deferredPrompt && (
+            {(!isStandalone && (deferredPrompt || isIOS)) && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={handleInstall}
                 className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:bg-blue-700 transition-all active:scale-95 animate-pulse-slow"
               >
-                <Download className="w-4 h-4" /> Download App
+                <Download className="w-4 h-4" /> {isIOS && !deferredPrompt ? 'Install App' : 'Download App'}
               </motion.button>
             )}
             {[

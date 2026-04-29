@@ -28,9 +28,9 @@
     <meta property="twitter:image" content="https://aethelcare.xyz/logo.png" />
 
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#2563EB" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Aethelcare" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -39,20 +39,14 @@
     <link rel="apple-touch-icon" sizes="152x152" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="167x167" href="/favicon.svg" />
+    <link rel="mask-icon" href="/favicon.svg" color="#2563EB" />
+    <meta name="msapplication-TileColor" content="#2563EB" />
+    <meta name="msapplication-TileImage" content="/favicon.svg" />
   </head>
   <body>
     <div id="root"></div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(reg => console.log('SW registered!', reg))
-            .catch(err => console.log('SW registration failed: ', err));
-        });
-      }
-    </script>
   </body>
 </html>
 

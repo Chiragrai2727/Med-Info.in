@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download } from 'lucide-react';
+import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download, User as UserIcon } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
+import { AvatarSelection } from '../components/AvatarSelection';
 import { useLanguage } from '../LanguageContext';
 import { PhoneTrialSetup } from '../components/PhoneTrialSetup';
 import { offlineService } from '../services/offlineService';
@@ -37,6 +38,7 @@ export const Dashboard: React.FC = () => {
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showAvatarSelection, setShowAvatarSelection] = useState(false);
   const [searchHistory, setSearchHistory] = useState<any[]>([]);
 
   useEffect(() => {
@@ -121,18 +123,25 @@ export const Dashboard: React.FC = () => {
         {/* Profile Card */}
         <div className="backdrop-blur-xl bg-white/70 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-white overflow-hidden group hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] transition-all duration-700">
           <div className="p-8 sm:p-12 flex flex-col sm:flex-row items-center sm:items-start gap-10">
-            <div className="relative">
-              {profile.photoURL ? (
-                <img src={profile.photoURL} alt="Profile" className="w-24 h-24 sm:w-36 sm:h-36 rounded-[3rem] object-cover ring-8 ring-white shadow-2xl transition-transform group-hover:scale-105 duration-700" referrerPolicy="no-referrer" />
-              ) : (
-                <div className="w-24 h-24 sm:w-36 sm:h-36 bg-slate-500 rounded-[3rem] flex items-center justify-center border-4 border-white shadow-xl">
-                  <span className="text-4xl sm:text-6xl font-black text-white/50">
-                    {profile.displayName ? profile.displayName.charAt(0).toUpperCase() : profile.email.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-              )}
+            <div className="relative group/avatar">
+              <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-[3rem] overflow-hidden ring-8 ring-white shadow-2xl transition-transform group-hover:scale-105 duration-700 relative">
+                {profile.photoURL ? (
+                  <img src={profile.photoURL} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                    <UserIcon className="w-12 h-12 text-slate-300" />
+                  </div>
+                )}
+                <button 
+                  onClick={() => setShowAvatarSelection(true)}
+                  className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 backdrop-blur-sm"
+                >
+                  <UserIcon className="w-6 h-6" />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Change</span>
+                </button>
+              </div>
               {isPremium && (
-                <div className="absolute -bottom-2 -right-2 bg-slate-900 text-white p-3 rounded-2xl shadow-2xl border-4 border-white animate-bounce-slow">
+                <div className="absolute -bottom-2 -right-2 bg-slate-900 text-white p-3 rounded-2xl shadow-2xl border-4 border-white animate-bounce-slow z-10">
                   <Zap className="w-5 h-5 sm:w-6 sm:h-6 fill-yellow-400 text-yellow-400" />
                 </div>
               )}
@@ -152,6 +161,12 @@ export const Dashboard: React.FC = () => {
               <p className="text-slate-400 text-lg font-bold tracking-tight mb-8">{profile.email}</p>
               
               <div className="flex flex-wrap justify-center sm:justify-start gap-3">
+                <button 
+                  onClick={() => setShowAvatarSelection(true)}
+                  className="px-6 py-2.5 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all active:scale-95"
+                >
+                  Choose Avatar
+                </button>
                 <div className="px-6 py-2.5 backdrop-blur-md bg-slate-100/50 rounded-2xl border border-white flex items-center gap-3">
                   <Clock className="w-4 h-4 text-slate-400" />
                   <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] leading-none">
@@ -390,6 +405,10 @@ export const Dashboard: React.FC = () => {
       <SubscriptionModal 
         isOpen={showSubscriptionModal} 
         onClose={() => setShowSubscriptionModal(false)} 
+      />
+      <AvatarSelection
+        isOpen={showAvatarSelection}
+        onClose={() => setShowAvatarSelection(false)}
       />
     </div>
   );

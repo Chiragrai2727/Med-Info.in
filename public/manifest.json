@@ -1,11 +1,12 @@
 {
   "name": "Aethelcare India",
   "short_name": "Aethelcare",
+  "id": "/",
   "description": "Search any medicine. Understand it instantly.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#ffffff",
+  "background_color": "#2563EB",
+  "theme_color": "#2563EB",
   "orientation": "portrait",
   "categories": ["medical", "education"],
   "icons": [
@@ -19,7 +20,27 @@
       "src": "/favicon.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
       "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
     }
   ]
 }

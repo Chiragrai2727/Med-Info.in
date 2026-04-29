@@ -1,64 +1,95 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useAuth } from '../AuthContext';
+import { useToast } from '../ToastContext';
 
-const FUNNY_MESSAGES = [
-  "Hey! Your medicines are missing you! 🥺💊",
-  "Did you drink water today? Stay hydrated! 💧",
-  "An apple a day keeps the doctor away, but don't forget your meds! 🍎",
-  "Your health is your wealth! Check your timetable! 🏥",
-  "Just a friendly reminder that you're doing great! 🌟",
-  "Time to take a break and stretch! 🧘‍♂️",
-  "Don't let your pills get lonely! Check your schedule. 📅",
-  "Be a superhero for your immune system today! 🦸‍♂️"
+const FUN_NOTIFICATIONS = [
+  {
+    title: "Posture Check! 🧘",
+    body: "Stop slouching! You aren't a shrimp. Sit up straight for 10 seconds."
+  },
+  {
+    title: "Hydro-Alert! 💧",
+    body: "Your brain is 75% water. Don't let it turn into a raisin. Drink up!"
+  },
+  {
+    title: "Eye break! 👀",
+    body: "Follow the 20-20-20 rule: Every 20 mins, look 20 feet away for 20 seconds."
+  },
+  {
+    title: "Apple Logic 🍎",
+    body: "An apple a day keeps the doctor away. But since you're here, we're your best friend!"
+  },
+  {
+    title: "Vitamin D-tected! ☀️",
+    body: "If you haven't seen the sun today, your plants are officially doing better than you."
+  },
+  {
+    title: "Blink! 👁️",
+    body: "Just a reminder to blink. Staring at screens makes your eyes dry like a desert."
+  }
 ];
 
 export const NotificationManager: React.FC = () => {
-  useEffect(() => {
-    const checkAndSendNotification = async () => {
-      if (!("Notification" in window) || Notification.permission !== "granted") {
-        return;
-      }
+  const { user } = useAuth();
+  const { showToast } = useToast();
 
-      const lastInteractionTip = localStorage.getItem('last_interaction_tip');
-      const now = Date.now();
-
-      // Only send an interaction tip if it's been at least 4 hours since the last one
-      if (lastInteractionTip && now - parseInt(lastInteractionTip) < 1000 * 60 * 60 * 4) {
-        return;
-      }
-
-      const message = FUNNY_MESSAGES[Math.floor(Math.random() * FUNNY_MESSAGES.length)];
-      
-      const options = {
-        body: message,
-        icon: "https://cdn-icons-png.flaticon.com/512/822/822143.png",
-        vibrate: [100, 50, 100],
-        tag: 'funny-notif',
-      };
-
-      try {
-        if ('serviceWorker' in navigator) {
-          const registration = await navigator.serviceWorker.ready;
-          await registration.showNotification("Aethelcare India", options);
-        } else {
-          new Notification("Aethelcare India", options);
-        }
-        localStorage.setItem('last_interaction_tip', now.toString());
-      } catch (e) {
-        console.error("Failed to send funny notification", e);
-      }
-    };
-
-    // Send one 2 minutes after opening the app
-    const timeout = setTimeout(checkAndSendNotification, 1000 * 60 * 2);
-
-    // And then every 4 hours while the app is open
-    const interval = setInterval(checkAndSendNotification, 1000 * 60 * 60 * 4);
-
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    };
+  const requestPermission = useCallback(async () => {
+    if (!('Notification' in window)) return false;
+    
+    if (Notification.permission === 'default') {
+      const permission = await Notification.requestPermission();
+      return permission === 'granted';
+    }
+    
+    return Notification.permission === 'granted';
   }, []);
+
+  const sendNotification = useCallback((title: string, body: string) => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION',
+        title,
+        body,
+        icon: '/favicon.svg'
+      });
+    } else if (Notification.permission === 'granted') {
+       new Notification(title, { body, icon: '/favicon.svg' });
+    } else {
+      showToast(`${title}: ${body}`, 'info');
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Initial permission request
+    requestPermission();
+
+    // Send a welcome fun notification after 10 seconds
+    const welcomeTimer = setTimeout(() => {
+      const greeting = {
+        title: "Welcome to Aethelcare! 🛡️",
+        body: "We're here to keep you and your medicine safe. Explore our scanner!"
+      };
+      sendNotification(greeting.title, greeting.body);
+    }, 10000);
+
+    // Schedule random notifications every 15-30 minutes (less annoying but still fun)
+    const scheduleNext = () => {
+      const delay = (15 + Math.random() * 15) * 60 * 1000; 
+      return setTimeout(() => {
+        const randomNotif = FUN_NOTIFICATIONS[Math.floor(Math.random() * FUN_NOTIFICATIONS.length)];
+        sendNotification(randomNotif.title, randomNotif.body);
+        scheduleNext();
+      }, delay);
+    };
+
+    const timer = scheduleNext();
+    return () => {
+      clearTimeout(welcomeTimer);
+      clearTimeout(timer);
+    };
+  }, [user, requestPermission, sendNotification]);
 
   return null;
 };

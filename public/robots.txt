@@ -1,7 +1,3 @@
 User-agent: *
 Allow: /
-Allow: /medicine/*
-Allow: /banned-drugs
-Allow: /conditions
-
 Sitemap: https://aethelcare.xyz/sitemap.xml
