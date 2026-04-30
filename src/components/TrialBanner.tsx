@@ -10,12 +10,12 @@ export const TrialBanner: React.FC = () => {
   const location = useLocation();
   const { t } = useLanguage();
 
-  if (!user || !profile || profile.isPremium || profile.role === 'admin') {
+  if (!user || !profile || profile.is_premium || profile.role === 'admin') {
     return null; // hide for premium users, admins, or non-logged in users
   }
 
-  const hasClaimedTrial = profile.trialClaimed === true;
-  const trialEndsAt = profile.trialEndsAt ? new Date(profile.trialEndsAt) : null;
+  const hasClaimedTrial = profile.trial_claimed === true;
+  const trialEndsAt = profile.trial_ends_at ? new Date(profile.trial_ends_at) : null;
   const trialActive = trialEndsAt ? trialEndsAt > new Date() : false;
 
   let trialDaysRemaining = 0;

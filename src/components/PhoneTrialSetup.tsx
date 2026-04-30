@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Phone, AlertCircle, Loader2, PartyPopper } from 'lucide-react';
-import { db } from '../firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { useAuth } from '../AuthContext';
 import { useLanguage } from '../LanguageContext';
 
@@ -37,17 +36,21 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
       }
 
       // Update profile with trial data directly - bypassing paid SMS since they already authenticated via Google
-      const userRef = doc(db, 'users', user.uid);
       const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
       const trialStartedAt = new Date().toISOString();
       
-      await updateDoc(userRef, {
-        phoneNumber: formattedPhone,
-        trialClaimed: true,
-        trialStartedAt,
-        trialEndsAt,
-        trialExpiredSmsSent: false
-      });
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          phone_number: formattedPhone,
+          trial_claimed: true,
+          trial_started_at: trialStartedAt,
+          trial_ends_at: trialEndsAt,
+          plan: 'premium'
+        })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
 
       onSuccess();
     } catch (err: any) {

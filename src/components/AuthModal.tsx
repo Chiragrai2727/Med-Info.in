@@ -16,16 +16,16 @@ export const AuthModal: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-white rounded-[2.5rem] shadow-2xl max-w-md w-full overflow-hidden relative"
+          className="bg-white rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(30,58,138,0.25)] max-w-lg w-full overflow-hidden relative"
         >
           <button
             onClick={closeAuthModal}
-            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-full transition-colors z-10"
+            className="absolute top-6 right-6 p-3 text-gray-400 hover:text-[#1E3A8A] hover:bg-slate-50 rounded-2xl transition-all z-10 active:scale-95"
           >
             <X className="w-6 h-6" />
           </button>
           
-          <div className="p-4 sm:p-8">
+          <div className="p-8 sm:p-12">
             <FirebaseAuth onSuccess={closeAuthModal} />
           </div>
         </motion.div>

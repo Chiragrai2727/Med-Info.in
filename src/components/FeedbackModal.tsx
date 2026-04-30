@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageSquareWarning, Send, Loader2 } from 'lucide-react';
 import { useToast } from '../ToastContext';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from '../firebase';
-import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { supabase } from '../supabase';
 
 interface FeedbackModalProps {
   isOpen: boolean;
@@ -24,15 +22,19 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, m
 
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, 'feedback'), {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const { error } = await supabase.from('feedback').insert({
         type: feedbackType,
         message: message.trim(),
-        medicineName: medicineName || 'General',
-        createdAt: serverTimestamp(),
-        userId: auth.currentUser?.uid || 'guest',
-        email: auth.currentUser?.email || null,
-        status: 'new'
+        medicine_name: medicineName || 'General',
+        user_id: user?.id || 'guest',
+        email: user?.email || null,
+        status: 'new',
+        created_at: new Date().toISOString()
       });
+
+      if (error) throw error;
       
       showToast('Thank you! Feedback saved and opening email client...', 'success');
       
@@ -45,7 +47,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, m
       setMessage('');
       onClose();
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'feedback');
+      console.error('Error submitting feedback:', error);
       showToast('Failed to submit feedback. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);

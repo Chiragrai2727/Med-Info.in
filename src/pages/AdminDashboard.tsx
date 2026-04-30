@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../ToastContext';
-import { collection, getDocs, query, orderBy, limit, deleteDoc, doc, writeBatch } from 'firebase/firestore';
-import { db } from '../firebase';
+import { supabase } from '../supabase';
 import { motion } from 'motion/react';
 import { Users, ShieldCheck, Search as SearchIcon, Activity, AlertTriangle, Download, Trash2, CheckCircle2, MessageSquareWarning } from 'lucide-react';
-import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 interface UserData {
-  uid: string;
+  id: string;
   email: string;
   displayName: string;
   isPremium: boolean;
@@ -65,44 +63,55 @@ export const AdminDashboard: React.FC = () => {
 
     try {
       // Fetch Users
-      const usersSnapshot = await getDocs(collection(db, 'users'));
-      const fetchedUsers: UserData[] = [];
+      const { data: usersData, error: usersError } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (usersError) throw usersError;
       
-      usersSnapshot.forEach((doc) => {
-        const data = doc.data() as UserData;
-        fetchedUsers.push(data);
-      });
+      const mappedUsers = (usersData || []).map(u => ({
+        id: u.id,
+        email: u.email,
+        displayName: u.display_name,
+        isPremium: u.plan === 'premium' || u.is_premium === true,
+        subscriptionTier: u.plan,
+        createdAt: u.created_at,
+        role: u.role,
+        phoneNumber: u.phone_number
+      }));
       
-      // Sort users by creation date (newest first)
-      fetchedUsers.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      setUsers(fetchedUsers);
+      setUsers(mappedUsers as UserData[]);
 
       // Fetch Search Analytics
-      const searchesQuery = query(collection(db, 'searchAnalytics'), orderBy('count', 'desc'), limit(50));
-      const searchesSnapshot = await getDocs(searchesQuery);
-      const fetchedSearches: SearchData[] = [];
-      searchesSnapshot.forEach((doc) => {
-        fetchedSearches.push({ id: doc.id, ...doc.data() } as SearchData);
-      });
-      setSearches(fetchedSearches);
+      const { data: searchData, error: searchError } = await supabase
+        .from('search_analytics')
+        .select('*')
+        .order('count', { ascending: false })
+        .limit(50);
+      
+      if (searchError) throw searchError;
+      setSearches(searchData as SearchData[]);
 
       // Fetch Feedback
-      const feedbackQuery = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'), limit(100));
-      const feedbackSnapshot = await getDocs(feedbackQuery);
-      const fetchedFeedbacks: FeedbackData[] = [];
-      feedbackSnapshot.forEach((doc) => {
-        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as FeedbackData);
-      });
-      setFeedbacks(fetchedFeedbacks);
+      const { data: feedbackData, error: feedbackError } = await supabase
+        .from('feedback')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(100);
+      
+      if (feedbackError) throw feedbackError;
+      setFeedbacks(feedbackData as FeedbackData[]);
 
       // Fetch Contact Requests
-      const contactQuery = query(collection(db, 'contactRequests'), orderBy('createdAt', 'desc'), limit(100));
-      const contactSnapshot = await getDocs(contactQuery);
-      const fetchedContacts: ContactRequestData[] = [];
-      contactSnapshot.forEach((doc) => {
-        fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
-      });
-      setContactRequests(fetchedContacts);
+      const { data: contactData, error: contactError } = await supabase
+        .from('contact_requests')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(100);
+      
+      if (contactError) throw contactError;
+      setContactRequests(contactData as ContactRequestData[]);
 
     } catch (error) {
       console.error("Error fetching admin data:", error);
@@ -124,9 +133,9 @@ export const AdminDashboard: React.FC = () => {
   const exportToCSV = () => {
     if (users.length === 0) return;
 
-    const headers = ['UID', 'Name', 'Email', 'Phone', 'Role', 'Premium', 'Tier', 'Joined Date'];
+    const headers = ['ID', 'Name', 'Email', 'Phone', 'Role', 'Premium', 'Tier', 'Joined Date'];
     const rows = users.map(u => [
-      u.uid,
+      u.id,
       `"${u.displayName || 'Anonymous'}"`,
       u.email,
       u.phoneNumber || 'N/A',
@@ -153,41 +162,39 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const handleClearOldUsers = async () => {
-    const confirmed = window.confirm("WARNING: This will permanently delete ALL user and search data to start fresh. Only your admin account will be preserved based on the email logic. PROCEED WITH CAUTION.");
+    const confirmed = window.confirm("WARNING: This will permanently delete ALL user profiles and search data to start fresh. Only your admin account will be preserved based on the email logic. PROCEED WITH CAUTION.");
     if (!confirmed) return;
 
     setResetting(true);
     try {
-      // 1. Get all users
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const batch = writeBatch(db);
-      let count = 0;
+      // 1. Delete profiles (except self)
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .neq('email', profile?.email);
 
-      usersSnap.forEach((userDoc) => {
-        const data = userDoc.data();
-        // Skip self (admin)
-        if (data.email !== profile?.email) {
-          batch.delete(doc(db, 'users', userDoc.id));
-          count++;
-        }
-      });
+      if (profileError) throw profileError;
 
       // 2. Clear analytics
-      const searchSnap = await getDocs(collection(db, 'searchAnalytics'));
-      searchSnap.forEach((sDoc) => {
-        batch.delete(doc(db, 'searchAnalytics', sDoc.id));
-      });
+      const { error: analyticsError } = await supabase
+        .from('search_analytics')
+        .delete()
+        .neq('id', '00000000-0000-4000-8000-000000000000'); // This is a trick to delete all if we don't have a specific ID, but usually .delete() with a wide filter works. 
+        // Better: delete everything since search analytics aren't tied to an admin email easily.
+      
+      const { error: analyticsErrorAll } = await supabase
+        .from('search_analytics')
+        .delete()
+        .gt('count', -1); // Deletes all where count > -1
 
-      if (count > 0 || searchSnap.size > 0) {
-        await batch.commit();
-      }
+      if (analyticsErrorAll) console.warn("Analytics clear failed:", analyticsErrorAll);
 
       setResetSuccess(true);
       setTimeout(() => setResetSuccess(false), 5000);
       await fetchAdminData();
     } catch (error) {
       console.error("Failed to reset data:", error);
-      showToast("Failed to reset data. Check permissions.", "error");
+      showToast("Failed to reset data. Check permissions or RLS policies.", "error");
     } finally {
       setResetting(false);
     }
@@ -469,7 +476,7 @@ export const AdminDashboard: React.FC = () => {
                     </thead>
                     <tbody className="divide-y divide-surface">
                       {users.map((u) => (
-                        <tr key={u.uid} className="hover:bg-primary/5 transition-all group">
+                        <tr key={u.id} className="hover:bg-primary/5 transition-all group">
                           <td className="p-10">
                             <div className="flex items-center gap-6">
                               <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center text-xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-12 ${u.isPremium ? 'bg-success text-white' : 'backdrop-blur-md bg-surface text-text-secondary border border-border'}`}>

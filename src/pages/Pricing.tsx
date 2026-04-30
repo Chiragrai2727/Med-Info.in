@@ -99,7 +99,7 @@ export const Pricing: React.FC = () => {
           }
         },
         prefill: {
-          name: profile?.displayName || "",
+          name: profile?.display_name || "",
           email: user.email || "",
           contact: "",
         },

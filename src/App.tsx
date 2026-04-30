@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 import { useToast } from './ToastContext';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from './firebase';
-import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
+import { supabase } from './supabase';
 import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { MedicineDetail } from './pages/MedicineDetail';
 import { ConditionPage } from './pages/ConditionPage';
 import { Compare } from './pages/Compare';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsOfService } from './pages/TermsOfService';
 import { ScannerPage } from './pages/ScannerPage';
 import { Timetable } from './pages/Timetable';
 import { Dashboard } from './pages/Dashboard';
@@ -168,6 +167,7 @@ export default function App() {
                       } 
                     />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/terms" element={<TermsOfService />} />
                     
                     <Route path="/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
                     <Route path="/robots.txt" element={<Navigate to="/robots.txt" replace />} />
@@ -232,13 +232,14 @@ export default function App() {
                             
                             setIsSubmittingFeedback(true);
                             try {
-                              // 1. Save to Firestore for reliability
-                              await addDoc(collection(db, 'feedback'), {
+                              // 1. Save to Supabase
+                              const { data: { user } } = await supabase.auth.getUser();
+                              await supabase.from('feedback').insert({
                                 type: 'general',
                                 message: text,
-                                createdAt: serverTimestamp(),
-                                userId: auth.currentUser?.uid || 'guest',
-                                email: auth.currentUser?.email || null,
+                                created_at: new Date().toISOString(),
+                                user_id: user?.id || 'guest',
+                                email: user?.email || null,
                                 status: 'new'
                               });
 
@@ -251,7 +252,7 @@ export default function App() {
                               
                               form.reset();
                             } catch (err) {
-                              handleFirestoreError(err, OperationType.CREATE, 'feedback');
+                              console.error('Feedback error:', err);
                               showToast('Error saving feedback, but opening email client anyway.', 'info');
                               window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
                             } finally {

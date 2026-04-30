@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
-import { db } from '../firebase';
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download, User as UserIcon } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { AvatarSelection } from '../components/AvatarSelection';
@@ -67,14 +66,26 @@ export const Dashboard: React.FC = () => {
     const fetchPayments = async () => {
       if (!user) return;
       try {
-        const paymentsRef = collection(db, 'users', user.uid, 'payments');
-        const q = query(paymentsRef, orderBy('date', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PaymentRecord));
-        setPayments(data || []);
+        const { data, error } = await supabase
+          .from('payments')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        const formattedData = (data || []).map(p => ({
+          id: p.id,
+          amount: p.amount,
+          tier: p.tier,
+          date: p.created_at,
+          status: p.status,
+          razorpayPaymentId: p.payment_id
+        }));
+
+        setPayments(formattedData as PaymentRecord[]);
       } catch (error: any) {
         console.error('Error fetching payments:', error);
-        // Silently handle if collection doesn't exist yet
       } finally {
         setLoading(false);
       }
@@ -85,12 +96,12 @@ export const Dashboard: React.FC = () => {
 
   if (!user || !profile) return null;
 
-  const isPremium = profile.isPremium;
-  const expiryDate = profile.subscriptionExpiry ? new Date(profile.subscriptionExpiry) : null;
+  const isPremium = profile.is_premium;
+  const expiryDate = profile.subscription_expiry ? new Date(profile.subscription_expiry) : null;
   const isExpired = expiryDate ? expiryDate < new Date() : false;
   
-  const hasClaimedTrial = profile.trialClaimed === true;
-  const trialEndsAt = profile.trialEndsAt ? new Date(profile.trialEndsAt) : null;
+  const hasClaimedTrial = profile.trial_claimed === true;
+  const trialEndsAt = profile.trial_ends_at ? new Date(profile.trial_ends_at) : null;
   const trialActive = trialEndsAt ? trialEndsAt > new Date() : false;
   
   let daysRemaining = 0;
@@ -131,8 +142,8 @@ export const Dashboard: React.FC = () => {
           <div className="p-8 sm:p-12 flex flex-col sm:flex-row items-center sm:items-start gap-10">
             <div className="relative group/avatar">
               <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-[3rem] overflow-hidden ring-8 ring-surface shadow-2xl transition-transform group-hover:scale-105 duration-700 relative">
-                {profile.photoURL ? (
-                  <img src={profile.photoURL} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                {profile.photo_url ? (
+                  <img src={profile.photo_url} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 ) : (
                   <div className="w-full h-full bg-bg flex items-center justify-center">
                     <UserIcon className="w-12 h-12 text-text-secondary/40" />
@@ -155,7 +166,7 @@ export const Dashboard: React.FC = () => {
             
             <div className="flex-1 text-center sm:text-left">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
-                <h2 className="text-3xl sm:text-5xl font-black text-text-primary leading-[0.8] tracking-[-0.05em] uppercase">{profile.displayName || t('user')}</h2>
+                <h2 className="text-3xl sm:text-5xl font-black text-text-primary leading-[0.8] tracking-[-0.05em] uppercase">{profile.display_name || t('user')}</h2>
                 <div className="flex justify-center sm:justify-start">
                   <span className={`px-5 py-1.5 text-[10px] font-black uppercase tracking-[0.25em] rounded-full ${
                     profile.role === 'admin' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-dark-bg text-white shadow-lg shadow-dark-bg/20'
@@ -176,7 +187,7 @@ export const Dashboard: React.FC = () => {
                 <div className="px-6 py-2.5 backdrop-blur-md bg-bg/50 rounded-2xl border border-border flex items-center gap-3">
                   <Clock className="w-4 h-4 text-text-secondary/60" />
                   <span className="text-[10px] font-black text-text-secondary/60 uppercase tracking-[0.2em] leading-none">
-                    {t('joined')} {new Date(profile.createdAt).toLocaleDateString()}
+                    {t('joined')} {new Date(profile.created_at).toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -186,7 +197,7 @@ export const Dashboard: React.FC = () => {
  
         {/* Subscription Status Block */}
         <div className="grid grid-cols-1 gap-8">
-          {(!profile.isPremium && profile.role !== 'admin') && (
+          {(!profile.is_premium && profile.role !== 'admin') && (
             <div className="backdrop-blur-2xl bg-surface/70 rounded-[3.5rem] shadow-sm border border-surface overflow-hidden transition-all duration-700">
                 {!hasClaimedTrial ? (
                    <div className="p-4">
@@ -253,7 +264,7 @@ export const Dashboard: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="bg-bg/50 backdrop-blur-md rounded-[2.5rem] p-8 border border-border text-center sm:text-left shadow-sm">
                   <p className="text-[10px] text-text-secondary/50 font-black uppercase tracking-[0.25em] mb-4">Tier</p>
-                  <p className="text-2xl font-black text-text-primary tracking-tight leading-none">{getPlanName(profile.subscriptionTier)}</p>
+                  <p className="text-2xl font-black text-text-primary tracking-tight leading-none">{getPlanName(profile.plan)}</p>
                 </div>
                 <div className="bg-bg/50 backdrop-blur-md rounded-[2.5rem] p-8 border border-border text-center sm:text-left shadow-sm">
                   <p className="text-[10px] text-text-secondary/50 font-black uppercase tracking-[0.25em] mb-4">{t('validUntil')}</p>

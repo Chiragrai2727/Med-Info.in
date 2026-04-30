@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Check, Loader2, ShieldCheck, Zap } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { supabase } from '../supabase';
 import { useLanguage } from '../LanguageContext';
 import { Link } from 'react-router-dom';
 import { PLANS } from '../config/plans';
@@ -90,13 +89,14 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               
               // 4. Record payment history
               try {
-                await addDoc(collection(db, 'users', user.uid, 'payments'), {
+                await supabase.from('payments').insert({
+                  user_id: user.id,
                   amount: amount,
                   tier: selectedPlanId,
-                  date: new Date().toISOString(),
                   status: 'success',
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpayPaymentId: response.razorpay_payment_id
+                  order_id: response.razorpay_order_id,
+                  payment_id: response.razorpay_payment_id,
+                  created_at: new Date().toISOString()
                 });
               } catch (e) {
                 console.error('Failed to record payment history', e);
@@ -115,7 +115,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           }
         },
         prefill: {
-          name: profile?.displayName || '',
+          name: profile?.display_name || '',
           email: user.email || '',
         },
         theme: {
@@ -220,7 +220,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               ))}
             </div>
  
-            {profile && !profile.trialClaimed && (
+            {profile && !profile.trial_claimed && (
                 <div className="bg-primary/5 rounded-[2.5rem] p-8 w-full border border-primary/10 flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left mb-8 shadow-sm">
                   <div>
                     <h3 className="text-xl font-black text-primary mb-1 uppercase tracking-tight">Claim 14-Day Free Trial</h3>

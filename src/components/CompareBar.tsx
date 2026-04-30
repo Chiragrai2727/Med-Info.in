@@ -20,7 +20,7 @@ export const CompareBar: React.FC = () => {
 
   const handleCompare = () => {
     if (compareList.length === 2) {
-      if (profile?.isPremium || profile?.role === 'admin') {
+      if (profile?.is_premium || profile?.role === 'admin') {
         navigate(`/compare/${encodeURIComponent(compareList[0])}/${encodeURIComponent(compareList[1])}`);
         clearCompare();
       } else {

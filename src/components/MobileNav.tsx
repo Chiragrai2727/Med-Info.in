@@ -21,8 +21,8 @@ export const MobileNav: React.FC = () => {
           to="/" 
           className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/') ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
         >
-          {profile?.photoURL ? (
-            <img src={profile.photoURL} alt="" className={`w-5 h-5 rounded-full object-cover border transition-all ${isActive('/') ? 'border-white' : 'border-transparent opacity-40'}`} referrerPolicy="no-referrer" />
+          {profile?.photo_url ? (
+            <img src={profile.photo_url} alt="" className={`w-5 h-5 rounded-full object-cover border transition-all ${isActive('/') ? 'border-white' : 'border-transparent opacity-40'}`} referrerPolicy="no-referrer" />
           ) : (
             <UserIcon className="w-5 h-5" />
           )}

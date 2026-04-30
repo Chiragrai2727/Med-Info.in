@@ -1,22 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, db, googleProvider } from './firebase';
-import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { supabase } from './supabase';
+import { User, Session } from '@supabase/supabase-js';
 
 interface UserProfile {
-  uid: string;
+  id: string;
   email: string;
-  displayName: string;
-  photoURL: string;
-  isPremium: boolean;
-  subscriptionTier?: string;
-  subscriptionExpiry?: string;
-  createdAt: string;
+  display_name: string;
+  photo_url: string;
+  is_premium: boolean;
+  plan?: string;
+  subscription_expiry?: string;
+  created_at: string;
   role: 'user' | 'admin';
-  phoneNumber?: string;
-  trialClaimed?: boolean;
-  trialStartedAt?: string;
-  trialEndsAt?: string;
+  phone_number?: string;
+  trial_claimed?: boolean;
+  trial_started_at?: string;
+  trial_ends_at?: string;
 }
 
 interface AuthContextType {
@@ -27,6 +26,10 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  sendOTP: (phone: string) => Promise<void>;
+  verifyOTP: (phone: string, token: string) => Promise<void>;
+  updateUserPassword: (password: string) => Promise<void>;
   logout: () => Promise<void>;
   upgradeToPremium: () => Promise<void>;
   updateSubscription: (tier: string, expiry: string) => Promise<void>;
@@ -62,129 +65,182 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    let unsubscribeProfile: (() => void) | null = null;
-
-    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      
-      if (user) {
-        // Real-time listener for profile
-        const userRef = doc(db, 'users', user.uid);
-        unsubscribeProfile = onSnapshot(userRef, (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
-            setProfile({
-              uid: user.uid,
-              email: user.email || '',
-              displayName: data.displayName || user.displayName || 'User',
-              photoURL: data.photoURL || user.photoURL || '',
-              isPremium: isAdmin || data.isPremium || false,
-              subscriptionTier: data.subscriptionTier,
-              subscriptionExpiry: data.subscriptionExpiry,
-              createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-              role: isAdmin ? 'admin' : 'user',
-              phoneNumber: data.phoneNumber,
-              trialClaimed: data.trialClaimed,
-              trialStartedAt: data.trialStartedAt,
-              trialEndsAt: data.trialEndsAt
-            } as UserProfile);
-          } else {
-            // Create profile if missing
-            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
-            const newProfileData = {
-              uid: user.uid,
-              email: user.email || '',
-              displayName: user.displayName || 'User',
-              photoURL: user.photoURL || '',
-              isPremium: isAdmin,
-              createdAt: serverTimestamp(),
-              role: isAdmin ? 'admin' : 'user'
-            };
-            setDoc(userRef, newProfileData).catch(console.error);
-          }
-          setLoading(false);
-        }, (error) => {
-          console.error("Profile snapshot error:", error);
-          setLoading(false);
-        });
-      } else {
-        setProfile(null);
-        setLoading(false);
-      }
+    // Initial session check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      handleAuthChange(session);
     });
 
-    return () => {
-      unsubscribeAuth();
-      if (unsubscribeProfile) unsubscribeProfile();
-    };
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      handleAuthChange(session);
+      if (event === 'SIGNED_IN') closeAuthModal();
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      closeAuthModal();
-    } catch (error) {
-      console.error('Google Sign In Error:', error);
-      throw error;
+  const handleAuthChange = async (session: Session | null) => {
+    if (session?.user) {
+      setUser(session.user);
+      const user = session.user;
+
+      // Fetch profile from Supabase 'profiles' table (or metadata)
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error && error.code === 'PGRST116') {
+        // No profile found, create one
+        const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+        const newProfile = {
+          id: user.id,
+          email: user.email || '',
+          display_name: user.user_metadata?.full_name || 'User',
+          photo_url: user.user_metadata?.avatar_url || '',
+          is_premium: isAdmin,
+          role: isAdmin ? 'admin' : 'user',
+          created_at: new Date().toISOString(),
+          plan: isAdmin ? 'premium' : 'basic'
+        };
+        
+        const { data: createdProfile } = await supabase
+          .from('profiles')
+          .insert(newProfile)
+          .select()
+          .single();
+        
+        if (createdProfile) {
+          setProfile(mapSupabaseProfile(createdProfile));
+        }
+      } else if (profileData) {
+        setProfile(mapSupabaseProfile(profileData));
+      }
+    } else {
+      setUser(null);
+      setProfile(null);
     }
+    setLoading(false);
+  };
+
+  const mapSupabaseProfile = (data: any): UserProfile => {
+    const isAdmin = ADMIN_EMAILS.includes(data.email || '');
+    return {
+      id: data.id,
+      email: data.email || '',
+      display_name: data.display_name || 'User',
+      photo_url: data.photo_url || '',
+      is_premium: isAdmin || data.is_premium || false,
+      plan: data.plan,
+      subscription_expiry: data.subscription_expiry,
+      created_at: data.created_at,
+      role: isAdmin ? 'admin' : 'user',
+      phone_number: data.phone_number,
+      trial_claimed: data.trial_claimed,
+      trial_started_at: data.trial_started_at,
+      trial_ends_at: data.trial_ends_at
+    };
+  };
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin
+      }
+    });
+    if (error) throw error;
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+    if (error) throw error;
     closeAuthModal();
   };
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
-    const result = await createUserWithEmailAndPassword(auth, email, pass);
-    if (result.user) {
-      await setDoc(doc(db, 'users', result.user.uid), {
-        uid: result.user.uid,
-        email,
-        displayName: name,
-        createdAt: serverTimestamp(),
-        role: 'user',
-        isPremium: false
-      });
-    }
+    const { error } = await supabase.auth.signUp({
+      email,
+      password: pass,
+      options: {
+        data: { full_name: name }
+      }
+    });
+    if (error) throw error;
     closeAuthModal();
   };
 
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) throw error;
+  };
+
+  const sendOTP = async (phone: string) => {
+    // Note: Phone number must be in E.164 format
+    const { error } = await supabase.auth.signInWithOtp({
+      phone: phone,
+    });
+    if (error) throw error;
+  };
+
+  const verifyOTP = async (phone: string, token: string) => {
+    const { error } = await supabase.auth.verifyOtp({
+      phone,
+      token,
+      type: 'sms'
+    });
+    if (error) throw error;
+  };
+
+  const updateUserPassword = async (password: string) => {
+    const { error } = await supabase.auth.updateUser({
+      password: password
+    });
+    if (error) throw error;
+  };
+
   const logout = async () => {
-    await signOut(auth);
+    await supabase.auth.signOut();
   };
 
   const upgradeToPremium = async () => {
     if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, { isPremium: true, subscriptionTier: 'premium' });
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_premium: true, plan: 'premium' })
+        .eq('id', user.id);
+      if (error) throw error;
     }
   };
 
   const updateSubscription = async (tier: string, expiry: string) => {
     if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, { subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
+      const { error } = await supabase
+        .from('profiles')
+        .update({ plan: tier, subscription_expiry: expiry, is_premium: true })
+        .eq('id', user.id);
+      if (error) throw error;
     }
   };
 
   const updateProfileImage = async (url: string) => {
     if (user) {
-      try {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, { photoURL: url });
-        console.log('Firestore photoURL updated to:', url);
-      } catch (error) {
-        console.error('Error updating profile image:', error);
-        throw error;
-      }
+      const { error } = await supabase
+        .from('profiles')
+        .update({ photo_url: url })
+        .eq('id', user.id);
+      if (error) throw error;
     }
   };
 
   return (
     <AuthContext.Provider value={{ 
       user, profile, loading, isOffline,
-      signInWithGoogle, signInWithEmail, signUpWithEmail, 
+      signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword,
+      sendOTP, verifyOTP, updateUserPassword,
       logout, upgradeToPremium, updateSubscription, updateProfileImage,
       isAuthModalOpen, openAuthModal, closeAuthModal
     }}>

@@ -39,8 +39,7 @@ import bannedMedicinesData from "../data/banned_medicines.json";
 import indexData from "../data/index.json";
 import categoriesData from "../data/categories.json";
 import diseasesData from "../data/diseases.json";
-import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { supabase } from '../supabase';
 
 const getAIClient = (): GoogleGenAI => {
   const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
@@ -60,13 +59,18 @@ const searchIndex = indexData as Record<string, string[]>;
 const categoriesIndex = categoriesData as Record<string, string[]>;
 const diseasesIndex = diseasesData as Record<string, string[]>;
 
-async function lazySeedToFirestore(medicine: Medicine) {
-  if (!auth.currentUser) return;
+async function lazySeedToSupabase(medicine: Medicine) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
   const safeId = medicine.id.toLowerCase().replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
   try {
-    const medDocRef = doc(db, 'medicines', safeId);
-    const docSnap = await getDoc(medDocRef);
-    if (!docSnap.exists()) {
+    const { data: existingMed } = await supabase
+      .from('medicines')
+      .select('id')
+      .eq('id', safeId)
+      .single();
+
+    if (!existingMed) {
       const payload = {
         id: safeId,
         drug_name: medicine.drug_name,
@@ -79,11 +83,11 @@ async function lazySeedToFirestore(medicine: Medicine) {
         pregnancy_safety: medicine.pregnancy_safety || '',
         country: 'India',
         source: 'Verified Database',
-        createdBy: auth.currentUser.uid,
-        createdAt: serverTimestamp()
+        created_by: user.id,
+        created_at: new Date().toISOString()
       };
-      await setDoc(medDocRef, payload);
-      console.log(`Lazy seeded ${medicine.drug_name} to Firestore.`);
+      await supabase.from('medicines').insert(payload);
+      console.log(`Lazy seeded ${medicine.drug_name} to Supabase.`);
     }
   } catch (err) {
     console.warn("Lazy seed failed:", err);
@@ -125,29 +129,33 @@ export function isDrugBanned(name: string): boolean {
 
 export async function fetchMedicineDetails(searchQuery: string, lang: Language = 'en'): Promise<Medicine | null> {
   const q = searchQuery.toLowerCase().trim();
+  const { data: { user } } = await supabase.auth.getUser();
   
   // 1. Check local map first (fastest) - only keep IDs or very common exact matches here
   if (medicinesMap[q]) {
     const med = medicinesMap[q];
-    // If found locally, we'll try to ensure it exists in Firestore too if user is signed in
-    if (auth.currentUser && med.source === 'Verified Database') {
-      lazySeedToFirestore(med);
+    // If found locally, we'll try to ensure it exists in Supabase too if user is signed in
+    if (user && med.source === 'Verified Database') {
+      lazySeedToSupabase(med);
     }
     return med;
   }
 
-  // 2. Check Firestore backend first (Primary Source of Truth)
+  // 2. Check Supabase backend first (Primary Source of Truth)
   const safeId = q.replace(/[^a-z0-9_-]/gi, '-').slice(0, 50);
   try {
-    const medDocRef = doc(db, 'medicines', safeId);
-    const docSnap = await getDoc(medDocRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data() as Medicine;
-      offlineService.saveMedicine(data);
-      return { ...data, source: 'Verified Database' };
+    const { data: medData, error: medError } = await supabase
+      .from('medicines')
+      .select('*')
+      .eq('id', safeId)
+      .single();
+
+    if (!medError && medData) {
+      offlineService.saveMedicine(medData as any);
+      return { ...medData, source: 'Verified Database' } as any;
     }
-  } catch (firebaseErr: any) {
-    console.warn("Firestore fetch error:", firebaseErr);
+  } catch (supabaseErr: any) {
+    console.warn("Supabase fetch error:", supabaseErr);
   }
 
   // 3. Fallback to local dataset with fuzzy match
@@ -249,11 +257,11 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
     // Save to offline cache
     offlineService.saveMedicine(medicine);
     
-    // Save to Firebase Self-Building DB to help others
-    if (auth.currentUser) {
+    // Save to Supabase Self-Building DB to help others
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
       try {
-        const medDocRef = doc(db, 'medicines', safeId);
-        // Explicitly ensuring fields match the hardened Firestore Blueprint
+        // Explicitly ensuring fields match the hardened Supabase Blueprint
         const payload = {
           id: safeId,
           drug_name: medicine.drug_name || searchQuery,
@@ -266,12 +274,12 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
           pregnancy_safety: medicine.pregnancy_safety || '',
           country: 'India',
           source: 'AI Analysis',
-          createdBy: auth.currentUser.uid,
-          createdAt: serverTimestamp()
+          created_by: user.id,
+          created_at: new Date().toISOString()
         };
-        await setDoc(medDocRef, payload);
-      } catch (firebaseErr: any) {
-        console.warn("Failed to write to Firebase Community DB:", firebaseErr);
+        await supabase.from('medicines').upsert(payload);
+      } catch (supabaseErr: any) {
+        console.warn("Failed to write to Supabase Community DB:", supabaseErr);
       }
     }
 
@@ -326,19 +334,16 @@ export async function searchMedicines(searchQuery: string, lang: Language = 'en'
   const [backendResults, localResults] = await Promise.all([
     (async () => {
       try {
-        const qUpper = q.charAt(0).toUpperCase() + q.slice(1);
-        const medicinesRef = collection(db, 'medicines');
-        // Simple "starts with" query for Firestore
-        const queryConstraints = [
-          where('drug_name', '>=', qUpper),
-          where('drug_name', '<=', qUpper + '\uf8ff'),
-          limit(5)
-        ];
-        const qBackend = query(medicinesRef, ...queryConstraints);
-        const querySnapshot = await getDocs(qBackend);
+        const qLower = q.toLowerCase();
+        const { data: medicinesData, error: searchError } = await supabase
+          .from('medicines')
+          .select('*')
+          .ilike('drug_name', `${qLower}%`)
+          .limit(5);
+
+        if (searchError) throw searchError;
         
-        return querySnapshot.docs.map(doc => {
-          const data = doc.data() as Medicine;
+        return (medicinesData || []).map(data => {
           return {
             name: data.drug_name,
             category: data.category,
