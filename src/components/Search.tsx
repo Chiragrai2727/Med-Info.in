@@ -286,7 +286,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
       <span>
         {parts.map((part, i) => 
           part.toLowerCase() === match.toLowerCase() 
-            ? <span key={i} className="text-black font-black bg-yellow-200/50 rounded-sm px-0.5">{part}</span> 
+            ? <span key={i} className="text-text-primary font-black bg-primary/10 rounded-sm px-0.5">{part}</span> 
             : <span key={i}>{part}</span>
         )}
       </span>
@@ -303,7 +303,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     <div ref={searchRef} className="relative w-full max-w-3xl mx-auto">
       <form onSubmit={handleSearch} className="relative group">
         <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-          <SearchIcon className="h-6 w-6 text-gray-400 group-focus-within:text-black transition-colors" />
+          <SearchIcon className="h-6 w-6 text-text-secondary/40 group-focus-within:text-text-primary transition-colors" />
         </div>
         <input
           ref={inputRef}
@@ -320,22 +320,22 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             // Delay hiding to allow clicks on suggestions to register
             setTimeout(() => setIsFocused(false), 200);
           }}
-          className={`block w-full pl-16 pr-28 py-6 glass border border-blue-100/50 rounded-[2.5rem] text-xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 transition-all shadow-xl hover:shadow-2xl placeholder:text-slate-300 font-medium ${isListening ? 'ring-4 ring-red-500/20 border-red-200' : ''}`}
+          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : ''}`}
           placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">
           {isListening && (
             <div className="flex items-center gap-1 mr-2">
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
           )}
           {query && (
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="p-2 text-gray-400 hover:text-black transition-colors"
+              className="p-2 text-text-secondary hover:text-text-primary transition-colors"
             >
               <X className="h-6 w-6" />
             </button>
@@ -344,7 +344,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             type="button"
             disabled={isTranscribing}
             onClick={toggleVoiceSearch}
-            className={`p-4 rounded-2xl transition-all ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-gray-50 text-gray-400 hover:text-black hover:bg-gray-100'} disabled:opacity-50`}
+            className={`p-4 rounded-2xl transition-all ${isListening ? 'bg-danger text-white animate-pulse' : 'bg-surface text-text-secondary hover:text-text-primary hover:bg-border/30 border border-border'} disabled:opacity-50`}
           >
             {isTranscribing ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mic className="h-5 w-5" />}
           </button>
@@ -357,17 +357,17 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            className="absolute mt-4 w-full bg-white/95 backdrop-blur-2xl border border-gray-100 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden"
+            className="absolute mt-4 w-full bg-surface/95 backdrop-blur-2xl border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden"
           >
             {query.length === 0 ? (
               <div className="py-6">
                 {recentSearches.length > 0 ? (
                   <>
                     <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Recent Searches</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Recent Searches</span>
                       <button 
                         onClick={clearRecentSearches}
-                        className="text-[10px] font-black uppercase tracking-[0.2em] text-red-400 hover:text-red-600 transition-colors"
+                        className="text-[10px] font-black uppercase tracking-[0.2em] text-danger/70 hover:text-danger transition-colors"
                       >
                         Clear All
                       </button>
@@ -376,34 +376,34 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Recent', summary: 'Search history' })}
-                        className="w-full text-left px-8 py-4 hover:bg-black/5 transition-all flex items-center justify-between group"
+                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:bg-black group-hover:text-white transition-all">
+                          <div className="w-8 h-8 bg-surface rounded-xl border border-border flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                             <SearchIcon className="w-4 h-4" />
                           </div>
-                          <span className="text-lg font-bold text-gray-900">{term}</span>
+                          <span className="text-lg font-bold text-text-primary">{term}</span>
                         </div>
-                        <X className="w-4 h-4 text-gray-200 group-hover:text-gray-400" />
+                        <X className="w-4 h-4 text-border group-hover:text-text-secondary" />
                       </button>
                     ))}
                   </>
                 ) : (
                   <>
                     <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Popular Searches</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Popular Searches</span>
                     </div>
                     {POPULAR_SEARCHES.map((term, i) => (
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Popular', summary: 'Trending search' })}
-                        className="w-full text-left px-8 py-4 hover:bg-black/5 transition-all flex items-center justify-between group"
+                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                          <div className="w-8 h-8 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                             <TrendingUp className="w-4 h-4" />
                           </div>
-                          <span className="text-lg font-bold text-gray-900">{term}</span>
+                          <span className="text-lg font-bold text-text-primary">{term}</span>
                         </div>
                       </button>
                     ))}
@@ -412,14 +412,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
               </div>
             ) : isLoading ? (
               <div className="p-12 flex flex-col items-center justify-center gap-4">
-                <Loader2 className="w-8 h-8 animate-spin text-black" />
-                <p className="text-sm text-gray-400 font-black uppercase tracking-widest">{t('loading')}</p>
+                <Loader2 className="w-8 h-8 animate-spin text-text-primary" />
+                <p className="text-sm text-text-secondary font-black uppercase tracking-widest">{t('loading')}</p>
               </div>
             ) : suggestions.length > 0 ? (
               <div className="py-4">
                 {!navigator.onLine && (
-                  <div className="mx-6 mb-4 px-4 py-2 bg-yellow-50 text-yellow-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
+                  <div className="mx-6 mb-4 px-4 py-2 bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
                     Offline Mode
                   </div>
                 )}
@@ -427,32 +427,32 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   <button
                     key={index}
                     onClick={() => handleSelect(item)}
-                    className="w-full text-left px-8 py-6 hover:bg-black/5 transition-all flex flex-col gap-1 group"
+                    className="w-full text-left px-8 py-6 hover:bg-primary/5 transition-all flex flex-col gap-1 group"
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
-                        <span className="text-xl font-bold text-black group-hover:translate-x-1 transition-transform">{highlightMatch(item.name, query)}</span>
+                        <span className="text-xl font-bold text-text-primary group-hover:translate-x-1 transition-transform">{highlightMatch(item.name, query)}</span>
                         {item.source && (
                           <div className="flex items-center gap-2 mt-1">
                             <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 ${
-                              item.source === 'Verified Database' ? 'bg-green-50 text-green-700 border border-green-100' : 
-                              item.source === 'AI Analysis' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 
-                              'bg-gray-100 text-gray-600 border border-gray-200'
+                              item.source === 'Verified Database' ? 'bg-success/5 text-success border border-success/10' : 
+                              item.source === 'AI Analysis' ? 'bg-primary/5 text-primary border border-primary/10' : 
+                              'bg-surface text-text-secondary border border-border shadow-sm'
                             }`}>
                               {item.source === 'Verified Database' ? (
                                 <ShieldCheck className="w-3 h-3" />
                               ) : item.source === 'AI Analysis' ? (
                                 <Sparkles className="w-3 h-3" />
                               ) : (
-                                <span className={`w-1.5 h-1.5 rounded-full bg-gray-400`} />
+                                <span className={`w-1.5 h-1.5 rounded-full bg-text-secondary/50`} />
                               )}
                               {item.source}
                             </span>
                             {item.confidence !== undefined && (
                               <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border ${
-                                item.confidence >= 90 ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                                item.confidence >= 70 ? 'bg-yellow-50 text-yellow-700 border-yellow-100' :
-                                'bg-orange-50 text-orange-700 border-orange-100'
+                                item.confidence >= 90 ? 'bg-primary/5 text-primary border-primary/10' :
+                                item.confidence >= 70 ? 'bg-amber-50 text-amber-700 border-amber-100' :
+                                'bg-danger/5 text-danger border-danger/10'
                               }`}>
                                 {item.confidence}% match
                               </span>
@@ -460,69 +460,69 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                           </div>
                         )}
                         {item.isOffline && item.source !== 'Verified Database' && (
-                          <span className="px-2 py-0.5 bg-yellow-50 text-yellow-600 text-[8px] font-black uppercase tracking-widest rounded-md">
+                          <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm">
                             Offline
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-gray-50 rounded-full text-gray-400 group-hover:bg-black group-hover:text-white transition-all">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-surface border border-border rounded-full text-text-secondary/50 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                         {item.category}
                       </span>
                     </div>
-                    <p className="text-base text-gray-400 font-medium line-clamp-1 group-hover:text-gray-600 transition-colors">{item.summary}</p>
+                    <p className="text-base text-text-secondary font-medium line-clamp-1 group-hover:text-text-primary transition-colors">{item.summary}</p>
                   </button>
                 ))}
                 
                 {/* Global Search Option */}
                 <button
                   onClick={() => handleSearch()}
-                  className="w-full text-left px-8 py-6 bg-blue-50/50 hover:bg-blue-50 transition-all flex items-center justify-between group"
+                  className="w-full text-left px-8 py-6 bg-primary/5 hover:bg-primary/10 transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">
+                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
                       <Sparkles className="w-5 h-5" />
                     </div>
                     <div>
-                      <div className="text-lg font-black text-blue-900 group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                      <div className="text-lg font-black text-primary group-hover:translate-x-1 transition-transform flex items-center gap-2">
                         Full Search: "{query}"
-                        <span className="px-2 py-0.5 bg-blue-600 text-[9px] text-white rounded-md uppercase tracking-widest font-black">AI Powered</span>
+                        <span className="px-2 py-0.5 bg-primary text-[9px] text-white rounded-md uppercase tracking-widest font-black">AI Powered</span>
                       </div>
-                      <p className="text-sm text-blue-400 font-medium italic">Deep search in global medical datasets & research</p>
+                      <p className="text-sm text-primary/60 font-medium italic">Deep search in global medical datasets & research</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-900">Press Enter</span>
-                    <TrendingUp className="w-4 h-4 text-blue-600" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary font-bold">Press Enter</span>
+                    <TrendingUp className="w-4 h-4 text-primary" />
                   </div>
                 </button>
               </div>
             ) : (
               <div className="p-16 text-center">
-                <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
-                  <SearchIcon className="w-10 h-10 text-gray-200" />
+                <div className="w-20 h-20 bg-bg rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                  <SearchIcon className="w-10 h-10 text-text-secondary opacity-20" />
                 </div>
-                <p className="text-2xl font-black text-black mb-2">{t('noResults')}</p>
-                <p className="text-gray-400 font-medium mb-8">
+                <p className="text-2xl font-black text-text-primary mb-2">{t('noResults')}</p>
+                <p className="text-text-secondary font-medium mb-8">
                   Couldn't find any direct matches in our quick database.
                 </p>
                 
                 <button
                   onClick={() => handleSearch()}
-                  className="inline-flex items-center gap-4 px-10 py-5 bg-black text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
+                  className="inline-flex items-center gap-4 px-10 py-5 bg-dark-bg text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
                 >
                   <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
                   Search with AI Assistant
-                  <div className="ml-4 px-2 py-1 bg-white/20 rounded-md text-[10px] border border-white/10 group-hover:bg-blue-500 transition-colors">
+                  <div className="ml-4 px-2 py-1 bg-white/20 rounded-md text-[10px] border border-white/10 group-hover:bg-primary transition-colors">
                     Enter
                   </div>
                 </button>
                 
-                <div className="mt-12 text-gray-300">
+                <div className="mt-12 text-text-secondary opacity-40">
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">Or try searching for</p>
                   <div className="flex flex-wrap justify-center gap-3">
-                    <button onClick={() => setQuery('fever')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">fever</button>
-                    <button onClick={() => setQuery('paracetamol')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">paracetamol</button>
-                    <button onClick={() => setQuery('diabetes')} className="px-5 py-2 bg-gray-50 rounded-full text-xs font-bold text-gray-500 hover:bg-black hover:text-white transition-all">diabetes</button>
+                    <button onClick={() => setQuery('fever')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">fever</button>
+                    <button onClick={() => setQuery('paracetamol')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">paracetamol</button>
+                    <button onClick={() => setQuery('diabetes')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">diabetes</button>
                   </div>
                 </div>
               </div>

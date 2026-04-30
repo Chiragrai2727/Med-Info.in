@@ -199,14 +199,14 @@ export const AdminDashboard: React.FC = () => {
 
   if (profile?.role !== 'admin') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-transparent">
-        <div className="text-center backdrop-blur-xl bg-white/70 p-20 rounded-[4rem] border-2 border-white shadow-2xl">
-          <AlertTriangle className="w-24 h-24 text-red-500 mx-auto mb-8 animate-bounce" />
-          <h1 className="text-5xl font-black text-slate-900 uppercase tracking-tighter mb-4">Access Denied</h1>
-          <p className="text-slate-400 font-bold text-xl tracking-tight opacity-70">High-level clearance required for this terminal.</p>
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <div className="text-center backdrop-blur-xl bg-surface/70 p-20 rounded-[4rem] border-2 border-surface shadow-2xl">
+          <AlertTriangle className="w-24 h-24 text-danger mx-auto mb-8 animate-bounce" />
+          <h1 className="text-5xl font-black text-text-primary uppercase tracking-tighter mb-4">Access Denied</h1>
+          <p className="text-text-secondary font-bold text-xl tracking-tight opacity-70">High-level clearance required for this terminal.</p>
           <button 
             onClick={() => navigate('/')}
-            className="mt-12 px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl"
+            className="mt-12 px-10 py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
           >
             Return to Surface
           </button>
@@ -214,7 +214,7 @@ export const AdminDashboard: React.FC = () => {
       </div>
     );
   }
-
+ 
   return (
     <div className="min-h-screen bg-transparent pt-32 sm:pt-40 pb-24 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="max-w-7xl mx-auto space-y-12">
@@ -225,13 +225,13 @@ export const AdminDashboard: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h1 className="text-4xl md:text-6xl font-black text-slate-900 flex items-center gap-6 tracking-[-0.05em] uppercase leading-none">
-              <div className="w-16 h-16 bg-slate-900 rounded-[2rem] flex items-center justify-center text-white shadow-2xl rotate-3">
+            <h1 className="text-4xl md:text-6xl font-black text-text-primary flex items-center gap-6 tracking-[-0.05em] uppercase leading-none">
+              <div className="w-16 h-16 bg-primary rounded-[2rem] flex items-center justify-center text-white shadow-2xl rotate-3">
                 <ShieldCheck className="w-10 h-10" />
               </div>
               Admin Control Center
             </h1>
-            <p className="text-xl md:text-2xl text-slate-400 mt-6 font-bold tracking-tight opacity-70 leading-none italic uppercase">
+            <p className="text-xl md:text-2xl text-text-secondary mt-6 font-bold tracking-tight opacity-50 leading-none italic uppercase">
               High-level pharmaceutical intelligence oversight.
             </p>
           </motion.div>
@@ -239,7 +239,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center gap-4">
             <button 
               onClick={exportToCSV}
-              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-white border-2 border-white rounded-[2rem] text-xs font-black uppercase tracking-widest text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 group"
+              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-surface border-2 border-surface rounded-[2rem] text-xs font-black uppercase tracking-widest text-text-primary hover:bg-primary hover:text-white hover:border-primary transition-all shadow-2xl active:scale-95 group"
             >
               <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
               Export CSV
@@ -247,7 +247,7 @@ export const AdminDashboard: React.FC = () => {
             <button 
               onClick={handleClearOldUsers}
               disabled={resetting}
-              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-red-500/10 border-2 border-red-500/20 rounded-[2rem] text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-600 hover:text-white transition-all shadow-2xl disabled:opacity-50 active:scale-95 group"
+              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-danger/10 border-2 border-danger/20 rounded-[2rem] text-xs font-black uppercase tracking-widest text-danger hover:bg-danger hover:text-white transition-all shadow-2xl disabled:opacity-50 active:scale-95 group"
             >
               {resetting ? 'Resetting...' : (
                 <>
@@ -274,8 +274,8 @@ export const AdminDashboard: React.FC = () => {
 
         {loading ? (
           <div className="p-32 text-center">
-             <div className="w-20 h-20 border-4 border-slate-900 border-t-transparent rounded-full animate-spin mx-auto mb-8 shadow-xl" />
-             <p className="text-slate-400 font-black uppercase tracking-[0.4em] text-xs opacity-60">Initializing Command...</p>
+             <div className="w-20 h-20 border-4 border-dark-bg border-t-transparent rounded-full animate-spin mx-auto mb-8 shadow-xl" />
+             <p className="text-text-secondary font-black uppercase tracking-[0.4em] text-xs opacity-60">Initializing Command...</p>
           </div>
         ) : (
           <>
@@ -283,41 +283,41 @@ export const AdminDashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               <motion.div 
                 whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-primary transition-all overflow-hidden relative"
               >
-                <div className="w-20 h-20 bg-blue-500/10 rounded-[2.5rem] flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                <div className="w-20 h-20 bg-primary/10 rounded-[2.5rem] flex items-center justify-center text-primary transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
                   <Users className="w-10 h-10" />
                 </div>
                 <div className="relative z-10">
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Medical Registry</p>
-                  <p className="text-5xl font-black text-slate-900 tracking-[-0.05em] uppercase leading-none">{totalUsers}</p>
+                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Medical Registry</p>
+                  <p className="text-5xl font-black text-text-primary tracking-[-0.05em] uppercase leading-none">{totalUsers}</p>
                 </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
               </motion.div>
               
               <motion.div 
                 whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-success transition-all overflow-hidden relative"
               >
-                <div className="w-20 h-20 bg-emerald-500/10 rounded-[2.5rem] flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                <div className="w-20 h-20 bg-success/10 rounded-[2.5rem] flex items-center justify-center text-success transition-transform group-hover:scale-110 group-hover:bg-success group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
                   <ShieldCheck className="w-10 h-10" />
                 </div>
                 <div className="relative z-10">
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Premium</p>
-                  <p className="text-5xl font-black text-emerald-600 tracking-[-0.05em] uppercase leading-none">{premiumUsers}</p>
+                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Premium</p>
+                  <p className="text-5xl font-black text-success tracking-[-0.05em] uppercase leading-none">{premiumUsers}</p>
                 </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-success/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
               </motion.div>
- 
+  
               <motion.div 
                 whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-white/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-white flex items-center gap-8 group hover:border-slate-900 transition-all overflow-hidden relative"
+                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-purple-600 transition-all overflow-hidden relative"
               >
-                <div className="w-20 h-20 bg-purple-500/10 rounded-[2.5rem] flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
+                <div className="w-20 h-20 bg-purple-500/10 rounded-[2.5rem] flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
                   <Activity className="w-10 h-10" />
                 </div>
                 <div className="relative z-10">
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Confidence Score</p>
+                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Confidence Score</p>
                   <p className="text-5xl font-black text-purple-600 tracking-[-0.05em] uppercase leading-none">{conversionRate}<span className="text-2xl ml-1">%</span></p>
                 </div>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
@@ -329,11 +329,11 @@ export const AdminDashboard: React.FC = () => {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col max-h-[800px]"
+                className="backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col max-h-[800px]"
               >
-                <div className="p-10 border-b border-white/50 bg-white/30 flex justify-between items-center">
+                <div className="p-10 border-b border-surface/50 bg-surface/30 flex justify-between items-center">
                   <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-xl rotate-3">
+                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl rotate-3 shadow-primary/20">
                       <MessageSquareWarning className="w-6 h-6" />
                     </div>
                     Feedback
@@ -345,35 +345,35 @@ export const AdminDashboard: React.FC = () => {
                        <p className="text-sm font-black uppercase tracking-widest">No feedback received</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-white">
+                    <div className="divide-y divide-surface">
                       {feedbacks.map((f) => (
-                        <div key={f.id} className="p-10 hover:bg-slate-900 hover:text-white transition-all group">
+                        <div key={f.id} className="p-10 hover:bg-primary/5 transition-all group">
                           <div className="flex justify-between items-start mb-4">
-                            <span className="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 border border-blue-200 group-hover:bg-white group-hover:text-black">
+                            <span className="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/20 group-hover:bg-primary group-hover:text-white">
                               {f.type}
                             </span>
-                            <span className="text-[10px] font-black text-slate-400 group-hover:text-white/50 uppercase tracking-widest">
+                            <span className="text-[10px] font-black text-text-secondary group-hover:text-text-primary uppercase tracking-widest">
                               {new Date(f.createdAt).toLocaleDateString()}
                             </span>
                           </div>
-                          <p className="text-sm font-medium leading-relaxed mb-4">{f.message}</p>
-                          {f.email && <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest group-hover:text-blue-300">{f.email}</div>}
+                          <p className="text-sm font-medium leading-relaxed mb-4 group-hover:text-text-primary">{f.message}</p>
+                          {f.email && <div className="text-[10px] font-black text-primary uppercase tracking-widest group-hover:text-primary-hover">{f.email}</div>}
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
               </motion.div>
-
+ 
               {/* Contact Requests */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col max-h-[800px]"
+                className="backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col max-h-[800px]"
               >
-                <div className="p-10 border-b border-white/50 bg-white/30 flex justify-between items-center">
+                <div className="p-10 border-b border-surface/50 bg-surface/30 flex justify-between items-center">
                   <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl -rotate-3">
+                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl -rotate-3 shadow-primary/20">
                       <Users className="w-6 h-6" />
                     </div>
                     Contact Requests
@@ -385,36 +385,36 @@ export const AdminDashboard: React.FC = () => {
                        <p className="text-sm font-black uppercase tracking-widest">No contact requests</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-white">
+                    <div className="divide-y divide-surface">
                       {contactRequests.map((c) => (
-                        <div key={c.id} className="p-10 hover:bg-slate-900 hover:text-white transition-all group">
+                        <div key={c.id} className="p-10 hover:bg-primary/5 transition-all group">
                           <div className="flex justify-between items-start mb-4">
-                            <span className="text-sm font-black uppercase tracking-tight">{c.name}</span>
-                            <span className="text-[10px] font-black text-slate-400 group-hover:text-white/50 uppercase tracking-widest">
+                            <span className="text-sm font-black uppercase tracking-tight group-hover:text-text-primary">{c.name}</span>
+                            <span className="text-[10px] font-black text-text-secondary group-hover:text-text-primary uppercase tracking-widest">
                                {new Date(c.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                           <div className="flex gap-4 mb-4">
-                            <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest group-hover:text-blue-300">{c.email}</span>
-                            {c.phone && <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest group-hover:text-emerald-300">{c.phone}</span>}
+                            <span className="text-[10px] font-black text-primary uppercase tracking-widest group-hover:text-primary-hover">{c.email}</span>
+                            {c.phone && <span className="text-[10px] font-black text-success uppercase tracking-widest group-hover:text-emerald-500">{c.phone}</span>}
                           </div>
-                          <p className="text-sm font-medium leading-relaxed">{c.message}</p>
+                          <p className="text-sm font-medium leading-relaxed group-hover:text-text-primary">{c.message}</p>
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
               </motion.div>
-
-              {/* Popular Searches */}
+ 
+               {/* Popular Searches */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="lg:col-span-1 backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col h-[700px]"
+                className="lg:col-span-1 backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col h-[700px]"
               >
-                <div className="p-10 border-b border-white/50 bg-white/30">
+                 <div className="p-10 border-b border-surface/50 bg-surface/30">
                   <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl rotate-6">
+                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl rotate-6 shadow-primary/20">
                       <SearchIcon className="w-6 h-6" />
                     </div>
                     Top Searches
@@ -422,7 +422,7 @@ export const AdminDashboard: React.FC = () => {
                 </div>
                 <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
                   <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-slate-900 text-white z-20">
+                    <thead className="sticky top-0 bg-primary text-white z-20">
                       <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
                         <th className="p-8">Medical Query</th>
                         <th className="p-8 text-right">Frequency</th>
@@ -430,9 +430,9 @@ export const AdminDashboard: React.FC = () => {
                     </thead>
                     <tbody className="text-sm">
                       {searches.map((search) => (
-                        <tr key={search.id} className="border-b border-white hover:bg-slate-900 hover:text-white transition-all group">
-                          <td className="p-8 font-black uppercase tracking-tight text-lg italic leading-none">{search.query}</td>
-                          <td className="p-8 text-right font-black text-2xl tracking-tighter text-blue-500 group-hover:text-white leading-none">{search.count}</td>
+                        <tr key={search.id} className="border-b border-surface hover:bg-primary/5 transition-all group">
+                          <td className="p-8 font-black uppercase tracking-tight text-lg italic leading-none group-hover:text-primary transition-colors">{search.query}</td>
+                          <td className="p-8 text-right font-black text-2xl tracking-tighter text-primary group-hover:text-primary leading-none transition-colors">{search.count}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -445,46 +445,46 @@ export const AdminDashboard: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="lg:col-span-2 backdrop-blur-xl bg-white/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-white overflow-hidden flex flex-col h-[700px] hover:shadow-2xl transition-all"
+                className="lg:col-span-2 backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col h-[700px] hover:shadow-2xl transition-all"
               >
-                <div className="p-10 border-b border-white/50 flex justify-between items-center bg-white/30">
+                 <div className="p-10 border-b border-surface/50 flex justify-between items-center bg-surface/30">
                   <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-slate-900 rounded-2xl text-white shadow-xl -rotate-6">
+                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl -rotate-6 shadow-primary/20">
                       <Users className="w-6 h-6" />
                     </div>
                     Patient Registry
                   </h2>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] backdrop-blur-md bg-white border border-white px-6 py-2 rounded-full shadow-inner">
+                  <span className="text-[10px] font-black text-text-secondary uppercase tracking-[0.3em] backdrop-blur-md bg-surface border border-border px-6 py-2 rounded-full shadow-inner">
                     {users.length} Total Patients
                   </span>
                 </div>
                 <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
                   <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-slate-900 text-white z-20">
+                    <thead className="sticky top-0 bg-primary text-white z-20">
                       <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
                         <th className="p-10">Personal Details</th>
                         <th className="p-10">Verified Status</th>
                         <th className="p-10">Registration</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white">
+                    <tbody className="divide-y divide-surface">
                       {users.map((u) => (
-                        <tr key={u.uid} className="hover:bg-slate-900 hover:text-white transition-all group">
+                        <tr key={u.uid} className="hover:bg-primary/5 transition-all group">
                           <td className="p-10">
                             <div className="flex items-center gap-6">
-                              <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center text-xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-12 ${u.isPremium ? 'bg-emerald-500 text-white' : 'backdrop-blur-md bg-white text-slate-400 border border-white'}`}>
+                              <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center text-xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-12 ${u.isPremium ? 'bg-success text-white' : 'backdrop-blur-md bg-surface text-text-secondary border border-border'}`}>
                                 {u.displayName ? u.displayName.charAt(0).toUpperCase() : 'A'}
                               </div>
                               <div>
-                                <div className="font-black text-2xl tracking-tighter uppercase leading-none mb-2 group-hover:text-white text-slate-900">{u.displayName || 'Anonymous Patient'}</div>
-                                <div className="text-slate-400 text-sm font-bold tracking-tight group-hover:text-white/50">{u.email}</div>
+                                <div className="font-black text-2xl tracking-tighter uppercase leading-none mb-2 group-hover:text-primary transition-colors text-text-primary">{u.displayName || 'Anonymous Patient'}</div>
+                                <div className="text-text-secondary text-sm font-bold tracking-tight group-hover:text-text-primary/70 transition-colors">{u.email}</div>
                                 {u.phoneNumber ? (
-                                  <div className="text-emerald-500 text-[10px] mt-3 font-black flex items-center gap-2 p-2 backdrop-blur-md bg-emerald-500/5 rounded-xl w-fit border border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-400 transition-all">
-                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse group-hover:bg-white shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                                  <div className="text-success text-[10px] mt-3 font-black flex items-center gap-2 p-2 backdrop-blur-md bg-success/5 rounded-xl w-fit border border-success/20 group-hover:bg-success group-hover:text-white group-hover:border-success transition-all">
+                                    <div className="w-2 h-2 bg-success rounded-full animate-pulse group-hover:bg-white shadow-[0_0_10px_rgba(5,150,105,0.5)]"></div>
                                     {u.phoneNumber}
                                   </div>
                                 ) : (
-                                  <div className="text-slate-200 text-[10px] mt-3 italic font-bold tracking-widest uppercase opacity-40 group-hover:opacity-100 group-hover:text-white/30">No phone linked</div>
+                                  <div className="text-text-secondary/20 text-[10px] mt-3 italic font-bold tracking-widest uppercase group-hover:text-text-secondary transition-colors">No phone linked</div>
                                 )}
                               </div>
                             </div>
@@ -492,25 +492,25 @@ export const AdminDashboard: React.FC = () => {
                           <td className="p-10">
                             <div className="flex flex-col gap-3">
                               {u.isPremium ? (
-                                <span className="w-fit flex items-center gap-2 px-5 py-2 backdrop-blur-md bg-emerald-500 text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-xl shadow-emerald-500/20">
+                                <span className="w-fit flex items-center gap-2 px-5 py-2 backdrop-blur-md bg-success text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-xl shadow-success/20">
                                   <CheckCircle2 className="w-4 h-4" />
                                   {getTierLabel(u.subscriptionTier)}
                                 </span>
                               ) : (
-                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-white border border-white text-slate-400 text-[10px] font-black rounded-full uppercase tracking-widest shadow-inner group-hover:text-white group-hover:bg-white/10 group-hover:border-white/20">
+                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-surface border border-border text-text-secondary text-[10px] font-black rounded-full uppercase tracking-widest shadow-inner group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all">
                                   Standard
                                 </span>
                               )}
                               {u.role === 'admin' && (
-                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-slate-900 text-white text-[10px] font-black rounded-full uppercase tracking-widest border border-slate-700 shadow-2xl group-hover:bg-white group-hover:text-slate-900 group-hover:border-white">
+                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-primary text-white text-[10px] font-black rounded-full uppercase tracking-widest border border-primary shadow-2xl group-hover:bg-white group-hover:text-primary group-hover:border-white transition-all">
                                   Super Admin
                                 </span>
                               )}
                             </div>
                           </td>
                           <td className="p-10">
-                            <div className="text-slate-900 group-hover:text-white font-black text-lg tracking-tighter uppercase leading-none">{new Date(u.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</div>
-                            <div className="text-slate-400 group-hover:text-white/50 text-[10px] mt-2 font-black uppercase tracking-widest">{new Date(u.createdAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</div>
+                            <div className="text-text-primary group-hover:text-primary font-black text-lg tracking-tighter uppercase leading-none transition-colors">{new Date(u.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                            <div className="text-text-secondary/50 group-hover:text-text-secondary text-[10px] mt-2 font-black uppercase tracking-widest transition-colors">{new Date(u.createdAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</div>
                           </td>
                         </tr>
                       ))}

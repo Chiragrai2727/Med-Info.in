@@ -73,7 +73,7 @@
         "email": { "type": "string", "format": "email" },
         "userId": { "type": "string" },
         "status": { "type": "string", "enum": ["new", "reviewed", "resolved"] },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "createdAt": { "type": "object", "description": "Firestore serverTimestamp" }
       },
       "required": ["type", "message", "createdAt"]
     },
@@ -87,7 +87,7 @@
         "phone": { "type": "string" },
         "message": { "type": "string" },
         "userId": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "createdAt": { "type": "object", "description": "Firestore serverTimestamp" }
       },
       "required": ["name", "email", "message", "createdAt"]
     }

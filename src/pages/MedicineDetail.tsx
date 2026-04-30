@@ -59,12 +59,10 @@ export const MedicineDetail: React.FC = () => {
       if (name) {
         setLoading(true);
         
-        // Try cache first
         const cacheData = offlineService.getMedicine(name);
         if (cacheData) {
           setMedicine(cacheData);
           setLoading(false);
-          // Still fetch in background if online to get updates
           if (navigator.onLine) {
             fetchMedicineDetails(name, language).then(freshData => {
               if (freshData) {
@@ -132,7 +130,6 @@ export const MedicineDetail: React.FC = () => {
       const base64Audio = await generateTTS(text);
       if (!base64Audio) throw new Error("Failed to generate audio");
 
-      // Decode base64 PCM data
       const binaryString = atob(base64Audio.split(',')[1]);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -140,7 +137,6 @@ export const MedicineDetail: React.FC = () => {
         bytes[i] = binaryString.charCodeAt(i);
       }
 
-      // Convert to Float32Array for AudioBuffer (assuming 16-bit PCM)
       const int16Array = new Int16Array(bytes.buffer);
       const float32Array = new Float32Array(int16Array.length);
       for (let i = 0; i < int16Array.length; i++) {
@@ -173,7 +169,6 @@ export const MedicineDetail: React.FC = () => {
       setIsPlaying(true);
     } catch (err) {
       console.error("Audio playback error:", err);
-      // Fallback to Web Speech API
       const utterance = new SpeechSynthesisUtterance(text);
       if (language === 'hi') utterance.lang = 'hi-IN';
       else if (language === 'ta') utterance.lang = 'ta-IN';
@@ -198,26 +193,11 @@ export const MedicineDetail: React.FC = () => {
 
   const toggleSpeech = () => {
     if (!medicine) return;
-
-    // Create a comprehensive text to read
     const textToRead = `
       ${medicine.drug_name}. 
       Class: ${medicine.drug_class}. 
       Summary: ${medicine.quick_summary}.
-      
-      Uses: ${Array.isArray(medicine.uses) ? medicine.uses.join('. ') : medicine.uses}.
-      
-      Mechanism of Action: ${medicine.mechanism_of_action}.
-      
-      Common Dosage: ${medicine.dosage_common}.
-      
-      Common Side Effects: ${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common.join('. ') : medicine.side_effects_common}.
-      
-      Serious Side Effects: ${Array.isArray(medicine.side_effects_serious) ? medicine.side_effects_serious.join('. ') : medicine.side_effects_serious}.
-      
-      Pregnancy Safety: ${medicine.pregnancy_safety}.
     `;
-
     playAudio(textToRead);
   };
 
@@ -225,14 +205,14 @@ export const MedicineDetail: React.FC = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl animate-pulse" />
-          <div className="w-20 h-20 bg-white rounded-3xl shadow-2xl flex items-center justify-center relative z-10 border border-gray-100">
-            <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+          <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
+          <div className="w-20 h-20 bg-surface rounded-3xl shadow-2xl flex items-center justify-center relative z-10 border border-border">
+            <Loader2 className="w-10 h-10 animate-spin text-primary" />
           </div>
         </div>
         <div className="text-center">
-          <h3 className="text-xl font-black text-black mb-2">{t('analyzingMedicine')}</h3>
-          <p className="text-gray-500 font-medium max-w-xs mx-auto">
+          <h3 className="text-xl font-black text-text-primary mb-2">{t('analyzingMedicine')}</h3>
+          <p className="text-text-secondary font-medium max-w-xs mx-auto">
             {t('gatheringData')}
           </p>
         </div>
@@ -243,19 +223,17 @@ export const MedicineDetail: React.FC = () => {
   if (!medicine) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
-        <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mb-6">
-          <AlertCircle className="w-10 h-10 text-gray-300" />
+        <div className="w-20 h-20 bg-bg rounded-[2rem] flex items-center justify-center mb-6">
+          <AlertCircle className="w-10 h-10 text-text-secondary opacity-30" />
         </div>
-        <h2 className="text-4xl font-black text-black mb-4 tracking-tight">{t('medicineNotFound')}</h2>
-        <p className="text-gray-500 mb-12 max-w-md font-medium">
+        <h2 className="text-4xl font-black text-text-primary mb-4 tracking-tight">{t('medicineNotFound')}</h2>
+        <p className="text-text-secondary mb-12 max-w-md font-medium">
           {t('medicineNotFoundDesc').replace('{name}', name || '')}
         </p>
-        
         <div className="w-full max-w-md mb-12">
           <Search />
         </div>
-
-        <Link to="/" className="px-8 py-4 bg-black text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:bg-gray-800 transition-all">
+        <Link to="/" className="px-8 py-4 bg-dark-bg text-white rounded-full font-black flex items-center gap-2 shadow-xl hover:opacity-90 transition-all">
           <ChevronLeft className="w-4 h-4" /> {t('backToHome')}
         </Link>
       </div>
@@ -280,7 +258,6 @@ export const MedicineDetail: React.FC = () => {
         console.error('Error sharing:', error);
       }
     } else {
-      // Fallback: copy to clipboard
       try {
         await navigator.clipboard.writeText(window.location.href);
         showToast('Link copied to clipboard!', 'success');
@@ -295,51 +272,34 @@ export const MedicineDetail: React.FC = () => {
     <div className="min-h-screen pt-40 pb-20 pt-[calc(10rem+env(safe-area-inset-top))] bg-transparent">
       <Helmet>
         <title>{medicine.drug_name} Uses, Side Effects, Dosage & CDSCO Status - Aethelcare India</title>
-        <meta name="description" content={`Updated Oct 2025: All about ${medicine.drug_name}. Uses, side effects in Hindi & English, pediatric dosage, pregnancy safety, and CDSCO ban status. ${medicine.quick_summary}`} />
-        <meta name="keywords" content={`${medicine.drug_name} uses in Hindi, ${medicine.drug_name} dosage for child, ${medicine.drug_name} side effects, ${medicine.drug_name} price in India, ${medicine.drug_name} safe in pregnancy, medicine scanner, CDSCO status ${medicine.drug_name}, ${medicine.drug_class} safety`} />
-        <meta property="og:title" content={`${medicine.drug_name} Safety Guide & Clinical Reports - Aethelcare India`} />
-        <meta property="og:description" content={`Comprehensive medical reports for ${medicine.drug_name}. Verified side effects: ${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}.`} />
+        <meta name="description" content={`Updated Oct 2025: All about ${medicine.drug_name}. Uses, side effects, dosage and safety information.`} />
         <link rel="canonical" href={`https://aethelcare.xyz/medicine/${encodeURIComponent(medicine.drug_name)}`} />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Drug",
-              "name": "${medicine.drug_name}",
-              "drugClass": "${medicine.drug_class}",
-              "description": "${medicine.quick_summary}",
-              "legalStatus": "${medicine.india_regulatory_status}",
-              "indication": "${Array.isArray(medicine.uses) ? medicine.uses[0] : medicine.uses}",
-              "sideEffect": "${Array.isArray(medicine.side_effects_common) ? medicine.side_effects_common[0] : medicine.side_effects_common}"
-            }
-          `}
-        </script>
       </Helmet>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <div className="flex items-center justify-between mb-12">
-          <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-bold text-sm tracking-tight">
+          <Link to="/" className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors font-bold text-sm tracking-tight">
             <ChevronLeft className="w-4 h-4" />
             {t('backToSearch')}
           </Link>
           {!navigator.onLine && (
-            <div className="px-5 py-2.5 backdrop-blur-md bg-yellow-50/60 text-yellow-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2 border border-yellow-100/50 shadow-sm">
-              <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
+            <div className="px-5 py-2.5 backdrop-blur-md bg-amber-50/60 text-amber-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2 border border-amber-100/50 shadow-sm">
+              <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
               {t('viewingOfflineData')}
             </div>
           )}
           {medicine?.source && (
             <div className={`px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2 border shadow-sm backdrop-blur-md ${
-              medicine.source === 'Verified Database' ? 'bg-blue-50/60 text-blue-800 border-blue-100/50' :
-              medicine.source === 'Community DB' ? 'bg-green-50/60 text-green-800 border-green-100/50' :
-              medicine.source === 'AI Analysis' ? 'bg-purple-50/60 text-purple-800 border-purple-100/50' :
-              'bg-white/60 text-gray-800 border-white'
+              medicine.source === 'Verified Database' ? 'bg-primary/5 text-primary border-primary/10' :
+              medicine.source === 'Community DB' ? 'bg-success/5 text-success border-success/10' :
+              medicine.source === 'AI Analysis' ? 'bg-indigo-50/60 text-indigo-800 border-indigo-100/50' :
+              'bg-surface/60 text-text-secondary border-border'
             }`}>
               <span className={`w-1.5 h-1.5 rounded-full ${
-                medicine.source === 'Verified Database' ? 'bg-blue-400' :
-                medicine.source === 'Community DB' ? 'bg-green-400' :
-                medicine.source === 'AI Analysis' ? 'bg-purple-400' :
-                'bg-gray-400'
+                medicine.source === 'Verified Database' ? 'bg-primary' :
+                medicine.source === 'Community DB' ? 'bg-success' :
+                medicine.source === 'AI Analysis' ? 'bg-indigo-400' :
+                'bg-text-secondary'
               }`} />
               {t('source')}: {medicine.source}
             </div>
@@ -355,44 +315,44 @@ export const MedicineDetail: React.FC = () => {
           <div className="flex flex-col gap-10">
             <div>
               <div className="flex flex-wrap gap-3 mb-8">
-                <span className="px-5 py-2 bg-black text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-full shadow-lg">
+                <span className="px-5 py-2 bg-dark-bg text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-full shadow-lg">
                   {medicine.prescription_required ? t('prescriptionRequired') : t('otcNonPrescription')}
                 </span>
-                <span className="px-5 py-2 backdrop-blur-md bg-blue-50/50 text-blue-600 text-[10px] font-black uppercase tracking-[0.25em] rounded-full border border-blue-100/50">
+                <span className="px-5 py-2 backdrop-blur-md bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.25em] rounded-full border border-primary/10">
                   {medicine.ayurvedic_or_allopathic}
                 </span>
                 {medicine.india_regulatory_status?.toLowerCase().includes('approved') && (
-                  <span className="px-5 py-2 backdrop-blur-md bg-emerald-50/50 text-emerald-600 text-[10px] font-black uppercase tracking-[0.25em] rounded-full border border-emerald-100/50 flex items-center gap-2">
+                  <span className="px-5 py-2 backdrop-blur-md bg-success/5 text-success text-[10px] font-black uppercase tracking-[0.25em] rounded-full border border-success/10 flex items-center gap-2">
                     <ShieldCheck className="w-3.5 h-3.5" /> {t('cdscoVerified')}
                   </span>
                 )}
                 {medicine.is_banned && (
-                  <span className="px-5 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-full flex items-center gap-2 animate-pulse shadow-lg shadow-red-200">
+                  <span className="px-5 py-2 bg-danger text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-full flex items-center gap-2 animate-pulse shadow-lg shadow-danger/20">
                     <ShieldAlert className="w-3.5 h-3.5" /> {t('bannedDrug')}
                   </span>
                 )}
               </div>
-              <h1 className="text-7xl md:text-8xl lg:text-9xl font-black text-slate-900 tracking-[-0.05em] mb-4 leading-[0.8]">
+              <h1 className="text-7xl md:text-8xl lg:text-9xl font-black text-text-primary tracking-[-0.05em] mb-4 leading-[0.8]">
                 {medicine.drug_name}
               </h1>
-              <p className="text-3xl md:text-4xl text-slate-400 font-bold tracking-tight mb-8">
+              <p className="text-3xl md:text-4xl text-text-secondary font-bold tracking-tight mb-8">
                 {medicine.drug_class}
               </p>
               <div className="flex flex-wrap gap-2.5">
-                <span className="text-xs font-black uppercase tracking-widest text-slate-300 mr-2 self-center">Brand Names:</span>
+                <span className="text-xs font-black uppercase tracking-widest text-text-secondary opacity-50 mr-2 self-center">Brand Names:</span>
                 {medicine.brand_names_india.map((brand, i) => (
-                  <span key={i} className="px-4 py-1.5 backdrop-blur-md bg-white/40 text-slate-500 text-[10px] font-black rounded-lg border border-white uppercase tracking-wider shadow-sm">
+                  <span key={i} className="px-4 py-1.5 backdrop-blur-md bg-surface/40 text-text-secondary text-[10px] font-black rounded-lg border border-surface uppercase tracking-wider shadow-sm">
                     {brand}
                   </span>
                 ))}
               </div>
             </div>
  
-             <div className="flex flex-wrap gap-4 pt-10 border-t border-black/5">
+             <div className="flex flex-wrap gap-4 pt-10 border-t border-border/50">
               <button
                 onClick={handleWhatsAppShare}
                 disabled={isTtsLoading}
-                className="flex flex-1 items-center justify-center gap-3 px-8 py-5 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all shadow-[0_12px_24px_rgba(34,197,94,0.2)] active:scale-95 bg-green-500 text-white hover:bg-green-600"
+                className="flex flex-1 items-center justify-center gap-3 px-8 py-5 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all shadow-xl active:scale-95 bg-success text-white hover:opacity-90"
               >
                 <Share2 className="w-4 h-4" />
                 WhatsApp
@@ -402,8 +362,8 @@ export const MedicineDetail: React.FC = () => {
                 disabled={isTtsLoading}
                 className={`flex flex-1 items-center justify-center gap-3 px-8 py-5 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 ${
                   isPlaying && !speakingSection
-                    ? 'bg-blue-600 text-white' 
-                    : 'backdrop-blur-xl bg-white/80 text-black border border-white hover:bg-white'
+                    ? 'bg-primary text-white' 
+                    : 'backdrop-blur-xl bg-surface/80 text-text-primary border border-surface hover:bg-surface'
                 } disabled:opacity-50`}
               >
                 {isTtsLoading && !speakingSection ? (
@@ -417,7 +377,7 @@ export const MedicineDetail: React.FC = () => {
               </button>
               <button
                 onClick={handleShare}
-                className="flex items-center gap-3 px-8 py-5 rounded-[2rem] backdrop-blur-xl bg-white/80 text-black border border-white font-black text-xs uppercase tracking-widest active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.05)] hover:bg-white"
+                className="flex items-center gap-3 px-8 py-5 rounded-[2rem] backdrop-blur-xl bg-surface/80 text-text-primary border border-surface font-black text-xs uppercase tracking-widest active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.05)] hover:bg-surface"
               >
                 <Share2 className="w-4 h-4" />
                 {t('share')}
@@ -426,8 +386,8 @@ export const MedicineDetail: React.FC = () => {
                 onClick={handleAddToCompare}
                 className={`flex items-center gap-3 px-8 py-5 rounded-[2rem] backdrop-blur-xl font-black text-xs uppercase tracking-widest active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.05)] ${
                   isAlreadyInCompare 
-                    ? 'bg-black text-white' 
-                    : 'bg-white/80 text-black border border-white hover:bg-white'
+                    ? 'bg-dark-bg text-white' 
+                    : 'bg-surface/80 text-text-primary border border-surface hover:bg-surface'
                 }`}
               >
                 <Scale className="w-4 h-4" />
@@ -443,7 +403,7 @@ export const MedicineDetail: React.FC = () => {
                 opacity: 1, 
                 scale: 1,
               }}
-              className="mt-12 bg-red-600 text-white p-10 rounded-[3.5rem] shadow-[0_30px_60px_rgba(220,38,38,0.25)] relative overflow-hidden border-2 border-red-400 group"
+              className="mt-12 bg-danger text-white p-10 rounded-[3.5rem] shadow-[0_30px_60px_rgba(220,38,38,0.25)] relative overflow-hidden border-2 border-danger/40 group"
             >
               <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -mr-40 -mt-40 blur-[100px] transition-transform group-hover:scale-125" />
               <div className="flex items-start gap-6 mb-8">
@@ -452,7 +412,7 @@ export const MedicineDetail: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-4xl font-black uppercase tracking-[-0.04em] leading-none mb-2">{t('bannedDrugWarning')}</h2>
-                  <p className="text-red-100 font-black uppercase tracking-widest text-xs opacity-80">{t('prohibitedInIndia')}</p>
+                  <p className="text-white/80 font-black uppercase tracking-widest text-xs opacity-80">{t('prohibitedInIndia')}</p>
                 </div>
               </div>
               <p className="text-2xl font-black leading-[1.1] mb-8 tracking-tight">
@@ -465,24 +425,24 @@ export const MedicineDetail: React.FC = () => {
             </motion.div>
           )}
  
-          <div className={`mt-12 p-10 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden border border-white animate-in slide-in-from-bottom-5 duration-700 ${medicine.is_banned ? 'bg-black text-white' : 'bg-blue-600 text-white shadow-blue-500/20'}`}>
+          <div className={`mt-12 p-10 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden border border-white animate-in slide-in-from-bottom-5 duration-700 ${medicine.is_banned ? 'bg-dark-bg text-white' : 'bg-primary text-white shadow-primary/20'}`}>
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -mr-24 -mt-24 blur-3xl" />
             <p className="text-[11px] font-black uppercase tracking-[0.3em] mb-4 opacity-50">{t('quickSummary')}</p>
             <p className="text-3xl font-black leading-[1.1] tracking-tight">{medicine.quick_summary}</p>
           </div>
  
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="backdrop-blur-xl bg-white/60 p-8 rounded-[2.5rem] border border-white shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">{t('category')}</p>
-              <p className="text-xl font-black text-slate-900 tracking-tight">{medicine.category}</p>
+            <div className="backdrop-blur-xl bg-surface/60 p-8 rounded-[2.5rem] border border-surface shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary mb-2">{t('category')}</p>
+              <p className="text-xl font-black text-text-primary tracking-tight">{medicine.category}</p>
             </div>
-            <div className="backdrop-blur-xl bg-white/60 p-8 rounded-[2.5rem] border border-white shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">{t('regulatoryStatus')}</p>
-              <p className="text-xl font-black text-blue-600 tracking-tight">{medicine.india_regulatory_status}</p>
+            <div className="backdrop-blur-xl bg-surface/60 p-8 rounded-[2.5rem] border border-surface shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary mb-2">{t('regulatoryStatus')}</p>
+              <p className="text-xl font-black text-primary tracking-tight">{medicine.india_regulatory_status}</p>
             </div>
-            <div className="backdrop-blur-xl bg-white/60 p-8 rounded-[2.5rem] border border-white shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">{t('safety')}</p>
-              <p className="text-xl font-black text-emerald-600 tracking-tight">{t('verifiedInfo')}</p>
+            <div className="backdrop-blur-xl bg-surface/60 p-8 rounded-[2.5rem] border border-surface shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary mb-2">{t('safety')}</p>
+              <p className="text-xl font-black text-success tracking-tight">{t('verifiedInfo')}</p>
             </div>
           </div>
         </motion.div>
@@ -714,15 +674,15 @@ const Section: React.FC<{
   icon, title, content, variant = 'default', onSpeak, isSpeaking, isLoading 
 }) => {
   const styles = {
-    default: 'bg-white/80 border-white/50',
-    warning: 'bg-yellow-50/40 border-yellow-200/50',
-    danger: 'bg-red-50/40 border-red-200/50'
+    default: 'bg-surface/80 border-surface/50',
+    warning: 'bg-amber-50/40 border-amber-200/50',
+    danger: 'bg-danger/5 border-danger/10'
   };
  
   const titleStyles = {
-    default: 'text-slate-400',
-    warning: 'text-yellow-700',
-    danger: 'text-red-700'
+    default: 'text-text-secondary',
+    warning: 'text-amber-700',
+    danger: 'text-danger'
   };
  
   return (
@@ -734,7 +694,7 @@ const Section: React.FC<{
     >
       <div className="flex items-center justify-between mb-8">
         <div className={`flex items-center gap-4 font-black uppercase tracking-[0.25em] text-[11px] ${titleStyles[variant]}`}>
-          <div className={`p-3 rounded-2xl backdrop-blur-md shadow-sm ${variant === 'default' ? 'bg-slate-50 text-slate-900 border border-slate-100' : 'bg-current/10'}`}>
+          <div className={`p-3 rounded-2xl backdrop-blur-md shadow-sm ${variant === 'default' ? 'bg-bg text-text-primary border border-border' : 'bg-current/10'}`}>
             {icon}
           </div>
           {title}
@@ -743,7 +703,7 @@ const Section: React.FC<{
           <button 
             onClick={(e) => { e.stopPropagation(); onSpeak(title, content); }}
             disabled={isLoading && isSpeaking}
-            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${isSpeaking ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900 border border-transparent hover:border-slate-200'} disabled:opacity-50 active:scale-90`}
+            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${isSpeaking ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'hover:bg-bg text-text-secondary hover:text-text-primary border border-transparent hover:border-border'} disabled:opacity-50 active:scale-90`}
             title="Listen to this section"
           >
             {isLoading && isSpeaking ? (
@@ -759,13 +719,13 @@ const Section: React.FC<{
       {Array.isArray(content) ? (
         <ul className="list-disc list-inside space-y-4">
           {content.map((item, index) => (
-            <li key={index} className="text-2xl text-slate-900 font-black leading-[1.2] tracking-[-0.02em]">
+            <li key={index} className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">
               {item}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-2xl text-slate-900 font-black leading-[1.2] tracking-[-0.02em]">{content}</p>
+        <p className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">{content}</p>
       )}
     </motion.div>
   );

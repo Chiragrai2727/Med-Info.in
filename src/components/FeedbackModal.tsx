@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageSquareWarning, Send, Loader2 } from 'lucide-react';
 import { useToast } from '../ToastContext';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
@@ -28,7 +28,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, m
         type: feedbackType,
         message: message.trim(),
         medicineName: medicineName || 'General',
-        createdAt: new Date().toISOString(),
+        createdAt: serverTimestamp(),
         userId: auth.currentUser?.uid || 'guest',
         email: auth.currentUser?.email || null,
         status: 'new'

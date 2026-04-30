@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Send, Loader2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useToast } from '../ToastContext';
+import { Helmet } from 'react-helmet-async';
 
 export const Contact: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -37,7 +38,7 @@ export const Contact: React.FC = () => {
       await addDoc(collection(db, 'contactRequests'), {
         ...formData,
         userId: auth.currentUser?.uid || 'guest',
-        createdAt: new Date().toISOString()
+        createdAt: serverTimestamp()
       });
 
       showToast('Request received! Opening email client...', 'success');
@@ -60,23 +61,28 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFF] p-6 md:p-12 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-bg p-6 md:p-12 flex flex-col items-center justify-center">
+      <Helmet>
+        <title>Contact Aethelcare India - Support & Medical Queries</title>
+        <meta name="description" content="Get in touch with Aethelcare for medical information queries, support, or feedback. We're here to help Indian patients understand their medicines better." />
+        <link rel="canonical" href="https://aethelcare.xyz/contact" />
+      </Helmet>
       <button 
         onClick={() => navigate(-1)}
-        className="absolute top-8 left-8 p-3 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all group"
+        className="absolute top-8 left-8 p-3 rounded-2xl bg-surface border border-border shadow-sm hover:shadow-md transition-all group"
       >
-        <ArrowLeft className="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" />
+        <ArrowLeft className="w-5 h-5 text-text-secondary group-hover:text-text-primary transition-colors" />
       </button>
-
+ 
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-black uppercase tracking-[-0.05em] text-slate-900">Contact Us</h1>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mt-2">We'd love to hear from you</p>
+          <h1 className="text-3xl font-black uppercase tracking-[-0.05em] text-text-primary">Contact Us</h1>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-secondary mt-2">We'd love to hear from you</p>
         </div>
-
+ 
         <motion.div 
           layout
-          className="bg-white rounded-[2.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.03)] border border-slate-50 p-8 md:p-10 relative overflow-hidden"
+          className="bg-surface rounded-[2.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.03)] border border-border p-8 md:p-10 relative overflow-hidden"
         >
           <form onSubmit={step === 3 ? handleSubmit : (e) => e.preventDefault()}>
             <AnimatePresence mode="wait">
@@ -89,19 +95,19 @@ export const Contact: React.FC = () => {
                   className="space-y-6"
                 >
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Name</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-text-secondary mb-3 ml-1">Name</label>
                     <input 
                       type="text"
                       placeholder="Jane Smith"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
                       autoFocus
-                      className="w-full bg-slate-50/50 border border-slate-100 rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:bg-white transition-all placeholder:text-slate-300"
+                      className="w-full bg-bg/50 border border-border rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-primary/5 focus:bg-surface focus:border-primary transition-all placeholder:text-text-secondary/30"
                     />
                   </div>
                 </motion.div>
               )}
-
+ 
               {step === 2 && (
                 <motion.div
                   key="step2"
@@ -111,29 +117,29 @@ export const Contact: React.FC = () => {
                   className="space-y-6"
                 >
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Email</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-text-secondary mb-3 ml-1">Email</label>
                     <input 
                       type="email"
                       placeholder="jane@framer.com"
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
                       autoFocus
-                      className="w-full bg-slate-50/50 border border-slate-100 rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:bg-white transition-all placeholder:text-slate-300"
+                      className="w-full bg-bg/50 border border-border rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-primary/5 focus:bg-surface focus:border-primary transition-all placeholder:text-text-secondary/30"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Phone</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-text-secondary mb-3 ml-1">Phone</label>
                     <input 
                       type="tel"
                       placeholder="0123456678"
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full bg-slate-50/50 border border-slate-100 rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:bg-white transition-all placeholder:text-slate-300"
+                      className="w-full bg-bg/50 border border-border rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-primary/5 focus:bg-surface focus:border-primary transition-all placeholder:text-text-secondary/30"
                     />
                   </div>
                 </motion.div>
               )}
-
+ 
               {step === 3 && (
                 <motion.div
                   key="step3"
@@ -143,27 +149,27 @@ export const Contact: React.FC = () => {
                   className="space-y-6"
                 >
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Message</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-text-secondary mb-3 ml-1">Message</label>
                     <textarea 
-                      placeholder="Message"
+                      placeholder="How can we help you?"
                       value={formData.message}
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       autoFocus
                       rows={4}
-                      className="w-full bg-slate-50/50 border border-slate-100 rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:bg-white transition-all placeholder:text-slate-300 resize-none"
+                      className="w-full bg-bg/50 border border-border rounded-2xl p-5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-primary/5 focus:bg-surface focus:border-primary transition-all placeholder:text-text-secondary/30 resize-none"
                     />
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
+ 
             <div className="mt-10 flex items-center justify-between">
               <div className="flex gap-4 items-center">
                 {step > 1 && (
                   <button 
                     type="button"
                     onClick={handleBack}
-                    className="p-3 rounded-xl hover:bg-slate-50 text-slate-400 transition-colors"
+                    className="p-3 rounded-xl hover:bg-bg text-text-secondary transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
@@ -172,17 +178,17 @@ export const Contact: React.FC = () => {
                   {[1, 2, 3].map(i => (
                     <div 
                       key={i}
-                      className={`h-2 rounded-full transition-all duration-500 ${step === i ? 'w-4 bg-slate-900' : 'w-2 bg-slate-200'}`}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${step === i ? 'w-6 bg-primary' : 'w-1.5 bg-border'}`}
                     />
                   ))}
                 </div>
               </div>
-
+ 
               {step < 3 ? (
                 <button 
                   type="button"
                   onClick={handleNext}
-                  className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+                  className="bg-primary text-white px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(29,78,216,0.2)] hover:bg-primary-hover hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
                 >
                   Next <ChevronRight className="w-4 h-4" />
                 </button>
@@ -190,7 +196,7 @@ export const Contact: React.FC = () => {
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                  className="bg-primary text-white px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(29,78,216,0.2)] hover:bg-primary-hover hover:scale-105 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> Submit</>}
                 </button>

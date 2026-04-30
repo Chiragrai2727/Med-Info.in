@@ -57,12 +57,12 @@ export const FAQ: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto py-24 px-4 sm:px-6">
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest mb-4">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-full text-xs font-black uppercase tracking-widest mb-4">
           <HelpCircle className="w-4 h-4" />
           {t('gotQuestions')}
         </div>
-        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">{t('faqTitle')}</h2>
-        <p className="text-xl text-slate-500 font-medium">{t('faqSubtitle')}</p>
+        <h2 className="text-4xl md:text-5xl font-black text-text-primary tracking-tight mb-4">{t('faqTitle')}</h2>
+        <p className="text-xl text-text-secondary font-medium">{t('faqSubtitle')}</p>
       </div>
 
       <div className="space-y-4">
@@ -71,8 +71,8 @@ export const FAQ: React.FC = () => {
             key={faq.id} 
             className={`border rounded-[2rem] transition-all overflow-hidden ${
               expanded === faq.id 
-                ? 'bg-blue-50/30 border-blue-100 shadow-lg' 
-                : 'bg-white border-gray-100 hover:border-gray-200'
+                ? 'bg-primary/5 border-primary/10 shadow-lg' 
+                : 'bg-surface border-border hover:border-text-secondary/20'
             }`}
           >
             <button
@@ -80,12 +80,12 @@ export const FAQ: React.FC = () => {
               className="w-full px-8 py-6 text-left flex items-center justify-between group"
             >
               <span className={`text-xl font-bold tracking-tight transition-colors ${
-                expanded === faq.id ? 'text-blue-600' : 'text-slate-900'
+                expanded === faq.id ? 'text-primary' : 'text-text-primary'
               }`}>
                 {faq.question}
               </span>
               <div className={`shrink-0 ml-4 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                expanded === faq.id ? 'bg-blue-600 text-white rotate-180' : 'bg-gray-50 text-gray-400 group-hover:bg-gray-100'
+                expanded === faq.id ? 'bg-primary text-white rotate-180' : 'bg-bg text-text-secondary/30 group-hover:bg-border/50'
               }`}>
                 <ChevronDown className="w-5 h-5" />
               </div>
@@ -98,7 +98,7 @@ export const FAQ: React.FC = () => {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
-                  <div className="px-8 pb-8 text-lg text-slate-600 font-medium leading-relaxed">
+                  <div className="px-8 pb-8 text-lg text-text-secondary font-medium leading-relaxed">
                     {faq.answer}
                   </div>
                 </motion.div>

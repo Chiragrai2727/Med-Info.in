@@ -505,24 +505,23 @@ export const ScannerPage: React.FC = () => {
       </Helmet>
       <div className="max-w-4xl mx-auto px-4">
         
-        {/* Header & Counter */}
-        {!isPremium && (
-          <div className="mb-12 p-8 backdrop-blur-xl bg-white/70 rounded-[3rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
+               {!isPremium && (
+          <div className="mb-12 p-8 backdrop-blur-xl bg-surface/70 rounded-[3rem] border border-surface shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] opacity-60">Usage Tracker</h3>
-              <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">{3 - remainingScans} / 3 scans used</span>
+              <h3 className="font-black text-text-primary uppercase tracking-[0.3em] text-[10px] opacity-60">Usage Tracker</h3>
+              <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{3 - remainingScans} / 3 scans used</span>
             </div>
-            <div className="h-5 bg-black/5 rounded-full overflow-hidden p-1 shadow-inner">
+            <div className="h-5 bg-dark-bg/5 rounded-full overflow-hidden p-1 shadow-inner">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${((3 - remainingScans) / 3) * 100}%` }}
-                className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg"
+                className="h-full bg-gradient-to-r from-primary to-primary-hover rounded-full shadow-lg"
               />
             </div>
             {remainingScans === 0 && (
               <button 
                 onClick={() => navigate('/pricing')}
-                className="mt-8 w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3"
+                className="mt-8 w-full py-5 bg-dark-bg text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-dark-bg/90 transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3"
               >
                 Unlock Unlimited Scans <ArrowRight className="w-5 h-5 text-yellow-400" />
               </button>
@@ -531,12 +530,12 @@ export const ScannerPage: React.FC = () => {
         )}
  
         <div className="text-center mb-16 px-4">
-          <h1 className="text-4xl md:text-7xl font-black text-slate-900 mb-6 tracking-[-0.05em] uppercase leading-[0.8]">AI Health Scanner</h1>
-          <p className="text-slate-400 font-bold tracking-tight text-lg md:text-xl opacity-70">Instantly analyze prescriptions or medicine strips with 99% accuracy.</p>
+          <h1 className="text-4xl md:text-7xl font-black text-text-primary mb-6 tracking-[-0.05em] uppercase leading-[0.8]">AI Health Scanner</h1>
+          <p className="text-text-secondary font-bold tracking-tight text-lg md:text-xl opacity-70">Instantly analyze prescriptions or medicine strips with 99% accuracy.</p>
         </div>
  
         {/* Tabs */}
-        <div className="flex p-2 backdrop-blur-xl bg-white/40 rounded-[2.5rem] mb-12 border border-white shadow-sm overflow-hidden">
+        <div className="flex p-2 backdrop-blur-xl bg-surface/40 rounded-[2.5rem] mb-12 border border-surface shadow-sm overflow-hidden">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
             const isLocked = !isPremium && tab === 'lab';
             return (
@@ -554,8 +553,8 @@ export const ScannerPage: React.FC = () => {
                 }}
                 className={`flex-1 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.25em] transition-all flex items-center justify-center gap-3 ${
                   activeTab === tab 
-                    ? 'bg-slate-900 text-white shadow-xl' 
-                    : 'text-slate-400 hover:text-slate-900'
+                    ? 'bg-dark-bg text-white shadow-xl' 
+                    : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
                 {tab}
@@ -570,39 +569,39 @@ export const ScannerPage: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="backdrop-blur-3xl bg-white/70 rounded-[4rem] border border-white overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.08)]"
+              className="backdrop-blur-3xl bg-surface/70 rounded-[4rem] border border-surface overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.08)]"
             >
-              <div className="p-10 border-b border-black/5 flex items-center justify-between">
+              <div className="p-10 border-b border-border flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Scan Preview</h3>
-                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-1 opacity-60">Ready for AI Analysis</p>
+                  <h3 className="text-2xl font-black text-text-primary uppercase tracking-tight">Scan Preview</h3>
+                  <p className="text-text-secondary text-xs font-black uppercase tracking-[0.2em] mt-1 opacity-60">Ready for AI Analysis</p>
                 </div>
                 <button 
                   onClick={() => { setShowPreview(false); setImage(null); setPendingFile(null); }}
-                  className="w-12 h-12 backdrop-blur-md bg-white text-slate-400 rounded-2xl flex items-center justify-center border border-white shadow-sm hover:bg-rose-50 hover:text-rose-600 transition-all"
+                  className="w-12 h-12 backdrop-blur-md bg-surface text-text-secondary rounded-2xl flex items-center justify-center border border-surface shadow-sm hover:bg-danger/10 hover:text-danger transition-all"
                 >
                   <X className="w-6 h-6" />
                 </button>
               </div>
-              <div className="p-6 bg-slate-900/5 flex justify-center">
+              <div className="p-6 bg-dark-bg/5 flex justify-center">
                 <img 
                   src={image} 
                   alt="Scan Preview" 
-                  className="max-h-[450px] object-contain rounded-[2rem] shadow-2xl border-4 border-white" 
+                  className="max-h-[450px] object-contain rounded-[2rem] shadow-2xl border-4 border-surface" 
                 />
               </div>
               <div className="p-10 flex flex-col sm:flex-row gap-6">
                 <button 
                   onClick={() => cameraInputRef.current?.click()}
-                  className="flex-1 py-6 backdrop-blur-md bg-white border-2 border-slate-100 text-slate-400 font-black text-xs uppercase tracking-widest rounded-[2rem] hover:border-slate-900 hover:text-slate-900 transition-all shadow-sm"
+                  className="flex-1 py-6 backdrop-blur-md bg-surface border-2 border-border text-text-secondary font-black text-xs uppercase tracking-widest rounded-[2rem] hover:border-dark-bg hover:text-text-primary transition-all shadow-sm"
                 >
                   Take Another
                 </button>
                 <button 
                   onClick={startActualScan}
-                  className="flex-1 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-4 shadow-2xl hover:bg-black active:scale-95 transition-all"
+                  className="flex-1 py-6 bg-dark-bg text-white rounded-[2rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-4 shadow-2xl hover:opacity-90 active:scale-95 transition-all"
                 >
-                  <ShieldCheck className="w-5 h-5 text-emerald-400" /> Confirm & Process
+                  <ShieldCheck className="w-5 h-5 text-success" /> Confirm & Process
                 </button>
               </div>
             </motion.div>
@@ -614,32 +613,32 @@ export const ScannerPage: React.FC = () => {
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              className="backdrop-blur-xl bg-white/60 border-[3px] border-dashed border-white rounded-[5rem] p-16 text-center hover:bg-white/80 transition-all duration-700 group shadow-[0_20px_50px_rgba(0,0,0,0.02)]"
+              className="backdrop-blur-xl bg-surface/60 border-[3px] border-dashed border-surface rounded-[5rem] p-16 text-center hover:bg-surface/80 transition-all duration-700 group shadow-[0_20px_50px_rgba(0,0,0,0.02)]"
             >
               <div className="flex flex-col items-center gap-10">
                 <div 
                   onClick={() => cameraInputRef.current?.click()}
-                  className="w-32 h-32 bg-slate-100 rounded-[3rem] flex items-center justify-center text-slate-300 group-hover:bg-slate-900 group-hover:text-white transition-all duration-700 shadow-xl cursor-pointer active:scale-90"
+                  className="w-32 h-32 bg-bg rounded-[3rem] flex items-center justify-center text-text-secondary opacity-30 group-hover:bg-dark-bg group-hover:text-white group-hover:opacity-100 transition-all duration-700 shadow-xl cursor-pointer active:scale-90"
                 >
                   <Camera className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
-                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase leading-none">Ready to start?</h3>
-                  <p className="text-slate-400 font-bold tracking-tight text-lg opacity-80 leading-relaxed px-4">Ensure your {activeTab} is centered and stable for the highest accuracy.</p>
+                  <h3 className="text-3xl font-black text-text-primary mb-4 tracking-tight uppercase leading-none">Ready to start?</h3>
+                  <p className="text-text-secondary font-bold tracking-tight text-lg opacity-80 leading-relaxed px-4">Ensure your {activeTab} is centered and stable for the highest accuracy.</p>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-6 w-full max-w-lg">
                   <button 
                     disabled={remainingScans === 0 && !isPremium}
                     onClick={() => cameraInputRef.current?.click()}
-                    className="flex-1 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-2xl hover:bg-black border border-slate-700"
+                    className="flex-1 py-6 bg-dark-bg text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-2xl hover:opacity-90 border border-dark-bg/10"
                   >
                     Open Camera
                   </button>
                   <button 
                     disabled={remainingScans === 0 && !isPremium}
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-6 backdrop-blur-md bg-white border-2 border-white text-slate-900 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-sm hover:border-slate-900"
+                    className="flex-1 py-6 backdrop-blur-md bg-surface border-2 border-surface text-text-primary rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-sm hover:border-dark-bg"
                   >
                     Upload File
                   </button>
@@ -656,7 +655,7 @@ export const ScannerPage: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-12 backdrop-blur-2xl bg-slate-900 p-10 rounded-[3.5rem] flex items-center justify-between shadow-2xl relative overflow-hidden group border-2 border-slate-700"
+              className="mt-12 backdrop-blur-2xl bg-dark-bg p-10 rounded-[3.5rem] flex items-center justify-between shadow-2xl relative overflow-hidden group border-2 border-dark-bg/10"
             >
                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-[100px] group-hover:scale-150 transition-transform duration-1000" />
                <div className="flex items-center gap-6 relative z-10">
@@ -665,14 +664,14 @@ export const ScannerPage: React.FC = () => {
                  </div>
                  <div className="pr-12">
                    <p className="font-black text-white text-xl tracking-tight mb-2 uppercase leading-none">Handwriting Detected?</p>
-                   <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] leading-relaxed">Basic scan may miss details. Get AI-Vision precise results with Premium — ₹99/mo</p>
+                   <p className="text-white/50 text-xs font-black uppercase tracking-[0.2em] leading-relaxed">Basic scan may miss details. Get AI-Vision precise results with Premium — ₹99/mo</p>
                  </div>
                </div>
                <div className="flex flex-col items-end gap-3 shrink-0 relative z-10">
-                 <button onClick={() => navigate('/pricing')} className="p-3 bg-white text-slate-900 rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-xl">
+                 <button onClick={() => navigate('/pricing')} className="p-3 bg-white text-dark-bg rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-xl">
                     <ChevronRight className="w-6 h-6" />
                  </button>
-                 <button onClick={() => setNudgeDismissed(true)} className="text-[9px] uppercase font-black tracking-[0.3em] text-slate-500 hover:text-white transition-opacity">Dismiss</button>
+                 <button onClick={() => setNudgeDismissed(true)} className="text-[9px] uppercase font-black tracking-[0.3em] text-white/40 hover:text-white transition-opacity">Dismiss</button>
                </div>
             </motion.div>
           )}
@@ -681,18 +680,18 @@ export const ScannerPage: React.FC = () => {
           {loading && (
             <div className="py-32 text-center flex flex-col items-center">
               <div className="relative w-48 h-48 mb-12">
-                <div className="absolute inset-0 border-[8px] border-slate-100 rounded-[3.5rem]" />
+                <div className="absolute inset-0 border-[8px] border-bg rounded-[3.5rem]" />
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 border-[8px] border-slate-900 rounded-[3.5rem] border-t-transparent shadow-2xl"
+                  className="absolute inset-0 border-[8px] border-dark-bg rounded-[3.5rem] border-t-transparent shadow-2xl"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Zap className="w-14 h-14 text-slate-900 fill-yellow-400 animate-pulse" />
+                  <Zap className="w-14 h-14 text-dark-bg fill-yellow-400 animate-pulse" />
                 </div>
               </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase leading-none">{loadingMsg}</h3>
-              <p className="text-slate-400 font-extrabold uppercase tracking-[0.4em] text-[10px]">Processing Neuro-Medical Patterns</p>
+              <h3 className="text-3xl font-black text-text-primary mb-4 tracking-tight uppercase leading-none">{loadingMsg}</h3>
+              <p className="text-text-secondary font-extrabold uppercase tracking-[0.4em] text-[10px]">Processing Neuro-Medical Patterns</p>
             </div>
           )}
  
@@ -701,11 +700,11 @@ export const ScannerPage: React.FC = () => {
             <div className="space-y-12 pb-32">
               {/* Scan Info Banner */}
               <div className={`p-10 rounded-[4rem] border shadow-2xl flex items-center justify-between backdrop-blur-xl ${
-                isPremium ? 'bg-emerald-50/60 border-emerald-200/50 text-emerald-900' : 'bg-blue-50/60 border-blue-200/50 text-blue-900'
+                isPremium ? 'bg-success/5 border-success/20 text-success' : 'bg-primary/5 border-primary/20 text-primary'
               }`}>
                 <div className="flex items-center gap-6">
                   <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-lg ${
-                    isPremium ? 'bg-emerald-600 text-white' : 'bg-blue-500 text-white'
+                    isPremium ? 'bg-success text-white' : 'bg-primary text-white'
                   }`}>
                     {isPremium ? <CheckCircle2 className="w-8 h-8" /> : <Zap className="w-8 h-8" />}
                   </div>
@@ -724,23 +723,23 @@ export const ScannerPage: React.FC = () => {
                   onClick={downloadPDF}
                   className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-sm ${
                     isPremium 
-                      ? 'bg-white border-2 border-emerald-100 text-emerald-700 hover:bg-emerald-500 hover:text-white'
-                      : 'bg-white border-2 border-blue-100 text-blue-700 hover:bg-blue-600 hover:text-white'
+                      ? 'bg-surface border-2 border-success/20 text-success hover:bg-success hover:text-white'
+                      : 'bg-surface border-2 border-primary/20 text-primary hover:bg-primary hover:text-white'
                   }`}
                 >
                   <Download className="w-5 h-5" /> Download Report
                 </button>
               </div>
-
+ 
               {/* Patient Meta */}
               {(scanResult.patient_name || scanResult.date) && (
-                <div className="px-10 py-8 backdrop-blur-xl bg-white/40 border border-white rounded-[3rem] shadow-sm flex flex-wrap gap-10">
+                <div className="px-10 py-8 backdrop-blur-xl bg-surface/40 border border-surface rounded-[3rem] shadow-sm flex flex-wrap gap-10">
                   {scanResult.patient_name && (
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-1">Patient Name</span>
-                      <p className="text-xl font-black text-slate-900 uppercase">{scanResult.patient_name}</p>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1">Patient Name</span>
+                      <p className="text-xl font-black text-text-primary uppercase">{scanResult.patient_name}</p>
                       {(scanResult.age || scanResult.gender) && (
-                        <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">
+                        <p className="text-xs font-bold text-text-secondary mt-1 uppercase tracking-wider">
                           {scanResult.age && `${scanResult.age} Years`} {scanResult.gender && `• ${scanResult.gender}`}
                         </p>
                       )}
@@ -748,11 +747,11 @@ export const ScannerPage: React.FC = () => {
                   )}
                   {scanResult.date && (
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-1">Document Date</span>
-                      <p className="text-xl font-black text-slate-900">{scanResult.date}</p>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1">Document Date</span>
+                      <p className="text-xl font-black text-text-primary">{scanResult.date}</p>
                     </div>
                   )}
-                  <div className="ml-auto flex items-center gap-3 bg-emerald-50 text-emerald-600 px-6 py-3 rounded-2xl border border-emerald-100">
+                  <div className="ml-auto flex items-center gap-3 bg-success/5 text-success px-6 py-3 rounded-2xl border border-success/10">
                     <ShieldCheck className="w-5 h-5" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Accuracy: {scanResult.accuracy}</span>
                   </div>
@@ -760,29 +759,29 @@ export const ScannerPage: React.FC = () => {
               )}
  
               {activeTab === 'prescription' && !isPremium && (
-                <div className="bg-slate-900 shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-slate-700">
+                <div className="bg-dark-bg shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-dark-bg/10">
                   <div className="w-12 h-12 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
-                    <Info className="w-6 h-6 text-blue-400" />
+                    <Info className="w-6 h-6 text-primary" />
                   </div>
                   <p className="text-lg font-bold tracking-tight">
-                    Basic AI reads printed text. <span className="text-blue-400">Upgrade to Premium Plan</span> for cursive/handwritten scripts.
+                    Basic AI reads printed text. <span className="text-primary">Upgrade to Premium Plan</span> for cursive/handwritten scripts.
                   </p>
                 </div>
               )}
  
               {/* Results Display */}
               <div className="space-y-12">
-                <h3 className="font-black text-slate-900 uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">AI-Extracted Details</h3>
+                <h3 className="font-black text-text-primary uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">AI-Extracted Details</h3>
                 
                 {scanResult.medicines.length === 0 && (!scanResult.lab_results || scanResult.lab_results.length === 0) && (
-                  <div className="p-20 text-center backdrop-blur-xl bg-white/70 rounded-[4rem] border border-white shadow-sm">
-                    <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-slate-100 shadow-inner">
-                        <ImageIcon className="w-10 h-10 text-slate-200" />
+                  <div className="p-20 text-center backdrop-blur-xl bg-surface/70 rounded-[4rem] border border-surface shadow-sm">
+                    <div className="w-20 h-20 bg-bg rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-border shadow-inner">
+                        <ImageIcon className="w-10 h-10 text-text-secondary opacity-20" />
                     </div>
-                    <p className="text-slate-400 font-bold tracking-tight text-lg">No medical patterns detected. Try a clearer scan profile.</p>
+                    <p className="text-text-secondary font-bold tracking-tight text-lg">No medical patterns detected. Try a clearer scan profile.</p>
                   </div>
                 )}
-
+ 
                 {/* Lab Results Specific Grid */}
                 {scanResult.document_type === 'lab' && scanResult.lab_results && scanResult.lab_results.length > 0 && (
                   <div className="grid grid-cols-1 gap-6">
@@ -792,25 +791,25 @@ export const ScannerPage: React.FC = () => {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.05 }}
-                        className="p-8 backdrop-blur-xl bg-white/70 rounded-[3rem] border border-white shadow-sm flex flex-col md:flex-row gap-8 items-start md:items-center"
+                        className="p-8 backdrop-blur-xl bg-surface/70 rounded-[3rem] border border-surface shadow-sm flex flex-col md:flex-row gap-8 items-start md:items-center"
                       >
-                        <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center shrink-0">
+                        <div className="w-14 h-14 bg-primary/5 text-primary rounded-3xl flex items-center justify-center shrink-0">
                           <FlaskConical className="w-7 h-7" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-xl font-black text-slate-900 mb-1 leading-tight uppercase tracking-tight">{res.test_name}</h4>
-                          <div className="flex flex-wrap gap-4 text-xs font-bold text-slate-400">
-                             <span className="bg-slate-50 px-3 py-1 rounded-lg">Reference: {res.reference_range}</span>
-                             <span className="bg-slate-50 px-3 py-1 rounded-lg">Unit: {res.unit}</span>
+                          <h4 className="text-xl font-black text-text-primary mb-1 leading-tight uppercase tracking-tight">{res.test_name}</h4>
+                          <div className="flex flex-wrap gap-4 text-xs font-bold text-text-secondary">
+                             <span className="bg-bg px-3 py-1 rounded-lg">Reference: {res.reference_range}</span>
+                             <span className="bg-bg px-3 py-1 rounded-lg">Unit: {res.unit}</span>
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-1">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 opacity-60">Result Value</span>
-                          <span className="text-3xl font-black text-slate-900">{res.result}</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary opacity-60">Result Value</span>
+                          <span className="text-3xl font-black text-text-primary">{res.result}</span>
                         </div>
-                        <div className="md:w-64 p-5 bg-black/[0.02] rounded-2xl border border-black/5">
-                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 block mb-2">Interpretation</span>
-                           <p className="text-[11px] font-bold text-slate-600 leading-relaxed italic">{res.interpretation}</p>
+                        <div className="md:w-64 p-5 bg-dark-bg/[0.02] rounded-2xl border border-border">
+                           <span className="text-[8px] font-black uppercase tracking-widest text-text-secondary block mb-2">Interpretation</span>
+                           <p className="text-[11px] font-bold text-text-secondary leading-relaxed italic">{res.interpretation}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -826,32 +825,32 @@ export const ScannerPage: React.FC = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.1 }}
-                        className={`p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
-                          med.is_banned ? 'border-rose-500/50 bg-rose-50/20' : 'border-white hover:border-slate-900'
+                        className={`p-10 backdrop-blur-xl bg-surface/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
+                          med.is_banned ? 'border-danger/50 bg-danger/5' : 'border-surface hover:border-dark-bg'
                         }`}
                       >
                         {med.is_banned && (
-                          <div className="absolute top-0 right-0 bg-rose-600 text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
+                          <div className="absolute top-0 right-0 bg-danger text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
                             Banned Alert
                           </div>
                         )}
                         
                         <div className="flex flex-col gap-8">
                           <div className="flex items-start justify-between">
-                              <div className="p-4 bg-slate-50 text-slate-900 rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
+                              <div className="p-4 bg-bg text-text-primary rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
                                 <FlaskConical className="w-8 h-8" />
                               </div>
                               <div className="flex items-center gap-3">
                                 <button 
                                   onClick={() => handleWhatsAppShare(med)}
-                                  className="p-3.5 backdrop-blur-md bg-white text-emerald-600 rounded-[1.25rem] hover:bg-emerald-600 hover:text-white transition-all shadow-sm border border-white"
+                                  className="p-3.5 backdrop-blur-md bg-surface text-success rounded-[1.25rem] hover:bg-success hover:text-white transition-all shadow-sm border border-surface"
                                   title="Share on WhatsApp"
                                 >
                                   <Share2 className="w-6 h-6" />
                                 </button>
                                 <button 
                                   onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                                  className="p-3.5 backdrop-blur-md bg-white text-slate-900 rounded-[1.25rem] hover:bg-slate-900 hover:text-white transition-all shadow-sm border border-white"
+                                  className="p-3.5 backdrop-blur-md bg-surface text-text-primary rounded-[1.25rem] hover:bg-dark-bg hover:text-white transition-all shadow-sm border border-surface"
                                 >
                                   <ArrowRight className="w-6 h-6" />
                                 </button>
@@ -860,56 +859,56 @@ export const ScannerPage: React.FC = () => {
   
                           <div>
                             <div className="flex flex-col gap-2 mb-4">
-                              <h4 className="text-3xl font-black text-slate-900 leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
+                              <h4 className="text-3xl font-black text-text-primary leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
+                              <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
                               {med.purpose && (
-                                <p className="text-[11px] font-bold text-blue-600 italic mt-1 leading-tight">
+                                <p className="text-[11px] font-bold text-primary italic mt-1 leading-tight">
                                   Purpose: {med.purpose}
                                 </p>
                               )}
                             </div>
                             
                             <div className="flex flex-wrap gap-2 mb-6">
-                              {med.timing && <span className="bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.timing}</span>}
-                              {med.duration && <span className="bg-slate-50 text-slate-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.duration}</span>}
+                              {med.timing && <span className="bg-primary/5 text-primary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.timing}</span>}
+                              {med.duration && <span className="bg-bg text-text-secondary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.duration}</span>}
                             </div>
-
+ 
                             <button
                               onClick={() => {
                                 const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
                                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                               }}
-                              className="inline-flex px-6 py-3 backdrop-blur-md bg-white border border-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all items-center gap-3 shadow-sm"
+                              className="inline-flex px-6 py-3 backdrop-blur-md bg-surface border border-border text-text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-dark-bg hover:text-white transition-all items-center gap-3 shadow-sm"
                             >
                               <Clock className="w-4 h-4" /> Refill Reminder
                             </button>
                           </div>
   
                           {med.dosage && (
-                            <div className="py-3 px-6 backdrop-blur-md bg-slate-500/5 border border-white rounded-2xl inline-block max-w-fit shadow-inner">
-                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Detected Dosage</span>
-                              <span className="font-black text-slate-900 text-base tracking-tight">{med.dosage}</span>
+                            <div className="py-3 px-6 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-2xl inline-block max-w-fit shadow-inner">
+                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-2 opacity-50">Detected Dosage</span>
+                              <span className="font-black text-text-primary text-base tracking-tight">{med.dosage}</span>
                             </div>
                           )}
   
                           {scanResult.document_type === 'medicine' && (
-                            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-black/5">
+                            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-border">
                               <div>
-                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-2 opacity-50">Market Price</span>
-                                  <span className="text-xl font-black text-slate-900 tracking-tighter">{med.mrp || 'N/A'}</span>
+                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-2 opacity-50">Market Price</span>
+                                  <span className="text-xl font-black text-text-primary tracking-tighter">{med.mrp || 'N/A'}</span>
                               </div>
-                              <div className="backdrop-blur-md bg-emerald-50 p-5 rounded-[1.5rem] border border-emerald-100 shadow-sm">
-                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-emerald-600 block mb-2">Smart Alternative</span>
+                              <div className="backdrop-blur-md bg-success/5 p-5 rounded-[1.5rem] border border-success/10 shadow-sm">
+                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-success block mb-2">Smart Alternative</span>
                                 <div className="flex flex-col gap-1">
-                                  <span className="font-black text-emerald-900 text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
-                                  <span className="font-bold text-emerald-600 text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
+                                  <span className="font-black text-text-primary text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
+                                  <span className="font-bold text-success text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
                                 </div>
                               </div>
                             </div>
                           )}
   
                           {med.is_banned && (
-                            <div className="backdrop-blur-md bg-rose-600 p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-rose-500 border-t-rose-400">
+                            <div className="backdrop-blur-md bg-danger p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-danger">
                               <AlertTriangle className="w-8 h-8 text-white shrink-0 animate-pulse" />
                               <p className="text-xs font-black uppercase tracking-widest text-white/90 leading-relaxed">
                                 This medicine is BANNED in India. Stop use and consult a doctor immediately.
@@ -923,26 +922,26 @@ export const ScannerPage: React.FC = () => {
                 )}
 
                 {scanResult.notes && (
-                  <div className="p-10 backdrop-blur-xl bg-white/70 rounded-[4rem] border border-white shadow-sm mt-12">
-                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-4 opacity-60">AI Clinical Observations</span>
-                     <p className="text-xl font-bold text-slate-600 leading-relaxed italic">{scanResult.notes}</p>
+                  <div className="p-10 backdrop-blur-xl bg-surface/70 rounded-[4rem] border border-surface shadow-sm mt-12">
+                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-4 opacity-60">AI Clinical Observations</span>
+                     <p className="text-xl font-bold text-text-secondary leading-relaxed italic">{scanResult.notes}</p>
                   </div>
                 )}
               </div>
-
+ 
               {/* Reset Button */}
               <div className="flex flex-col items-center gap-10 mt-24 pb-20">
                  {!isPremium && (
                    <button 
                      onClick={() => navigate('/pricing')}
-                     className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-[0.4em] transition-colors"
+                     className="text-[10px] font-black text-text-secondary hover:text-primary uppercase tracking-[0.4em] transition-colors"
                    >
                      Scan unclear? → Try Premium AI-Vision
                    </button>
                  )}
                  <button 
                   onClick={() => { setScanResult(null); setImage(null); }}
-                  className="px-14 py-6 bg-white border-2 border-slate-900 text-slate-900 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-[0_20px_50px_rgba(0,0,0,0.1)] active:scale-95"
+                  className="px-14 py-6 bg-surface border-2 border-dark-bg text-text-primary rounded-[2.5rem] font-black text-xs uppercase tracking-[0.3em] hover:bg-dark-bg hover:text-white transition-all shadow-[0_20px_50_rgba(0,0,0,0.1)] active:scale-95"
                  >
                    Scan Another Document
                  </button>
@@ -953,7 +952,7 @@ export const ScannerPage: React.FC = () => {
       </div>
  
       {/* Footer Disclaimer */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 backdrop-blur-3xl bg-slate-900/90 text-white border-t border-white/10 text-center z-[100] shadow-[0_-10px_50px_rgba(0,0,0,0.2)]">
+      <div className="fixed bottom-0 left-0 right-0 p-5 backdrop-blur-3xl bg-dark-bg/90 text-white border-t border-white/10 text-center z-[100] shadow-[0_-10px_50px_rgba(0,0,0,0.2)]">
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-4">
           <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0" />
           <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] leading-tight opacity-80">

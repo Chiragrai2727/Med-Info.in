@@ -4,8 +4,8 @@
   "description": "Search any medicine. Understand it instantly.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#ffffff",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1D4ED8",
   "orientation": "portrait",
   "categories": ["medical", "education"],
   "icons": [

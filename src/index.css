@@ -3,20 +3,28 @@
 
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #1D4ED8;
+  --color-primary-hover: #1E40AF;
+  --color-danger: #DC2626;
+  --color-success: #059669;
   --color-bg: #F8FAFC;
-  --color-ink: #0F172A;
-  --color-accent: #2563EB;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-border: #E2E8F0;
+  --color-dark-bg: #0F172A;
+  --color-dark-surface: #1E293B;
   --breakpoint-xs: 375px;
 }
 
 @layer base {
   body {
-    @apply bg-[var(--color-bg)] text-[var(--color-ink)] antialiased;
+    @apply bg-bg text-text-primary antialiased;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
     background-image: 
-      radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.03) 0%, transparent 40%);
+      radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.03) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 40%);
     background-attachment: fixed;
   }
 
@@ -50,7 +58,7 @@
 }
 
 .glass-dark {
-  @apply bg-[var(--color-ink)]/70 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)];
+  @apply bg-dark-bg/70 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)];
 }
 
 .animate-fade-in {

@@ -109,29 +109,35 @@ service cloud.firestore {
     match /feedback/{feedbackId} {
       function isValidFeedback(data) {
         return data.keys().hasAll(['type', 'message', 'createdAt'])
-          && data.keys().size() <= 10
+          && data.keys().size() <= 12
           && data.type in ['inaccuracy', 'suggestion', 'general', 'query']
-          && data.message is string && data.message.size() <= 5000
-          && data.createdAt is string; // Using ISO string from client as seen in FeedbackModal
+          && data.message is string && data.message.size() <= 10000
+          && (data.createdAt is string || data.createdAt is timestamp)
+          && (!data.keys().hasAny(['userId']) || data.userId is string)
+          && (!data.keys().hasAny(['email']) || data.email == null || data.email is string)
+          && (!data.keys().hasAny(['medicineName']) || data.medicineName is string)
+          && (!data.keys().hasAny(['status']) || data.status in ['new', 'reviewed', 'resolved']);
       }
       
       allow get, list: if isAdmin();
-      allow create: if isValidId(feedbackId) && isValidFeedback(incoming());
+      allow create: if true && isValidFeedback(incoming());
       allow update, delete: if isAdmin();
     }
 
     match /contactRequests/{requestId} {
       function isValidContact(data) {
         return data.keys().hasAll(['name', 'email', 'message', 'createdAt'])
-          && data.keys().size() <= 6
-          && data.name is string && data.name.size() <= 200
-          && data.email is string && data.email.size() <= 200
-          && data.message is string && data.message.size() <= 5000
-          && data.createdAt is string;
+          && data.keys().size() <= 10
+          && data.name is string && data.name.size() <= 500
+          && data.email is string && data.email.size() <= 500
+          && data.message is string && data.message.size() <= 10000
+          && (data.createdAt is string || data.createdAt is timestamp)
+          && (!data.keys().hasAny(['phone']) || data.phone is string)
+          && (!data.keys().hasAny(['userId']) || data.userId is string);
       }
       
       allow get, list: if isAdmin();
-      allow create: if isValidId(requestId) && isValidContact(incoming());
+      allow create: if true && isValidContact(incoming());
       allow update, delete: if isAdmin();
     }
   }

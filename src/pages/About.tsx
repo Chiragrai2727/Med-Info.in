@@ -17,75 +17,79 @@ export const About: React.FC = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         
-        {/* HERO SECTION - Clean, Brand Aligned */}
+        {/* HERO SECTION - Refined Typography */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="pt-24 pb-32 text-center flex flex-col items-center"
+          className="pt-16 pb-24 text-center flex flex-col items-center"
         >
-          <div className="backdrop-blur-2xl bg-white/30 p-8 rounded-[4rem] border border-white/50 mb-16 shadow-2xl">
-            <Logo size="xl" showText={false} />
+          <div className="backdrop-blur-2xl bg-surface/30 p-6 rounded-[3rem] border border-surface/50 mb-12 shadow-xl">
+            <Logo size="lg" showText={false} />
           </div>
           
-          <h1 className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.8] tracking-[-0.05em] mb-12 max-w-5xl mx-auto uppercase">
+          <h1 className="text-4xl md:text-6xl font-black text-text-primary leading-[1.1] tracking-tight mb-8 max-w-4xl mx-auto uppercase text-balance">
             {t('aboutHeadline')}
           </h1>
-          <p className="text-xl md:text-3xl text-slate-500 font-bold tracking-tight leading-tight max-w-4xl mx-auto opacity-70">
+          <p className="text-lg md:text-xl text-text-secondary font-medium tracking-tight leading-relaxed max-w-3xl mx-auto opacity-80">
             {t('aboutSubheadline')}
           </p>
         </motion.div>
  
-        {/* MISSION MANIFESTO - Human Story Blocks */}
-        <div className="py-32">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        {/* MISSION MANIFESTO - Focus on Typography */}
+        <div className="py-24 border-y border-border/50">
+          <div className="text-center mb-16">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4 block">Our Foundation</span>
+            <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tight uppercase">The Pillars of Safety</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             
             {/* Block 1 */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }} 
+              initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }}
-              className="backdrop-blur-xl bg-white/70 p-12 rounded-[3.5rem] border border-white shadow-sm hover:shadow-2xl transition-all duration-700 hover:-translate-y-4"
+              className="bg-surface/40 p-10 rounded-[2.5rem] border border-border/50 transition-all duration-500 hover:bg-surface/60"
             >
-              <div className="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center mb-8 shadow-xl shadow-blue-600/20">
-                <span className="text-white font-black text-2xl">01</span>
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 border border-primary/20">
+                <span className="text-primary font-black text-xl">01</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight uppercase">{t('aboutMission1Title')}</h2>
-              <p className="text-lg text-slate-500 leading-relaxed font-bold tracking-tight">
+              <h3 className="text-xl font-black text-text-primary mb-4 tracking-tight uppercase">{t('aboutMission1Title')}</h3>
+              <p className="text-base text-text-secondary leading-relaxed font-medium tracking-tight">
                 {t('aboutMission1Desc')}
               </p>
             </motion.div>
  
             {/* Block 2 */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }} 
+              initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="backdrop-blur-xl bg-white/70 p-12 rounded-[3.5rem] border border-white shadow-sm hover:shadow-2xl transition-all duration-700 hover:-translate-y-4"
+              className="bg-surface/40 p-10 rounded-[2.5rem] border border-border/50 transition-all duration-500 hover:bg-surface/60"
             >
-              <div className="w-16 h-16 bg-slate-900 rounded-3xl flex items-center justify-center mb-8 shadow-xl">
-                <span className="text-white font-black text-2xl">02</span>
+              <div className="w-12 h-12 bg-text-primary/10 rounded-2xl flex items-center justify-center mb-8 border border-text-primary/20">
+                <span className="text-text-primary font-black text-xl">02</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight uppercase">{t('aboutMission2Title')}</h2>
-              <p className="text-lg text-slate-500 leading-relaxed font-bold tracking-tight">
+              <h3 className="text-xl font-black text-text-primary mb-4 tracking-tight uppercase">{t('aboutMission2Title')}</h3>
+              <p className="text-base text-text-secondary leading-relaxed font-medium tracking-tight">
                 {t('aboutMission2Desc')}
               </p>
             </motion.div>
  
             {/* Block 3 */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }} 
+              initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="backdrop-blur-xl bg-white/70 p-12 rounded-[3.5rem] border border-white shadow-sm hover:shadow-2xl transition-all duration-700 hover:-translate-y-4"
+              className="bg-surface/40 p-10 rounded-[2.5rem] border border-border/50 transition-all duration-500 hover:bg-surface/60"
             >
-              <div className="w-16 h-16 bg-emerald-600 rounded-3xl flex items-center justify-center mb-8 shadow-xl shadow-emerald-600/20">
-                <span className="text-white font-black text-2xl">03</span>
+              <div className="w-12 h-12 bg-success/10 rounded-2xl flex items-center justify-center mb-8 border border-success/20">
+                <span className="text-success font-black text-xl">03</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight uppercase">{t('aboutMission3Title')}</h2>
-              <p className="text-lg text-slate-500 leading-relaxed font-bold tracking-tight">
+              <h3 className="text-xl font-black text-text-primary mb-4 tracking-tight uppercase">{t('aboutMission3Title')}</h3>
+              <p className="text-base text-text-secondary leading-relaxed font-medium tracking-tight">
                 {t('aboutMission3Desc')}
               </p>
             </motion.div>
@@ -93,75 +97,81 @@ export const About: React.FC = () => {
           </div>
         </div>
  
-        {/* FOUNDERS SECTION */}
+        {/* FOUNDERS SECTION - Biographical Layout */}
         <div className="py-32">
-          <div className="text-center mb-24 max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-7xl font-black text-slate-900 mb-8 tracking-[-0.05em] uppercase leading-none">{t('aboutStoryTitle')}</h2>
-            <p className="text-xl md:text-2xl text-slate-500 font-bold tracking-tight opacity-70 leading-relaxed">
+          <div className="text-center mb-24 max-w-3xl mx-auto">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4 block">The Founding Story</span>
+            <h2 className="text-4xl md:text-6xl font-black text-text-primary mb-8 tracking-tight uppercase leading-[0.9]">{t('aboutStoryTitle')}</h2>
+            <p className="text-lg text-text-secondary font-medium tracking-tight opacity-80 leading-relaxed text-balance">
               {t('aboutStoryDesc')}
             </p>
           </div>
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 max-w-6xl mx-auto">
+          <div className="space-y-32 max-w-5xl mx-auto">
             
-            {/* Chirag Rai */}
+            {/* Founder 1 */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group flex flex-col items-center"
+              className="flex flex-col md:flex-row items-center gap-12 md:gap-20"
             >
-              <div className="w-full max-w-[440px] aspect-[4/5] backdrop-blur-3xl bg-white/30 rounded-[4rem] mb-12 overflow-hidden relative shadow-2xl border border-white transition-all duration-700 hover:shadow-blue-200">
+              <div className="w-full md:w-2/5 aspect-[4/5] bg-surface rounded-[3rem] overflow-hidden relative shadow-2xl border border-border group">
                 <img 
                   src="/chirag.jpg" 
                   alt="Chirag Rai" 
-                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'; }}
                 />
               </div>
-              <div className="text-center max-w-md">
-                <div className="flex items-center justify-center gap-4 mb-6">
-                  <h4 className="font-black text-4xl text-slate-900 tracking-[-0.04em] uppercase leading-none">{t('founder1Name')}</h4>
-                  <a href="https://www.linkedin.com/in/chirag-rai-77ab23240/" target="_blank" rel="noopener noreferrer" className="backdrop-blur-xl bg-white/80 p-3 rounded-2xl border border-white shadow-lg hover:bg-white transition-all" title="LinkedIn Profile">
-                    <svg className="w-6 h-6 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+                  <h4 className="font-black text-3xl md:text-4xl text-text-primary tracking-tight uppercase">{t('founder1Name')}</h4>
+                  <a href="https://www.linkedin.com/in/chirag-rai-77ab23240/" target="_blank" rel="noopener noreferrer" className="p-2 hover:bg-primary/5 rounded-xl transition-all text-primary" title="LinkedIn Profile">
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                   </a>
                 </div>
-                <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px] mb-6 opacity-60 leading-none">{t('founder1Title')}</p>
-                <p className="text-slate-500 font-bold tracking-tight leading-relaxed italic">
-                  "{t('founder1Story')}"
-                </p>
+                <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px] mb-8">{t('founder1Title')}</p>
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 text-6xl text-primary/10 font-serif leading-none">"</div>
+                  <p className="text-text-secondary font-medium tracking-tight leading-relaxed italic text-lg opacity-90 relative z-10">
+                    {t('founder1Story')}
+                  </p>
+                </div>
               </div>
             </motion.div>
  
-            {/* Dr. Sagar Rai */}
+            {/* Founder 2 */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="group flex flex-col items-center"
+              className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20"
             >
-              <div className="w-full max-w-[440px] aspect-[4/5] backdrop-blur-3xl bg-white/30 rounded-[4rem] mb-12 overflow-hidden relative shadow-2xl border border-white transition-all duration-700 hover:shadow-emerald-200">
+              <div className="w-full md:w-2/5 aspect-[4/5] bg-surface rounded-[3rem] overflow-hidden relative shadow-2xl border border-border group">
                 <img 
                   src="/sagar.jpg" 
                   alt="Dr. Sagar Rai" 
-                  className="w-full h-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110" 
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105" 
                   referrerPolicy="no-referrer" 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800'; }}
                 />
               </div>
-              <div className="text-center max-w-md">
-                <div className="flex items-center justify-center gap-4 mb-6">
-                  <h4 className="font-black text-4xl text-slate-900 tracking-[-0.04em] uppercase leading-none">{t('founder2Name')}</h4>
-                  <a href="https://www.linkedin.com/in/dr-sagar-rai-215503259/" target="_blank" rel="noopener noreferrer" className="backdrop-blur-xl bg-white/80 p-3 rounded-2xl border border-white shadow-lg hover:bg-white transition-all" title="LinkedIn Profile">
-                    <svg className="w-6 h-6 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+                  <h4 className="font-black text-3xl md:text-4xl text-text-primary tracking-tight uppercase">{t('founder2Name')}</h4>
+                  <a href="https://www.linkedin.com/in/dr-sagar-rai-215503259/" target="_blank" rel="noopener noreferrer" className="p-2 hover:bg-primary/5 rounded-xl transition-all text-primary" title="LinkedIn Profile">
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                   </a>
                 </div>
-                <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px] mb-6 opacity-60 leading-none">{t('founder2Title')}</p>
-                <p className="text-slate-500 font-bold tracking-tight leading-relaxed italic">
-                  "{t('founder2Story')}"
-                </p>
+                <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px] mb-8">{t('founder2Title')}</p>
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 text-6xl text-primary/10 font-serif leading-none">"</div>
+                  <p className="text-text-secondary font-medium tracking-tight leading-relaxed italic text-lg opacity-90 relative z-10">
+                    {t('founder2Story')}
+                  </p>
+                </div>
               </div>
             </motion.div>
             
