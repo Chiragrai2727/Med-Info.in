@@ -25,7 +25,7 @@ export const AuthModal: React.FC = () => {
             <X className="w-6 h-6" />
           </button>
           
-          <div className="p-8 sm:p-12">
+          <div className="p-8 sm:p-12 overflow-y-auto max-h-[85vh] scrollbar-hide">
             <FirebaseAuth onSuccess={closeAuthModal} />
           </div>
         </motion.div>

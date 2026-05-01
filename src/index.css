@@ -22,6 +22,8 @@
     @apply bg-bg text-text-primary antialiased;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
     background-image: 
       radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.03) 0%, transparent 40%),
       radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 40%);

@@ -62,7 +62,7 @@ export default function App() {
     <ErrorBoundary>
       <CompareProvider>
         <Router>
-          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300 overflow-x-hidden">
+          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300">
             {/* Liquid Glass Background Elements */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
               <motion.div 
