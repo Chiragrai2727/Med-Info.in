@@ -23,12 +23,16 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   isOffline: boolean;
+  isRecoveryMode: boolean;
+  clearRecoveryMode: () => void;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   sendOTP: (phone: string) => Promise<void>;
   verifyOTP: (phone: string, token: string) => Promise<void>;
+  sendEmailOTP: (email: string) => Promise<void>;
+  verifyEmailOTP: (email: string, token: string) => Promise<void>;
   updateUserPassword: (password: string) => Promise<void>;
   logout: () => Promise<void>;
   upgradeToPremium: () => Promise<void>;
@@ -49,9 +53,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [isRecoveryMode, setIsRecoveryMode] = useState(false);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
+  const clearRecoveryMode = () => setIsRecoveryMode(false);
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -73,11 +79,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       handleAuthChange(session);
-      if (event === 'SIGNED_IN') closeAuthModal();
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecoveryMode(true);
+        setIsAuthModalOpen(true);
+      } else if (event === 'SIGNED_IN' && !isRecoveryMode) {
+        closeAuthModal();
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [isRecoveryMode]);
 
   const handleAuthChange = async (session: Session | null) => {
     if (session?.user) {
@@ -173,24 +184,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: window.location.origin,
     });
     if (error) throw error;
+  };
+
+  const formatPhone = (phone: string) => {
+    let formattedPhone = phone.replace(/\s+/g, '');
+    if (!formattedPhone.startsWith('+')) {
+      formattedPhone = '+91' + formattedPhone;
+    }
+    return formattedPhone;
   };
 
   const sendOTP = async (phone: string) => {
     // Note: Phone number must be in E.164 format
     const { error } = await supabase.auth.signInWithOtp({
-      phone: phone,
+      phone: formatPhone(phone),
     });
     if (error) throw error;
   };
 
   const verifyOTP = async (phone: string, token: string) => {
     const { error } = await supabase.auth.verifyOtp({
-      phone,
+      phone: formatPhone(phone),
       token,
       type: 'sms'
+    });
+    if (error) throw error;
+  };
+
+  const sendEmailOTP = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) throw error;
+  };
+
+  const verifyEmailOTP = async (email: string, token: string) => {
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'recovery'
     });
     if (error) throw error;
   };
@@ -238,9 +271,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider value={{ 
-      user, profile, loading, isOffline,
+      user, profile, loading, isOffline, isRecoveryMode, clearRecoveryMode,
       signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword,
-      sendOTP, verifyOTP, updateUserPassword,
+      sendOTP, verifyOTP, sendEmailOTP, verifyEmailOTP, updateUserPassword,
       logout, upgradeToPremium, updateSubscription, updateProfileImage,
       isAuthModalOpen, openAuthModal, closeAuthModal
     }}>

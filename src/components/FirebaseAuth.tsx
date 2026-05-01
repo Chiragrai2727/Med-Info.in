@@ -7,14 +7,14 @@ interface FirebaseAuthProps {
   onSuccess?: () => void;
 }
 
-type AuthMode = 'signin' | 'signup' | 'forgot' | 'otp' | 'reset-password' | 'reset-success';
+type AuthMode = 'signin' | 'signup' | 'forgot' | 'otp' | 'reset-password' | 'reset-success' | 'link-sent';
 
 export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
-  const { signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, sendOTP, verifyOTP, updateUserPassword } = useAuth();
+  const { signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, sendOTP, verifyOTP, sendEmailOTP, verifyEmailOTP, updateUserPassword, isRecoveryMode, clearRecoveryMode } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [mode, setMode] = useState<AuthMode>('signin');
+  const [mode, setMode] = useState<AuthMode>(isRecoveryMode ? 'reset-password' : 'signin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +23,28 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
+
+  React.useEffect(() => {
+    if (resendTimer > 0) {
+      const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendTimer]);
+
+  const handleResendLink = async () => {
+    if (resendTimer > 0) return;
+    setError(null);
+    setLoading(true);
+    try {
+      await resetPassword(email);
+      setResendTimer(60);
+    } catch (err: any) {
+      setError(err.message || 'Failed to resend link');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleOtpChange = (index: number, value: string) => {
     if (value.length > 1) value = value.slice(-1);
@@ -61,13 +83,14 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
       } else if (mode === 'signup') {
         await signUpWithEmail(email, password, name);
       } else if (mode === 'forgot') {
-        if (!phoneNumber) {
-          setError('Please enter your mobile number');
+        if (!email) {
+          setError('Please enter a valid email address');
           setLoading(false);
           return;
         }
-        await sendOTP(phoneNumber);
-        setMode('otp');
+        await resetPassword(email);
+        setMode('link-sent');
+        setResendTimer(60);
       } else if (mode === 'otp') {
         const fullOtp = otp.join('');
         if (fullOtp.length < 6) {
@@ -75,7 +98,7 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
           setLoading(false);
           return;
         }
-        await verifyOTP(phoneNumber, fullOtp);
+        await verifyEmailOTP(email, fullOtp);
         setMode('reset-password');
       } else if (mode === 'reset-password') {
         if (newPassword !== confirmPassword) {
@@ -89,6 +112,7 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
           return;
         }
         await updateUserPassword(newPassword);
+        clearRecoveryMode();
         setMode('reset-success');
       }
       
@@ -124,17 +148,22 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
       case 'forgot':
         return {
           title: 'Forgot Password',
-          subtitle: 'Enter your registered mobile number to receive an OTP.'
+          subtitle: 'Enter your registered email address to receive a secure login link.'
         };
       case 'otp':
         return {
           title: 'Enter OTP',
-          subtitle: `We have sent a verification code to your mobile number ending in ${phoneNumber.slice(-4) || '****'}.`
+          subtitle: `We have sent a verification code to your email address ${email}.`
         };
       case 'reset-password':
         return {
           title: 'Reset Password',
           subtitle: 'Choose a strong password to secure your account.'
+        };
+      case 'link-sent':
+        return {
+          title: 'Check Your Email',
+          subtitle: `We have sent a login link to ${email}. Check your spam folder if you do not see it.`
         };
       case 'reset-success':
         return {
@@ -180,17 +209,30 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
             </motion.div>
           )}
 
-          {mode === 'reset-success' ? (
+          {(mode === 'reset-success' || mode === 'link-sent') ? (
             <div className="text-center py-8">
               <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle2 className="w-10 h-10 text-success" />
               </div>
-              <button
-                onClick={() => setMode('signin')}
-                className="text-primary font-bold text-sm tracking-tight"
-              >
-                Back to Sign In
-              </button>
+              <div className="space-y-4">
+                {mode === 'link-sent' && (
+                  <div>
+                    <button
+                      onClick={handleResendLink}
+                      disabled={resendTimer > 0 || loading}
+                      className="text-sm font-bold text-text-secondary disabled:opacity-50 transition-opacity mb-4"
+                    >
+                      {resendTimer > 0 ? `Resend Link in ${resendTimer}s` : 'Resend Recovery Link'}
+                    </button>
+                  </div>
+                )}
+                <button
+                  onClick={() => setMode('signin')}
+                  className="text-primary font-bold text-sm tracking-tight"
+                >
+                  Back to Sign In
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -233,7 +275,7 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
               </div>
             )}
 
-            {(mode === 'signin' || mode === 'signup') && (
+            {(mode === 'signin' || mode === 'signup' || mode === 'forgot') && (
               <div className="relative">
                 <input
                   type="email"
@@ -242,19 +284,6 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-6 py-4 bg-surface/50 border border-border rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-text-primary font-medium transition-all placeholder:text-text-secondary/50"
                   placeholder="Email Address"
-                />
-              </div>
-            )}
-
-            {mode === 'forgot' && (
-              <div className="relative">
-                <input
-                  type="tel"
-                  required
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-6 py-4 bg-surface/50 border border-border rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-text-primary font-medium transition-all placeholder:text-text-secondary/50"
-                  placeholder="Mobile Number"
                 />
               </div>
             )}
@@ -362,16 +391,28 @@ export const FirebaseAuth: React.FC<FirebaseAuthProps> = ({ onSuccess }) => {
                     <>
                       {mode === 'signin' && 'Sign In'}
                       {mode === 'signup' && 'Create Account'}
-                      {mode === 'forgot' && 'Send OTP'}
-                      {mode === 'otp' && 'Verify OTP'}
+                      {mode === 'forgot' && 'Send Recovery Link'}
+                      {mode === 'otp' && 'Verify Code'}
                       {mode === 'reset-password' && 'Update Password'}
                     </>
                   )}
                 </button>
               </form>
 
+              {mode === 'otp' && (
+                <div className="mt-6 text-center">
+                  <button
+                    onClick={handleResendLink}
+                    disabled={resendTimer > 0 || loading}
+                    className="text-sm font-bold text-text-secondary disabled:opacity-50 transition-opacity"
+                  >
+                    {resendTimer > 0 ? `Resend code in ${resendTimer}s` : 'Resend code'}
+                  </button>
+                </div>
+              )}
+
               <div className="mt-10 text-center">
-                {mode === 'forgot' ? (
+                {mode === 'forgot' || mode === 'otp' ? (
                   <button
                     onClick={() => setMode('signin')}
                     className="text-sm font-black text-primary uppercase tracking-tight"
