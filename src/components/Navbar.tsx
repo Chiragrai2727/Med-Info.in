@@ -50,8 +50,8 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <div className="relative group flex-shrink-0">
                   <button className="flex items-center justify-center w-8 h-8 sm:w-10 h-10 rounded-full hover:bg-black/5 transition-all flex-shrink-0">
-                    {profile?.photo_url ? (
-                      <img src={profile.photo_url} alt="Profile" className="w-full h-full aspect-square rounded-full border-2 border-surface shadow-sm object-cover flex-shrink-0" referrerPolicy="no-referrer" />
+                    {profile?.photoURL ? (
+                      <img src={profile.photoURL} alt="Profile" className="w-full h-full aspect-square rounded-full border-2 border-surface shadow-sm object-cover flex-shrink-0" referrerPolicy="no-referrer" />
                     ) : (
                       <div className="w-full h-full aspect-square bg-primary/5 rounded-full flex items-center justify-center border-2 border-surface shadow-sm flex-shrink-0">
                         <UserIcon className="w-4 h-4 sm:w-5 h-5 text-primary flex-shrink-0" />
@@ -61,7 +61,7 @@ export const Navbar: React.FC = () => {
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-[32px] bg-surface/80 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-border/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-2">
                     <div className="p-5 border-b border-black/5">
                       <p className="text-xs font-black uppercase tracking-widest text-text-secondary/50 mb-1">Account</p>
-                      <p className="text-sm font-black truncate text-text-primary">{profile?.display_name || user.email}</p>
+                      <p className="text-sm font-black truncate text-text-primary">{profile?.displayName || user.email}</p>
                     </div>
                     <Link to="/dashboard" className="w-full text-left px-5 py-3 text-sm text-text-secondary hover:bg-primary/5 font-bold flex items-center gap-3 transition-colors">
                       <LayoutDashboard className="w-4 h-4 text-primary" />

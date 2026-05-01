@@ -148,7 +148,7 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
                       key={avatar.id}
                       onClick={() => handleSelect(avatar.url)}
                       className={`relative aspect-square rounded-[2rem] overflow-hidden border-4 transition-all hover:scale-105 active:scale-95 group ${
-                        profile?.photo_url === avatar.url 
+                        profile?.photoURL === avatar.url 
                           ? 'border-blue-600 shadow-xl shadow-blue-500/20' 
                           : 'border-slate-100 hover:border-blue-200'
                       }`}
@@ -159,7 +159,7 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
                         className="w-full h-full object-cover p-1"
                         referrerPolicy="no-referrer"
                       />
-                      {profile?.photo_url === avatar.url && (
+                      {profile?.photoURL === avatar.url && (
                         <div className="absolute inset-0 bg-blue-600/10 flex items-center justify-center">
                           <div className="bg-blue-600 text-white p-2 rounded-full shadow-lg">
                             <Check className="w-4 h-4 stroke-[3px]" />

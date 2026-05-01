@@ -126,9 +126,9 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
           }
         },
         prefill: {
-          name: profile?.display_name || "",
+          name: profile?.displayName || "",
           email: user.email || "",
-          contact: profile?.phone_number || ""
+          contact: profile?.phoneNumber || ""
         },
         theme: {
           color: "#4f46e5",

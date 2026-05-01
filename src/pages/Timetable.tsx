@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus, Clock, Calendar as CalendarIcon, Trash2, AlertCircle, CheckCircle2, Search, Bell, BellOff, Loader2 } from 'lucide-react';
-import { supabase } from '../supabase';
+import { Plus, Clock, Calendar as CalendarIcon, Trash2, AlertCircle, CheckCircle2, Search, X, Bell, BellOff, Loader2 } from 'lucide-react';
+import { collection, query, where, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
 import { PremiumPaywall } from '../components/PremiumPaywall';
 import { useToast } from '../ToastContext';
+import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { searchMedicines, isDrugBanned } from '../services/geminiService';
 import { useLanguage } from '../LanguageContext';
 import { Helmet } from 'react-helmet-async';
 
 interface Schedule {
   id: string;
-  medicine_name: string;
+  medicineName: string;
   dosage: string;
   time: string;
   days: string[];
-  last_taken_date?: string | null; // YYYY-MM-DD
-  user_id: string;
-  created_at: string;
+  lastTakenDate?: string | null; // YYYY-MM-DD
+  userId: string;
+  createdAt: any;
 }
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -120,39 +122,25 @@ export const Timetable: React.FC = () => {
       return;
     }
 
-    const fetchSchedules = async () => {
-      const { data, error } = await supabase
-        .from('schedules')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('time', { ascending: true });
+    const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
+    console.log("Setting up schedules listener for:", user.uid);
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      console.log(`Received schedules snapshot: ${snapshot.size} documents`);
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Schedule[];
+      // Sort by time
+      data.sort((a, b) => a.time.localeCompare(b.time));
+      setSchedules(data);
+    }, (error) => {
+      console.error("Firestore onSnapshot error:", error);
+      handleFirestoreError(error, OperationType.LIST, 'schedules');
+      showToast(t('timetableLoadError'), "error");
+    });
 
-      if (error) {
-        console.error("Supabase fetch error:", error);
-        showToast(t('timetableLoadError'), "error");
-      } else {
-        setSchedules(data as Schedule[]);
-      }
-    };
-
-    fetchSchedules();
-
-    // Subscribe to changes
-    const subscription = supabase
-      .channel('schedules_changes')
-      .on('postgres_changes', { 
-        event: '*', 
-        schema: 'public', 
-        table: 'schedules', 
-        filter: `user_id=eq.${user.id}` 
-      }, () => {
-        fetchSchedules();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
+    return () => unsubscribe();
   }, [user]);
 
   const handleAddSchedule = async (e: React.FormEvent) => {
@@ -160,34 +148,27 @@ export const Timetable: React.FC = () => {
     if (!user) return;
 
     try {
-      const { error } = await supabase.from('schedules').insert({
-        medicine_name: newSchedule.medicineName,
-        dosage: newSchedule.dosage,
-        time: newSchedule.time,
-        days: newSchedule.days,
-        user_id: user.id,
-        created_at: new Date().toISOString(),
-        last_taken_date: null
+      await addDoc(collection(db, 'schedules'), {
+        ...newSchedule,
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+        lastTakenDate: null
       });
-
-      if (error) throw error;
-
       setIsAdding(false);
       setNewSchedule({ medicineName: '', dosage: '', time: '08:00', days: [...DAYS] });
       showToast(t('scheduleAdded'), 'success');
     } catch (error) {
-      console.error('Error adding schedule:', error);
+      handleFirestoreError(error, OperationType.CREATE, 'schedules');
       showToast(t('scheduleAddError'), 'error');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      const { error } = await supabase.from('schedules').delete().eq('id', id);
-      if (error) throw error;
+      await deleteDoc(doc(db, 'schedules', id));
       showToast(t('scheduleRemoved'), 'success');
     } catch (error) {
-      console.error('Error deleting schedule:', error);
+      handleFirestoreError(error, OperationType.DELETE, `schedules/${id}`);
       showToast(t('scheduleRemoveError'), 'error');
     }
   };
@@ -195,20 +176,16 @@ export const Timetable: React.FC = () => {
   const handleToggleTaken = async (schedule: Schedule) => {
     if (!user) return;
     const today = new Date().toLocaleDateString('en-CA');
-    const isTaken = schedule.last_taken_date === today;
+    const isTaken = schedule.lastTakenDate === today;
 
     try {
-      const { error } = await supabase
-        .from('schedules')
-        .update({
-          last_taken_date: isTaken ? null : today,
-        })
-        .eq('id', schedule.id);
-
-      if (error) throw error;
+      await updateDoc(doc(db, 'schedules', schedule.id), {
+        lastTakenDate: isTaken ? null : today,
+        updatedAt: serverTimestamp()
+      });
       showToast(isTaken ? t('markedNotTaken') : t('markedTaken'), 'success');
     } catch (error) {
-      console.error('Error toggling status:', error);
+      handleFirestoreError(error, OperationType.UPDATE, `schedules/${schedule.id}`);
       showToast(t('statusUpdateError'), 'error');
     }
   };
@@ -225,7 +202,7 @@ export const Timetable: React.FC = () => {
   const todaySchedules = schedules.filter(s => isDayActive(s.days, today));
   const otherSchedules = schedules.filter(s => !isDayActive(s.days, today));
 
-  const isPremium = profile?.is_premium === true || profile?.role === 'admin';
+  const isPremium = profile?.isPremium === true || profile?.role === 'admin';
 
   return (
     <div className="min-h-screen bg-transparent pt-32 sm:pt-40 pb-24 px-4 overflow-x-hidden">
@@ -439,7 +416,7 @@ export const Timetable: React.FC = () => {
                 </div>
                 <div className="grid gap-6">
                   {todaySchedules.map((schedule) => {
-                    const isTaken = schedule.last_taken_date === todayDate;
+                    const isTaken = schedule.lastTakenDate === todayDate;
                     return (
                       <motion.div 
                         key={schedule.id}
@@ -470,10 +447,10 @@ export const Timetable: React.FC = () => {
                           <div>
                             <div className="flex items-center gap-4 mb-2">
                               <h3 className={`text-3xl md:text-4xl font-black tracking-[-0.05em] uppercase leading-none ${isTaken ? 'text-text-secondary italic line-through' : 'text-text-primary'}`}>
-                                {schedule.medicine_name}
+                                {schedule.medicineName}
                               </h3>
                               <AnimatePresence>
-                                {isDrugBanned(schedule.medicine_name) && (
+                                {isDrugBanned(schedule.medicineName) && (
                                   <motion.span 
                                     initial={{ opacity: 0, scale: 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -536,7 +513,7 @@ export const Timetable: React.FC = () => {
                           <span className="text-sm font-black tracking-tighter uppercase">{schedule.time}</span>
                         </div>
                         <div>
-                          <h3 className="text-3xl font-black text-text-primary mb-1 tracking-tight uppercase leading-none">{schedule.medicine_name}</h3>
+                          <h3 className="text-3xl font-black text-text-primary mb-1 tracking-tight uppercase leading-none">{schedule.medicineName}</h3>
                           <p className="text-lg text-text-secondary font-bold tracking-tight italic opacity-70">"{schedule.dosage}"</p>
                         </div>
                       </div>

@@ -5,7 +5,9 @@ import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { searchMedicines, interpretQuery, transcribeAudio } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase } from '../supabase';
+import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
+import { db } from '../firebase';
+import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { offlineService } from '../services/offlineService';
 
 interface SearchProps {
@@ -98,44 +100,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
 
     // Track search analytics
     try {
-      const queryId = query.trim().toLowerCase();
+      const queryId = query.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
       if (queryId) {
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        // Use RPC or separate calls for increment logic if needed, 
-        // but here we just record the event or update the count
-        const { data: analytics } = await supabase
-          .from('search_analytics')
-          .select('count')
-          .eq('query', queryId)
-          .single();
-
-        if (analytics) {
-          await supabase
-            .from('search_analytics')
-            .update({ 
-              count: analytics.count + 1,
-              last_searched_at: new Date().toISOString()
-            })
-            .eq('query', queryId);
-        } else {
-          await supabase
-            .from('search_analytics')
-            .insert({
-              query: queryId,
-              count: 1,
-              last_searched_at: new Date().toISOString()
-            });
-        }
-
-        // Save to user history if logged in
-        if (user) {
-          await supabase.from('search_history').insert({
-            user_id: user.id,
-            query: queryId,
-            created_at: new Date().toISOString()
-          });
-        }
+        const queryRef = doc(db, 'searchAnalytics', queryId);
+        await setDoc(queryRef, {
+          query: query.trim().toLowerCase(),
+          count: increment(1),
+          lastSearchedAt: new Date().toISOString()
+        }, { merge: true });
       }
     } catch (error) {
       console.error('Failed to track search analytics', error);

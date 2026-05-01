@@ -1,17 +1,18 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
-import { supabase } from '../supabase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 import { useLanguage } from '../LanguageContext';
 
 interface Schedule {
   id: string;
-  medicine_name: string;
+  medicineName: string;
   dosage: string;
   time: string;
   days: string[];
-  user_id: string;
-  last_taken_date?: string | null;
+  userId: string;
+  lastTakenDate?: string | null;
 }
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -120,34 +121,16 @@ export const NotificationManager: React.FC = () => {
       return;
     }
 
-    const fetchSchedules = async () => {
-      const { data, error } = await supabase
-        .from('schedules')
-        .select('*')
-        .eq('user_id', user.id);
-      
-      if (!error && data) {
-        setSchedules(data as Schedule[]);
-      }
-    };
+    const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Schedule[];
+      setSchedules(data);
+    });
 
-    fetchSchedules();
-
-    const subscription = supabase
-      .channel('notif_schedules')
-      .on('postgres_changes', { 
-        event: '*', 
-        schema: 'public', 
-        table: 'schedules', 
-        filter: `user_id=eq.${user.id}` 
-      }, () => {
-        fetchSchedules();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
+    return () => unsubscribe();
   }, [user]);
 
   // Reminder Logic
@@ -176,7 +159,7 @@ export const NotificationManager: React.FC = () => {
         if (!activeDays.includes(currentDay)) continue;
         
         // Skip if already taken today
-        if (schedule.last_taken_date === todayStr) continue;
+        if (schedule.lastTakenDate === todayStr) continue;
 
         const [schedHour, schedMinute] = schedule.time.split(':').map(Number);
         const nowMinutes = currentHour * 60 + currentMinute;
@@ -189,7 +172,7 @@ export const NotificationManager: React.FC = () => {
             const tips = [t('tip1'), t('tip2'), t('tip3'), t('tip4'), t('tip5'), t('tip6')];
             const randomTip = tips[Math.floor(Math.random() * tips.length)];
             
-            sendNotification(`💊 ${t('timeFor')} ${schedule.medicine_name}`, `${t('dosageLabel')}: ${schedule.dosage}\n\nTip: ${randomTip}`, {
+            sendNotification(`💊 ${t('timeFor')} ${schedule.medicineName}`, `${t('dosageLabel')}: ${schedule.dosage}\n\nTip: ${randomTip}`, {
               tag: `med-${schedule.id}`,
               requireInteraction: true,
               data: { url: '/timetable' },

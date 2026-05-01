@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Send, Loader2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../supabase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useToast } from '../ToastContext';
 import { Helmet } from 'react-helmet-async';
 
@@ -32,12 +34,11 @@ export const Contact: React.FC = () => {
     
     setIsSubmitting(true);
     try {
-      // 1. Save to Supabase
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('contact_requests').insert({
+      // 1. Save to Firestore
+      await addDoc(collection(db, 'contactRequests'), {
         ...formData,
-        user_id: user?.id || 'guest',
-        created_at: new Date().toISOString()
+        userId: auth.currentUser?.uid || 'guest',
+        createdAt: serverTimestamp()
       });
 
       showToast('Request received! Opening email client...', 'success');
@@ -50,7 +51,7 @@ export const Contact: React.FC = () => {
       }, 1500);
 
     } catch (error) {
-      console.error('Contact submission error:', error);
+      handleFirestoreError(error, OperationType.CREATE, 'contactRequests');
       showToast('Submission failed, but redirecting to email...', 'info');
       // Still allow email fallback
       window.location.href = `mailto:aethelcare.help@gmail.com?subject=Contact Request&body=${encodeURIComponent(formData.message)}`;

@@ -1,21 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from './supabase';
-import { User, Session } from '@supabase/supabase-js';
+import { auth, db, googleProvider } from './firebase';
+import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 
 interface UserProfile {
-  id: string;
+  uid: string;
   email: string;
-  display_name: string;
-  photo_url: string;
-  is_premium: boolean;
-  plan?: string;
-  subscription_expiry?: string;
-  created_at: string;
+  displayName: string;
+  photoURL: string;
+  isPremium: boolean;
+  subscriptionTier?: string;
+  subscriptionExpiry?: string;
+  createdAt: string;
   role: 'user' | 'admin';
-  phone_number?: string;
-  trial_claimed?: boolean;
-  trial_started_at?: string;
-  trial_ends_at?: string;
+  phoneNumber?: string;
+  trialClaimed?: boolean;
+  trialStartedAt?: string;
+  trialEndsAt?: string;
 }
 
 interface AuthContextType {
@@ -23,17 +24,9 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   isOffline: boolean;
-  isRecoveryMode: boolean;
-  clearRecoveryMode: () => void;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-  sendOTP: (phone: string) => Promise<void>;
-  verifyOTP: (phone: string, token: string) => Promise<void>;
-  sendEmailOTP: (email: string) => Promise<void>;
-  verifyEmailOTP: (email: string, token: string) => Promise<void>;
-  updateUserPassword: (password: string) => Promise<void>;
   logout: () => Promise<void>;
   upgradeToPremium: () => Promise<void>;
   updateSubscription: (tier: string, expiry: string) => Promise<void>;
@@ -53,11 +46,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  const [isRecoveryMode, setIsRecoveryMode] = useState(false);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
-  const clearRecoveryMode = () => setIsRecoveryMode(false);
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -71,209 +62,129 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    // Initial session check
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      handleAuthChange(session);
-    });
+    let unsubscribeProfile: (() => void) | null = null;
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      handleAuthChange(session);
-      if (event === 'PASSWORD_RECOVERY') {
-        setIsRecoveryMode(true);
-        setIsAuthModalOpen(true);
-      } else if (event === 'SIGNED_IN' && !isRecoveryMode) {
-        closeAuthModal();
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+      setUser(user);
+      
+      if (user) {
+        // Real-time listener for profile
+        const userRef = doc(db, 'users', user.uid);
+        unsubscribeProfile = onSnapshot(userRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+            setProfile({
+              uid: user.uid,
+              email: user.email || '',
+              displayName: data.displayName || user.displayName || 'User',
+              photoURL: data.photoURL || user.photoURL || '',
+              isPremium: isAdmin || data.isPremium || false,
+              subscriptionTier: data.subscriptionTier,
+              subscriptionExpiry: data.subscriptionExpiry,
+              createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
+              role: isAdmin ? 'admin' : 'user',
+              phoneNumber: data.phoneNumber,
+              trialClaimed: data.trialClaimed,
+              trialStartedAt: data.trialStartedAt,
+              trialEndsAt: data.trialEndsAt
+            } as UserProfile);
+          } else {
+            // Create profile if missing
+            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+            const newProfileData = {
+              uid: user.uid,
+              email: user.email || '',
+              displayName: user.displayName || 'User',
+              photoURL: user.photoURL || '',
+              isPremium: isAdmin,
+              createdAt: serverTimestamp(),
+              role: isAdmin ? 'admin' : 'user'
+            };
+            setDoc(userRef, newProfileData).catch(console.error);
+          }
+          setLoading(false);
+        }, (error) => {
+          console.error("Profile snapshot error:", error);
+          setLoading(false);
+        });
+      } else {
+        setProfile(null);
+        setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [isRecoveryMode]);
-
-  const handleAuthChange = async (session: Session | null) => {
-    if (session?.user) {
-      setUser(session.user);
-      const user = session.user;
-
-      // Fetch profile from Supabase 'profiles' table (or metadata)
-      const { data: profileData, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (error && error.code === 'PGRST116') {
-        // No profile found, create one
-        const isAdmin = ADMIN_EMAILS.includes(user.email || '');
-        const newProfile = {
-          id: user.id,
-          email: user.email || '',
-          display_name: user.user_metadata?.full_name || 'User',
-          photo_url: user.user_metadata?.avatar_url || '',
-          is_premium: isAdmin,
-          role: isAdmin ? 'admin' : 'user',
-          created_at: new Date().toISOString(),
-          plan: isAdmin ? 'premium' : 'basic'
-        };
-        
-        const { data: createdProfile } = await supabase
-          .from('profiles')
-          .insert(newProfile)
-          .select()
-          .single();
-        
-        if (createdProfile) {
-          setProfile(mapSupabaseProfile(createdProfile));
-        }
-      } else if (profileData) {
-        setProfile(mapSupabaseProfile(profileData));
-      }
-    } else {
-      setUser(null);
-      setProfile(null);
-    }
-    setLoading(false);
-  };
-
-  const mapSupabaseProfile = (data: any): UserProfile => {
-    const isAdmin = ADMIN_EMAILS.includes(data.email || '');
-    return {
-      id: data.id,
-      email: data.email || '',
-      display_name: data.display_name || 'User',
-      photo_url: data.photo_url || '',
-      is_premium: isAdmin || data.is_premium || false,
-      plan: data.plan,
-      subscription_expiry: data.subscription_expiry,
-      created_at: data.created_at,
-      role: isAdmin ? 'admin' : 'user',
-      phone_number: data.phone_number,
-      trial_claimed: data.trial_claimed,
-      trial_started_at: data.trial_started_at,
-      trial_ends_at: data.trial_ends_at
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeProfile) unsubscribeProfile();
     };
-  };
+  }, []);
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin
-      }
-    });
-    if (error) throw error;
+    try {
+      await signInWithPopup(auth, googleProvider);
+      closeAuthModal();
+    } catch (error) {
+      console.error('Google Sign In Error:', error);
+      throw error;
+    }
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-    if (error) throw error;
+    await signInWithEmailAndPassword(auth, email, pass);
     closeAuthModal();
   };
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password: pass,
-      options: {
-        data: { full_name: name }
-      }
-    });
-    if (error) throw error;
+    const result = await createUserWithEmailAndPassword(auth, email, pass);
+    if (result.user) {
+      await setDoc(doc(db, 'users', result.user.uid), {
+        uid: result.user.uid,
+        email,
+        displayName: name,
+        createdAt: serverTimestamp(),
+        role: 'user',
+        isPremium: false
+      });
+    }
     closeAuthModal();
   };
 
-  const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin,
-    });
-    if (error) throw error;
-  };
-
-  const formatPhone = (phone: string) => {
-    let formattedPhone = phone.replace(/\s+/g, '');
-    if (!formattedPhone.startsWith('+')) {
-      formattedPhone = '+91' + formattedPhone;
-    }
-    return formattedPhone;
-  };
-
-  const sendOTP = async (phone: string) => {
-    // Note: Phone number must be in E.164 format
-    const { error } = await supabase.auth.signInWithOtp({
-      phone: formatPhone(phone),
-    });
-    if (error) throw error;
-  };
-
-  const verifyOTP = async (phone: string, token: string) => {
-    const { error } = await supabase.auth.verifyOtp({
-      phone: formatPhone(phone),
-      token,
-      type: 'sms'
-    });
-    if (error) throw error;
-  };
-
-  const sendEmailOTP = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-    if (error) throw error;
-  };
-
-  const verifyEmailOTP = async (email: string, token: string) => {
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token,
-      type: 'recovery'
-    });
-    if (error) throw error;
-  };
-
-  const updateUserPassword = async (password: string) => {
-    const { error } = await supabase.auth.updateUser({
-      password: password
-    });
-    if (error) throw error;
-  };
-
   const logout = async () => {
-    await supabase.auth.signOut();
+    await signOut(auth);
   };
 
   const upgradeToPremium = async () => {
     if (user) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ is_premium: true, plan: 'premium' })
-        .eq('id', user.id);
-      if (error) throw error;
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, { isPremium: true, subscriptionTier: 'premium' });
     }
   };
 
   const updateSubscription = async (tier: string, expiry: string) => {
     if (user) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ plan: tier, subscription_expiry: expiry, is_premium: true })
-        .eq('id', user.id);
-      if (error) throw error;
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, { subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
     }
   };
 
   const updateProfileImage = async (url: string) => {
     if (user) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ photo_url: url })
-        .eq('id', user.id);
-      if (error) throw error;
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        await updateDoc(userRef, { photoURL: url });
+        console.log('Firestore photoURL updated to:', url);
+      } catch (error) {
+        console.error('Error updating profile image:', error);
+        throw error;
+      }
     }
   };
 
   return (
     <AuthContext.Provider value={{ 
-      user, profile, loading, isOffline, isRecoveryMode, clearRecoveryMode,
-      signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword,
-      sendOTP, verifyOTP, sendEmailOTP, verifyEmailOTP, updateUserPassword,
+      user, profile, loading, isOffline,
+      signInWithGoogle, signInWithEmail, signUpWithEmail, 
       logout, upgradeToPremium, updateSubscription, updateProfileImage,
       isAuthModalOpen, openAuthModal, closeAuthModal
     }}>

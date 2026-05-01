@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../supabase';
+import { db } from '../firebase';
+import { doc, onSnapshot, getDoc, updateDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../AuthContext';
 
 export interface UserData {
@@ -25,77 +26,45 @@ export function useUser() {
       return;
     }
 
-    const fetchUserData = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', authUser.id)
-        .single();
-
-      if (error && error.code === 'PGRST116') {
+    const userRef = doc(db, 'users', authUser.uid);
+    
+    // Listen for changes
+    const unsubscribe = onSnapshot(userRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        let currentData = snapshot.data() as UserData;
+        const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
+        
+        // Trial expiry check
+        if (currentData.plan === 'premium' && currentData.trial_end) {
+          const trialEnd = new Date(currentData.trial_end);
+          if (trialEnd < new Date()) {
+            await updateDoc(userRef, { plan: 'basic' });
+            return; // onSnapshot will trigger again
+          }
+        }
+        
+        setUserData({ ...currentData, id: snapshot.id });
+      } else {
         // Create initial if missing
         const now = new Date();
         const trialEnd = new Date(now);
         trialEnd.setDate(now.getDate() + 14);
         
         const initial = {
-          id: authUser.id,
           email: authUser.email || '',
-          plan: 'premium',
+          plan: 'premium' as const,
           trial_start: now.toISOString(),
           trial_end: trialEnd.toISOString(),
           scan_count: 0,
           scan_month: now.toISOString().slice(0, 10),
-          created_at: new Date().toISOString()
+          createdAt: serverTimestamp()
         };
-        
-        const { data: createdData } = await supabase
-          .from('profiles')
-          .insert(initial)
-          .select()
-          .single();
-        
-        if (createdData) setUserData(createdData as UserData);
-      } else if (data) {
-        let currentData = data as UserData;
-        
-        // Trial expiry check
-        if (currentData.plan === 'premium' && currentData.trial_end) {
-          const trialEnd = new Date(currentData.trial_end);
-          if (trialEnd < new Date()) {
-            const { data: updatedData } = await supabase
-              .from('profiles')
-              .update({ plan: 'basic' })
-              .eq('id', authUser.id)
-              .select()
-              .single();
-            if (updatedData) currentData = updatedData as UserData;
-          }
-        }
-        
-        setUserData(currentData);
+        await setDoc(userRef, initial);
       }
       setIsLoading(false);
-    };
+    });
 
-    fetchUserData();
-
-    // Listen for changes
-    const subscription = supabase
-      .channel(`profile:${authUser.id}`)
-      .on('postgres_changes', { 
-        event: '*', 
-        schema: 'public', 
-        table: 'profiles', 
-        filter: `id=eq.${authUser.id}` 
-      }, () => {
-        fetchUserData();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
+    return () => unsubscribe();
   }, [authUser]);
 
   // Derived state
@@ -124,7 +93,8 @@ export function useUser() {
   return {
     user: authUser ? {
       ...authUser,
-      id: authUser.id,
+      id: authUser.uid,
+      uid: authUser.uid,
       email: authUser.email,
       plan: userData?.plan || 'basic',
       isPremium,
