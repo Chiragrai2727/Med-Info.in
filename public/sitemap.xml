@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
+  <sitemap>
+    <loc>https://aethelcare.xyz/sitemap-pages.xml</loc>
+    <lastmod>2026-05-02</lastmod>
+  </sitemap>
+
+  <!-- Banned Drugs - Highest SEO value -->
+  <sitemap>
+    <loc>https://aethelcare.xyz/sitemap-banned-drugs.xml</loc>
+    <lastmod>2026-05-02</lastmod>
+  </sitemap>
+
+  <!-- Drug Info & Comparisons -->
+  <sitemap>
+    <loc>https://aethelcare.xyz/sitemap-drugs.xml</loc>
+    <lastmod>2026-05-02</lastmod>
+  </sitemap>
+
+  <!-- Landing Pages (SEO-targeted search queries) -->
+  <sitemap>
+    <loc>https://aethelcare.xyz/sitemap-landing.xml</loc>
+    <lastmod>2026-05-02</lastmod>
+  </sitemap>
+
+  <!-- Blog / Health Content -->
+  <sitemap>
+    <loc>https://aethelcare.xyz/sitemap-blog.xml</loc>
+    <lastmod>2026-05-02</lastmod>
+  </sitemap>
+
+</sitemapindex>
