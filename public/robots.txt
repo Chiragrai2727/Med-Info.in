@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /google*
+
 Sitemap: https://aethelcare.xyz/sitemap.xml

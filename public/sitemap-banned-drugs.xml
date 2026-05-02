@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ===== INDIVIDUAL BANNED DRUG PAGES ===== -->
+  <!-- High-intent: "is [medicine] banned in India" gets 1000s of searches/month -->
+
+  <!-- Top searched banned FDCs (banned Aug 2024 - 156 FDCs) -->
+  <url><loc>https://aethelcare.xyz/banned-drugs/nimesulide-paracetamol</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/phenylephrine-antihistamine</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/aceclofenac-paracetamol-chlorzoxazone</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/diclofenac-paracetamol-chlorpheniramine</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/codeine-syrup</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/oxyphenbutazone</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/analgin-metamizole</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/phenacetin</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/amidopyrine</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/chloramphenicol-internal</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/furazolidone</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/pioglitazone</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/sibutramine</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/rimonabant</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/carisoprodol</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/dextropropoxyphene</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/cisapride</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/droperidol</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/rofecoxib</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/valdecoxib</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/nimesulide-children</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/rosiglitazone</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/testosterone-vitamins-fdc</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/strychnine-caffeine</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/penicillin-sulphonamides-fdc</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/vitamins-analgesics-fdc</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/corticosteroid-fdc-internal</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/salbutamol-antihistamine-fdc</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/flupenthixol-melitracen</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/oxytocin-unregulated</loc><lastmod>2026-05-02</lastmod></url>
+
+  <!-- ===== CATEGORY / LIST PAGES ===== -->
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/pain-relievers</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/antibiotics</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/cough-cold</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/diabetes</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/weight-loss</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/hormones</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/fixed-dose-combinations</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/antifungal</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/category/children-banned</loc><lastmod>2026-05-02</lastmod></url>
+
+  <!-- ===== YEAR-SPECIFIC BAN PAGES (trending searches) ===== -->
+  <url><loc>https://aethelcare.xyz/banned-drugs/year/2026</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/year/2025</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/year/2024</loc><lastmod>2026-05-02</lastmod></url>
+  <url><loc>https://aethelcare.xyz/banned-drugs/year/2023</loc><lastmod>2026-05-02</lastmod></url>
+
+</urlset>
