@@ -5,7 +5,9 @@
     "metformin",
     "sitagliptin",
     "pioglitazone",
-    "gliclazide"
+    "gliclazide",
+    "eternex-t-20mg-strip-of-10-tablets",
+    "eurepa-2mg-strip-of-15-tablets"
   ],
   "pcos (polycystic ovary syndrome)": [
     "metformin_500"
@@ -37,12 +39,22 @@
     "levocetirizine_montelukast",
     "levocetirizine",
     "montelukast",
-    "cetirizine"
+    "cetirizine",
+    "egostin-20-mg-tablet-10",
+    "egostin-10-mg-tablet-10",
+    "elarist-10-120-mg-tablet-10",
+    "elarist-m-10-120-tablet-10"
   ],
   "asthma": [
     "montelukast_levocetirizine",
     "montelukast",
-    "salbutamol_inhaler"
+    "salbutamol_inhaler",
+    "esiflo-250mcg-box-of-30-transcaps",
+    "esiflo-250mcg-packet-of-120md-transhaler",
+    "efelin-tablets",
+    "effilin-25mg-inj",
+    "effilin-50mg-inj",
+    "efimylin-inj"
   ],
   "sneezing and runny nose": [
     "montelukast_levocetirizine",
@@ -92,7 +104,12 @@
     "ranitidine",
     "famotidine",
     "omeprazole",
-    "rabeprazole"
+    "rabeprazole",
+    "efacaine-500-50-10-mg-suspension-200-ml",
+    "efacid-suspension",
+    "egac-40mg-strip-of-10-tablets",
+    "egel-susp-170ml",
+    "ekal-susp-100ml"
   ],
   "heartburn": [
     "pantoprazole_domperidone",
@@ -108,7 +125,9 @@
     "diclofenac",
     "paracetamol",
     "mefenamic_acid",
-    "naproxen"
+    "naproxen",
+    "effective-500-mg-tablet-10",
+    "effective-250-mg-tablet-10"
   ],
   "headache": [
     "paracetamol_650",
@@ -208,7 +227,8 @@
     "ofloxacin_ornidazole"
   ],
   "pelvic inflammatory disease": [
-    "ofloxacin_ornidazole"
+    "ofloxacin_ornidazole",
+    "ekef-kit-6-s"
   ],
   "sinus infections": [
     "amoxicillin_clavulanic_acid"
@@ -221,7 +241,8 @@
   ],
   "skin infections": [
     "amoxicillin_clavulanic_acid",
-    "azithromycin"
+    "azithromycin",
+    "eighteen-bp-soap-75gm"
   ],
   "uti": [
     "amoxicillin_clavulanic_acid"
@@ -251,7 +272,128 @@
     "omeprazole"
   ],
   "bacterial infections": [
-    "amoxicillin_clavulanic"
+    "amoxicillin_clavulanic",
+    "efatum-1-5gm-inj",
+    "efcure-200mg-bottle-of-30-tablets",
+    "efcure-600mg-bottle-of-30-tablets",
+    "efdim-250mg-inj",
+    "efdinir-300mg-strip-of-8-capsules",
+    "efecient-inj-5ml",
+    "efecip-250mg-tab",
+    "efecip-500mg-tab",
+    "efecip-125mg-suspension",
+    "efecip-250mg-suspension",
+    "efecip-infusion",
+    "efectal-om-syrup-50-ml",
+    "efectal-1gm-dry-vial-of-1-powder-for-injection",
+    "efectal-250mg-inj",
+    "efectal-tz-1000-125-mg-injection-1-ml",
+    "efectal-s-1000-500-mg-injection-1",
+    "efefzy-250mg-tab",
+    "efefzy-500mg-tab",
+    "efelac-dt-100mg-strip-of-10-tablets",
+    "efelac-dt-200mg-strip-of-10-tablets",
+    "efelac-100-40-mg-tablet-10",
+    "efelac-200-60-mg-tablet-10",
+    "efepime-500mg-inj",
+    "efex-plus-tablet-10",
+    "effahope-600mg-tab",
+    "effexone-1gm-inj",
+    "efficin-1gm-inj",
+    "efficin-1gm-tablets",
+    "efficin-500mg-inj",
+    "efficin-750mg-inj",
+    "efficacio-pt-inj",
+    "effidox-100mg-strip-of-10-capsules",
+    "effie-100mg-tab",
+    "effie-200mg-tab",
+    "effimax-s-1-5g-dry-vial-of-1-powder-for-injection",
+    "effimax-plus-750mg-inj",
+    "effimax-s-375mg-inj",
+    "effimax-1gm-inj",
+    "effimax-250-125-mg-injection-1-ml",
+    "effimax-s-500-250-mg-injection-1",
+    "effimax-plus-1000-500-mg-injection-1",
+    "effimax-tz-dry-vial-of-1-powder-for-injection",
+    "efibact-200mg-tab",
+    "efibact-dt-100mg-tablets",
+    "efibact-100mg-dry-syrup-30ml",
+    "efibact-dt-50mg-tab",
+    "efibact-50mg-dry-syrup-30ml",
+    "eficef-cv-200mg-tablet",
+    "eficef-200mg-tab",
+    "eficef-dt-100mg-tab",
+    "eficef-dt-50mg-tab",
+    "eficef-dry-syrup-30ml",
+    "eficef-cv-dt-100mg-tab",
+    "eficef-cv-dt-50mg-tab",
+    "eficin-dt-200-mg-tablet-10",
+    "efimeran-kid-250mg-inj",
+    "efimox-er-tablet",
+    "eflobid-200mg-strip-of-10-tablets",
+    "eflox-200mg-tablet",
+    "eflox-400mg-tablet",
+    "efoceft-1gm-inj",
+    "efoceft-250mg-inj",
+    "efoceft-500mg-inj",
+    "efoceft-s-375mg-inj",
+    "efoceft-s-750mg-inj",
+    "efoceft-s-1-5gm-inj",
+    "efomp-1-5-vial-of-1-injection",
+    "efospar-200mg-strip-of-6-tablets",
+    "efotax-250mg-inj",
+    "efotax-500mg-inj",
+    "efotax-1gm-inj",
+    "efotax-125mg-inj",
+    "efox-200mg-strip-of-10-tablets",
+    "efoxim-100-mg-tablet-10",
+    "efoxiren-50mg-strip-of-10-capsules",
+    "efoxim-200mg-tablets",
+    "efoxim-o-tab",
+    "efoxim-200mg-strip-of-10-tablets",
+    "efoxim-200-mg-dry-syrup-30-ml",
+    "efpodox-100mg-tab",
+    "efpodox-200mg-tab",
+    "efpod-100mg-tab",
+    "efpod-200mg-tab",
+    "efpod-cv-tab",
+    "efpod-o-tab",
+    "efpod-dry-syrup-30ml",
+    "efpod-cv-dry-syrup-30ml",
+    "eftanu-250mg-inj",
+    "eftanu-500mg-inj",
+    "eftanu-1gm-inj",
+    "eftanu-s-1-5gm-inj",
+    "efti-1g-vial-of-1-injection",
+    "eftritax-1g-dry-vial-of-1-powder-for-injection",
+    "eftritax-sb-1500mg-dry-vial-of-1-powder-for-injection",
+    "eftrimac-o-dry-syrup-30ml",
+    "eftricin-250mg-inj",
+    "eftricin-500mg-inj",
+    "eftricin-1gm-inj",
+    "eftimax-1gm-inj",
+    "eftimax-sb-1000-500-mg-injection-1",
+    "efticure-tz-1g-dry-vial-of-1-powder-for-injection",
+    "eftione-1gm-inj",
+    "eftione-tz-1-125gm-inj",
+    "efuvo-250mg-tab",
+    "efuvo-500mg-tab",
+    "efutal-500mg-strip-of-10-tablets",
+    "efzon-cv-tablets",
+    "eglev-m-500-mg-tablet-10",
+    "egley-500-mg-tablet-10",
+    "egrest-250-mg-tablet-10",
+    "ehclav-tablets",
+    "ehclav-dry-syrpup",
+    "ehclav-625-mg-tablet-10",
+    "ehpod-capsule-10",
+    "ekamil-500mg-inj",
+    "ektam-1gb-dry-vial-of-1-powder-for-injection",
+    "ektam-500-mg-injection-1",
+    "eldcef-250mg-injection",
+    "elclav-625mg-strip-of-10-tablets",
+    "elclav-bid-228-5mg-bottle-of-30ml-dry-syrup",
+    "elcon-o-200-200-mg-tablet-10"
   ],
   "sinusitis": [
     "amoxicillin_clavulanic",
@@ -302,7 +444,8 @@
   ],
   "indigestion": [
     "domperidone",
-    "triphala"
+    "triphala",
+    "efizyme-bottle-of-200ml-syrup"
   ],
   "fullness after meals": [
     "domperidone"
@@ -326,7 +469,8 @@
     "ondansetron"
   ],
   "scabies": [
-    "ivermectin"
+    "ivermectin",
+    "egiver-gel-30-gm"
   ],
   "strongyloidiasis": [
     "ivermectin"
@@ -369,7 +513,19 @@
     "ranitidine",
     "pantoprazole",
     "omeprazole",
-    "rabeprazole"
+    "rabeprazole",
+    "esoga-rd-strip-of-10-capsules",
+    "esogress-d-40mg-strip-of-10-capsules",
+    "ega-d-30mg-40mg-capsule",
+    "egac-do-strip-of-10-capsules",
+    "egac-d-40-10mg-strip-of-10-tablets",
+    "egbid-d-40-30mg-capsule-10",
+    "egd-ls-capsule",
+    "egd-forte-capsule-10",
+    "egd-40-30-mg-capsule-10",
+    "eh-40mg-tab",
+    "ekomax-d-strip-of-10-capsules",
+    "ekomax-forte-capsule-10"
   ],
   "angina (chest pain)": [
     "amlodipine"
@@ -381,7 +537,31 @@
     "losartan",
     "spironolactone",
     "enalapril",
-    "metoprolol"
+    "metoprolol",
+    "embeta-xr-25mg-strip-of-30-tablets",
+    "envas-5mg-strip-of-15-tablets",
+    "eptus-25mg-strip-of-10-tablets",
+    "eritel-ch-80mg-strip-of-15-tablets",
+    "eritel-am-40-strip-of-15-tablets",
+    "eslo-2-5mg-strip-of-15-tablets",
+    "eritel-ch-40mg-strip-of-15-tablets",
+    "eritel-h-40mg-15-s-strip-of-15-tablets",
+    "eslo-5mg-strip-of-15-tablets",
+    "efin-cr-tab",
+    "efnocar-t-40-40mg-strip-of-10-tablets",
+    "efnocar-ct-40-12-5mg-strip-of-10-tablets",
+    "efnocar-t-20-40mg-strip-of-10-tablets",
+    "efnocar-mx-40-25mg-strip-of-10-tablets",
+    "efnocar-20mg-strip-of-10-tablets",
+    "efnocar-10mg-strip-of-10-tablets",
+    "efonta-t-40-40mg-strip-of-10-tablets",
+    "efonta-20mg-strip-of-10-tablets",
+    "efonta-10-mg-tablet-10",
+    "efonta-40mg-strip-of-10-tablets",
+    "efonta-40mg-strip-of-15-tablets",
+    "efonta-20mg-strip-of-15-tablets",
+    "efonta-t-40mg-strip-of-10-tablets",
+    "efotel-40mg-strip-of-10-tablets"
   ],
   "polycystic ovary syndrome (pcos)": [
     "metformin"
@@ -415,11 +595,19 @@
     "paracetamol",
     "levocetirizine",
     "montelukast",
-    "dextromethorphan"
+    "dextromethorphan",
+    "efcol-suspension",
+    "efcolt-tab",
+    "efecol-tab",
+    "elcet-cold-strip-of-10-tablets",
+    "eldebe-cold-strip-of-10-tablets"
   ],
   "constipation": [
     "bisacodyl",
-    "triphala"
+    "triphala",
+    "eilex-32gm-granules",
+    "eilex-100gm-granules",
+    "elact-l-oral-susp-15ml"
   ],
   "bowel clearing before surgery": [
     "bisacodyl"
@@ -457,10 +645,38 @@
   "allergies": [
     "cetirizine",
     "levocetirizine",
-    "montelukast"
+    "montelukast",
+    "efelobe-tablet-10",
+    "efelobe-tab-30-s",
+    "efil-10mg-strip-of-10-tablets",
+    "efil-2-5mg-strip-of-10-tablets",
+    "efil-5mg-strip-of-10-tablets",
+    "egostin-m-strip-of-10-tablets",
+    "elah-20mg-strip-of-10-tablets",
+    "elah-10-mg-tablet-10",
+    "elampa-tab",
+    "elbed-strip-of-10-tablets",
+    "elbed-m-strip-of-10-tablets",
+    "elcet-m-strip-of-10-tablets",
+    "elcet-5mg-strip-of-10-tablets",
+    "elcet-l-5-mg-tablet-10"
   ],
   "pain relief": [
-    "ibuprofen"
+    "ibuprofen",
+    "enzoflam-strip-of-10-tablets",
+    "etoshine-90mg-strip-of-10-tablets",
+    "eraflex-strip-of-10-tablets",
+    "etf-pee-strip-of-10-tablets",
+    "eferem-tablet",
+    "eferem-p-100-325-10-mg-tablet-10",
+    "effect-plus-tab",
+    "effect-tab",
+    "effibol-50mg-inj",
+    "effibol-25mg-inj",
+    "efilor-er-400mg-tab",
+    "efilor-p-tab",
+    "ego-p-tablet-10",
+    "ekalon-strip-of-10-tablets"
   ],
   "vaginal yeast infections": [
     "fluconazole"
@@ -480,7 +696,9 @@
     "calcirol_60k"
   ],
   "bone health": [
-    "vitamin_d3"
+    "vitamin_d3",
+    "efical-strip-of-10-capsules",
+    "egical-500mg-strip-of-15-tablets"
   ],
   "heart health": [
     "omega_3"
@@ -509,7 +727,8 @@
     "paclitaxel"
   ],
   "breast cancer": [
-    "paclitaxel"
+    "paclitaxel",
+    "egetem-2-5mg-tab"
   ],
   "lung cancer": [
     "paclitaxel"
@@ -552,13 +771,15 @@
     "brahmi"
   ],
   "nerve pain": [
-    "gabapentin"
+    "gabapentin",
+    "efetran-75mg-capsule"
   ],
   "postherpetic neuralgia": [
     "gabapentin"
   ],
   "seizures": [
-    "gabapentin"
+    "gabapentin",
+    "elaton-1mg-tablet"
   ],
   "skin fungal infections": [
     "clotrimazole"
@@ -573,13 +794,19 @@
     "clotrimazole"
   ],
   "vitamin b12 deficiency": [
-    "vitamin_b12"
+    "vitamin_b12",
+    "efcoba-500mg-inj-1ml",
+    "efcoba-500mg-tablet",
+    "efcoba-od-tab"
   ],
   "nerve damage (neuropathy)": [
     "vitamin_b12"
   ],
   "anemia": [
-    "vitamin_b12"
+    "vitamin_b12",
+    "eid-f-capsule-10",
+    "eisen-150mg-tab",
+    "ekfer-xt-susp-150ml"
   ],
   "edema": [
     "spironolactone"
@@ -616,7 +843,16 @@
   ],
   "diabetes": [
     "pioglitazone",
-    "gliclazide"
+    "gliclazide",
+    "efiglin-m-strip-of-10-tablets",
+    "efiglin-20mg-strip-of-10-tablets",
+    "efiglin-m-500mg-strip-of-15-tablets",
+    "efiglin-m-1000mg-tablet-15-s",
+    "efiglin-20mg-strip-of-15-tablets",
+    "efoglim-m-sr-3-500mg-strip-of-10-tablets",
+    "efoglim-m-3-500mg-strip-of-15-tablets",
+    "egystal-100-mg-tablet-15",
+    "ejeg-m-500-0-2mg-tablet-15"
   ],
   "infections": [
     "doxycycline"
@@ -625,7 +861,9 @@
     "doxycycline"
   ],
   "hypothyroidism": [
-    "levothyroxine"
+    "levothyroxine",
+    "eltroxin-100mcg-bottle-of-100-tablets",
+    "eltroxin-25mcg-bottle-of-60-tablets"
   ],
   "thyroid": [
     "levothyroxine"
@@ -778,5 +1016,1007 @@
     "aztor",
     "azulix_mf",
     "azulix_mf_forte"
+  ],
+  "Antifungal (Topical for skin infections)": [
+    "ebernet-1-tube-of-30gm-cream",
+    "ebernet-1-tube-of-60gm-cream"
+  ],
+  "Probiotics": [
+    "ecoflora-bottle-of-30-capsules",
+    "econorm-250mg-strip-of-5-capsules"
+  ],
+  "Antiplatelet": [
+    "ecosprin-150mg-strip-of-14-tablets",
+    "ecosprin-75mg-strip-of-14-tablets",
+    "effient-10mg-strip-of-14-tablets",
+    "effient-5mg-tab",
+    "efiplat-5mg-tablet"
+  ],
+  "Antiplatelet & Cholesterol lowering": [
+    "ecosprin-av-150-20mg-strip-of-10-capsules",
+    "ecosprin-av-75-20mg-strip-of-10-capsules"
+  ],
+  "Cardiovascular risk reduction": [
+    "ecosprin-gold-20mg-strip-of-15-capsules"
+  ],
+  "Antihypertensive (Calcium Channel Blocker)": [
+    "efnocar-40mg-strip-of-10-tablets"
+  ],
+  "Type 1 & Type 2 Diabetes Mellitus": [
+    "eglucent-mix-25-cartridges-3ml",
+    "eglucent-rapid-100iu-cartridge-3ml"
+  ],
+  "Iron Deficiency Anemia": [
+    "eido-fe-strip-of-10-capsules"
+  ],
+  "Hypothyroidism": [
+    "eltroxin-100mcg-bottle-of-100-tablets",
+    "eltroxin-25mcg-bottle-of-60-tablets"
+  ],
+  "Hypertension": [
+    "embeta-xr-25mg-strip-of-30-tablets",
+    "envas-5mg-strip-of-15-tablets",
+    "eptus-25mg-strip-of-10-tablets",
+    "eritel-ch-80mg-strip-of-15-tablets",
+    "eritel-am-40-strip-of-15-tablets",
+    "eslo-2-5mg-strip-of-15-tablets",
+    "eritel-ch-40mg-strip-of-15-tablets",
+    "eritel-h-40mg-15-s-strip-of-15-tablets",
+    "eslo-5mg-strip-of-15-tablets",
+    "efin-cr-tab",
+    "efnocar-t-40-40mg-strip-of-10-tablets",
+    "efnocar-ct-40-12-5mg-strip-of-10-tablets",
+    "efnocar-t-20-40mg-strip-of-10-tablets",
+    "efnocar-mx-40-25mg-strip-of-10-tablets",
+    "efnocar-20mg-strip-of-10-tablets",
+    "efnocar-10mg-strip-of-10-tablets",
+    "efonta-t-40-40mg-strip-of-10-tablets",
+    "efonta-20mg-strip-of-10-tablets",
+    "efonta-10-mg-tablet-10",
+    "efonta-40mg-strip-of-10-tablets",
+    "efonta-40mg-strip-of-15-tablets",
+    "efonta-20mg-strip-of-15-tablets",
+    "efonta-t-40mg-strip-of-10-tablets",
+    "efotel-40mg-strip-of-10-tablets"
+  ],
+  "Dry Skin": [
+    "emolene-tube-of-100gm-cream"
+  ],
+  "Severe Iron Deficiency Anemia": [
+    "encicarb-500mg-vial-of-10ml-injection"
+  ],
+  "Epilepsy": [
+    "encorate-chrono-300mg-strip-of-10-tablets",
+    "epilive-500mg-strip-of-15-tablets"
+  ],
+  "Gout": [
+    "endeavours-furic-40mg-strip-of-15-tablets",
+    "efeb-40-mg-tablet-10",
+    "egistat-40-mg-tablet-10"
+  ],
+  "Pulmonary Arterial Hypertension": [
+    "endobloc-5mg-strip-of-10-tablets"
+  ],
+  "Chronic Hepatitis B Virus Infection": [
+    "entaliv-0-5mg-bottle-of-30-tablets"
+  ],
+  "Pancreatic Exocrine Insufficiency": [
+    "enzar-hs-strip-of-10-capsules"
+  ],
+  "Pain Relief": [
+    "enzoflam-strip-of-10-tablets",
+    "etoshine-90mg-strip-of-10-tablets",
+    "eferem-tablet",
+    "eferem-p-100-325-10-mg-tablet-10",
+    "effect-plus-tab",
+    "effect-tab",
+    "effibol-50mg-inj",
+    "effibol-25mg-inj",
+    "efilor-er-400mg-tab",
+    "efilor-p-tab",
+    "ego-p-tablet-10",
+    "ekalon-strip-of-10-tablets"
+  ],
+  "Skin soothing": [
+    "epilyno-bottle-of-50ml-lotion"
+  ],
+  "Asthma": [
+    "esiflo-250mcg-box-of-30-transcaps",
+    "esiflo-250mcg-packet-of-120md-transhaler",
+    "efelin-tablets",
+    "effilin-25mg-inj",
+    "effilin-50mg-inj",
+    "efimylin-inj"
+  ],
+  "GERD": [
+    "esoga-rd-strip-of-10-capsules",
+    "esogress-d-40mg-strip-of-10-capsules",
+    "ega-d-30mg-40mg-capsule",
+    "egac-do-strip-of-10-capsules",
+    "egac-d-40-10mg-strip-of-10-tablets",
+    "egbid-d-40-30mg-capsule-10",
+    "egd-ls-capsule",
+    "egd-forte-capsule-10",
+    "egd-40-30-mg-capsule-10",
+    "eh-40mg-tab",
+    "ekomax-d-strip-of-10-capsules",
+    "ekomax-forte-capsule-10"
+  ],
+  "Hormone Replacement Therapy": [
+    "estrabet-2mg-strip-of-28-tablets"
+  ],
+  "Type 2 Diabetes Mellitus": [
+    "eternex-t-20mg-strip-of-10-tablets",
+    "eurepa-2mg-strip-of-15-tablets"
+  ],
+  "Open-Angle Glaucoma": [
+    "eubri-eye-drops-10ml"
+  ],
+  "Calcium & Vitamin D deficiency": [
+    "eucalmin-strip-of-10-softgel-capsules"
+  ],
+  "Anticoagulant": [
+    "evaparin-40mg-pre-filled-syringe-of-0-4ml-injection",
+    "exhep-40mg-pre-filled-syringe-of-0-4ml-injection"
+  ],
+  "Infertility Supplements": [
+    "evaserve-strip-of-10-tablets"
+  ],
+  "Hyperlipidemia": [
+    "ezedoc-10mg-strip-of-10-tablets"
+  ],
+  "Calcium deficiency": [
+    "ezorb-forte-strip-of-15-tablets"
+  ],
+  "Pain relief": [
+    "eraflex-strip-of-10-tablets",
+    "etf-pee-strip-of-10-tablets"
+  ],
+  "Acidity": [
+    "efacaine-500-50-10-mg-suspension-200-ml",
+    "efacid-suspension",
+    "egac-40mg-strip-of-10-tablets",
+    "egel-susp-170ml",
+    "ekal-susp-100ml"
+  ],
+  "Bacterial Skin Infections": [
+    "efaderm-tube-of-60gm-cream"
+  ],
+  "Nutritional Supplement": [
+    "efalife-cap",
+    "efaprim-1gm-softgel",
+    "efaprim-500mg-softgel",
+    "efarelle-cap",
+    "efastenol-cap",
+    "efat-cap",
+    "efavit-l-syrup-200ml",
+    "efem-strip-of-10-capsules",
+    "efem-1000mg-strip-of-10-capsules",
+    "efem-activ-tablet-30s",
+    "efem-activ-strip-of-10-tablets",
+    "effectum-powder-30-gm",
+    "effectum-active-strip-of-10-capsules",
+    "effectum-vanilla-powder-200-gm",
+    "effort-capsule-10",
+    "effort-syrup-200ml",
+    "eficent-plus-strip-of-10-tablets",
+    "efiplus-capsule-10",
+    "eflo-500mg-strip-of-10-capsules",
+    "egalyt-pds-syrup-60ml",
+    "egiva-cap",
+    "ej-min-e-capsule-10",
+    "elcopia-bottle-of-200ml-syrup"
+  ],
+  "HIV Infection": [
+    "efamat-bottle-of-30-tablets",
+    "efavir-200mg-capsule",
+    "efavir-600mg-bottle-of-30-tablets",
+    "efavir-100-mg-capsule-30",
+    "efavir-300-mg-tablet-30",
+    "efavir-200-mg-tablet-60",
+    "efv-200mg-tab",
+    "efv-600mg-tab"
+  ],
+  "Pain & Inflammation": [
+    "efaruth-plus-capsule-10"
+  ],
+  "Skin Soothing": [
+    "efatop-c-lotion-75ml"
+  ],
+  "Bacterial Infections": [
+    "efatum-1-5gm-inj",
+    "efcure-200mg-bottle-of-30-tablets",
+    "efcure-600mg-bottle-of-30-tablets",
+    "efdim-250mg-inj",
+    "efdinir-300mg-strip-of-8-capsules",
+    "efecient-inj-5ml",
+    "efecip-250mg-tab",
+    "efecip-500mg-tab",
+    "efecip-125mg-suspension",
+    "efecip-250mg-suspension",
+    "efecip-infusion",
+    "efectal-om-syrup-50-ml",
+    "efectal-1gm-dry-vial-of-1-powder-for-injection",
+    "efectal-250mg-inj",
+    "efectal-tz-1000-125-mg-injection-1-ml",
+    "efectal-s-1000-500-mg-injection-1",
+    "efefzy-250mg-tab",
+    "efefzy-500mg-tab",
+    "efelac-dt-100mg-strip-of-10-tablets",
+    "efelac-dt-200mg-strip-of-10-tablets",
+    "efelac-100-40-mg-tablet-10",
+    "efelac-200-60-mg-tablet-10",
+    "efepime-500mg-inj",
+    "efex-plus-tablet-10",
+    "effahope-600mg-tab",
+    "effexone-1gm-inj",
+    "efficin-1gm-inj",
+    "efficin-1gm-tablets",
+    "efficin-500mg-inj",
+    "efficin-750mg-inj",
+    "efficacio-pt-inj",
+    "effidox-100mg-strip-of-10-capsules",
+    "effie-100mg-tab",
+    "effie-200mg-tab",
+    "effimax-s-1-5g-dry-vial-of-1-powder-for-injection",
+    "effimax-plus-750mg-inj",
+    "effimax-s-375mg-inj",
+    "effimax-1gm-inj",
+    "effimax-250-125-mg-injection-1-ml",
+    "effimax-s-500-250-mg-injection-1",
+    "effimax-plus-1000-500-mg-injection-1",
+    "effimax-tz-dry-vial-of-1-powder-for-injection",
+    "efibact-200mg-tab",
+    "efibact-dt-100mg-tablets",
+    "efibact-100mg-dry-syrup-30ml",
+    "efibact-dt-50mg-tab",
+    "efibact-50mg-dry-syrup-30ml",
+    "eficef-cv-200mg-tablet",
+    "eficef-200mg-tab",
+    "eficef-dt-100mg-tab",
+    "eficef-dt-50mg-tab",
+    "eficef-dry-syrup-30ml",
+    "eficef-cv-dt-100mg-tab",
+    "eficef-cv-dt-50mg-tab",
+    "eficin-dt-200-mg-tablet-10",
+    "efimeran-kid-250mg-inj",
+    "efimox-er-tablet",
+    "eflobid-200mg-strip-of-10-tablets",
+    "eflox-200mg-tablet",
+    "eflox-400mg-tablet",
+    "efoceft-1gm-inj",
+    "efoceft-250mg-inj",
+    "efoceft-500mg-inj",
+    "efoceft-s-375mg-inj",
+    "efoceft-s-750mg-inj",
+    "efoceft-s-1-5gm-inj",
+    "efomp-1-5-vial-of-1-injection",
+    "efospar-200mg-strip-of-6-tablets",
+    "efotax-250mg-inj",
+    "efotax-500mg-inj",
+    "efotax-1gm-inj",
+    "efotax-125mg-inj",
+    "efox-200mg-strip-of-10-tablets",
+    "efoxim-100-mg-tablet-10",
+    "efoxiren-50mg-strip-of-10-capsules",
+    "efoxim-200mg-tablets",
+    "efoxim-o-tab",
+    "efoxim-200mg-strip-of-10-tablets",
+    "efoxim-200-mg-dry-syrup-30-ml",
+    "efpodox-100mg-tab",
+    "efpodox-200mg-tab",
+    "efpod-100mg-tab",
+    "efpod-200mg-tab",
+    "efpod-cv-tab",
+    "efpod-o-tab",
+    "efpod-dry-syrup-30ml",
+    "efpod-cv-dry-syrup-30ml",
+    "eftanu-250mg-inj",
+    "eftanu-500mg-inj",
+    "eftanu-1gm-inj",
+    "eftanu-s-1-5gm-inj",
+    "efti-1g-vial-of-1-injection",
+    "eftritax-1g-dry-vial-of-1-powder-for-injection",
+    "eftritax-sb-1500mg-dry-vial-of-1-powder-for-injection",
+    "eftrimac-o-dry-syrup-30ml",
+    "eftricin-250mg-inj",
+    "eftricin-500mg-inj",
+    "eftricin-1gm-inj",
+    "eftimax-1gm-inj",
+    "eftimax-sb-1000-500-mg-injection-1",
+    "efticure-tz-1g-dry-vial-of-1-powder-for-injection",
+    "eftione-1gm-inj",
+    "eftione-tz-1-125gm-inj",
+    "efuvo-250mg-tab",
+    "efuvo-500mg-tab",
+    "efutal-500mg-strip-of-10-tablets",
+    "efzon-cv-tablets",
+    "eglev-m-500-mg-tablet-10",
+    "egley-500-mg-tablet-10",
+    "egrest-250-mg-tablet-10",
+    "ehclav-tablets",
+    "ehclav-dry-syrpup",
+    "ehclav-625-mg-tablet-10",
+    "ehpod-capsule-10",
+    "ekamil-500mg-inj",
+    "ektam-1gb-dry-vial-of-1-powder-for-injection",
+    "ektam-500-mg-injection-1",
+    "eldcef-250mg-injection",
+    "elclav-625mg-strip-of-10-tablets",
+    "elclav-bid-228-5mg-bottle-of-30ml-dry-syrup",
+    "elcon-o-200-200-mg-tablet-10"
+  ],
+  "Fungal Infections": [
+    "efcan-150-mg-tablet-1",
+    "efcon-150mg-tab",
+    "efcon-400mg-strip-of-1-tablets",
+    "ekan-150-mg-tablet-1",
+    "elcon-150-tablets"
+  ],
+  "Skin Conditions": [
+    "efcinol-plus-cream-10gm",
+    "eke-plus-0-05-6-cream-15-gm"
+  ],
+  "Vitamin B12 Deficiency": [
+    "efcoba-500mg-inj-1ml",
+    "efcoba-500mg-tablet",
+    "efcoba-od-tab"
+  ],
+  "Neuropathy": [
+    "efcoba-forte-strip-of-10-tablets",
+    "efcoba-plus-tablet",
+    "effenerv-strip-of-10-capsules",
+    "effenerv-inj",
+    "effenerv-pg-strip-of-10-capsules",
+    "eflin-m-75mg-strip-of-10-tablets",
+    "elcair-forte-infusion",
+    "eldenerv-1500mcg-strip-of-10-capsules"
+  ],
+  "Vitamin B12 & Folate Deficiency": [
+    "efcoba-f-tab"
+  ],
+  "Parasitic Worm Infections": [
+    "efcoben-strip-of-10-capsules"
+  ],
+  "Cold & Cough": [
+    "efcol-suspension",
+    "efcolt-tab",
+    "efecol-tab",
+    "elcet-cold-strip-of-10-tablets",
+    "eldebe-cold-strip-of-10-tablets"
+  ],
+  "Nasal Allergies": [
+    "efcorlin-bottle-of-10ml-nasal-drops",
+    "efcorlin-0-02-0-025-nasal-drops-15-ml",
+    "efnase-nasal-spray"
+  ],
+  "Severe Allergic Reactions": [
+    "efcorlin-100mg-dry-vial-of-1-powder-for-injection",
+    "efcorlin-2-5gm-pellets",
+    "efcorlin-100-mg-injection-2-5-ml",
+    "efcure-30mg-solu-60ml",
+    "eflaza-6mg-strip-of-10-tablets"
+  ],
+  "Gut flora restoration": [
+    "efegut-strip-of-10-capsules",
+    "egarile-strip-of-10-capsules"
+  ],
+  "Muscle Spasm": [
+    "efekart-strip-of-10-tablets",
+    "efilor-mr-tab"
+  ],
+  "Cough with mucus": [
+    "efelin-pd-syrup-100ml",
+    "efelin-x-pd-syrup-100ml",
+    "efelin-x-strip-of-10-tablets"
+  ],
+  "Allergies": [
+    "efelobe-tablet-10",
+    "efelobe-tab-30-s",
+    "efil-10mg-strip-of-10-tablets",
+    "efil-2-5mg-strip-of-10-tablets",
+    "efil-5mg-strip-of-10-tablets",
+    "egostin-m-strip-of-10-tablets",
+    "elah-20mg-strip-of-10-tablets",
+    "elah-10-mg-tablet-10",
+    "elampa-tab",
+    "elbed-strip-of-10-tablets",
+    "elbed-m-strip-of-10-tablets",
+    "elcet-m-strip-of-10-tablets",
+    "elcet-5mg-strip-of-10-tablets",
+    "elcet-l-5-mg-tablet-10"
+  ],
+  "Menopause Supplement": [
+    "efem-meno-strip-of-10-tablets"
+  ],
+  "Abdominal Cramps": [
+    "efespas-10mg-strip-of-10-tablets",
+    "efespas-10-250-mg-tablet-10",
+    "egspas-tablet-10"
+  ],
+  "Mucolytic": [
+    "efetil-600mg-strip-of-10-effervescent-tablets",
+    "efetil-600mg-orange-flavour-sugar-free-strip-of-10-effervescent-tablets",
+    "effenac-600mg-orange-flavour-bottle-of-10-effervescent-tablets",
+    "efferven-200mg-strip-of-10-tablets",
+    "efferven-600mg-tablet"
+  ],
+  "Nerve Pain": [
+    "efetran-75mg-capsule"
+  ],
+  "Gastric Acidity": [
+    "efex-20-mg-capsule-10",
+    "ekomax-capsule",
+    "ekomax-tablet",
+    "ekomax-200mg-tab"
+  ],
+  "Acne-prone skin cleanser": [
+    "effaclar-foaming-gel-50-ml"
+  ],
+  "Calcium Supplements": [
+    "effcal-lemon-strip-of-2-tablets",
+    "effcal-mango-tab",
+    "effcal-orange-strip-of-2-tablets",
+    "effcal-ct-1000-mg-200iu-tablet-6"
+  ],
+  "Fever": [
+    "effective-500-mg-tablet-10",
+    "effective-250-mg-tablet-10"
+  ],
+  "Nutritional Support": [
+    "effectto-cap"
+  ],
+  "Dehydration": [
+    "effelyte-orange-flavour-efferevescent-bottle-of-10-tablets"
+  ],
+  "Antidepressant": [
+    "effelin-50-mg-injection-1-ml"
+  ],
+  "Cough": [
+    "effenac-ab-strip-of-10-tablets"
+  ],
+  "Skin Inflammation": [
+    "efficort-0-127-cream-10gm",
+    "elando-ointment-15gm"
+  ],
+  "Bacterial": [
+    "efficium-o-tab",
+    "eficino-200-100-mg-tablet-10",
+    "eflox-oz-strip-of-10-tablets",
+    "elcure-ozd-tab"
+  ],
+  "Cholesterol lowering": [
+    "effitor-tab",
+    "eicos-strip-of-10-tablets",
+    "elatorv-10-mg-tablet-10",
+    "elatorv-40-mg-tablet-10",
+    "elatorv-20-mg-tablet-10"
+  ],
+  "Antioxidant": [
+    "effoday-tab",
+    "efort-400mg-strip-of-10-capsules",
+    "egwell-soft-gelatin-capsule-15"
+  ],
+  "Infant Nutritional Supplement": [
+    "effort-drops"
+  ],
+  "Nutritional Aid": [
+    "effros-strip-of-10-capsules",
+    "effros-strip-of-10-tablets"
+  ],
+  "Bone Health": [
+    "efical-strip-of-10-capsules",
+    "egical-500mg-strip-of-15-tablets"
+  ],
+  "Diabetes": [
+    "efiglin-m-strip-of-10-tablets",
+    "efiglin-20mg-strip-of-10-tablets",
+    "efiglin-m-500mg-strip-of-15-tablets",
+    "efiglin-m-1000mg-tablet-15-s",
+    "efiglin-20mg-strip-of-15-tablets",
+    "efoglim-m-sr-3-500mg-strip-of-10-tablets",
+    "efoglim-m-3-500mg-strip-of-15-tablets",
+    "egystal-100-mg-tablet-15",
+    "ejeg-m-500-0-2mg-tablet-15"
+  ],
+  "Migraine Prophylaxis": [
+    "efigraine-neo-10mg-strip-of-10-tablets",
+    "efigraine-10mg-tablet",
+    "efigraine-5mg-tablet"
+  ],
+  "Shock": [
+    "efipress-injection",
+    "efipress-inj-1ml"
+  ],
+  "Indigestion": [
+    "efizyme-bottle-of-200ml-syrup"
+  ],
+  "Infant Colic": [
+    "efizyme-drops-30-ml"
+  ],
+  "Eye Inflammation": [
+    "eflo-entod-pharma-bottle-of-5ml-eye-drops"
+  ],
+  "Unwanted Facial Hair Reduction": [
+    "eflocare-cream-10gm",
+    "eflora-tube-of-15gm-cream"
+  ],
+  "Facial Hair Reduction": [
+    "efnithin-tube-of-10gm-cream"
+  ],
+  "Erectile Dysfunction": [
+    "eforce-20-mg-tablet-30"
+  ],
+  "Cancer": [
+    "efudex-250mg-tab",
+    "efudex-500mg-tablets"
+  ],
+  "Acne Treatment": [
+    "eg-c-gel-20gm"
+  ],
+  "Antiseptic Disinfectant": [
+    "egagerm-solution-50-ml"
+  ],
+  "Breast Cancer": [
+    "egetem-2-5mg-tab"
+  ],
+  "Infertility Treatment": [
+    "eggoz-100mg-capsule",
+    "eggoz-50-mg-tablet-10"
+  ],
+  "Dietary support": [
+    "egift-capsule-10"
+  ],
+  "Scabies": [
+    "egiver-gel-30-gm"
+  ],
+  "Pain & Muscle Spasm": [
+    "ego-m-tablet-10"
+  ],
+  "Hormone Replacement": [
+    "egogest-200mg-strip-of-10-capsules"
+  ],
+  "Allergic Rhinitis": [
+    "egostin-20-mg-tablet-10",
+    "egostin-10-mg-tablet-10",
+    "elarist-10-120-mg-tablet-10",
+    "elarist-m-10-120-tablet-10"
+  ],
+  "Depression": [
+    "egulent-10-mg-tablet-10",
+    "elderam-10-mg-tablet-10"
+  ],
+  "Gut health": [
+    "ehcoli-bottle-of-60-capsules"
+  ],
+  "Bleeding control": [
+    "ehtab-tab"
+  ],
+  "Vaccination (Veterinary)": [
+    "ei-vaccine-0-5ml-injection-0-5"
+  ],
+  "Anemia": [
+    "eid-f-capsule-10",
+    "eisen-150mg-tab",
+    "ekfer-xt-susp-150ml"
+  ],
+  "Dietary Supplement": [
+    "eido-m-strip-of-15-capsules"
+  ],
+  "Anemia in Children": [
+    "eido-fe-dry-syp"
+  ],
+  "Skin Infections": [
+    "eighteen-bp-soap-75gm"
+  ],
+  "Constipation": [
+    "eilex-32gm-granules",
+    "eilex-100gm-granules",
+    "elact-l-oral-susp-15ml"
+  ],
+  "Gingivitis": [
+    "eisep-bottle-of-50ml-mouthwash"
+  ],
+  "Erectile Dysfunction + Premature Ejaculation": [
+    "ej-max-capsule"
+  ],
+  "Premature Ejaculation": [
+    "eject-30mg-tablet"
+  ],
+  "Osteoarthritis": [
+    "ejoint-capsule-10"
+  ],
+  "Kidney Stones": [
+    "ekal-bottle-of-250ml-solution",
+    "ekal-200-ml-solution"
+  ],
+  "Pelvic Inflammatory Disease": [
+    "ekef-kit-6-s"
+  ],
+  "Malaria": [
+    "ekinate-60mg-inj",
+    "ekinate-ab-inj"
+  ],
+  "Bipolar Disorder": [
+    "eklib-sr-400-mg-tablet-10"
+  ],
+  "Fungal Skin Infections": [
+    "ela-b-cream-10gm",
+    "elba-cream-15-gm"
+  ],
+  "Gut Health": [
+    "elac-tab"
+  ],
+  "Asthma prophylax": [
+    "elarist-l-10-mg-tablet-10"
+  ],
+  "Schizophrenia": [
+    "elate-25-mg-tablet-10"
+  ],
+  "Seizures": [
+    "elaton-1mg-tablet"
+  ],
+  "Inflammation": [
+    "elcort-4mg-strip-of-10-tablets",
+    "elcort-8mg-strip-of-10-tablets",
+    "elcort-16mg-strip-of-10-tablets"
+  ],
+  "Infant Vitamins": [
+    "eldervit-drop-15ml"
+  ],
+  "antifungal (topical for skin infections)": [
+    "ebernet-1-tube-of-30gm-cream",
+    "ebernet-1-tube-of-60gm-cream"
+  ],
+  "probiotics": [
+    "ecoflora-bottle-of-30-capsules",
+    "econorm-250mg-strip-of-5-capsules"
+  ],
+  "antiplatelet": [
+    "ecosprin-150mg-strip-of-14-tablets",
+    "ecosprin-75mg-strip-of-14-tablets",
+    "effient-10mg-strip-of-14-tablets",
+    "effient-5mg-tab",
+    "efiplat-5mg-tablet"
+  ],
+  "antiplatelet & cholesterol lowering": [
+    "ecosprin-av-150-20mg-strip-of-10-capsules",
+    "ecosprin-av-75-20mg-strip-of-10-capsules"
+  ],
+  "cardiovascular risk reduction": [
+    "ecosprin-gold-20mg-strip-of-15-capsules"
+  ],
+  "antihypertensive (calcium channel blocker)": [
+    "efnocar-40mg-strip-of-10-tablets"
+  ],
+  "type 1 & type 2 diabetes mellitus": [
+    "eglucent-mix-25-cartridges-3ml",
+    "eglucent-rapid-100iu-cartridge-3ml"
+  ],
+  "iron deficiency anemia": [
+    "eido-fe-strip-of-10-capsules"
+  ],
+  "dry skin": [
+    "emolene-tube-of-100gm-cream"
+  ],
+  "severe iron deficiency anemia": [
+    "encicarb-500mg-vial-of-10ml-injection"
+  ],
+  "epilepsy": [
+    "encorate-chrono-300mg-strip-of-10-tablets",
+    "epilive-500mg-strip-of-15-tablets"
+  ],
+  "gout": [
+    "endeavours-furic-40mg-strip-of-15-tablets",
+    "efeb-40-mg-tablet-10",
+    "egistat-40-mg-tablet-10"
+  ],
+  "pulmonary arterial hypertension": [
+    "endobloc-5mg-strip-of-10-tablets"
+  ],
+  "chronic hepatitis b virus infection": [
+    "entaliv-0-5mg-bottle-of-30-tablets"
+  ],
+  "pancreatic exocrine insufficiency": [
+    "enzar-hs-strip-of-10-capsules"
+  ],
+  "skin soothing": [
+    "epilyno-bottle-of-50ml-lotion",
+    "efatop-c-lotion-75ml"
+  ],
+  "hormone replacement therapy": [
+    "estrabet-2mg-strip-of-28-tablets"
+  ],
+  "open-angle glaucoma": [
+    "eubri-eye-drops-10ml"
+  ],
+  "calcium & vitamin d deficiency": [
+    "eucalmin-strip-of-10-softgel-capsules"
+  ],
+  "anticoagulant": [
+    "evaparin-40mg-pre-filled-syringe-of-0-4ml-injection",
+    "exhep-40mg-pre-filled-syringe-of-0-4ml-injection"
+  ],
+  "infertility supplements": [
+    "evaserve-strip-of-10-tablets"
+  ],
+  "hyperlipidemia": [
+    "ezedoc-10mg-strip-of-10-tablets"
+  ],
+  "calcium deficiency": [
+    "ezorb-forte-strip-of-15-tablets"
+  ],
+  "bacterial skin infections": [
+    "efaderm-tube-of-60gm-cream"
+  ],
+  "nutritional supplement": [
+    "efalife-cap",
+    "efaprim-1gm-softgel",
+    "efaprim-500mg-softgel",
+    "efarelle-cap",
+    "efastenol-cap",
+    "efat-cap",
+    "efavit-l-syrup-200ml",
+    "efem-strip-of-10-capsules",
+    "efem-1000mg-strip-of-10-capsules",
+    "efem-activ-tablet-30s",
+    "efem-activ-strip-of-10-tablets",
+    "effectum-powder-30-gm",
+    "effectum-active-strip-of-10-capsules",
+    "effectum-vanilla-powder-200-gm",
+    "effort-capsule-10",
+    "effort-syrup-200ml",
+    "eficent-plus-strip-of-10-tablets",
+    "efiplus-capsule-10",
+    "eflo-500mg-strip-of-10-capsules",
+    "egalyt-pds-syrup-60ml",
+    "egiva-cap",
+    "ej-min-e-capsule-10",
+    "elcopia-bottle-of-200ml-syrup"
+  ],
+  "hiv infection": [
+    "efamat-bottle-of-30-tablets",
+    "efavir-200mg-capsule",
+    "efavir-600mg-bottle-of-30-tablets",
+    "efavir-100-mg-capsule-30",
+    "efavir-300-mg-tablet-30",
+    "efavir-200-mg-tablet-60",
+    "efv-200mg-tab",
+    "efv-600mg-tab"
+  ],
+  "pain & inflammation": [
+    "efaruth-plus-capsule-10"
+  ],
+  "fungal infections": [
+    "efcan-150-mg-tablet-1",
+    "efcon-150mg-tab",
+    "efcon-400mg-strip-of-1-tablets",
+    "ekan-150-mg-tablet-1",
+    "elcon-150-tablets"
+  ],
+  "skin conditions": [
+    "efcinol-plus-cream-10gm",
+    "eke-plus-0-05-6-cream-15-gm"
+  ],
+  "neuropathy": [
+    "efcoba-forte-strip-of-10-tablets",
+    "efcoba-plus-tablet",
+    "effenerv-strip-of-10-capsules",
+    "effenerv-inj",
+    "effenerv-pg-strip-of-10-capsules",
+    "eflin-m-75mg-strip-of-10-tablets",
+    "elcair-forte-infusion",
+    "eldenerv-1500mcg-strip-of-10-capsules"
+  ],
+  "vitamin b12 & folate deficiency": [
+    "efcoba-f-tab"
+  ],
+  "parasitic worm infections": [
+    "efcoben-strip-of-10-capsules"
+  ],
+  "nasal allergies": [
+    "efcorlin-bottle-of-10ml-nasal-drops",
+    "efcorlin-0-02-0-025-nasal-drops-15-ml",
+    "efnase-nasal-spray"
+  ],
+  "severe allergic reactions": [
+    "efcorlin-100mg-dry-vial-of-1-powder-for-injection",
+    "efcorlin-2-5gm-pellets",
+    "efcorlin-100-mg-injection-2-5-ml",
+    "efcure-30mg-solu-60ml",
+    "eflaza-6mg-strip-of-10-tablets"
+  ],
+  "gut flora restoration": [
+    "efegut-strip-of-10-capsules",
+    "egarile-strip-of-10-capsules"
+  ],
+  "muscle spasm": [
+    "efekart-strip-of-10-tablets",
+    "efilor-mr-tab"
+  ],
+  "cough with mucus": [
+    "efelin-pd-syrup-100ml",
+    "efelin-x-pd-syrup-100ml",
+    "efelin-x-strip-of-10-tablets"
+  ],
+  "menopause supplement": [
+    "efem-meno-strip-of-10-tablets"
+  ],
+  "abdominal cramps": [
+    "efespas-10mg-strip-of-10-tablets",
+    "efespas-10-250-mg-tablet-10",
+    "egspas-tablet-10"
+  ],
+  "mucolytic": [
+    "efetil-600mg-strip-of-10-effervescent-tablets",
+    "efetil-600mg-orange-flavour-sugar-free-strip-of-10-effervescent-tablets",
+    "effenac-600mg-orange-flavour-bottle-of-10-effervescent-tablets",
+    "efferven-200mg-strip-of-10-tablets",
+    "efferven-600mg-tablet"
+  ],
+  "gastric acidity": [
+    "efex-20-mg-capsule-10",
+    "ekomax-capsule",
+    "ekomax-tablet",
+    "ekomax-200mg-tab"
+  ],
+  "acne-prone skin cleanser": [
+    "effaclar-foaming-gel-50-ml"
+  ],
+  "calcium supplements": [
+    "effcal-lemon-strip-of-2-tablets",
+    "effcal-mango-tab",
+    "effcal-orange-strip-of-2-tablets",
+    "effcal-ct-1000-mg-200iu-tablet-6"
+  ],
+  "nutritional support": [
+    "effectto-cap"
+  ],
+  "dehydration": [
+    "effelyte-orange-flavour-efferevescent-bottle-of-10-tablets"
+  ],
+  "antidepressant": [
+    "effelin-50-mg-injection-1-ml"
+  ],
+  "cough": [
+    "effenac-ab-strip-of-10-tablets"
+  ],
+  "skin inflammation": [
+    "efficort-0-127-cream-10gm",
+    "elando-ointment-15gm"
+  ],
+  "bacterial": [
+    "efficium-o-tab",
+    "eficino-200-100-mg-tablet-10",
+    "eflox-oz-strip-of-10-tablets",
+    "elcure-ozd-tab"
+  ],
+  "cholesterol lowering": [
+    "effitor-tab",
+    "eicos-strip-of-10-tablets",
+    "elatorv-10-mg-tablet-10",
+    "elatorv-40-mg-tablet-10",
+    "elatorv-20-mg-tablet-10"
+  ],
+  "antioxidant": [
+    "effoday-tab",
+    "efort-400mg-strip-of-10-capsules",
+    "egwell-soft-gelatin-capsule-15"
+  ],
+  "infant nutritional supplement": [
+    "effort-drops"
+  ],
+  "nutritional aid": [
+    "effros-strip-of-10-capsules",
+    "effros-strip-of-10-tablets"
+  ],
+  "migraine prophylaxis": [
+    "efigraine-neo-10mg-strip-of-10-tablets",
+    "efigraine-10mg-tablet",
+    "efigraine-5mg-tablet"
+  ],
+  "shock": [
+    "efipress-injection",
+    "efipress-inj-1ml"
+  ],
+  "infant colic": [
+    "efizyme-drops-30-ml"
+  ],
+  "eye inflammation": [
+    "eflo-entod-pharma-bottle-of-5ml-eye-drops"
+  ],
+  "unwanted facial hair reduction": [
+    "eflocare-cream-10gm",
+    "eflora-tube-of-15gm-cream"
+  ],
+  "facial hair reduction": [
+    "efnithin-tube-of-10gm-cream"
+  ],
+  "erectile dysfunction": [
+    "eforce-20-mg-tablet-30"
+  ],
+  "cancer": [
+    "efudex-250mg-tab",
+    "efudex-500mg-tablets"
+  ],
+  "acne treatment": [
+    "eg-c-gel-20gm"
+  ],
+  "antiseptic disinfectant": [
+    "egagerm-solution-50-ml"
+  ],
+  "infertility treatment": [
+    "eggoz-100mg-capsule",
+    "eggoz-50-mg-tablet-10"
+  ],
+  "dietary support": [
+    "egift-capsule-10"
+  ],
+  "pain & muscle spasm": [
+    "ego-m-tablet-10"
+  ],
+  "hormone replacement": [
+    "egogest-200mg-strip-of-10-capsules"
+  ],
+  "depression": [
+    "egulent-10-mg-tablet-10",
+    "elderam-10-mg-tablet-10"
+  ],
+  "gut health": [
+    "ehcoli-bottle-of-60-capsules",
+    "elac-tab"
+  ],
+  "bleeding control": [
+    "ehtab-tab"
+  ],
+  "vaccination (veterinary)": [
+    "ei-vaccine-0-5ml-injection-0-5"
+  ],
+  "dietary supplement": [
+    "eido-m-strip-of-15-capsules"
+  ],
+  "anemia in children": [
+    "eido-fe-dry-syp"
+  ],
+  "gingivitis": [
+    "eisep-bottle-of-50ml-mouthwash"
+  ],
+  "erectile dysfunction + premature ejaculation": [
+    "ej-max-capsule"
+  ],
+  "premature ejaculation": [
+    "eject-30mg-tablet"
+  ],
+  "osteoarthritis": [
+    "ejoint-capsule-10"
+  ],
+  "kidney stones": [
+    "ekal-bottle-of-250ml-solution",
+    "ekal-200-ml-solution"
+  ],
+  "malaria": [
+    "ekinate-60mg-inj",
+    "ekinate-ab-inj"
+  ],
+  "bipolar disorder": [
+    "eklib-sr-400-mg-tablet-10"
+  ],
+  "fungal skin infections": [
+    "ela-b-cream-10gm",
+    "elba-cream-15-gm"
+  ],
+  "asthma prophylax": [
+    "elarist-l-10-mg-tablet-10"
+  ],
+  "schizophrenia": [
+    "elate-25-mg-tablet-10"
+  ],
+  "inflammation": [
+    "elcort-4mg-strip-of-10-tablets",
+    "elcort-8mg-strip-of-10-tablets",
+    "elcort-16mg-strip-of-10-tablets"
+  ],
+  "infant vitamins": [
+    "eldervit-drop-15ml"
   ]
 }
