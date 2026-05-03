@@ -24,6 +24,7 @@ export default defineConfig(({mode}) => {
         workbox: {
           maximumFileSizeToCacheInBytes: 5000000,
           globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
+          // Skip caching non-http requests (like chrome-extension://)
           runtimeCaching: [
             {
               urlPattern: ({ url }) => url.protocol === 'http:' || url.protocol === 'https:',
@@ -49,33 +50,17 @@ export default defineConfig(({mode}) => {
           ]
         }
       }),
-
       sitemap({
         hostname: 'https://aethelcare.xyz',
-        dynamicRoutes: [
-          '/',
-          '/banned-drugs',
-          '/scan',
-          '/compare',
-          '/generic-finder',
-          '/drug-info',
-          '/pricing',
-          '/reminders',
-          '/about',
-        ],
-        exclude: [
-          '/google20f926fe5b04d78e',
-          '/dashboard',
-          '/contact',
-          '/scanner',
-        ],
+        dynamicRoutes: ['/', '/scanner', '/drug-info', '/about', '/compare', '/banned-drugs', '/pricing', '/contact']
       }),
-
       prerender({
+        // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
+        // Required - Routes to render.
         routes: ['/', '/scanner', '/drug-info', '/about'],
         renderer: new JSDOMRenderer({
-          renderAfterDocumentEvent: 'render-event',
+          renderAfterDocumentEvent: 'render-event', // or just use fallback
         })
       }),
     ],
@@ -88,6 +73,8 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
+      // HMR is disabled in AI Studio via DISABLE_HMR env var.
+      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
