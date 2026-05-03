@@ -1,1 +1,8 @@
-/* /index.html 200
+/sitemap.xml              /sitemap.xml              200
+/sitemap-pages.xml        /sitemap-pages.xml        200
+/sitemap-banned-drugs.xml /sitemap-banned-drugs.xml 200
+/sitemap-drugs.xml        /sitemap-drugs.xml        200
+/sitemap-landing.xml      /sitemap-landing.xml      200
+/sitemap-blog.xml         /sitemap-blog.xml         200
+/robots.txt               /robots.txt               200
+/*                        /index.html               200
