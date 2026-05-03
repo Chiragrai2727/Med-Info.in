@@ -1,53 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Homepage -->
-  <url>
-    <loc>https://aethelcare.xyz/</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- AI Scanner -->
-  <url>
-    <loc>https://aethelcare.xyz/scan</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- Banned Drugs Registry (most valuable SEO page) -->
-  <url>
-    <loc>https://aethelcare.xyz/banned-drugs</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- Pricing -->
-  <url>
-    <loc>https://aethelcare.xyz/pricing</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- About -->
-  <url>
-    <loc>https://aethelcare.xyz/about</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- Medicine Reminders -->
-  <url>
-    <loc>https://aethelcare.xyz/timetable</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- Contact -->
-  <url>
-    <loc>https://aethelcare.xyz/contact</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-  <!-- Privacy Policy -->
-  <url>
-    <loc>https://aethelcare.xyz/privacy</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
-
+<url>
+<loc>https://aethelcare.xyz/</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>daily</changefreq>
+<priority>1.0</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/banned-drugs</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.95</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/scan</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.90</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/compare</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/generic-finder</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/pricing</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/reminders</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.75</priority>
+</url>
+<url>
+<loc>https://aethelcare.xyz/about</loc>
+<lastmod>2026-05-03</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.60</priority>
+</url>
 </urlset>
