@@ -24,7 +24,6 @@ export default defineConfig(({mode}) => {
         workbox: {
           maximumFileSizeToCacheInBytes: 5000000,
           globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
-          // Skip caching non-http requests (like chrome-extension://)
           runtimeCaching: [
             {
               urlPattern: ({ url }) => url.protocol === 'http:' || url.protocol === 'https:',
@@ -50,17 +49,91 @@ export default defineConfig(({mode}) => {
           ]
         }
       }),
+
+      // ── SITEMAP — updated with correct URLs and priorities ──
       sitemap({
         hostname: 'https://aethelcare.xyz',
-        dynamicRoutes: ['/', '/scanner', '/drug-info', '/about', '/compare', '/banned-drugs', '/pricing', '/contact']
+        dynamicRoutes: [
+          '/',
+          '/banned-drugs',
+          '/scan',
+          '/compare',
+          '/generic-finder',
+          '/drug-info',
+          '/pricing',
+          '/reminders',
+          '/about',
+        ],
+        exclude: [
+          '/google20f926fe5b04d78e',
+          '/dashboard',
+          '/contact',
+        ],
+        // Custom priorities per route
+        routesConfig: [
+          {
+            path: '/',
+            changefreq: 'daily',
+            priority: 1.0,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/banned-drugs',
+            changefreq: 'weekly',
+            priority: 0.95,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/scan',
+            changefreq: 'monthly',
+            priority: 0.90,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/compare',
+            changefreq: 'monthly',
+            priority: 0.85,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/generic-finder',
+            changefreq: 'weekly',
+            priority: 0.85,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/drug-info',
+            changefreq: 'daily',
+            priority: 0.85,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/pricing',
+            changefreq: 'monthly',
+            priority: 0.80,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/reminders',
+            changefreq: 'monthly',
+            priority: 0.75,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+          {
+            path: '/about',
+            changefreq: 'monthly',
+            priority: 0.60,
+            lastmod: new Date().toISOString().split('T')[0],
+          },
+        ],
       }),
+      // ────────────────────────────────────────────────────────
+
       prerender({
-        // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
-        // Required - Routes to render.
         routes: ['/', '/scanner', '/drug-info', '/about'],
         renderer: new JSDOMRenderer({
-          renderAfterDocumentEvent: 'render-event', // or just use fallback
+          renderAfterDocumentEvent: 'render-event',
         })
       }),
     ],
@@ -73,8 +146,6 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
