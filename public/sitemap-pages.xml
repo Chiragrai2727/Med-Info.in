@@ -31,15 +31,9 @@
     <lastmod>2026-05-02</lastmod>
   </url>
 
-  <!-- Compare Medicines -->
-  <url>
-    <loc>https://aethelcare.xyz/compare</loc>
-    <lastmod>2026-05-02</lastmod>
-  </url>
-
   <!-- Medicine Reminders -->
   <url>
-    <loc>https://aethelcare.xyz/reminders</loc>
+    <loc>https://aethelcare.xyz/timetable</loc>
     <lastmod>2026-05-02</lastmod>
   </url>
 
