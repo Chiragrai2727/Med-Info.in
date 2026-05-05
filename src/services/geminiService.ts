@@ -115,6 +115,27 @@ const medicinesMap: Record<string, Medicine> = allLocalMedicines.reduce((acc, me
   return acc;
 }, {} as Record<string, Medicine>);
 
+export function getAutocompleteSuggestion(searchQuery: string): string | null {
+  if (!searchQuery || searchQuery.trim().length === 0) return null;
+  const q = searchQuery.toLowerCase();
+  
+  // Try to find a drug name or brand name that starts with the query
+  const match = allLocalMedicines.find(m => {
+    if (m.drug_name.toLowerCase().startsWith(q)) return true;
+    if (m.brand_names_india.some(b => b.toLowerCase().startsWith(q))) return true;
+    return false;
+  });
+
+  if (!match) return null;
+
+  // Return the specific name that matched (either drug name or brand name)
+  if (match.drug_name.toLowerCase().startsWith(q)) {
+    return match.drug_name;
+  }
+  const brandMatch = match.brand_names_india.find(b => b.toLowerCase().startsWith(q));
+  return brandMatch || match.drug_name;
+}
+
 export function isDrugBanned(name: string): boolean {
   const q = name.toLowerCase().trim();
   return bannedMedicines.some(m => 

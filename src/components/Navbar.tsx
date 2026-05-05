@@ -48,37 +48,42 @@ export const Navbar: React.FC = () => {
                   <Camera className="w-3.5 h-3.5 sm:w-4 h-4 flex-shrink-0" />
                   <span>{t('scan')}</span>
                 </Link>
-                <div className="relative group flex-shrink-0">
-                  <button className="flex items-center justify-center w-8 h-8 sm:w-10 h-10 rounded-full hover:bg-black/5 transition-all flex-shrink-0">
+                <div className="relative group flex-shrink-0 ml-1 sm:ml-2">
+                  <button className="flex items-center justify-center w-10 h-10 min-w-[40px] min-h-[40px] rounded-full hover:bg-black/5 transition-all flex-shrink-0 aspect-square overflow-hidden border border-border/10">
                     {profile?.photoURL ? (
-                      <img src={profile.photoURL} alt="Profile" className="w-full h-full aspect-square rounded-full border-2 border-surface shadow-sm object-cover flex-shrink-0" referrerPolicy="no-referrer" />
+                      <img src={profile.photoURL} alt="Profile" className="w-full h-full aspect-square rounded-full object-cover flex-shrink-0" referrerPolicy="no-referrer" />
                     ) : (
-                      <div className="w-full h-full aspect-square bg-primary/5 rounded-full flex items-center justify-center border-2 border-surface shadow-sm flex-shrink-0">
-                        <UserIcon className="w-4 h-4 sm:w-5 h-5 text-primary flex-shrink-0" />
+                      <div className="w-full h-full aspect-square bg-primary/5 rounded-full flex items-center justify-center flex-shrink-0">
+                        <UserIcon className="w-5 h-5 text-primary flex-shrink-0" />
                       </div>
                     )}
                   </button>
-                  <div className="absolute right-0 mt-2 w-56 backdrop-blur-[32px] bg-surface/80 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-border/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-2">
-                    <div className="p-5 border-b border-black/5">
-                      <p className="text-xs font-black uppercase tracking-widest text-text-secondary/50 mb-1">Account</p>
-                      <p className="text-sm font-black truncate text-text-primary">{profile?.displayName || user.email}</p>
+                  <div className="absolute right-0 mt-3 w-64 bg-surface rounded-[1.25rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-3 overflow-hidden">
+                    <div className="p-5 border-b border-border bg-bg/50">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/60 mb-1">Account</p>
+                      <p className="text-base font-black truncate text-text-primary tracking-tight">{profile?.displayName || user.email}</p>
                     </div>
-                    <Link to="/dashboard" className="w-full text-left px-5 py-3 text-sm text-text-secondary hover:bg-primary/5 font-bold flex items-center gap-3 transition-colors">
-                      <LayoutDashboard className="w-4 h-4 text-primary" />
-                      {t('dashboard')}
-                    </Link>
-                    <Link to="/contact" className="w-full text-left px-5 py-3 text-sm text-text-secondary hover:bg-primary/5 font-bold flex items-center gap-3 transition-colors">
-                      <Mail className="w-4 h-4 text-primary" />
-                      Contact Us
-                    </Link>
-                    {profile?.role === 'admin' && (
-                      <Link to="/admin" className="w-full text-left px-5 py-3 text-sm text-primary hover:bg-primary/5 font-bold flex items-center gap-3 border-b border-black/5">
-                        <ShieldCheck className="w-4 h-4" /> {t('adminPanel')}
+                    <div className="p-2">
+                      <Link to="/dashboard" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
+                        <LayoutDashboard className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
+                        {t('dashboard')}
                       </Link>
-                    )}
-                    <button onClick={logout} className="w-full text-left px-5 py-3 text-sm text-danger hover:bg-danger/5 font-bold flex items-center gap-3 rounded-b-2xl">
-                      <LogOut className="w-4 h-4" /> {t('signOut')}
-                    </button>
+                      <Link to="/contact" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
+                        <Mail className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
+                        Contact Us
+                      </Link>
+                      {profile?.role === 'admin' && (
+                        <Link to="/admin" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
+                          <ShieldCheck className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" /> 
+                          {t('adminPanel')}
+                        </Link>
+                      )}
+                      <div className="h-px bg-border my-2 mx-2" />
+                      <button onClick={logout} className="w-full text-left px-4 py-2.5 text-sm text-danger hover:bg-danger/5 rounded-xl font-bold flex items-center gap-3 transition-colors">
+                        <LogOut className="w-4 h-4" /> 
+                        {t('signOut')}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </>

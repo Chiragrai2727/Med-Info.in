@@ -42,7 +42,7 @@ export const PrivacyPolicy: React.FC = () => {
             <div>
               <h3 className="text-xl font-black text-amber-900 mb-2 uppercase tracking-tight">Medical Disclaimer</h3>
               <p className="text-amber-800/80 font-bold tracking-tight leading-relaxed">
-                Educational purposes only. Not a substitute for professional medical advice. Always consult a qualified doctor before taking any medication.
+                This site is strictly for study and educational purposes only. This site does not tell you or make you take any medications. Always consult a qualified doctor. For the scanner, we use AI models which are highly accurate, but sometimes AI can give you wrong information. Always check the details and consult a doctor.
               </p>
             </div>
           </div>

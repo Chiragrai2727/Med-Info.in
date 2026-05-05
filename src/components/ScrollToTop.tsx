@@ -35,7 +35,7 @@ export const ScrollToTop: React.FC = () => {
           whileHover={{ scale: 1.1, translateY: -5 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-32 right-6 md:bottom-8 md:right-8 z-50 p-4 rounded-3xl bg-primary text-white shadow-2xl shadow-primary/40 backdrop-blur-xl border border-white/10 group transition-all"
+          className="fixed bottom-36 right-4 md:bottom-10 md:right-10 z-50 p-4 rounded-3xl bg-primary text-white shadow-2xl shadow-primary/40 backdrop-blur-xl border border-white/10 group transition-all"
           aria-label="Scroll to top"
         >
           <div className="relative flex items-center justify-center">

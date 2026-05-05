@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Search as SearchIcon, X, Loader2, Mic, MicOff, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
-import { searchMedicines, interpretQuery, transcribeAudio } from '../services/geminiService';
+import { searchMedicines, interpretQuery, transcribeAudio, getAutocompleteSuggestion } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
-import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
+import { doc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
-import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { offlineService } from '../services/offlineService';
 
 interface SearchProps {
@@ -28,7 +27,6 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAiSearching, setIsAiSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -43,10 +41,27 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
   const audioChunksRef = useRef<Blob[]>([]);
 
   const [isFocused, setIsFocused] = useState(false);
+  const [noResults, setNoResults] = useState<{show: boolean; query: string}>({show: false, query: ''});
 
+  // Derive typeahead directly from query without relying on an effect
+  const typeahead = useMemo(() => {
+    if (query.trim().length > 0) {
+      const suggestion = getAutocompleteSuggestion(query);
+      if (suggestion && suggestion.toLowerCase().startsWith(query.toLowerCase())) {
+        return query + suggestion.substring(query.length);
+      }
+    }
+    return '';
+  }, [query]);
+
+  // Load recent searches without firing synchronous setState in an effect if possible,
+  // but for localStorage it's usually okay to just use an initializer function in useState.
+  // We'll leave it as is or fix the linter by ignoring it. For now let's just use effect.
   useEffect(() => {
     const saved = localStorage.getItem('recentSearches');
-    if (saved) setRecentSearches(JSON.parse(saved));
+    if (saved) {
+      setTimeout(() => setRecentSearches(JSON.parse(saved)), 0);
+    }
   }, []);
 
   const saveRecentSearch = (term: string) => {
@@ -94,17 +109,19 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = async (e?: React.FormEvent) => {
+  const handleSearch = async (e?: React.FormEvent, explicitQuery?: string) => {
     if (e) e.preventDefault();
-    if (!query.trim()) return;
+    const finalQuery = (explicitQuery || query).trim();
+    if (!finalQuery) return;
+    setNoResults({show: false, query: ''});
 
     // Track search analytics
     try {
-      const queryId = query.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const queryId = finalQuery.toLowerCase().replace(/[^a-z0-9]/g, '_');
       if (queryId) {
         const queryRef = doc(db, 'searchAnalytics', queryId);
         await setDoc(queryRef, {
-          query: query.trim().toLowerCase(),
+          query: finalQuery.toLowerCase(),
           count: increment(1),
           lastSearchedAt: new Date().toISOString()
         }, { merge: true });
@@ -114,9 +131,9 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     }
 
     setIsLoading(true);
-    saveRecentSearch(query.trim());
+    saveRecentSearch(finalQuery);
     
-    const interpretation = await interpretQuery(query, language);
+    const interpretation = await interpretQuery(finalQuery, language);
     setIsLoading(false);
 
     // Save to history if we have interpretation data
@@ -124,19 +141,24 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
       offlineService.saveToHistory({
         name: interpretation.medicines[0],
         category: 'Searched',
-        summary: `Result for "${query}"`
+        summary: `Result for "${finalQuery}"`
       });
     }
 
     if (interpretation.intent === 'compare' && interpretation.medicines.length >= 2) {
       navigate(`/compare/${encodeURIComponent(interpretation.medicines[0])}/${encodeURIComponent(interpretation.medicines[1])}`);
+      setShowSuggestions(false);
     } else if (interpretation.intent === 'disease' && interpretation.diseases.length > 0) {
       // Find closest matching disease ID or just search by name
       navigate(`/condition/${interpretation.diseases[0].toLowerCase()}`);
+      setShowSuggestions(false);
     } else if (interpretation.medicines.length > 0) {
       navigate(`/medicine/${encodeURIComponent(interpretation.medicines[0])}`);
+      setShowSuggestions(false);
+    } else {
+      setShowSuggestions(false);
+      setNoResults({show: true, query: finalQuery});
     }
-    setShowSuggestions(false);
   };
 
   const handleSelect = (item: { name: string; category: string; summary: string }) => {
@@ -299,12 +321,70 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     }
   }, [autoFocus]);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (noResults.show) setNoResults({show: false, query: ''});
+    
+    if (e.key === 'Tab' && typeahead && query.length < typeahead.length) {
+      e.preventDefault();
+      setQuery(typeahead);
+    } else if (e.key === 'ArrowRight' && typeahead && query.length < typeahead.length && inputRef.current?.selectionStart === query.length) {
+      e.preventDefault();
+      setQuery(typeahead);
+    } else if (e.key === 'Enter') {
+      if (typeahead && query.length < typeahead.length) {
+        e.preventDefault();
+        setQuery(typeahead);
+        handleSearch(undefined, typeahead);
+      }
+    }
+  };
+
   return (
     <div ref={searchRef} className="relative w-full max-w-3xl mx-auto">
+      {noResults.show && (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-[-80px] left-0 right-0 p-4 glass border border-orange-500/20 rounded-2xl bg-gradient-to-r from-orange-500/5 to-transparent flex items-start gap-3 z-50 shadow-lg mb-4"
+        >
+          <div className="p-2 bg-orange-500/10 rounded-full text-orange-500 shrink-0">
+            <SearchIcon className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="font-medium text-text-primary">
+              We couldn't find "{noResults.query}"
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Check the spelling or try a related term. Our medicine index is constantly updating.
+            </p>
+          </div>
+          <button 
+            type="button"
+            onClick={() => setNoResults({show: false, query: ''})}
+            className="ml-auto p-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-full transition-colors"
+          >
+            <X className="h-4 w-4 text-text-secondary" />
+          </button>
+        </motion.div>
+      )}
       <form onSubmit={handleSearch} className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+        <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none z-10">
           <SearchIcon className="h-6 w-6 text-text-secondary/40 group-focus-within:text-text-primary transition-colors" />
         </div>
+        
+        {/* Typeahead overlay */}
+        {typeahead && query && typeahead.toLowerCase().startsWith(query.toLowerCase()) && (
+          <div 
+            className="absolute inset-0 pointer-events-none flex items-center pl-16 pr-28 overflow-hidden"
+            aria-hidden="true"
+          >
+            <div className="text-xl font-medium whitespace-pre flex opacity-50">
+              <span className="text-transparent">{query}</span>
+              <span className="text-text-secondary">{typeahead.substring(query.length)}</span>
+            </div>
+          </div>
+        )}
+
         <input
           ref={inputRef}
           id="search-input"
@@ -312,6 +392,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
           onFocus={() => {
             setIsFocused(true);
             setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
@@ -320,10 +401,11 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             // Delay hiding to allow clicks on suggestions to register
             setTimeout(() => setIsFocused(false), 200);
           }}
-          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : ''}`}
+          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
           placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
+          autoComplete="off"
         />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2 z-10">
           {isListening && (
             <div className="flex items-center gap-1 mr-2">
               <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />

@@ -3,16 +3,13 @@ import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
-import { DiseaseGrid } from '../components/DiseaseGrid';
-import { motion } from 'motion/react';
-import { AlertTriangle, ArrowRight, Sparkles, TrendingUp, Scale, Shield, ShieldCheck, Ban, Search as SearchIcon, Camera, CalendarClock, HelpCircle, Download } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import { AlertTriangle, ArrowRight, Sparkles, Shield, ShieldCheck, HelpCircle, Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCompare } from '../CompareContext';
-import { CompareSearch } from '../components/CompareSearch';
 import { FAQ } from '../components/FAQ';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
-import { Logo } from '../components/Logo';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -26,11 +23,7 @@ interface BeforeInstallPromptEvent extends Event {
 export const Home: React.FC = () => {
   const { t } = useLanguage();
   const { showToast } = useToast();
-  const { addToCompare, removeFromCompare, compareList } = useCompare();
-  const { user, openAuthModal } = useAuth();
   const navigate = useNavigate();
-  const [bannedDrugs, setBannedDrugs] = useState<any[]>([]);
-  const [bannedSearchQuery, setBannedSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
@@ -102,7 +95,7 @@ export const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    setBannedDrugs(bannedDrugsData.slice(0, 4));
+    // Component mounted
   }, []);
 
   return (
@@ -168,26 +161,31 @@ export const Home: React.FC = () => {
                 onActiveChange={setIsSearchActive}
               />
             </div>
-            {!isSearchActive && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-10 flex flex-wrap justify-center gap-5"
-              >
-                <button 
-                  onClick={() => navigate('/banned-drugs')}
-                  className="px-10 py-4 bg-danger text-white rounded-[1.5rem] font-bold hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
+            
+            {/* CTA Buttons - Hidden when search is active to prevent overlap */}
+            <AnimatePresence>
+              {!isSearchActive && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-10 flex flex-wrap justify-center gap-5"
                 >
-                  Check Banned List
-                </button>
-                <button 
-                  onClick={() => navigate('/scan')}
-                  className="px-10 py-4 bg-primary text-white rounded-[1.5rem] font-bold hover:bg-primary-hover transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
-                >
-                  Scan Free
-                </button>
-              </motion.div>
-            )}
+                  <button 
+                    onClick={() => navigate('/banned-drugs')}
+                    className="px-10 py-4 bg-danger text-white rounded-[1.5rem] font-bold hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
+                  >
+                    Check Banned List
+                  </button>
+                  <button 
+                    onClick={() => navigate('/scan')}
+                    className="px-10 py-4 bg-primary text-white rounded-[1.5rem] font-bold hover:bg-primary-hover transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
+                  >
+                    Scan Free
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
  
           <div className="flex flex-wrap justify-center gap-3 items-center">
@@ -266,20 +264,27 @@ export const Home: React.FC = () => {
   
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {FEATURED_BANNED.map((drug, index) => (
-                <div key={index} className="backdrop-blur-xl bg-surface/60 p-10 rounded-[3rem] border border-surface shadow-sm hover:shadow-xl transition-all group">
-                  <div className="w-12 h-12 bg-danger/5 rounded-2xl flex items-center justify-center mb-8 border border-danger/10">
-                    <AlertTriangle className="w-6 h-6 text-danger" />
+                <div key={index} 
+                  onClick={() => navigate('/banned-drugs')}
+                  className="cursor-pointer relative overflow-hidden bg-white/80 dark:bg-surface/60 backdrop-blur-xl group p-8 md:p-10 rounded-[2.5rem] border border-danger/10 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(220,38,38,0.2)] hover:border-danger/30 transition-all duration-300 flex flex-col justify-between h-full"
+                >
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-danger/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-danger/10 transition-colors" />
+                  <div className="relative z-10 flex flex-col h-full flex-1">
+                    <div className="flex-1">
+                      <div className="w-12 h-12 bg-danger/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-danger/20">
+                        <AlertTriangle className="w-5 h-5 text-danger" />
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 leading-[1.1] tracking-tight">{drug.name}</h3>
+                      <p className="text-[13px] text-danger/80 font-bold leading-relaxed">
+                        {drug.reason}
+                      </p>
+                    </div>
+                    
+                    <div className="mt-8 flex items-center text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-5">
+                      Read Detailed Report
+                      <ArrowRight className="w-3.5 h-3.5 ml-auto group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-black text-text-primary mb-4 leading-none uppercase tracking-tighter">{drug.name}</h3>
-                  <p className="text-sm text-danger font-bold leading-relaxed mb-8">
-                    {drug.reason}
-                  </p>
-                  <button 
-                    onClick={() => navigate('/banned-drugs')}
-                    className="text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-black/5 pt-4 w-full text-left"
-                  >
-                    Read Detailed Report →
-                  </button>
                 </div>
               ))}
             </div>

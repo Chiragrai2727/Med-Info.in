@@ -133,7 +133,7 @@ export const About: React.FC = () => {
                   <img 
                     src="/chirag.jpg" 
                     alt="Chirag Rai" 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" 
+                    className="w-full h-full object-cover transition-all duration-1000 scale-105 group-hover:scale-100" 
                     referrerPolicy="no-referrer" 
                     onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'; }}
                   />
@@ -193,7 +193,7 @@ export const About: React.FC = () => {
                   <img 
                     src="/sagar.jpg" 
                     alt="Dr. Sagar Rai" 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" 
+                    className="w-full h-full object-cover transition-all duration-1000 scale-105 group-hover:scale-100" 
                     referrerPolicy="no-referrer" 
                     onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800'; }}
                   />

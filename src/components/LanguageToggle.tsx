@@ -29,7 +29,7 @@ export const LanguageToggle: React.FC = () => {
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute right-0 mt-2 w-40 bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl z-50 overflow-hidden"
+              className="absolute right-0 mt-3 w-48 bg-surface border border-border rounded-2xl shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] z-50 overflow-hidden p-2"
             >
               {LANGUAGES.map((lang) => (
                 <button
@@ -38,8 +38,10 @@ export const LanguageToggle: React.FC = () => {
                     setLanguage(lang.code);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2.5 text-sm hover:bg-black/5 transition-colors ${
-                    language === lang.code ? 'font-bold text-black' : 'text-gray-600'
+                  className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all font-bold ${
+                    language === lang.code 
+                      ? 'bg-primary/5 text-primary' 
+                      : 'text-text-secondary hover:bg-bg hover:text-text-primary'
                   }`}
                 >
                   {lang.name}

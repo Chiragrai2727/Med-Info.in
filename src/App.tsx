@@ -32,6 +32,7 @@ import { TrialBanner } from './components/TrialBanner';
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { MedicalDisclaimerModal } from './components/MedicalDisclaimerModal';
 
 import { checkDueReminders, dismissReminder, RefillReminder } from './utils/refillReminder';
 import { Bell, X } from 'lucide-react';
@@ -122,6 +123,7 @@ export default function App() {
                 </div>
 
                 <OfflineBanner />
+                <MedicalDisclaimerModal />
                 <NotificationManager />
                 <CompareBar />
                 <main>
@@ -217,7 +219,7 @@ export default function App() {
                           Follow us on Instagram
                         </a>
                       </div>
-                      <div>
+                      <div className="pr-12 md:pr-0">
                         <h3 className="font-black text-lg mb-4 text-text-primary">Suggestions</h3>
                         <p className="text-sm font-medium text-text-secondary mb-4">
                           We value your feedback. Let us know how we can improve.
