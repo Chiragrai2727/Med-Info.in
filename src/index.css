@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
   --color-primary: #1D4ED8;
   --color-primary-hover: #1E40AF;
   --color-danger: #DC2626;
@@ -29,6 +30,10 @@
   }
 
   /* Safe Area Helpers */
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image: radial-gradient(circle, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+  }
   .pt-safe {
     padding-top: env(safe-area-inset-top);
   }
