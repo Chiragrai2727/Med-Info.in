@@ -100,6 +100,12 @@ export const MedicineDetail: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      stopAudio();
+    };
+  }, []);
+
   const stopAudio = () => {
     if (sourceNodeRef.current) {
       sourceNodeRef.current.stop();
@@ -109,12 +115,6 @@ export const MedicineDetail: React.FC = () => {
     setIsPlaying(false);
     setSpeakingSection(null);
   };
-
-  useEffect(() => {
-    return () => {
-      stopAudio();
-    };
-  }, []);
 
   const playAudio = async (text: string, sectionTitle?: string) => {
     if (isPlaying && (sectionTitle === speakingSection || !sectionTitle)) {

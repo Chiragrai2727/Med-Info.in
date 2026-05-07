@@ -6,7 +6,10 @@ import { Search } from '../components/Search';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, ArrowRight, Sparkles, Shield, ShieldCheck, HelpCircle, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useCompare } from '../CompareContext';
 import { FAQ } from '../components/FAQ';
+import bannedDrugsData from '../data/banned_medicines.json';
+import { useAuth } from '../AuthContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -265,9 +268,6 @@ export const Home: React.FC = () => {
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-4xl font-black text-text-primary tracking-tight leading-none">Popular Medicines</h2>
           <div className="h-px bg-border flex-1 mx-8 hidden md:block opacity-30" />
-          <button onClick={() => navigate('/directory')} className="px-6 py-3 bg-bg border border-border text-primary font-bold rounded-full hover:bg-primary/5 transition-colors uppercase tracking-[0.2em] text-[10px] hidden sm:block whitespace-nowrap">
-             View Database
-          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {POPULAR_MEDS.map((med, index) => (
@@ -295,11 +295,6 @@ export const Home: React.FC = () => {
               </div>
             </div>
           ))}
-        </div>
-        <div className="mt-12 text-center sm:hidden">
-          <button onClick={() => navigate('/directory')} className="px-6 py-4 w-full bg-bg border border-border text-primary font-bold rounded-full hover:bg-primary/5 transition-colors uppercase tracking-[0.2em] text-[10px]">
-             View Complete Database
-          </button>
         </div>
       </section>
  

@@ -5,6 +5,7 @@ import { useToast } from './ToastContext';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from './firebase';
 import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
+import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -21,17 +22,18 @@ import { Timetable } from './pages/Timetable';
 import { Dashboard } from './pages/Dashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { About } from './pages/About';
-import { MedicineDirectory } from './pages/MedicineDirectory';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { Contact } from './pages/Contact';
 import { Conditions } from './pages/Conditions';
 import { Pricing } from './pages/Pricing';
 import { OfflineBanner } from './components/OfflineBanner';
+import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
 import { NotificationManager } from './components/NotificationManager';
 import { MobileNav } from './components/MobileNav';
 import { ScrollToTop } from './components/ScrollToTop';
+import { TrialBanner } from './components/TrialBanner';
 
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
@@ -49,6 +51,21 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
     const check = () => setReminders(checkDueReminders());
     check();
     const interval = setInterval(check, 60000); // Check for refills every minute
@@ -58,6 +75,8 @@ export default function App() {
     
     return () => {
       clearInterval(interval);
+      gsap.ticker.remove(lenis.raf);
+      lenis.destroy();
     };
   }, []);
 
@@ -70,7 +89,7 @@ export default function App() {
     <ErrorBoundary>
       <CompareProvider>
         <Router>
-          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300 overflow-x-hidden">
+          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300 overflow-clip">
             {/* Liquid Glass Background Elements */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
               <motion.div 
@@ -146,7 +165,6 @@ export default function App() {
                     <Route path="/medicine/:name" element={<MedicineDetail />} />
                     <Route path="/condition/:id" element={<ConditionPage />} />
                     <Route path="/conditions" element={<Conditions />} />
-                    <Route path="/directory" element={<MedicineDirectory />} />
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />

@@ -22,7 +22,6 @@
   body {
     @apply bg-bg text-text-primary antialiased;
     -webkit-tap-highlight-color: transparent;
-    overflow-x: hidden;
     background-image: 
       radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.03) 0%, transparent 40%),
       radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 40%);
@@ -50,12 +49,26 @@
   .bottom-safe {
     bottom: env(safe-area-inset-bottom);
   }
+}
 
-  /* Smooth scrolling for iOS */
-  html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 .glass {
