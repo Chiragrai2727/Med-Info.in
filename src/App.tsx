@@ -5,6 +5,11 @@ import { useToast } from './ToastContext';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from './firebase';
 import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { MedicineDetail } from './pages/MedicineDetail';
@@ -52,7 +57,9 @@ export default function App() {
     // Dispatch event for prerendering
     document.dispatchEvent(new Event('render-event'));
     
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const handleDismissReminder = (medicineName: string) => {

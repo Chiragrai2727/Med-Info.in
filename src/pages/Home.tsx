@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
@@ -10,6 +10,10 @@ import { useCompare } from '../CompareContext';
 import { FAQ } from '../components/FAQ';
 import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -94,8 +98,65 @@ export const Home: React.FC = () => {
     { name: 'FDC of Strychnine and Caffeine', reason: 'Prohibited by CDSCO due to safety/efficacy concerns' },
   ];
 
+  const popularMedsRef = useRef<HTMLElement>(null);
+  const bannedPromoRef = useRef<HTMLElement>(null);
+  const trendingRef = useRef<HTMLElement>(null);
+  const disclaimerRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    // Component mounted
+    // GSAP Scroll Animations
+    const sections = [
+      { ref: popularMedsRef, y: 100 },
+      { ref: bannedPromoRef, y: 150 },
+      { ref: trendingRef, y: 100 },
+      { ref: disclaimerRef, y: 50 },
+    ];
+
+    const ctx = gsap.context(() => {
+      sections.forEach(({ ref, y }) => {
+        if (ref.current) {
+          gsap.fromTo(
+            ref.current,
+            { opacity: 0, y, scale: 0.98 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: ref.current,
+                start: 'top 85%',
+                end: 'top 40%',
+                toggleActions: 'play none none reverse',
+              },
+            }
+          );
+        }
+      });
+      
+      // Stagger children within Popular Meds
+      if (popularMedsRef.current) {
+        gsap.fromTo(
+          gsap.utils.toArray(popularMedsRef.current.querySelectorAll('.popular-card')),
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: popularMedsRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -203,18 +264,17 @@ export const Home: React.FC = () => {
       </section>
  
       {/* Popular Medicines Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section ref={popularMedsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-4xl font-black text-text-primary tracking-tight leading-none">Popular Medicines</h2>
           <div className="h-px bg-border flex-1 mx-8 hidden md:block opacity-30" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {POPULAR_MEDS.map((med, index) => (
-            <motion.div
+            <div
               key={index}
-              whileHover={{ y: -8, scale: 1.02 }}
               onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-              className="p-10 backdrop-blur-xl bg-surface/80 rounded-[3rem] border border-surface/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all group cursor-pointer relative overflow-hidden"
+              className="popular-card p-10 backdrop-blur-xl bg-surface/80 rounded-[3rem] border border-surface/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all group cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-28 h-28 bg-primary/5 rounded-full -mr-10 -mt-10 flex items-center justify-center transition-transform group-hover:scale-110">
                 <HelpCircle className="w-6 h-6 text-primary/20 translate-x-[-12px] translate-y-[12px]" />
@@ -233,13 +293,13 @@ export const Home: React.FC = () => {
                 <span>View Details</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
  
       {/* Banned Drugs Promo Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section ref={bannedPromoRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="bg-gradient-to-br from-danger/5 to-surface/80 backdrop-blur-3xl p-12 md:p-24 rounded-[5rem] relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-danger/10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-danger/5 rounded-full blur-[100px] -mr-48 -mt-48" />
           
@@ -293,7 +353,7 @@ export const Home: React.FC = () => {
       </section>
  
       {/* Discovery Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section ref={trendingRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="bg-dark-bg rounded-[5rem] p-12 md:p-24 relative overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -356,7 +416,7 @@ export const Home: React.FC = () => {
       <FAQ />
   
       {/* Disclaimer Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-24">
+      <section ref={disclaimerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-24">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}

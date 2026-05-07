@@ -345,17 +345,17 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-[-80px] left-0 right-0 p-4 glass border border-orange-500/20 rounded-2xl bg-gradient-to-r from-orange-500/5 to-transparent flex items-start gap-3 z-50 shadow-lg mb-4"
+          className="absolute top-[-80px] left-0 right-0 p-4 glass border border-blue-500/20 rounded-2xl bg-gradient-to-r from-blue-500/5 to-transparent flex items-start gap-3 z-50 shadow-lg mb-4"
         >
-          <div className="p-2 bg-orange-500/10 rounded-full text-orange-500 shrink-0">
-            <SearchIcon className="h-5 w-5" />
+          <div className="p-2 bg-blue-500/10 rounded-full text-blue-500 shrink-0">
+            <Sparkles className="h-5 w-5" />
           </div>
           <div>
             <p className="font-medium text-text-primary">
               We couldn't find "{noResults.query}"
             </p>
             <p className="text-sm text-text-secondary mt-1">
-              Check the spelling or try a related term. Our medicine index is constantly updating.
+              We don't have that medication in our records right now, but we are constantly updating our database. Try checking the spelling or use a generic name.
             </p>
           </div>
           <button 
