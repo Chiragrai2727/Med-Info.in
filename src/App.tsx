@@ -21,18 +21,17 @@ import { Timetable } from './pages/Timetable';
 import { Dashboard } from './pages/Dashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { About } from './pages/About';
+import { MedicineDirectory } from './pages/MedicineDirectory';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BannedDrugs } from './pages/BannedDrugs';
 import { Contact } from './pages/Contact';
 import { Conditions } from './pages/Conditions';
 import { Pricing } from './pages/Pricing';
 import { OfflineBanner } from './components/OfflineBanner';
-import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
 import { NotificationManager } from './components/NotificationManager';
 import { MobileNav } from './components/MobileNav';
 import { ScrollToTop } from './components/ScrollToTop';
-import { TrialBanner } from './components/TrialBanner';
 
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
@@ -147,6 +146,7 @@ export default function App() {
                     <Route path="/medicine/:name" element={<MedicineDetail />} />
                     <Route path="/condition/:id" element={<ConditionPage />} />
                     <Route path="/conditions" element={<Conditions />} />
+                    <Route path="/directory" element={<MedicineDirectory />} />
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/banned-drugs" element={<BannedDrugs />} />

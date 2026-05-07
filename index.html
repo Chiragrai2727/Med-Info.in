@@ -7,6 +7,22 @@
     <title>Aethelcare India | Banned Drugs Search & AI Health Guide</title>
   </head>
   <body>
+    <style>
+      #error-log { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; background: red; color: white; padding: 20px; white-space: pre-wrap; font-family: monospace; overflow: auto; }
+    </style>
+    <div id="error-log"></div>
+    <script>
+      window.addEventListener('error', (event) => {
+        const log = document.getElementById('error-log');
+        log.style.display = 'block';
+        log.innerText += event.error ? event.error.stack : event.message + '\n';
+      });
+      window.addEventListener('unhandledrejection', (event) => {
+        const log = document.getElementById('error-log');
+        log.style.display = 'block';
+        log.innerText += 'Promise Rejection: ' + (event.reason ? (event.reason.stack || event.reason) : 'unknown') + '\n';
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

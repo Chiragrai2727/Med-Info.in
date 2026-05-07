@@ -28,6 +28,9 @@ export const Navbar: React.FC = () => {
           </Link>
           
           <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
+            <Link to="/directory" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
+              Database
+            </Link>
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
               About
             </Link>
