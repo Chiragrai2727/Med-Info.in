@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 import { useToast } from './ToastContext';
@@ -12,28 +12,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 import { Navbar } from './components/Navbar';
-import { Home } from './pages/Home';
-import { MedicineDetail } from './pages/MedicineDetail';
-import { ConditionPage } from './pages/ConditionPage';
-import { Compare } from './pages/Compare';
-import { PrivacyPolicy } from './pages/PrivacyPolicy';
-import { ScannerPage } from './pages/ScannerPage';
-import { Timetable } from './pages/Timetable';
-import { Dashboard } from './pages/Dashboard';
-import { AdminDashboard } from './pages/AdminDashboard';
-import { About } from './pages/About';
+
+// Lazy load pages for better performance
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const MedicineDetail = lazy(() => import('./pages/MedicineDetail').then(m => ({ default: m.MedicineDetail })));
+const ConditionPage = lazy(() => import('./pages/ConditionPage').then(m => ({ default: m.ConditionPage })));
+const Compare = lazy(() => import('./pages/Compare').then(m => ({ default: m.Compare })));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
+const ScannerPage = lazy(() => import('./pages/ScannerPage').then(m => ({ default: m.ScannerPage })));
+const Timetable = lazy(() => import('./pages/Timetable').then(m => ({ default: m.Timetable })));
+const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
+const BannedDrugs = lazy(() => import('./pages/BannedDrugs').then(m => ({ default: m.BannedDrugs })));
+const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
+const Conditions = lazy(() => import('./pages/Conditions').then(m => ({ default: m.Conditions })));
+const Pricing = lazy(() => import('./pages/Pricing').then(m => ({ default: m.Pricing })));
+
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { BannedDrugs } from './pages/BannedDrugs';
-import { Contact } from './pages/Contact';
-import { Conditions } from './pages/Conditions';
-import { Pricing } from './pages/Pricing';
 import { OfflineBanner } from './components/OfflineBanner';
-import { InstallPrompt } from './components/InstallPrompt';
 import { AuthModal } from './components/AuthModal';
 import { NotificationManager } from './components/NotificationManager';
 import { MobileNav } from './components/MobileNav';
 import { ScrollToTop } from './components/ScrollToTop';
-import { TrialBanner } from './components/TrialBanner';
 
 import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
@@ -43,6 +44,7 @@ import { MedicalDisclaimerModal } from './components/MedicalDisclaimerModal';
 import { checkDueReminders, dismissReminder, RefillReminder } from './utils/refillReminder';
 import { Bell, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ensureDataLoaded } from './services/geminiService';
 
 export default function App() {
   const { t } = useLanguage();
@@ -51,11 +53,16 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
+    // Start loading medical data in background eagerly
+    ensureDataLoaded();
+
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
+      touchMultiplier: 1.5,
+      smoothWheel: true,
+      wheelMultiplier: 1,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -89,7 +96,7 @@ export default function App() {
     <ErrorBoundary>
       <CompareProvider>
         <Router>
-          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300 overflow-clip">
+          <div className="min-h-screen bg-bg font-sans selection:bg-primary selection:text-white transition-colors duration-300 overflow-x-hidden">
             {/* Liquid Glass Background Elements */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
               <motion.div 
@@ -152,64 +159,73 @@ export default function App() {
                 <NotificationManager />
                 <CompareBar />
                 <main>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route 
-                      path="/scan" 
-                      element={
-                        <ProtectedRoute>
-                          <ScannerPage />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route path="/medicine/:name" element={<MedicineDetail />} />
-                    <Route path="/condition/:id" element={<ConditionPage />} />
-                    <Route path="/conditions" element={<Conditions />} />
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/banned-drugs" element={<BannedDrugs />} />
-                    <Route path="/compare/:med1/:med2" element={<Compare />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route 
-                      path="/timetable" 
-                      element={
-                        <ProtectedRoute>
-                          <Timetable />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="/dashboard" 
-                      element={
-                        <ProtectedRoute>
-                          <Dashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="/admin" 
-                      element={
-                        <ProtectedRoute>
-                          <AdminDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route path="/privacy" element={<PrivacyPolicy />} />
-                    
-                    <Route path="/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                    <Route path="/robots.txt" element={<Navigate to="/robots.txt" replace />} />
-                    <Route path="/manifest.json" element={<Navigate to="/manifest.json" replace />} />
-                    
-                    {/* Catch static files in subdirectories and redirect to root */}
-                    <Route path="*/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                    <Route path="*/robots.txt" element={<Navigate to="/robots.txt" replace />} />
-                    <Route path="*/manifest.json" element={<Navigate to="/manifest.json" replace />} />
-                    
-                    {/* Specific nested cases common in logs */}
-                    <Route path="/timetable/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                    <Route path="/medicine/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                    <Route path="/dashboard/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                  </Routes>
+                  <Suspense fallback={
+                    <div className="min-h-[60vh] flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                        <p className="text-sm font-black uppercase tracking-widest text-text-secondary animate-pulse">Loading Aethelcare...</p>
+                      </div>
+                    </div>
+                  }>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route 
+                        path="/scan" 
+                        element={
+                          <ProtectedRoute>
+                            <ScannerPage />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route path="/medicine/:name" element={<MedicineDetail />} />
+                      <Route path="/condition/:id" element={<ConditionPage />} />
+                      <Route path="/conditions" element={<Conditions />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/banned-drugs" element={<BannedDrugs />} />
+                      <Route path="/compare/:med1/:med2" element={<Compare />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route 
+                        path="/timetable" 
+                        element={
+                          <ProtectedRoute>
+                            <Timetable />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route 
+                        path="/dashboard" 
+                        element={
+                          <ProtectedRoute>
+                            <Dashboard />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route 
+                        path="/admin" 
+                        element={
+                          <ProtectedRoute>
+                            <AdminDashboard />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route path="/privacy" element={<PrivacyPolicy />} />
+                      
+                      <Route path="/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                      <Route path="/robots.txt" element={<Navigate to="/robots.txt" replace />} />
+                      <Route path="/manifest.json" element={<Navigate to="/manifest.json" replace />} />
+                      
+                      {/* Catch static files in subdirectories and redirect to root */}
+                      <Route path="*/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                      <Route path="*/robots.txt" element={<Navigate to="/robots.txt" replace />} />
+                      <Route path="*/manifest.json" element={<Navigate to="/manifest.json" replace />} />
+                      
+                      {/* Specific nested cases common in logs */}
+                      <Route path="/timetable/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                      <Route path="/medicine/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                      <Route path="/dashboard/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                    </Routes>
+                  </Suspense>
                 </main>
                 <MobileNav />
                 <ScrollToTop />

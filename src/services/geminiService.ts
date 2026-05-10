@@ -1,11 +1,6 @@
-import { GoogleGenAI, Type, Modality } from "@google/genai";
-import { Medicine, Language, LANGUAGES } from "../types";
+import { GoogleGenAI, Type } from "@google/genai";
+import { Medicine, Language } from "../types";
 import { offlineService } from "./offlineService";
-
-const LANGUAGE_NAME_MAP: Record<Language, string> = LANGUAGES.reduce((acc, lang) => {
-  acc[lang.code] = lang.name; // This will give us the native name
-  return acc;
-}, {} as Record<Language, string>);
 
 // Better to have English names for AI prompts
 const PROMPT_LANGUAGE_MAP: Record<Language, string> = {
@@ -34,11 +29,54 @@ const PROMPT_LANGUAGE_MAP: Record<Language, string> = {
   sat: 'Santali'
 };
 import Fuse from 'fuse.js';
-import medicinesData from "../data/medicines.json";
-import bannedMedicinesData from "../data/banned_medicines.json";
-import indexData from "../data/index.json";
-import categoriesData from "../data/categories.json";
-import diseasesData from "../data/diseases.json";
+
+// Large datasets will be loaded lazily to improve startup performance
+let localMedicines: Medicine[] = [];
+let bannedMedicines: Medicine[] = [];
+let allLocalMedicines: Medicine[] = [];
+let searchIndex: Record<string, string[]> = {};
+let categoriesIndex: Record<string, string[]> = {};
+let diseasesIndex: Record<string, string[]> = {};
+let fuse: Fuse<Medicine> | null = null;
+let medicinesMap: Record<string, Medicine> = {};
+let isDataLoaded = false;
+
+// Optimization: Lazy load function for big JSONs
+export async function ensureDataLoaded() {
+  if (isDataLoaded) return;
+  
+  try {
+    const [medsData, bannedData, idxData, catsData, dissData] = await Promise.all([
+      import("../data/medicines.json"),
+      import("../data/banned_medicines.json"),
+      import("../data/index.json"),
+      import("../data/categories.json"),
+      import("../data/diseases.json")
+    ]);
+
+    localMedicines = medsData.default as Medicine[];
+    bannedMedicines = (bannedData.default as any[]).map(m => ({ ...m, is_banned: true })) as Medicine[];
+    allLocalMedicines = [...localMedicines, ...bannedMedicines];
+    searchIndex = idxData.default as Record<string, string[]>;
+    categoriesIndex = catsData.default as Record<string, string[]>;
+    diseasesIndex = dissData.default as Record<string, string[]>;
+
+    fuse = new Fuse(allLocalMedicines, fuseOptions);
+    medicinesMap = allLocalMedicines.reduce((acc, med) => {
+      acc[med.id.toLowerCase()] = med;
+      acc[med.drug_name.toLowerCase()] = med;
+      med.brand_names_india.forEach(brand => {
+        acc[brand.toLowerCase()] = med;
+      });
+      return acc;
+    }, {} as Record<string, Medicine>);
+
+    isDataLoaded = true;
+  } catch (error) {
+    console.error("Failed to lazy load medical datasets:", error);
+  }
+}
+
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
@@ -52,13 +90,6 @@ const getAIClient = (): GoogleGenAI => {
 export const DEFAULT_MODEL = "gemini-3-flash-preview";
 export const PRO_MODEL = "gemini-3.1-pro-preview";
 export const TTS_MODEL = "gemini-3.1-flash-tts-preview";
-
-const localMedicines = medicinesData as Medicine[];
-const bannedMedicines = (bannedMedicinesData as any[]).map(m => ({ ...m, is_banned: true })) as Medicine[];
-const allLocalMedicines = [...localMedicines, ...bannedMedicines];
-const searchIndex = indexData as Record<string, string[]>;
-const categoriesIndex = categoriesData as Record<string, string[]>;
-const diseasesIndex = diseasesData as Record<string, string[]>;
 
 async function lazySeedToFirestore(medicine: Medicine) {
   if (!auth.currentUser) return;
@@ -103,20 +134,9 @@ const fuseOptions = {
     { name: 'uses', weight: 0.2 }
   ]
 };
-const fuse = new Fuse(allLocalMedicines, fuseOptions);
-
-// Fast lookup map
-const medicinesMap: Record<string, Medicine> = allLocalMedicines.reduce((acc, med) => {
-  acc[med.id.toLowerCase()] = med;
-  acc[med.drug_name.toLowerCase()] = med;
-  med.brand_names_india.forEach(brand => {
-    acc[brand.toLowerCase()] = med;
-  });
-  return acc;
-}, {} as Record<string, Medicine>);
 
 export function getAutocompleteSuggestion(searchQuery: string): string | null {
-  if (!searchQuery || searchQuery.trim().length === 0) return null;
+  if (!isDataLoaded || !searchQuery || searchQuery.trim().length === 0) return null;
   const q = searchQuery.toLowerCase();
   
   // Try to find a drug name or brand name that starts with the query
@@ -137,6 +157,7 @@ export function getAutocompleteSuggestion(searchQuery: string): string | null {
 }
 
 export function isDrugBanned(name: string): boolean {
+  if (!isDataLoaded) return false;
   const q = name.toLowerCase().trim();
   return bannedMedicines.some(m => 
     m.drug_name.toLowerCase() === q || 
@@ -145,6 +166,7 @@ export function isDrugBanned(name: string): boolean {
 }
 
 export async function fetchMedicineDetails(searchQuery: string, lang: Language = 'en'): Promise<Medicine | null> {
+  await ensureDataLoaded();
   const q = searchQuery.toLowerCase().trim();
   
   // 1. Check local map first (fastest) - only keep IDs or very common exact matches here
@@ -310,6 +332,7 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
 const searchCache: Record<string, any[]> = {};
 
 export async function searchMedicines(searchQuery: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; isOffline?: boolean; source?: string; confidence?: number }[]> {
+  await ensureDataLoaded();
   const q = searchQuery.toLowerCase().trim();
   const cacheKey = `${q}_${lang}`;
   
@@ -347,36 +370,37 @@ export async function searchMedicines(searchQuery: string, lang: Language = 'en'
   const [backendResults, localResults] = await Promise.all([
     (async () => {
       try {
-        const qUpper = q.charAt(0).toUpperCase() + q.slice(1);
-        const medicinesRef = collection(db, 'medicines');
-        // Simple "starts with" query for Firestore
-        const queryConstraints = [
-          where('drug_name', '>=', qUpper),
-          where('drug_name', '<=', qUpper + '\uf8ff'),
-          limit(5)
-        ];
-        const qBackend = query(medicinesRef, ...queryConstraints);
-        const querySnapshot = await getDocs(qBackend);
-        
-        return querySnapshot.docs.map(doc => {
-          const data = doc.data() as Medicine;
-          return {
-            name: data.drug_name,
-            category: data.category,
-            summary: data.quick_summary || (Array.isArray(data.uses) ? data.uses.join(', ') : data.uses),
-            isOffline: false,
-            source: 'Community DB',
-            confidence: 100
-          };
-        });
-      } catch (err) {
-        console.warn("Backend search failed:", err);
-        return [];
-      }
-    })(),
-    (async () => {
-      // 1. Search in local dataset using Fuse.js (Fuzzy Search)
-      const fuseResults = fuse.search(q);
+        const qLower = q.charAt(0).toUpperCase() + q.slice(1);
+  const medicinesRef = collection(db, 'medicines');
+  // Simple "starts with" query for Firestore
+  const queryConstraints = [
+    where('drug_name', '>=', qLower),
+    where('drug_name', '<=', qLower + '\uf8ff'),
+    limit(5)
+  ];
+  const qBackend = query(medicinesRef, ...queryConstraints);
+  const querySnapshot = await getDocs(qBackend);
+  
+  return querySnapshot.docs.map(doc => {
+    const data = doc.data() as Medicine;
+    return {
+      name: data.drug_name,
+      category: data.category,
+      summary: data.quick_summary || (Array.isArray(data.uses) ? data.uses.join(', ') : data.uses),
+      isOffline: false,
+      source: 'Community DB',
+      confidence: 100
+    };
+  });
+} catch (err) {
+  console.warn("Backend search failed:", err);
+  return [];
+}
+})(),
+(async () => {
+// 1. Search in local dataset using Fuse.js (Fuzzy Search)
+if (!fuse) return [];
+const fuseResults = fuse.search(q);
       
       const diseaseMatches = new Set(diseasesIndex[q] || []);
       const categoryMatches = new Set(categoriesIndex[q] || []);
@@ -471,6 +495,7 @@ export async function searchMedicines(searchQuery: string, lang: Language = 'en'
 }
 
 export async function getMedicinesForCondition(condition: string, lang: Language = 'en'): Promise<{ name: string; category: string; summary: string; india_regulatory_status?: string }[]> {
+  await ensureDataLoaded();
   const c = condition.toLowerCase().trim();
 
   // 1. Search in diseases index
@@ -544,6 +569,7 @@ export async function interpretQuery(searchQuery: string, lang: Language = 'en')
   diseases: string[]; 
   specificIntent?: string;
 }> {
+  await ensureDataLoaded();
   // Basic interpretation logic
   const lowerQuery = searchQuery.toLowerCase().trim();
   
@@ -959,8 +985,9 @@ export async function scanLabReport(base64Image: string, lang: Language = 'en'):
 
 export async function generateTTS(text: string): Promise<string | null> {
   // Speech synthesis is much faster and reliable for browser-based TTS than AI generation in most cases.
-  // However, if we want to use Gemini 2.0's real-time voice, it requires specific model selection.
-  // For now, we will fallback to browser SpeechSynthesis as it is more robust across devices.
+  if (text) {
+    console.log("TTS for:", text.substring(0, 20));
+  }
   return null; 
 }
 

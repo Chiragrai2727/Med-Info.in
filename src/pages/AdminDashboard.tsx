@@ -1,12 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../ToastContext';
-import { collection, getDocs, query, orderBy, limit, deleteDoc, doc, writeBatch } from 'firebase/firestore';
+import { 
+  collection, 
+  getDocs, 
+  query, 
+  orderBy, 
+  limit, 
+  deleteDoc, 
+  doc, 
+  writeBatch, 
+  updateDoc 
+} from 'firebase/firestore';
 import { db } from '../firebase';
-import { motion } from 'motion/react';
-import { Users, ShieldCheck, Search as SearchIcon, Activity, AlertTriangle, Download, Trash2, CheckCircle2, MessageSquareWarning } from 'lucide-react';
-import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  Users, 
+  ShieldCheck, 
+  Search as SearchIcon, 
+  Activity, 
+  AlertTriangle, 
+  Download, 
+  Trash2, 
+  CheckCircle2, 
+  MessageSquareWarning, 
+  Star, 
+  UserMinus, 
+  Check, 
+  Mail, 
+  Filter, 
+  CheckSquare, 
+  RefreshCw 
+} from 'lucide-react';
+
+const STATIC_FALLBACK_TIMESTAMP = 1778400000000; // May 2026
 
 interface UserData {
   uid: string;
@@ -51,33 +79,41 @@ export const AdminDashboard: React.FC = () => {
   const { profile } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
+
+  // Primary Data
   const [users, setUsers] = useState<UserData[]>([]);
   const [searches, setSearches] = useState<SearchData[]>([]);
   const [feedbacks, setFeedbacks] = useState<FeedbackData[]>([]);
   const [contactRequests, setContactRequests] = useState<ContactRequestData[]>([]);
+
+  // Navigation / Filter States
+  const [activeTab, setActiveTab] = useState<'overview' | 'patients' | 'feedback' | 'contact'>('overview');
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [planFilter, setPlanFilter] = useState<'all' | 'premium' | 'standard' | 'admin'>('all');
+  const [feedbackFilter, setFeedbackFilter] = useState<'all' | 'pending' | 'resolved'>('all');
+
+  // Loading States
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [resetting, setResetting] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
 
-  const fetchAdminData = async () => {
+  const fetchAdminData = useCallback(async () => {
     if (profile?.role !== 'admin') return;
     setLoading(true);
 
     try {
-      // Fetch Users
+      // 1. Fetch Users
       const usersSnapshot = await getDocs(collection(db, 'users'));
       const fetchedUsers: UserData[] = [];
-      
       usersSnapshot.forEach((doc) => {
         const data = doc.data() as UserData;
-        fetchedUsers.push(data);
+        fetchedUsers.push({ ...data, uid: doc.id });
       });
-      
-      // Sort users by creation date (newest first)
-      fetchedUsers.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
 
-      // Fetch Search Analytics
+      // 2. Fetch Search Analytics
       const searchesQuery = query(collection(db, 'searchAnalytics'), orderBy('count', 'desc'), limit(50));
       const searchesSnapshot = await getDocs(searchesQuery);
       const fetchedSearches: SearchData[] = [];
@@ -86,7 +122,7 @@ export const AdminDashboard: React.FC = () => {
       });
       setSearches(fetchedSearches);
 
-      // Fetch Feedback
+      // 3. Fetch Feedback
       const feedbackQuery = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'), limit(100));
       const feedbackSnapshot = await getDocs(feedbackQuery);
       const fetchedFeedbacks: FeedbackData[] = [];
@@ -95,7 +131,7 @@ export const AdminDashboard: React.FC = () => {
       });
       setFeedbacks(fetchedFeedbacks);
 
-      // Fetch Contact Requests
+      // 4. Fetch Contact Requests
       const contactQuery = query(collection(db, 'contactRequests'), orderBy('createdAt', 'desc'), limit(100));
       const contactSnapshot = await getDocs(contactQuery);
       const fetchedContacts: ContactRequestData[] = [];
@@ -106,73 +142,150 @@ export const AdminDashboard: React.FC = () => {
 
     } catch (error) {
       console.error("Error fetching admin data:", error);
+      showToast("Access failed. Check Firebase console permissions.", "error");
     } finally {
       setLoading(false);
     }
-  };
+  }, [profile, showToast]);
 
   useEffect(() => {
     fetchAdminData();
-  }, [profile]);
+  }, [fetchAdminData]);
 
-  const getTierLabel = (tier?: string) => {
-    if (!tier) return 'PRO';
-    if (tier === 'premium') return 'PREMIUM';
-    return tier.toUpperCase();
+  // Admin interactive modifiers
+  const handleTogglePremium = async (userId: string, currentIsPremium: boolean) => {
+    setActionLoading(`premium-${userId}`);
+    try {
+      const userRef = doc(db, 'users', userId);
+      const targetState = !currentIsPremium;
+      await updateDoc(userRef, {
+        isPremium: targetState,
+        plan: targetState ? 'premium' : 'basic',
+        subscriptionTier: targetState ? 'premium' : 'basic'
+      });
+      
+      setUsers(prev => prev.map(u => 
+        u.uid === userId 
+          ? { ...u, isPremium: targetState, subscriptionTier: targetState ? 'premium' : 'basic' } 
+          : u
+      ));
+      showToast(`User successfully ${targetState ? 'promoted to PREMIUM' : 'demoted to STANDARD'}.`, "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to switch user premium tier.", "error");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string, email: string) => {
+    if (email === profile?.email) {
+      showToast("Identity Error: Cannot self-purge the active administrator.", "error");
+      return;
+    }
+    const confirmed = window.confirm(`Confirm action: Permanently terminate profile for "${email}"? This action removes all records.`);
+    if (!confirmed) return;
+
+    setActionLoading(`delete-user-${userId}`);
+    try {
+      await deleteDoc(doc(db, 'users', userId));
+      setUsers(prev => prev.filter(u => u.uid !== userId));
+      showToast("Patient record successfully removed.", "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to purge account database record.", "error");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleToggleFeedbackStatus = async (feedbackId: string, currentStatus: string) => {
+    setActionLoading(`feedback-${feedbackId}`);
+    try {
+      const targetStatus = currentStatus === 'resolved' ? 'pending' : 'resolved';
+      await updateDoc(doc(db, 'feedback', feedbackId), { status: targetStatus });
+      setFeedbacks(prev => prev.map(f => f.id === feedbackId ? { ...f, status: targetStatus } : f));
+      showToast(`Feedback set to ${targetStatus.toUpperCase()}.`, "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to alter status.", "error");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDeleteFeedback = async (feedbackId: string) => {
+    if (!window.confirm("Delete this feedback report forever?")) return;
+    setActionLoading(`delete-feedback-${feedbackId}`);
+    try {
+      await deleteDoc(doc(db, 'feedback', feedbackId));
+      setFeedbacks(prev => prev.filter(f => f.id !== feedbackId));
+      showToast("Feedback record erased.", "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to clear report.", "error");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDeleteContactRequest = async (contactId: string) => {
+    if (!window.confirm("Verify: Dismiss and delete this customer contact inquiry?")) return;
+    setActionLoading(`delete-contact-${contactId}`);
+    try {
+      await deleteDoc(doc(db, 'contactRequests', contactId));
+      setContactRequests(prev => prev.filter(c => c.id !== contactId));
+      showToast("Contact request deleted.", "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Failure dismission action.", "error");
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   const exportToCSV = () => {
     if (users.length === 0) return;
-
-    const headers = ['UID', 'Name', 'Email', 'Phone', 'Role', 'Premium', 'Tier', 'Joined Date'];
+    const headers = ['UID', 'Name', 'Email', 'Phone', 'Role', 'Premium Status', 'Tier', 'Joined Date'];
     const rows = users.map(u => [
       u.uid,
-      `"${u.displayName || 'Anonymous'}"`,
+      `"${u.displayName || 'Anonymous Patient'}"`,
       u.email,
       u.phoneNumber || 'N/A',
       u.role || 'user',
       u.isPremium ? 'Yes' : 'No',
       u.subscriptionTier || 'None',
-      new Date(u.createdAt).toLocaleString()
+      new Date(u.createdAt || Date.now()).toLocaleDateString()
     ]);
-
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.join(','))
-    ].join('\n');
-
+    const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `aethelcare_users_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', `aethelcare_patient_records_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    showToast("CSV report generated and downloaded.", "success");
   };
 
   const handleClearOldUsers = async () => {
-    const confirmed = window.confirm("WARNING: This will permanently delete ALL user and search data to start fresh. Only your admin account will be preserved based on the email logic. PROCEED WITH CAUTION.");
+    const confirmed = window.confirm("WARNING FORCE RESET: Delete ALL client accounts and search records to begin clean index? Your active admin profile is safe. PROCEED?");
     if (!confirmed) return;
 
     setResetting(true);
     try {
-      // 1. Get all users
       const usersSnap = await getDocs(collection(db, 'users'));
       const batch = writeBatch(db);
       let count = 0;
 
       usersSnap.forEach((userDoc) => {
         const data = userDoc.data();
-        // Skip self (admin)
         if (data.email !== profile?.email) {
           batch.delete(doc(db, 'users', userDoc.id));
           count++;
         }
       });
 
-      // 2. Clear analytics
       const searchSnap = await getDocs(collection(db, 'searchAnalytics'));
       searchSnap.forEach((sDoc) => {
         batch.delete(doc(db, 'searchAnalytics', sDoc.id));
@@ -185,343 +298,626 @@ export const AdminDashboard: React.FC = () => {
       setResetSuccess(true);
       setTimeout(() => setResetSuccess(false), 5000);
       await fetchAdminData();
+      showToast("Registry database purged successfully.", "success");
     } catch (error) {
-      console.error("Failed to reset data:", error);
-      showToast("Failed to reset data. Check permissions.", "error");
+      console.error(error);
+      showToast("Global system reset error.", "error");
     } finally {
       setResetting(false);
     }
   };
 
+  // UI calculations
   const totalUsers = users.length;
   const premiumUsers = users.filter(u => u.isPremium).length;
   const conversionRate = totalUsers > 0 ? ((premiumUsers / totalUsers) * 100).toFixed(1) : '0.0';
 
+  // Filters applicators
+  const matchingSearchedUsers = users.filter(u => 
+    (u.displayName || '').toLowerCase().includes(userSearchQuery.toLowerCase()) || 
+    (u.email || '').toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+    (u.phoneNumber || '').toLowerCase().includes(userSearchQuery.toLowerCase())
+  );
+
+  const finalFilteredUsers = matchingSearchedUsers.filter(u => {
+    if (planFilter === 'premium') return u.isPremium;
+    if (planFilter === 'standard') return !u.isPremium && u.role !== 'admin';
+    if (planFilter === 'admin') return u.role === 'admin';
+    return true;
+  });
+
+  const finalFilteredFeedback = feedbacks.filter(f => {
+    if (feedbackFilter === 'pending') return f.status !== 'resolved';
+    if (feedbackFilter === 'resolved') return f.status === 'resolved';
+    return true;
+  });
+
   if (profile?.role !== 'admin') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg">
-        <div className="text-center backdrop-blur-xl bg-surface/70 p-20 rounded-[4rem] border-2 border-surface shadow-2xl">
-          <AlertTriangle className="w-24 h-24 text-danger mx-auto mb-8 animate-bounce" />
-          <h1 className="text-5xl font-black text-text-primary uppercase tracking-tighter mb-4">Access Denied</h1>
-          <p className="text-text-secondary font-bold text-xl tracking-tight opacity-70">High-level clearance required for this terminal.</p>
+      <div className="min-h-screen flex items-center justify-center bg-bg pt-20 px-4">
+        <div className="text-center bg-surface p-12 rounded-[2rem] border border-border shadow-xl max-w-md w-full">
+          <AlertTriangle className="w-16 h-16 text-danger mx-auto mb-6 animate-pulse" />
+          <h1 className="text-3xl font-bold text-text-primary mb-2">Access Restrained</h1>
+          <p className="text-text-secondary text-sm mb-8">Admin clearance tier is missing. Verify email privileges with standard support.</p>
           <button 
             onClick={() => navigate('/')}
-            className="mt-12 px-10 py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+            className="w-full py-4 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-primary-hover transition-all shadow-md shadow-primary/20"
           >
-            Return to Surface
+            Go Back Home
           </button>
         </div>
       </div>
     );
   }
- 
+
   return (
-    <div className="min-h-screen bg-transparent pt-32 sm:pt-40 pb-24 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <div className="min-h-screen bg-bg/50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-black text-text-primary flex items-center gap-6 tracking-[-0.05em] uppercase leading-none">
-              <div className="w-16 h-16 bg-primary rounded-[2rem] flex items-center justify-center text-white shadow-2xl rotate-3">
-                <ShieldCheck className="w-10 h-10" />
+        {/* Banner Area */}
+        <div className="bg-surface border border-border rounded-2xl p-6 sm:p-8 mb-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex items-center gap-5">
+            <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center shadow-inner">
+              <ShieldCheck className="w-8 h-8" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold bg-primary/15 text-primary tracking-widest uppercase px-2 py-0.5 rounded-full">SYSTEM KEEPER</span>
+                {profile?.email && <span className="text-xs text-text-secondary font-medium">{profile.email}</span>}
               </div>
-              Admin Control Center
-            </h1>
-            <p className="text-xl md:text-2xl text-text-secondary mt-6 font-bold tracking-tight opacity-50 leading-none italic uppercase">
-              High-level pharmaceutical intelligence oversight.
-            </p>
-          </motion.div>
+              <h1 className="text-3xl font-extrabold text-text-primary tracking-tight mt-1">Admin Command Station</h1>
+            </div>
+          </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center flex-wrap gap-3">
+            <button
+              onClick={fetchAdminData}
+              className="px-4 py-3 bg-surface border border-border rounded-xl text-xs font-semibold text-text-secondary hover:bg-bg transition-all flex items-center gap-2 hover:text-text-primary"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Refresh
+            </button>
             <button 
               onClick={exportToCSV}
-              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-surface border-2 border-surface rounded-[2rem] text-xs font-black uppercase tracking-widest text-text-primary hover:bg-primary hover:text-white hover:border-primary transition-all shadow-2xl active:scale-95 group"
+              className="px-4 py-3 bg-primary text-white rounded-xl text-xs font-semibold hover:bg-primary-hover transition-all flex items-center gap-2 shadow-sm shadow-primary/15"
             >
-              <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-              Export CSV
+              <Download className="w-4 h-4" />
+              Export Records
             </button>
             <button 
               onClick={handleClearOldUsers}
               disabled={resetting}
-              className="flex items-center gap-3 px-8 py-5 backdrop-blur-md bg-danger/10 border-2 border-danger/20 rounded-[2rem] text-xs font-black uppercase tracking-widest text-danger hover:bg-danger hover:text-white transition-all shadow-2xl disabled:opacity-50 active:scale-95 group"
+              className="px-4 py-3 bg-danger/10 border border-danger/25 text-danger rounded-xl text-xs font-semibold hover:bg-danger hover:text-white transition-all disabled:opacity-55"
             >
-              {resetting ? 'Resetting...' : (
-                <>
-                  <Trash2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  System Reset
-                </>
-              )}
+              {resetting ? 'Resetting...' : 'Factory Reset'}
             </button>
           </div>
         </div>
 
         {resetSuccess && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-10 backdrop-blur-3xl bg-emerald-500/10 border-2 border-emerald-500/20 rounded-[3rem] flex items-center gap-6 text-emerald-700 font-black uppercase tracking-widest text-xs shadow-2xl"
-          >
-            <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
-              <CheckCircle2 className="w-7 h-7" />
-            </div>
-            Platform purged successfully. Started fresh medical registry.
-          </motion.div>
+          <div className="mb-8 p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-sm font-semibold rounded-xl flex items-center gap-3 shadow-sm animate-fade-in">
+            <CheckCircle2 className="w-5 h-5 text-success" />
+            Platform registry and searches wiped clean. Started fresh index.
+          </div>
         )}
 
+        {/* Dynamic Metric Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-primary transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">Total Registries</p>
+                <h3 className="text-3xl font-black text-text-primary tracking-tight mt-2">{loading ? "..." : totalUsers}</h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <Users className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5">
+              <span className="text-success font-semibold">Active</span> patients cataloged.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-primary w-full opacity-60" />
+          </div>
+
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-success transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">Premium Accounts</p>
+                <h3 className="text-3xl font-black text-success tracking-tight mt-2">{loading ? "..." : premiumUsers}</h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-success flex items-center justify-center">
+                <Star className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5">
+              <span className="text-success font-bold">{conversionRate}%</span> subscription conversion.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-success w-full opacity-60" />
+          </div>
+
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-amber-500 transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">Active Feedbacks</p>
+                <h3 className="text-3xl font-black text-amber-600 tracking-tight mt-2">{loading ? "..." : feedbacks.filter(f => f.status !== 'resolved').length}</h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                <MessageSquareWarning className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5">
+              <span className="text-amber-600 font-bold">{feedbacks.length}</span> total drug feedback reports.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-amber-500 w-full opacity-60" />
+          </div>
+
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-purple-500 transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">Unread Contact Queries</p>
+                <h3 className="text-3xl font-black text-purple-600 tracking-tight mt-2">{loading ? "..." : contactRequests.length}</h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center">
+                <Mail className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5">
+              General questions & consultations.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-purple-600 w-full opacity-60" />
+          </div>
+        </div>
+
+        {/* Tab Interface Controls */}
+        <div className="border-b border-border flex gap-1 mb-8 overflow-x-auto whitespace-nowrap pb-1 scrollbar-thin">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`px-5 py-3 text-sm font-semibold rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === 'overview' 
+                ? 'border-primary text-primary bg-primary/5' 
+                : 'border-transparent text-text-secondary hover:text-text-primary hover:bg-bg'
+            }`}
+          >
+            <Activity className="w-4 h-4" />
+            Analytics Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('patients')}
+            className={`px-5 py-3 text-sm font-semibold rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === 'patients' 
+                ? 'border-primary text-primary bg-primary/5' 
+                : 'border-transparent text-text-secondary hover:text-text-primary hover:bg-bg'
+            }`}
+          >
+            <Users className="w-4 h-4" />
+            Patient Registry ({users.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('feedback')}
+            className={`px-5 py-3 text-sm font-semibold rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === 'feedback' 
+                ? 'border-primary text-primary bg-primary/5' 
+                : 'border-transparent text-text-secondary hover:text-text-primary hover:bg-bg'
+            }`}
+          >
+            <MessageSquareWarning className="w-4 h-4" />
+            Feedback Logs ({feedbacks.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('contact')}
+            className={`px-5 py-3 text-sm font-semibold rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === 'contact' 
+                ? 'border-primary text-primary bg-primary/5' 
+                : 'border-transparent text-text-secondary hover:text-text-primary hover:bg-bg'
+            }`}
+          >
+            <Mail className="w-4 h-4" />
+            Customer inquiries ({contactRequests.length})
+          </button>
+        </div>
+
+        {/* Tab Content rendering */}
         {loading ? (
-          <div className="p-32 text-center">
-             <div className="w-20 h-20 border-4 border-dark-bg border-t-transparent rounded-full animate-spin mx-auto mb-8 shadow-xl" />
-             <p className="text-text-secondary font-black uppercase tracking-[0.4em] text-xs opacity-60">Initializing Command...</p>
+          <div className="bg-surface border border-border p-20 text-center rounded-2xl shadow-sm">
+            <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-sm font-bold text-text-secondary tracking-widest uppercase">Connecting admin secure node...</p>
           </div>
         ) : (
-          <>
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <motion.div 
-                whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-primary transition-all overflow-hidden relative"
-              >
-                <div className="w-20 h-20 bg-primary/10 rounded-[2.5rem] flex items-center justify-center text-primary transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
-                  <Users className="w-10 h-10" />
-                </div>
-                <div className="relative z-10">
-                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Medical Registry</p>
-                  <p className="text-5xl font-black text-text-primary tracking-[-0.05em] uppercase leading-none">{totalUsers}</p>
-                </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
-              </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.2 }}
+            >
               
-              <motion.div 
-                whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-success transition-all overflow-hidden relative"
-              >
-                <div className="w-20 h-20 bg-success/10 rounded-[2.5rem] flex items-center justify-center text-success transition-transform group-hover:scale-110 group-hover:bg-success group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
-                  <ShieldCheck className="w-10 h-10" />
-                </div>
-                <div className="relative z-10">
-                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Premium</p>
-                  <p className="text-5xl font-black text-success tracking-[-0.05em] uppercase leading-none">{premiumUsers}</p>
-                </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-success/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
-              </motion.div>
-  
-              <motion.div 
-                whileHover={{ y: -10 }}
-                className="backdrop-blur-xl bg-surface/70 rounded-[4rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-2 border-surface flex items-center gap-8 group hover:border-purple-600 transition-all overflow-hidden relative"
-              >
-                <div className="w-20 h-20 bg-purple-500/10 rounded-[2.5rem] flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white group-hover:-rotate-12 group-hover:shadow-2xl relative z-10">
-                  <Activity className="w-10 h-10" />
-                </div>
-                <div className="relative z-10">
-                  <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.3em] mb-2 opacity-60">Confidence Score</p>
-                  <p className="text-5xl font-black text-purple-600 tracking-[-0.05em] uppercase leading-none">{conversionRate}<span className="text-2xl ml-1">%</span></p>
-                </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
-              </motion.div>
-            </div>
- 
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Feedbacks */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col max-h-[800px]"
-              >
-                <div className="p-10 border-b border-surface/50 bg-surface/30 flex justify-between items-center">
-                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl rotate-3 shadow-primary/20">
-                      <MessageSquareWarning className="w-6 h-6" />
+              {/* TAB 1: OVERVIEW */}
+              {activeTab === 'overview' && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Left col: Top Queries Table */}
+                  <div className="lg:col-span-2 bg-surface border border-border rounded-2xl shadow-sm overflow-hidden">
+                    <div className="p-6 border-b border-border bg-bg/50">
+                      <h4 className="text-lg font-bold text-text-primary flex items-center gap-2">
+                        <SearchIcon className="w-5 h-5 text-primary" />
+                        Popular Patient Search Terms
+                      </h4>
+                      <p className="text-xs text-text-secondary mt-1">Real-time keyword search tracker for analytical analysis.</p>
                     </div>
-                    Feedback
-                  </h2>
-                </div>
-                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
-                  {feedbacks.length === 0 ? (
-                    <div className="p-20 text-center opacity-30">
-                       <p className="text-sm font-black uppercase tracking-widest">No feedback received</p>
+                    
+                    <div className="max-h-[500px] overflow-y-auto">
+                      {searches.length === 0 ? (
+                        <p className="p-10 text-center text-sm text-text-secondary italic">No search logs present in the database yet.</p>
+                      ) : (
+                        <table className="w-full text-left font-sans">
+                          <thead className="bg-bg text-text-secondary font-bold text-[10px] uppercase tracking-wider sticky top-0 border-b border-border">
+                            <tr>
+                              <th className="px-6 py-4">Search Term</th>
+                              <th className="px-6 py-4 text-center">Frequencies</th>
+                              <th className="px-6 py-4 text-right">Last Requested</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border text-sm">
+                            {searches.map(s => (
+                              <tr key={s.id} className="hover:bg-bg/30">
+                                <td className="px-6 py-4 font-bold text-text-primary uppercase tracking-tight">{s.query}</td>
+                                <td className="px-6 py-4 text-center font-bold text-primary">{s.count} searches</td>
+                                <td className="px-6 py-4 text-right text-xs text-text-secondary font-semibold">
+                                  {s.lastSearchedAt ? new Date(s.lastSearchedAt).toLocaleDateString() : 'N/A'}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
-                  ) : (
-                    <div className="divide-y divide-surface">
-                      {feedbacks.map((f) => (
-                        <div key={f.id} className="p-10 hover:bg-primary/5 transition-all group">
-                          <div className="flex justify-between items-start mb-4">
-                            <span className="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/20 group-hover:bg-primary group-hover:text-white">
-                              {f.type}
-                            </span>
-                            <span className="text-[10px] font-black text-text-secondary group-hover:text-text-primary uppercase tracking-widest">
-                              {new Date(f.createdAt).toLocaleDateString()}
-                            </span>
+                  </div>
+
+                  {/* Right col: Micro lists for Quick Watch */}
+                  <div className="space-y-8">
+                    {/* Recent Critical Feedback Box */}
+                    <div className="bg-surface border border-border rounded-xl p-6 shadow-sm">
+                      <h4 className="text-md font-bold text-text-primary mb-4 flex items-center gap-2">
+                        <AlertTriangle className="w-5 h-5 text-amber-500" />
+                        Urgent Flagged Reports
+                      </h4>
+                      <div className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
+                        {feedbacks.filter(f => f.status !== 'resolved').slice(0, 4).map(f => (
+                          <div key={f.id} className="p-3 bg-amber-500/5 border border-amber-500/10 rounded-xl text-xs">
+                            <div className="flex justify-between items-start mb-1.5">
+                              <span className="font-extrabold text-[9px] uppercase bg-amber-500/10 border border-amber-500/20 text-amber-700 px-2 py-0.5 rounded-full">{f.type}</span>
+                              <span className="text-text-secondary font-semibold">{f.medicineName || 'Unknown drug'}</span>
+                            </div>
+                            <p className="text-text-primary mt-1 line-clamp-2">{f.message}</p>
                           </div>
-                          <p className="text-sm font-medium leading-relaxed mb-4 group-hover:text-text-primary">{f.message}</p>
-                          {f.email && <div className="text-[10px] font-black text-primary uppercase tracking-widest group-hover:text-primary-hover">{f.email}</div>}
-                        </div>
+                        ))}
+                        {feedbacks.filter(f => f.status !== 'resolved').length === 0 && (
+                          <p className="text-xs text-text-secondary text-center py-6 italic">No pending feedback to review!</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Latest contact box */}
+                    <div className="bg-surface border border-border rounded-xl p-6 shadow-sm">
+                      <h4 className="text-md font-bold text-text-primary mb-4 flex items-center gap-2">
+                        <Mail className="w-5 h-5 text-purple-600" />
+                        Recent Customer Enquiries
+                      </h4>
+                      <div className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
+                        {contactRequests.slice(0, 3).map(c => (
+                          <div key={c.id} className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl text-xs">
+                            <div className="flex justify-between items-center mb-1.5">
+                              <span className="font-bold text-text-primary text-[11px] truncate max-w-[120px]">{c.name}</span>
+                              <span className="text-[10px] text-text-secondary font-semibold">{new Date(c.createdAt || STATIC_FALLBACK_TIMESTAMP).toLocaleDateString()}</span>
+                            </div>
+                            <p className="text-text-secondary line-clamp-1">{c.message}</p>
+                          </div>
+                        ))}
+                        {contactRequests.length === 0 && (
+                          <p className="text-xs text-text-secondary text-center py-6 italic">No recent inquiries found.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: PATIENT REGISTRY */}
+              {activeTab === 'patients' && (
+                <div className="bg-surface border border-border rounded-2xl shadow-sm overflow-hidden">
+                  
+                  {/* Registry filters bar */}
+                  <div className="p-6 border-b border-border bg-bg/50 flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
+                    <div className="relative flex-1 max-w-md">
+                      <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-secondary" />
+                      <input
+                        type="text"
+                        placeholder="Search patient names, email, phone..."
+                        value={userSearchQuery}
+                        onChange={(e) => setUserSearchQuery(e.target.value)}
+                        className="w-full bg-surface border border-border pl-10 pr-4 py-2 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2 flex-wrap text-xs font-semibold">
+                      <span className="text-text-secondary flex items-center gap-1">
+                        <Filter className="w-3.5 h-3.5" />
+                        Plan Filter:
+                      </span>
+                      {(['all', 'premium', 'standard', 'admin'] as const).map(f => (
+                        <button
+                          key={f}
+                          onClick={() => setPlanFilter(f)}
+                          className={`px-3 py-1.5 rounded-lg border transition-all capitalize ${
+                            planFilter === f 
+                              ? 'bg-primary text-white border-primary shadow-sm' 
+                              : 'bg-surface hover:bg-bg text-text-secondary border-border'
+                          }`}
+                        >
+                          {f}
+                        </button>
                       ))}
                     </div>
-                  )}
-                </div>
-              </motion.div>
- 
-              {/* Contact Requests */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col max-h-[800px]"
-              >
-                <div className="p-10 border-b border-surface/50 bg-surface/30 flex justify-between items-center">
-                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl -rotate-3 shadow-primary/20">
-                      <Users className="w-6 h-6" />
-                    </div>
-                    Contact Requests
-                  </h2>
-                </div>
-                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
-                  {contactRequests.length === 0 ? (
-                    <div className="p-20 text-center opacity-30">
-                       <p className="text-sm font-black uppercase tracking-widest">No contact requests</p>
-                    </div>
-                  ) : (
-                    <div className="divide-y divide-surface">
-                      {contactRequests.map((c) => (
-                        <div key={c.id} className="p-10 hover:bg-primary/5 transition-all group">
-                          <div className="flex justify-between items-start mb-4">
-                            <span className="text-sm font-black uppercase tracking-tight group-hover:text-text-primary">{c.name}</span>
-                            <span className="text-[10px] font-black text-text-secondary group-hover:text-text-primary uppercase tracking-widest">
-                               {new Date(c.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
-                          <div className="flex gap-4 mb-4">
-                            <span className="text-[10px] font-black text-primary uppercase tracking-widest group-hover:text-primary-hover">{c.email}</span>
-                            {c.phone && <span className="text-[10px] font-black text-success uppercase tracking-widest group-hover:text-emerald-500">{c.phone}</span>}
-                          </div>
-                          <p className="text-sm font-medium leading-relaxed group-hover:text-text-primary">{c.message}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
- 
-               {/* Popular Searches */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="lg:col-span-1 backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col h-[700px]"
-              >
-                 <div className="p-10 border-b border-surface/50 bg-surface/30">
-                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl rotate-6 shadow-primary/20">
-                      <SearchIcon className="w-6 h-6" />
-                    </div>
-                    Top Searches
-                  </h2>
-                </div>
-                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-primary text-white z-20">
-                      <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
-                        <th className="p-8">Medical Query</th>
-                        <th className="p-8 text-right">Frequency</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                      {searches.map((search) => (
-                        <tr key={search.id} className="border-b border-surface hover:bg-primary/5 transition-all group">
-                          <td className="p-8 font-black uppercase tracking-tight text-lg italic leading-none group-hover:text-primary transition-colors">{search.query}</td>
-                          <td className="p-8 text-right font-black text-2xl tracking-tighter text-primary group-hover:text-primary leading-none transition-colors">{search.count}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </motion.div>
- 
-              {/* User Directory */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="lg:col-span-2 backdrop-blur-xl bg-surface/70 rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-2 border-surface overflow-hidden flex flex-col h-[700px] hover:shadow-2xl transition-all"
-              >
-                 <div className="p-10 border-b border-surface/50 flex justify-between items-center bg-surface/30">
-                  <h2 className="text-2xl font-black uppercase tracking-[-0.05em] flex items-center gap-4">
-                    <div className="p-3 bg-primary rounded-2xl text-white shadow-xl -rotate-6 shadow-primary/20">
-                      <Users className="w-6 h-6" />
-                    </div>
-                    Patient Registry
-                  </h2>
-                  <span className="text-[10px] font-black text-text-secondary uppercase tracking-[0.3em] backdrop-blur-md bg-surface border border-border px-6 py-2 rounded-full shadow-inner">
-                    {users.length} Total Patients
-                  </span>
-                </div>
-                <div className="overflow-y-auto flex-1 p-0 scrollbar-hide">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-primary text-white z-20">
-                      <tr className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">
-                        <th className="p-10">Personal Details</th>
-                        <th className="p-10">Verified Status</th>
-                        <th className="p-10">Registration</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-surface">
-                      {users.map((u) => (
-                        <tr key={u.uid} className="hover:bg-primary/5 transition-all group">
-                          <td className="p-10">
-                            <div className="flex items-center gap-6">
-                              <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center text-xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-12 ${u.isPremium ? 'bg-success text-white' : 'backdrop-blur-md bg-surface text-text-secondary border border-border'}`}>
-                                {u.displayName ? u.displayName.charAt(0).toUpperCase() : 'A'}
-                              </div>
-                              <div>
-                                <div className="font-black text-2xl tracking-tighter uppercase leading-none mb-2 group-hover:text-primary transition-colors text-text-primary">{u.displayName || 'Anonymous Patient'}</div>
-                                <div className="text-text-secondary text-sm font-bold tracking-tight group-hover:text-text-primary/70 transition-colors">{u.email}</div>
-                                {u.phoneNumber ? (
-                                  <div className="text-success text-[10px] mt-3 font-black flex items-center gap-2 p-2 backdrop-blur-md bg-success/5 rounded-xl w-fit border border-success/20 group-hover:bg-success group-hover:text-white group-hover:border-success transition-all">
-                                    <div className="w-2 h-2 bg-success rounded-full animate-pulse group-hover:bg-white shadow-[0_0_10px_rgba(5,150,105,0.5)]"></div>
-                                    {u.phoneNumber}
+                  </div>
+
+                  {/* List Database */}
+                  <div className="overflow-x-auto">
+                    {displayedUsersOfActiveTab().length === 0 ? (
+                      <p className="p-16 text-center text-sm text-text-secondary italic">No users found matching query or filters.</p>
+                    ) : (
+                      <table className="w-full text-left border-collapse font-sans">
+                        <thead className="bg-bg text-text-secondary font-bold text-[10px] uppercase tracking-wider border-b border-border">
+                          <tr>
+                            <th className="px-6 py-4">Patient Profile</th>
+                            <th className="px-6 py-4">Auth Level / Plan</th>
+                            <th className="px-6 py-4">Registration Stamp</th>
+                            <th className="px-6 py-4 text-right">Registry Operations</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border text-sm">
+                          {displayedUsersOfActiveTab().map(u => {
+                            const isSelf = u.email === profile?.email;
+                            const isActionLoadingThis = actionLoading === `premium-${u.uid}` || actionLoading === `delete-user-${u.uid}`;
+                            
+                            return (
+                              <tr key={u.uid} className="hover:bg-bg/10">
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center gap-4">
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm text-white shadow-sm ${u.isPremium ? 'bg-gradient-to-br from-success to-emerald-600' : 'bg-slate-400'}`}>
+                                      {u.displayName ? u.displayName.charAt(0).toUpperCase() : 'A'}
+                                    </div>
+                                    <div>
+                                      <p className="font-bold text-text-primary capitalize">{u.displayName || 'Anonymous Patient'}</p>
+                                      <p className="text-xs text-text-secondary font-medium mt-0.5">{u.email}</p>
+                                      {u.phoneNumber && (
+                                        <p className="text-[10px] text-emerald-700 bg-success/10 border border-success/15 px-1.5 py-0.5 rounded-md mt-1 w-fit font-medium">
+                                          📞 {u.phoneNumber}
+                                        </p>
+                                      )}
+                                    </div>
                                   </div>
-                                ) : (
-                                  <div className="text-text-secondary/20 text-[10px] mt-3 italic font-bold tracking-widest uppercase group-hover:text-text-secondary transition-colors">No phone linked</div>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="p-10">
-                            <div className="flex flex-col gap-3">
-                              {u.isPremium ? (
-                                <span className="w-fit flex items-center gap-2 px-5 py-2 backdrop-blur-md bg-success text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-xl shadow-success/20">
-                                  <CheckCircle2 className="w-4 h-4" />
-                                  {getTierLabel(u.subscriptionTier)}
-                                </span>
-                              ) : (
-                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-surface border border-border text-text-secondary text-[10px] font-black rounded-full uppercase tracking-widest shadow-inner group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all">
-                                  Standard
-                                </span>
-                              )}
-                              {u.role === 'admin' && (
-                                <span className="w-fit px-5 py-2 backdrop-blur-md bg-primary text-white text-[10px] font-black rounded-full uppercase tracking-widest border border-primary shadow-2xl group-hover:bg-white group-hover:text-primary group-hover:border-white transition-all">
-                                  Super Admin
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="p-10">
-                            <div className="text-text-primary group-hover:text-primary font-black text-lg tracking-tighter uppercase leading-none transition-colors">{new Date(u.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</div>
-                            <div className="text-text-secondary/50 group-hover:text-text-secondary text-[10px] mt-2 font-black uppercase tracking-widest transition-colors">{new Date(u.createdAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                                </td>
+                                
+                                <td className="px-6 py-4">
+                                  <div className="flex flex-col gap-1 w-fit">
+                                    {u.isPremium ? (
+                                      <span className="text-[9px] font-bold bg-success text-white uppercase tracking-widest px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                                        <Star className="w-3 h-3 fill-white" />
+                                        PREMIUM
+                                      </span>
+                                    ) : (
+                                      <span className="text-[9px] font-semibold bg-bg border border-border text-text-secondary uppercase tracking-widest px-2.5 py-1 rounded-full">
+                                        STANDARD
+                                      </span>
+                                    )}
+                                    {u.role === 'admin' && (
+                                      <span className="text-[9px] font-bold bg-primary text-white uppercase tracking-widest px-2.5 py-1 rounded-full mt-1 w-fit">
+                                        ADMIN Tier
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+
+                                <td className="px-6 py-4">
+                                  <p className="text-text-primary font-semibold">{new Date(u.createdAt || STATIC_FALLBACK_TIMESTAMP).toLocaleDateString()}</p>
+                                  <p className="text-[10px] text-text-secondary font-semibold mt-1">
+                                    {new Date(u.createdAt || STATIC_FALLBACK_TIMESTAMP).toLocaleTimeString()}
+                                  </p>
+                                </td>
+
+                                <td className="px-6 py-4 text-right">
+                                  <div className="flex items-center justify-end gap-2.5">
+                                    {isSelf ? (
+                                      <span className="text-xs text-text-secondary italic bg-bg border border-border px-3 py-1.5 rounded-lg font-medium">
+                                        Active Administrator
+                                      </span>
+                                    ) : (
+                                      <>
+                                        <button
+                                          onClick={() => handleTogglePremium(u.uid, u.isPremium)}
+                                          disabled={isActionLoadingThis}
+                                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                                            u.isPremium 
+                                              ? 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100' 
+                                              : 'border-success/30 text-success bg-success/5 hover:bg-success/10'
+                                          }`}
+                                        >
+                                          {isActionLoadingThis ? '...' : u.isPremium ? 'Set Basic' : 'Set Premium'}
+                                        </button>
+                                        <button
+                                          onClick={() => handleDeleteUser(u.uid, u.email)}
+                                          disabled={isActionLoadingThis}
+                                          className="p-1.5 border border-danger/20 text-danger hover:bg-danger/5 rounded-lg transition-all"
+                                          title="Deactivate account"
+                                        >
+                                          <UserMinus className="w-4.5 h-4.5" />
+                                        </button>
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
                 </div>
-              </motion.div>
-            </div>
-          </>
+              )}
+
+              {/* TAB 3: FEEDBACK LOGS */}
+              {activeTab === 'feedback' && (
+                <div className="bg-surface border border-border rounded-2xl shadow-sm overflow-hidden">
+                  <div className="p-6 border-b border-border bg-bg/50 flex justify-between items-center flex-col sm:flex-row gap-4">
+                    <div>
+                      <h4 className="text-md font-bold text-text-primary">Banned Drugs & Quality Reports</h4>
+                      <p className="text-xs text-text-secondary mt-1">Direct feedback received from user interface panels regarding pharmaceutical listings.</p>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs font-semibold">
+                      <span className="text-text-secondary">Resolution:</span>
+                      {(['all', 'pending', 'resolved'] as const).map(s => (
+                        <button
+                          key={s}
+                          onClick={() => setFeedbackFilter(s)}
+                          className={`px-3 py-1.5 rounded-lg border transition-all capitalize ${
+                            feedbackFilter === s 
+                              ? 'bg-amber-500 text-white border-amber-500 shadow-sm' 
+                              : 'bg-surface hover:bg-bg text-text-secondary border-border'
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="divide-y divide-border">
+                    {finalFilteredFeedback.length === 0 ? (
+                      <p className="p-16 text-center text-sm text-text-secondary italic">No feedback entries meet this catalog filter.</p>
+                    ) : (
+                      finalFilteredFeedback.map(f => (
+                        <div key={f.id} className={`p-6 hover:bg-bg/5 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-6 ${f.status === 'resolved' ? 'opacity-65' : ''}`}>
+                          <div className="flex-1 space-y-2">
+                            <div className="flex items-center gap-3">
+                              <span className="text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
+                                {f.type}
+                              </span>
+                              {f.medicineName && (
+                                <span className="text-xs font-bold text-text-primary bg-bg border border-border px-2.5 py-0.5 rounded-md">
+                                  Medication: {f.medicineName}
+                                </span>
+                              )}
+                              <span className="text-[11px] text-text-secondary font-medium">{new Date(f.createdAt || STATIC_FALLBACK_TIMESTAMP).toLocaleDateString()}</span>
+                            </div>
+                            <p className="text-sm font-medium text-text-primary leading-relaxed">{f.message}</p>
+                            {f.email && (
+                              <p className="text-xs text-primary font-semibold flex items-center gap-1.5">
+                                <Mail className="w-3.5 h-3.5" />
+                                {f.email}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() => handleToggleFeedbackStatus(f.id, f.status)}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border flex items-center gap-1.5 ${
+                                f.status === 'resolved'
+                                  ? 'bg-emerald-500/10 border-success/30 text-success hover:bg-emerald-500/20'
+                                  : 'bg-amber-500/10 border-amber-500/25 text-amber-700 hover:bg-amber-500/20'
+                              }`}
+                            >
+                              {f.status === 'resolved' ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  RESOLVED
+                                </>
+                              ) : (
+                                <>
+                                  <CheckSquare className="w-3.5 h-3.5" />
+                                  MARK RESOLVED
+                                </>
+                              )}
+                            </button>
+                            <button
+                              onClick={() => handleDeleteFeedback(f.id)}
+                              className="p-2 border border-danger/25 text-danger hover:bg-danger/5 rounded-lg transition-all"
+                              title="Delete record"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: GENERAL INQUIRIES */}
+              {activeTab === 'contact' && (
+                <div className="bg-surface border border-border rounded-2xl shadow-sm overflow-hidden">
+                  <div className="p-6 border-b border-border bg-bg/50">
+                    <h4 className="text-md font-bold text-text-primary">Direct Contact Requests</h4>
+                    <p className="text-xs text-text-secondary mt-1">General client queries, questions, and partnerships parsed via the landing site portals.</p>
+                  </div>
+
+                  <div className="divide-y divide-border">
+                    {contactRequests.length === 0 ? (
+                      <p className="p-16 text-center text-sm text-text-secondary italic">No contact requests present in the registry logs.</p>
+                    ) : (
+                      contactRequests.map(c => (
+                        <div key={c.id} className="p-6 hover:bg-bg/5 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-3.5">
+                              <h5 className="text-sm font-black text-text-primary capitalize">{c.name}</h5>
+                              <span className="text-[11px] font-semibold text-text-secondary">{new Date(c.createdAt || STATIC_FALLBACK_TIMESTAMP).toLocaleDateString()}</span>
+                            </div>
+                            
+                            <div className="flex gap-4 text-xs font-semibold">
+                              <p className="text-primary hover:underline flex items-center gap-1 cursor-pointer">
+                                📩 {c.email}
+                              </p>
+                              {c.phone && (
+                                <p className="text-emerald-700">
+                                  📞 {c.phone}
+                                </p>
+                              )}
+                            </div>
+                            
+                            <p className="text-sm text-text-secondary pl-2 border-l-2 border-border italic py-1 leading-relaxed max-w-3xl">
+                              "{c.message}"
+                            </p>
+                          </div>
+
+                          <div>
+                            <button
+                              onClick={() => handleDeleteContactRequest(c.id)}
+                              className="text-xs font-bold border border-danger/25 px-4 py-2 text-danger hover:bg-danger hover:text-white rounded-lg transition-all flex items-center gap-1.5"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              Dismiss inquiry
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
+            </motion.div>
+          </AnimatePresence>
         )}
+        
       </div>
     </div>
   );
+
+  // Helper utility to resolve filtering safely inside standard TS map loops
+  function displayedUsersOfActiveTab() {
+    return finalFilteredUsers;
+  }
 };

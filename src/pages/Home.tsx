@@ -30,8 +30,8 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isIOS] = useState(() => /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream);
+  const [isStandalone, setIsStandalone] = useState(() => window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true);
   const [showPWAHint, setShowPWAHint] = useState(false);
 
   useEffect(() => {
@@ -42,23 +42,17 @@ export const Home: React.FC = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     
-    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    setIsIOS(isIOSDevice);
-    
-    const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
-    setIsStandalone(isStandaloneMode);
-
     const hintTimer = setTimeout(() => {
-      if (!isStandaloneMode && !deferredPrompt && !isIOSDevice) {
+      if (!isStandalone && !deferredPrompt && !isIOS) {
         setShowPWAHint(true);
       }
-    }, 100);
+    }, 2000);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
       clearTimeout(hintTimer);
     };
-  }, [deferredPrompt]);
+  }, [deferredPrompt, isStandalone, isIOS]);
 
   const handleInstall = async () => {
     if (deferredPrompt) {
@@ -122,8 +116,8 @@ export const Home: React.FC = () => {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 1,
-              ease: 'power3.out',
+              duration: 0.8,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: ref.current,
                 start: 'top 85%',
@@ -260,6 +254,16 @@ export const Home: React.FC = () => {
               </button>
             ))}
           </div>
+
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-secondary/40"
+          >
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Scroll</span>
+            <div className="w-px h-12 bg-gradient-to-b from-text-secondary/40 to-transparent" />
+          </motion.div>
         </motion.div>
       </section>
  
