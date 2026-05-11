@@ -42,7 +42,7 @@ export const BannedDrugs: React.FC = () => {
     window.scrollTo(0, 0);
     const query = searchParams.get('q');
     if (query) {
-      setSearchQuery(query);
+      setTimeout(() => setSearchQuery(query), 0);
     }
     
     if (navigator.onLine) {

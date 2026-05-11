@@ -129,7 +129,9 @@ export const AdminDashboard: React.FC = () => {
   }, [profile, showToast]);
 
   useEffect(() => {
-    fetchAdminData();
+    setTimeout(() => {
+      fetchAdminData().catch(console.error);
+    }, 0);
   }, [fetchAdminData]);
 
   // Admin interactive modifiers

@@ -110,7 +110,7 @@ async function lazySeedToFirestore(medicine: Medicine) {
         pregnancy_safety: medicine.pregnancy_safety || '',
         country: 'India',
         source: 'Verified Database',
-        createdBy: auth.currentUser.uid,
+        createdBy: auth.currentUser?.uid || 'anonymous',
         createdAt: serverTimestamp()
       };
       await setDoc(medDocRef, payload);
@@ -309,7 +309,7 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
           pregnancy_safety: medicine.pregnancy_safety || '',
           country: 'India',
           source: 'AI Analysis',
-          createdBy: auth.currentUser.uid,
+          createdBy: auth.currentUser?.uid || 'anonymous',
           createdAt: serverTimestamp()
         };
         await setDoc(medDocRef, payload);

@@ -51,8 +51,10 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
-    // Start loading medical data in background eagerly
-    ensureDataLoaded();
+    // Start loading medical data in background eagerly but non-blocking
+    setTimeout(() => {
+      ensureDataLoaded().catch(console.error);
+    }, 1500);
 
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
@@ -62,6 +64,9 @@ export default function App() {
       smoothWheel: true,
       wheelMultiplier: 1,
     });
+    
+    // @ts-ignore
+    window.lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 

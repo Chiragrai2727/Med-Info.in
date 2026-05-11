@@ -116,7 +116,7 @@ export const NotificationManager: React.FC = () => {
   // Sync schedules
   useEffect(() => {
     if (!user) {
-      setSchedules([]);
+      setTimeout(() => setSchedules([]), 0);
       return;
     }
 

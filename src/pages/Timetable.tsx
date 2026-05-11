@@ -42,7 +42,9 @@ export const Timetable: React.FC = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [suggestions, setSuggestions] = useState<{ name: string; category: string; source?: string }[]>([]);
   const [bannedWarning, setBannedWarning] = useState<string | null>(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
+    return 'Notification' in window ? Notification.permission === 'granted' : false;
+  });
   const [newSchedule, setNewSchedule] = useState({
     medicineName: '',
     dosage: '',
@@ -54,8 +56,6 @@ export const Timetable: React.FC = () => {
 
   useEffect(() => {
     if ("Notification" in window) {
-      setNotificationsEnabled(Notification.permission === "granted");
-      
       if (Notification.permission === "default" && user) {
         const timer = setTimeout(() => {
           showToast(t('enableNotificationsPrompt'), "info");
@@ -116,12 +116,14 @@ export const Timetable: React.FC = () => {
   }, [newSchedule.medicineName, isAdding, language]);
 
   useEffect(() => {
+    let isMounted = true;
     if (!user) {
-      setSchedules([]);
+      if (schedules.length > 0) {
+        setTimeout(() => setSchedules([]), 0);
+      }
       return;
     }
 
-    let isMounted = true;
     const fetchSchedules = async () => {
       try {
         const data = await getSchedules(user.uid);

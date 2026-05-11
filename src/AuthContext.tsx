@@ -37,6 +37,7 @@ interface AuthContextType {
   upgradeToPremium: () => Promise<void>;
   updateSubscription: (tier: string, expiry: string) => Promise<void>;
   updateProfileImage: (url: string) => Promise<void>;
+  updateProfileData: (data: any) => Promise<void>;
   isAuthModalOpen: boolean;
   openAuthModal: () => void;
   closeAuthModal: () => void;
@@ -44,7 +45,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ADMIN_EMAILS = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'];
+const ADMIN_EMAILS = ['aethelcare.help@gmail.com'];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<{
@@ -168,7 +169,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (stored) {
         try {
           const mUser = JSON.parse(stored);
-          setUser(mUser);
+          setTimeout(() => setUser(mUser), 0);
           
           const getMockProfile = async () => {
             const prof = await getProfile(mUser.uid);
@@ -196,10 +197,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           getMockProfile();
         } catch (e) {
           localStorage.removeItem('mock_auth_session');
-          setLoading(false);
+          setTimeout(() => setLoading(false), 0);
         }
       } else {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 0);
       }
     }
   }, []);
@@ -380,7 +381,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateProfileImage = async (url: string) => {
     if (user) {
       const updated = await saveProfile(user.uid, { photoURL: url });
-      setProfile(prev => prev ? { ...prev, ...updated, photoURL: url } : null);
+      setProfile(prev => ({ ...(prev as any), ...updated, photoURL: url }));
+    }
+  };
+
+  const updateProfileData = async (data: any) => {
+    if (user) {
+      const updated = await saveProfile(user.uid, data);
+      setProfile(prev => ({ ...(prev as any), ...updated }));
     }
   };
 
@@ -388,7 +396,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider value={{ 
       user, profile, loading, isOffline,
       signInWithGoogle, signInWithEmail, signUpWithEmail, 
-      logout, upgradeToPremium, updateSubscription, updateProfileImage,
+      logout, upgradeToPremium, updateSubscription, updateProfileImage, updateProfileData,
       isAuthModalOpen, openAuthModal, closeAuthModal
     }}>
       {children}

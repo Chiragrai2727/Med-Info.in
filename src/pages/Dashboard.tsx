@@ -44,7 +44,8 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
-    setSearchHistory(offlineService.getHistory());
+    const history = offlineService.getHistory();
+    setTimeout(() => setSearchHistory(history), 0);
   }, []);
 
   const handleClearHistory = () => {

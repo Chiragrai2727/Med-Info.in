@@ -20,8 +20,10 @@ export function useUser() {
 
   useEffect(() => {
     if (!authUser) {
-      setUserData(null);
-      setIsLoading(false);
+      setTimeout(() => {
+        setUserData(null);
+        setIsLoading(false);
+      }, 0);
       return;
     }
 
@@ -130,7 +132,7 @@ export function useUser() {
   }, [authUser]);
 
   // Derived state
-  const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(userData?.email || '');
+  const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
   const isPremium = isAdmin || userData?.plan === 'premium' || userData?.isPremium === true;
   
   let scansRemaining = 3;

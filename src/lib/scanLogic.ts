@@ -18,7 +18,7 @@ export async function checkAndIncrementScan(userId: string): Promise<{
       return { allowed: false, reason: 'user_not_found' };
     }
 
-    const isAdmin = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'].includes(userData.email || '');
+    const isAdmin = ['aethelcare.help@gmail.com'].includes(userData.email || '');
 
     const currentDay = new Date().toISOString().slice(0, 10);
     let currentCount = userData.scan_count || 0;

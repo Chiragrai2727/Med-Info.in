@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Phone, AlertCircle, Loader2, PartyPopper } from 'lucide-react';
-import { saveProfile } from '../supabase';
 import { useAuth } from '../AuthContext';
 import { useLanguage } from '../LanguageContext';
 
 export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
-  const { user } = useAuth();
+  const { user, updateProfileData } = useAuth();
   const { t } = useLanguage();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,7 +38,7 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
       const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
       const trialStartedAt = new Date().toISOString();
       
-      await saveProfile(user.uid, {
+      await updateProfileData({
         phoneNumber: formattedPhone,
         trialClaimed: true,
         trialStartedAt,
