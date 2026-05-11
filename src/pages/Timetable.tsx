@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Clock, Calendar as CalendarIcon, Trash2, AlertCircle, CheckCircle2, Search, X, Bell, BellOff, Loader2 } from 'lucide-react';
-import { collection, query, where, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
+import { getSchedules, addSchedule, deleteSchedule, updateSchedule, isSupabaseConfigured, supabase } from '../supabase';
 import { useAuth } from '../AuthContext';
 import { PremiumPaywall } from '../components/PremiumPaywall';
 import { useToast } from '../ToastContext';
@@ -122,25 +121,40 @@ export const Timetable: React.FC = () => {
       return;
     }
 
-    const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
-    console.log("Setting up schedules listener for:", user.uid);
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      console.log(`Received schedules snapshot: ${snapshot.size} documents`);
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Schedule[];
-      // Sort by time
-      data.sort((a, b) => a.time.localeCompare(b.time));
-      setSchedules(data);
-    }, (error) => {
-      console.error("Firestore onSnapshot error:", error);
-      handleFirestoreError(error, OperationType.LIST, 'schedules');
-      showToast(t('timetableLoadError'), "error");
-    });
+    let isMounted = true;
+    const fetchSchedules = async () => {
+      try {
+        const data = await getSchedules(user.uid);
+        if (isMounted) {
+          data.sort((a: any, b: any) => a.time.localeCompare(b.time));
+          setSchedules(data);
+        }
+      } catch (err) {
+        console.warn("Failed to fetch schedules:", err);
+      }
+    };
+    fetchSchedules();
 
-    return () => unsubscribe();
+    let channel: any = null;
+    if (isSupabaseConfigured()) {
+      channel = supabase
+        .channel(`public:schedules:userId=eq.${user.uid}`)
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'schedules', filter: `userId=eq.${user.uid}` },
+          () => {
+            fetchSchedules();
+          }
+        )
+        .subscribe();
+    }
+
+    return () => {
+      isMounted = false;
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
   }, [user]);
 
   const handleAddSchedule = async (e: React.FormEvent) => {
@@ -148,27 +162,24 @@ export const Timetable: React.FC = () => {
     if (!user) return;
 
     try {
-      await addDoc(collection(db, 'schedules'), {
-        ...newSchedule,
-        userId: user.uid,
-        createdAt: serverTimestamp(),
-        lastTakenDate: null
-      });
+      const added = await addSchedule(user.uid, newSchedule);
       setIsAdding(false);
       setNewSchedule({ medicineName: '', dosage: '', time: '08:00', days: [...DAYS] });
+      setSchedules(prev => [...prev, added].sort((a, b) => a.time.localeCompare(b.time)));
       showToast(t('scheduleAdded'), 'success');
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'schedules');
+      console.error(error);
       showToast(t('scheduleAddError'), 'error');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteDoc(doc(db, 'schedules', id));
+      await deleteSchedule(user.uid, id);
+      setSchedules(prev => prev.filter(s => s.id !== id));
       showToast(t('scheduleRemoved'), 'success');
     } catch (error) {
-      handleFirestoreError(error, OperationType.DELETE, `schedules/${id}`);
+      console.error(error);
       showToast(t('scheduleRemoveError'), 'error');
     }
   };
@@ -179,13 +190,13 @@ export const Timetable: React.FC = () => {
     const isTaken = schedule.lastTakenDate === today;
 
     try {
-      await updateDoc(doc(db, 'schedules', schedule.id), {
-        lastTakenDate: isTaken ? null : today,
-        updatedAt: serverTimestamp()
+      await updateSchedule(user.uid, schedule.id, {
+        lastTakenDate: isTaken ? null : today
       });
+      setSchedules(prev => prev.map(s => s.id === schedule.id ? { ...s, lastTakenDate: isTaken ? null : today } : s));
       showToast(isTaken ? t('markedNotTaken') : t('markedTaken'), 'success');
     } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `schedules/${schedule.id}`);
+      console.error(error);
       showToast(t('statusUpdateError'), 'error');
     }
   };

@@ -2,9 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 import { useToast } from './ToastContext';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from './firebase';
-import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
+import { addFeedback } from './supabase';
 import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -275,14 +273,10 @@ export default function App() {
                             
                             setIsSubmittingFeedback(true);
                             try {
-                              // 1. Save to Firestore for reliability
-                              await addDoc(collection(db, 'feedback'), {
-                                type: 'general',
-                                message: text,
-                                createdAt: serverTimestamp(),
-                                userId: auth.currentUser?.uid || 'guest',
-                                email: auth.currentUser?.email || null,
-                                status: 'new'
+                              await addFeedback(null, {
+                                rating: 5,
+                                userEmail: 'guest@aethelcare.com',
+                                comment: text
                               });
 
                               showToast('Feedback saved! Opening your email client...', 'success');
@@ -294,7 +288,7 @@ export default function App() {
                               
                               form.reset();
                             } catch (err) {
-                              handleFirestoreError(err, OperationType.CREATE, 'feedback');
+                              console.error(err);
                               showToast('Error saving feedback, but opening email client anyway.', 'info');
                               window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
                             } finally {

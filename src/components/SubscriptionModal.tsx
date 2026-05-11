@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Check, Loader2, ShieldCheck, Zap } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { addPayment } from '../supabase';
 import { useLanguage } from '../LanguageContext';
 import { Link } from 'react-router-dom';
 import { PLANS } from '../config/plans';
@@ -90,13 +89,13 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               
               // 4. Record payment history
               try {
-                await addDoc(collection(db, 'users', user.uid, 'payments'), {
+                await addPayment(user.uid, {
                   amount: amount,
                   tier: selectedPlanId,
                   date: new Date().toISOString(),
                   status: 'success',
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpayPaymentId: response.razorpay_payment_id
+                  orderId: response.razorpay_order_id,
+                  paymentId: response.razorpay_payment_id
                 });
               } catch (e) {
                 console.error('Failed to record payment history', e);

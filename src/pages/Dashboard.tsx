@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
-import { db } from '../firebase';
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
+import { getPayments } from '../supabase';
 import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download, User as UserIcon } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { AvatarSelection } from '../components/AvatarSelection';
@@ -67,14 +66,10 @@ export const Dashboard: React.FC = () => {
     const fetchPayments = async () => {
       if (!user) return;
       try {
-        const paymentsRef = collection(db, 'users', user.uid, 'payments');
-        const q = query(paymentsRef, orderBy('date', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PaymentRecord));
-        setPayments(data || []);
+        const data = await getPayments(user.uid);
+        setPayments((data || []) as PaymentRecord[]);
       } catch (error: any) {
         console.error('Error fetching payments:', error);
-        // Silently handle if collection doesn't exist yet
       } finally {
         setLoading(false);
       }

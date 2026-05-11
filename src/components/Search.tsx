@@ -5,8 +5,7 @@ import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { searchMedicines, interpretQuery, transcribeAudio, getAutocompleteSuggestion } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
-import { doc, setDoc, increment } from 'firebase/firestore';
-import { db } from '../firebase';
+import { trackSearchMetric } from '../supabase';
 import { offlineService } from '../services/offlineService';
 
 interface SearchProps {
@@ -117,14 +116,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
 
     // Track search analytics
     try {
-      const queryId = finalQuery.toLowerCase().replace(/[^a-z0-9]/g, '_');
-      if (queryId) {
-        const queryRef = doc(db, 'searchAnalytics', queryId);
-        await setDoc(queryRef, {
-          query: finalQuery.toLowerCase(),
-          count: increment(1),
-          lastSearchedAt: new Date().toISOString()
-        }, { merge: true });
+      if (finalQuery) {
+        await trackSearchMetric(finalQuery);
       }
     } catch (error) {
       console.error('Failed to track search analytics', error);

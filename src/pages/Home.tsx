@@ -255,15 +255,21 @@ export const Home: React.FC = () => {
             ))}
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-secondary/40"
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Scroll</span>
-            <div className="w-px h-12 bg-gradient-to-b from-text-secondary/40 to-transparent" />
-          </motion.div>
+
+          <AnimatePresence>
+            {!isSearchActive && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 1 }}
+                className="mt-16 flex flex-col items-center gap-2 text-text-secondary/40"
+              >
+                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Scroll</span>
+                <div className="w-px h-12 bg-gradient-to-b from-text-secondary/40 to-transparent" />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </section>
  

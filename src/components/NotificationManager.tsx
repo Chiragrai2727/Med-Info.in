@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
+import { getSchedules, isSupabaseConfigured, supabase } from '../supabase';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 import { useLanguage } from '../LanguageContext';
@@ -121,16 +120,35 @@ export const NotificationManager: React.FC = () => {
       return;
     }
 
-    const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Schedule[];
-      setSchedules(data);
-    });
+    let isMounted = true;
+    const fetchSchedules = async () => {
+      try {
+        const data = await getSchedules(user.uid);
+        if (isMounted) setSchedules(data);
+      } catch (err) {
+        console.warn("Failed to fetch schedules:", err);
+      }
+    };
+    fetchSchedules();
 
-    return () => unsubscribe();
+    let channel: any = null;
+    if (isSupabaseConfigured()) {
+      channel = supabase
+        .channel(`public:schedules:userId=eq.${user.uid}`)
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'schedules', filter: `userId=eq.${user.uid}` },
+          () => {
+            fetchSchedules();
+          }
+        )
+        .subscribe();
+    }
+
+    return () => {
+      isMounted = false;
+      if (channel) supabase.removeChannel(channel);
+    };
   }, [user]);
 
   // Reminder Logic

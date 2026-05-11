@@ -1,8 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, db, googleProvider } from './firebase';
-import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { supabase, isSupabaseConfigured, getProfile, saveProfile } from './supabase';
 
 interface UserProfile {
   uid: string;
@@ -18,10 +16,17 @@ interface UserProfile {
   trialClaimed?: boolean;
   trialStartedAt?: string;
   trialEndsAt?: string;
+  plan?: 'basic' | 'premium';
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: {
+    uid: string;
+    id: string;
+    email: string;
+    displayName: string;
+    photoURL: string;
+  } | null;
   profile: UserProfile | null;
   loading: boolean;
   isOffline: boolean;
@@ -39,10 +44,16 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ADMIN_EMAILS = ['aethelcare.help@gmail.com'];
+const ADMIN_EMAILS = ['aethelcare.help@gmail.com', 'raisahab2727@gmail.com'];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<{
+    uid: string;
+    id: string;
+    email: string;
+    displayName: string;
+    photoURL: string;
+  } | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -63,122 +74,313 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    let unsubscribeProfile: (() => void) | null = null;
+    if (isSupabaseConfigured()) {
+      // Direct session restoration check on mount
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+          const sUser = session.user;
+          const mappedUser = {
+            uid: sUser.id,
+            id: sUser.id,
+            email: sUser.email || '',
+            displayName: sUser.user_metadata?.displayName || sUser.user_metadata?.full_name || 'User',
+            photoURL: sUser.user_metadata?.avatar_url || '',
+          };
+          setUser(mappedUser);
+          
+          getProfile(sUser.id).then((prof) => {
+            const isAdmin = ADMIN_EMAILS.includes(sUser.email || '');
+            if (!prof) {
+              const newProf = {
+                uid: sUser.id,
+                email: sUser.email || '',
+                displayName: mappedUser.displayName,
+                photoURL: mappedUser.photoURL,
+                isPremium: isAdmin,
+                createdAt: new Date().toISOString(),
+                role: isAdmin ? 'admin' as const : 'user' as const
+              };
+              saveProfile(sUser.id, newProf).then((saved) => {
+                setProfile({ ...saved, uid: sUser.id, isPremium: isAdmin, role: isAdmin ? 'admin' : 'user' });
+                setLoading(false);
+              });
+            } else {
+              setProfile({
+                ...prof,
+                uid: sUser.id,
+                isPremium: isAdmin || prof.isPremium || false,
+                role: isAdmin ? 'admin' : 'user'
+              });
+              setLoading(false);
+            }
+          }).catch(() => setLoading(false));
+        } else {
+          setUser(null);
+          setProfile(null);
+          setLoading(false);
+        }
+      }).catch(() => setLoading(false));
 
-    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      
-      if (user) {
-        // Real-time listener for profile
-        const userRef = doc(db, 'users', user.uid);
-        unsubscribeProfile = onSnapshot(userRef, (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
-            setProfile({
-              uid: user.uid,
-              email: user.email || '',
-              displayName: data.displayName || user.displayName || 'User',
-              photoURL: data.photoURL || user.photoURL || '',
-              isPremium: isAdmin || data.isPremium || false,
-              subscriptionTier: data.subscriptionTier,
-              subscriptionExpiry: data.subscriptionExpiry,
-              createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-              role: isAdmin ? 'admin' : 'user',
-              phoneNumber: data.phoneNumber,
-              trialClaimed: data.trialClaimed,
-              trialStartedAt: data.trialStartedAt,
-              trialEndsAt: data.trialEndsAt
-            } as UserProfile);
-          } else {
-            // Create profile if missing
-            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
-            const newProfileData = {
-              uid: user.uid,
-              email: user.email || '',
-              displayName: user.displayName || 'User',
-              photoURL: user.photoURL || '',
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (session?.user) {
+          const sUser = session.user;
+          const mappedUser = {
+            uid: sUser.id,
+            id: sUser.id,
+            email: sUser.email || '',
+            displayName: sUser.user_metadata?.displayName || sUser.user_metadata?.full_name || 'User',
+            photoURL: sUser.user_metadata?.avatar_url || '',
+          };
+          setUser(mappedUser);
+          
+          let prof = await getProfile(sUser.id);
+          const isAdmin = ADMIN_EMAILS.includes(sUser.email || '');
+          if (!prof) {
+            prof = await saveProfile(sUser.id, {
+              uid: sUser.id,
+              email: sUser.email || '',
+              displayName: mappedUser.displayName,
+              photoURL: mappedUser.photoURL,
               isPremium: isAdmin,
-              createdAt: serverTimestamp(),
+              createdAt: new Date().toISOString(),
               role: isAdmin ? 'admin' : 'user'
-            };
-            setDoc(userRef, newProfileData).catch(console.error);
+            });
           }
+          setProfile({
+            ...prof,
+            uid: sUser.id,
+            isPremium: isAdmin || prof.isPremium || false,
+            role: isAdmin ? 'admin' : 'user'
+          });
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
+        setLoading(false);
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    } else {
+      // Mock session restoration
+      const stored = localStorage.getItem('mock_auth_session');
+      if (stored) {
+        try {
+          const mUser = JSON.parse(stored);
+          setUser(mUser);
+          
+          const getMockProfile = async () => {
+            const prof = await getProfile(mUser.uid);
+            const isAdmin = ADMIN_EMAILS.includes(mUser.email || '');
+            if (prof) {
+              setProfile({
+                ...prof,
+                uid: mUser.uid,
+                isPremium: isAdmin || prof.isPremium || false,
+                role: isAdmin ? 'admin' : 'user'
+              });
+            } else {
+              setProfile({
+                uid: mUser.uid,
+                email: mUser.email || '',
+                displayName: mUser.displayName || 'User',
+                photoURL: mUser.photoURL || '',
+                isPremium: isAdmin,
+                createdAt: new Date().toISOString(),
+                role: isAdmin ? 'admin' : 'user'
+              } as UserProfile);
+            }
+            setLoading(false);
+          };
+          getMockProfile();
+        } catch (e) {
+          localStorage.removeItem('mock_auth_session');
           setLoading(false);
-        }, (error) => {
-          console.error("Profile snapshot error:", error);
-          setLoading(false);
-        });
+        }
       } else {
-        setProfile(null);
         setLoading(false);
       }
-    });
-
-    return () => {
-      unsubscribeAuth();
-      if (unsubscribeProfile) unsubscribeProfile();
-    };
+    }
   }, []);
 
   const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
+    if (isSupabaseConfigured()) {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin
+        }
+      });
+      if (error) throw error;
+    } else {
+      const mockId = 'mock-google-user-123';
+      const mockUser = {
+        uid: mockId,
+        id: mockId,
+        email: 'mock-user@gmail.com',
+        displayName: 'Mock Explorer',
+        photoURL: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
+      };
+      
+      localStorage.setItem('mock_auth_session', JSON.stringify(mockUser));
+      setUser(mockUser);
+      
+      const adminEmails = ADMIN_EMAILS;
+      let prof = await getProfile(mockId);
+      if (!prof) {
+        prof = await saveProfile(mockId, {
+          uid: mockId,
+          email: 'mock-user@gmail.com',
+          displayName: 'Mock Explorer',
+          photoURL: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100',
+          isPremium: false,
+          createdAt: new Date().toISOString(),
+          role: 'user'
+        });
+      }
+      setProfile({
+        ...prof,
+        uid: mockId,
+        isPremium: prof.isPremium || false,
+        role: 'user'
+      });
       closeAuthModal();
-    } catch (error) {
-      console.error('Google Sign In Error:', error);
-      throw error;
     }
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    await signInWithEmailAndPassword(auth, email, pass);
-    closeAuthModal();
+    if (isSupabaseConfigured()) {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: pass
+      });
+      if (error) throw error;
+      closeAuthModal();
+    } else {
+      const mockId = `mock-usr-${email.replace(/[^a-zA-Z0-9]/g, '-')}`;
+      const mockUser = {
+        uid: mockId,
+        id: mockId,
+        email,
+        displayName: email.split('@')[0],
+        photoURL: ''
+      };
+      
+      localStorage.setItem('mock_auth_session', JSON.stringify(mockUser));
+      setUser(mockUser);
+      
+      const isAdmin = ADMIN_EMAILS.includes(email);
+      let prof = await getProfile(mockId);
+      if (!prof) {
+        prof = await saveProfile(mockId, {
+          uid: mockId,
+          email,
+          displayName: email.split('@')[0],
+          photoURL: '',
+          isPremium: isAdmin,
+          createdAt: new Date().toISOString(),
+          role: isAdmin ? 'admin' : 'user'
+        });
+      }
+      setProfile({
+        ...prof,
+        uid: mockId,
+        isPremium: isAdmin || prof.isPremium || false,
+        role: isAdmin ? 'admin' : 'user'
+      });
+      closeAuthModal();
+    }
   };
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
-    const result = await createUserWithEmailAndPassword(auth, email, pass);
-    if (result.user) {
-      await setDoc(doc(db, 'users', result.user.uid), {
-        uid: result.user.uid,
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password: pass,
+        options: {
+          data: {
+            displayName: name
+          }
+        }
+      });
+      if (error) throw error;
+      
+      if (data.user) {
+        const isAdmin = ADMIN_EMAILS.includes(email);
+        await saveProfile(data.user.id, {
+          uid: data.user.id,
+          email,
+          displayName: name,
+          photoURL: '',
+          isPremium: isAdmin,
+          createdAt: new Date().toISOString(),
+          role: isAdmin ? 'admin' : 'user'
+        });
+      }
+      closeAuthModal();
+    } else {
+      const mockId = `mock-usr-${email.replace(/[^a-zA-Z0-9]/g, '-')}`;
+      const mockUser = {
+        uid: mockId,
+        id: mockId,
         email,
         displayName: name,
-        createdAt: serverTimestamp(),
-        role: 'user',
-        isPremium: false
+        photoURL: ''
+      };
+      
+      localStorage.setItem('mock_auth_session', JSON.stringify(mockUser));
+      setUser(mockUser);
+      
+      const isAdmin = ADMIN_EMAILS.includes(email);
+      const prof = await saveProfile(mockId, {
+        uid: mockId,
+        email,
+        displayName: name,
+        photoURL: '',
+        isPremium: isAdmin,
+        createdAt: new Date().toISOString(),
+        role: isAdmin ? 'admin' : 'user'
       });
+      
+      setProfile({
+        ...prof,
+        uid: mockId,
+        isPremium: isAdmin || prof.isPremium || false,
+        role: isAdmin ? 'admin' : 'user'
+      });
+      closeAuthModal();
     }
-    closeAuthModal();
   };
 
   const logout = async () => {
-    await signOut(auth);
+    if (isSupabaseConfigured()) {
+      await supabase.auth.signOut();
+    } else {
+      localStorage.removeItem('mock_auth_session');
+      setUser(null);
+      setProfile(null);
+    }
   };
 
   const upgradeToPremium = async () => {
     if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, { isPremium: true, subscriptionTier: 'premium' });
+      const updated = await saveProfile(user.uid, { isPremium: true, subscriptionTier: 'premium' });
+      setProfile(prev => prev ? { ...prev, ...updated, isPremium: true, subscriptionTier: 'premium' } : null);
     }
   };
 
   const updateSubscription = async (tier: string, expiry: string) => {
     if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, { subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
+      const updated = await saveProfile(user.uid, { subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true });
+      setProfile(prev => prev ? { ...prev, ...updated, subscriptionTier: tier, subscriptionExpiry: expiry, isPremium: true } : null);
     }
   };
 
   const updateProfileImage = async (url: string) => {
     if (user) {
-      try {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, { photoURL: url });
-        console.log('Firestore photoURL updated to:', url);
-      } catch (error) {
-        console.error('Error updating profile image:', error);
-        throw error;
-      }
+      const updated = await saveProfile(user.uid, { photoURL: url });
+      setProfile(prev => prev ? { ...prev, ...updated, photoURL: url } : null);
     }
   };
 
