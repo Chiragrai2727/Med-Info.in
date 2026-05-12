@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", serif;
@@ -8,14 +10,30 @@
   --color-primary-hover: #1E40AF;
   --color-danger: #DC2626;
   --color-success: #059669;
-  --color-bg: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-border: #E2E8F0;
+  --color-bg: var(--color-bg-light);
+  --color-surface: var(--color-surface-light);
+  --color-text-primary: var(--color-text-primary-light);
+  --color-text-secondary: var(--color-text-secondary-light);
+  --color-border: var(--color-border-light);
   --color-dark-bg: #0F172A;
   --color-dark-surface: #1E293B;
   --breakpoint-xs: 375px;
+}
+
+:root {
+  --color-bg-light: #F8FAFC;
+  --color-surface-light: #FFFFFF;
+  --color-text-primary-light: #0F172A;
+  --color-text-secondary-light: #475569;
+  --color-border-light: #E2E8F0;
+}
+
+:root.dark {
+  --color-bg-light: #0d1117;
+  --color-surface-light: #161b22;
+  --color-text-primary-light: #f0f6fc;
+  --color-text-secondary-light: #8b949e;
+  --color-border-light: #30363d;
 }
 
 @layer base {

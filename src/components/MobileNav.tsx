@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Camera, Calendar, LayoutDashboard, User as UserIcon, Mail } from 'lucide-react';
+import { Camera, Calendar, LayoutDashboard, User as UserIcon, Mail, Sun, Moon } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../LanguageContext';
 import { useAuth } from '../AuthContext';
+import { useTheme } from '../ThemeContext';
 
 export const MobileNav: React.FC = () => {
   const { t } = useLanguage();
   const { user, profile } = useAuth();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   if (!user) return null;
 
@@ -47,13 +49,12 @@ export const MobileNav: React.FC = () => {
           {isActive('/dashboard') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
         </Link>
 
-        <Link 
-          to="/contact" 
-          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/contact') ? 'text-white' : 'text-text-secondary hover:text-primary'}`}
+        <button 
+          onClick={toggleTheme}
+          className="relative p-3 rounded-full transition-all duration-300 text-text-secondary hover:text-primary shrink-0"
         >
-          <Mail className="w-5 h-5" />
-          {isActive('/contact') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
-        </Link>
+          {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
 
         <Link 
           to="/timetable" 

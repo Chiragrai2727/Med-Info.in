@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail } from 'lucide-react';
+import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { useAuth } from '../AuthContext';
+import { useTheme } from '../ThemeContext';
 
 import { Logo } from './Logo';
 
 export const Navbar: React.FC = () => {
   const { t } = useLanguage();
   const { user, profile, openAuthModal, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-surface/70 border-b border-border/40 pt-safe transition-all duration-300">
@@ -28,6 +30,13 @@ export const Navbar: React.FC = () => {
           </Link>
           
           <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
+            <button 
+              onClick={toggleTheme}
+              className="p-2 text-text-secondary hover:text-primary bg-bg/50 hover:bg-bg rounded-lg border border-border transition-colors hidden sm:flex shrink-0"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
               About
             </Link>

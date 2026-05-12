@@ -141,7 +141,11 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
                   Reset to Default
                 </button>
               </div>
-              <div className="max-h-[420px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+              <div 
+                data-lenis-prevent="true" 
+                onWheel={(e) => e.stopPropagation()}
+                className="max-h-[420px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent"
+              >
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 sm:gap-6 pb-4">
                   {AVATARS.map((avatar) => (
                     <button

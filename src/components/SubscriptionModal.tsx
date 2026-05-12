@@ -174,7 +174,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             </button>
           </div>
 
-          <div className="p-6 sm:p-8 overflow-y-auto flex-1 scrollbar-hide">
+          <div data-lenis-prevent="true" onWheel={(e) => e.stopPropagation()} className="p-6 sm:p-8 overflow-y-auto flex-1 scrollbar-hide">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-4">
               {planOptions.map((p: any) => (
                 <div

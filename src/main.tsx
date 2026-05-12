@@ -7,6 +7,7 @@ import './index.css';
 import { LanguageProvider } from './LanguageContext';
 import { AuthProvider } from './AuthContext';
 import { ToastProvider } from './ToastContext';
+import { ThemeProvider } from './ThemeContext';
 
 // Register Service Worker
 if ('serviceWorker' in navigator) {
@@ -24,13 +25,15 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
-      <AuthProvider>
-        <LanguageProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
-        </LanguageProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </LanguageProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </HelmetProvider>
   </StrictMode>,
 );
