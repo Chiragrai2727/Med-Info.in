@@ -11,6 +11,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user, loading, openAuthModal } = useAuth();
   const location = useLocation();
 
+  console.log("ProtectedRoute render: loading=", loading, " user=", user?.email);
+
   useEffect(() => {
     if (!loading && !user) {
       openAuthModal();
@@ -26,8 +28,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!user) {
-    // Redirect to home but keep the location so we can redirect back after login if needed
-    // For now, we just redirect to home and the AuthModal will be open
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 

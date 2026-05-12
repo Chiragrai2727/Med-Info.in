@@ -164,7 +164,7 @@ export const ScannerPage: React.FC = () => {
       let localBanned: any[] = [];
       try {
         const medsData = await import('../data/medicines.json');
-        localMeds = medsData.default.slice(0, 500);
+        localMeds = medsData.default;
         const bannedData = await import('../data/banned_medicines.json');
         localBanned = bannedData.default;
       } catch(e) {

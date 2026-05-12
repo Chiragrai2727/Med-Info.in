@@ -20,6 +20,12 @@ export function isSupabaseConfigured(): boolean {
   );
 }
 
+// Helper to explicitly fail-safe parse localStorage to prevent unhandled rejection crashes
+function safeParse(item: string | null, fallback: any = null) {
+  if (!item) return fallback;
+  try { return JSON.parse(item); } catch(e) { return fallback; }
+}
+
 // 1. PROFILE METHODS
 export async function getProfile(userId: string) {
   const localKey = `supabase_profile_${userId}`;
@@ -42,13 +48,13 @@ export async function getProfile(userId: string) {
   }
   
   const localCached = localStorage.getItem(localKey);
-  return localCached ? JSON.parse(localCached) : null;
+  return safeParse(localCached, null);
 }
 
 export async function saveProfile(userId: string, profileData: any) {
   const localKey = `supabase_profile_${userId}`;
   const currentLocal = localStorage.getItem(localKey);
-  const existing = currentLocal ? JSON.parse(currentLocal) : {};
+  const existing = safeParse(currentLocal, {});
   const merged = { ...existing, ...profileData, id: userId };
   
   // Save to local cache first
@@ -90,13 +96,13 @@ export async function getSchedules(userId: string) {
   }
   
   const localCached = localStorage.getItem(localKey);
-  return localCached ? JSON.parse(localCached) : [];
+  return safeParse(localCached, []);
 }
 
 export async function addSchedule(userId: string, scheduleData: any) {
   const localKey = `supabase_schedules_${userId}`;
   const localCached = localStorage.getItem(localKey);
-  const currentSchedules = localCached ? JSON.parse(localCached) : [];
+  const currentSchedules = safeParse(localCached, []);
   
   const newScheduleItem = {
     id: scheduleData.id || `sch-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -137,7 +143,7 @@ export async function addSchedule(userId: string, scheduleData: any) {
 export async function updateSchedule(userId: string, scheduleId: string, updates: any) {
   const localKey = `supabase_schedules_${userId}`;
   const localCached = localStorage.getItem(localKey);
-  const currentSchedules: any[] = localCached ? JSON.parse(localCached) : [];
+  const currentSchedules: any[] = safeParse(localCached, []);
   
   const updatedSchedules = currentSchedules.map(item => {
     if (item.id === scheduleId) {
@@ -167,7 +173,7 @@ export async function updateSchedule(userId: string, scheduleId: string, updates
 export async function deleteSchedule(userId: string, scheduleId: string) {
   const localKey = `supabase_schedules_${userId}`;
   const localCached = localStorage.getItem(localKey);
-  const currentSchedules: any[] = localCached ? JSON.parse(localCached) : [];
+  const currentSchedules: any[] = safeParse(localCached, []);
   
   const updatedSchedules = currentSchedules.filter(item => item.id !== scheduleId);
   localStorage.setItem(localKey, JSON.stringify(updatedSchedules));
@@ -209,13 +215,13 @@ export async function getPayments(userId: string) {
   }
   
   const localCached = localStorage.getItem(localKey);
-  return localCached ? JSON.parse(localCached) : [];
+  return safeParse(localCached, []);
 }
 
 export async function addPayment(userId: string, paymentData: any) {
   const localKey = `supabase_payments_${userId}`;
   const localCached = localStorage.getItem(localKey);
-  const currentPayments = localCached ? JSON.parse(localCached) : [];
+  const currentPayments = safeParse(localCached, []);
   
   const newPayment = {
     id: paymentData.id || `pay-${Date.now()}`,

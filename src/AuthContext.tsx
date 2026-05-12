@@ -75,9 +75,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
+    // FAILSAFE TIMEOUT 
+    const failsafe = setTimeout(() => {
+      console.log("FAILSAFE TRIGGERED - Setting loading to false");
+      setLoading(false);
+    }, 5000);
+
+    console.log("AuthContext mount: isSupabaseConfigured=", isSupabaseConfigured());
     if (isSupabaseConfigured()) {
       // Direct session restoration check on mount
       supabase.auth.getSession().then(({ data: { session } }) => {
+        console.log("AuthContext getSession result:", session?.user?.email);
         if (session?.user) {
           const sUser = session.user;
           const mappedUser = {
@@ -90,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(mappedUser);
           
           getProfile(sUser.id).then((prof) => {
+            console.log("AuthContext getProfile result:", prof?.email);
             const isAdmin = ADMIN_EMAILS.includes(sUser.email || '');
             if (!prof) {
               const newProf = {
@@ -104,6 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               saveProfile(sUser.id, newProf).then((saved) => {
                 setProfile({ ...saved, uid: sUser.id, isPremium: isAdmin, role: isAdmin ? 'admin' : 'user' });
                 setLoading(false);
+                clearTimeout(failsafe);
               });
             } else {
               setProfile({
@@ -113,16 +123,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 role: isAdmin ? 'admin' : 'user'
               });
               setLoading(false);
+              clearTimeout(failsafe);
             }
-          }).catch(() => setLoading(false));
+          }).catch((err) => {
+            console.error("AuthContext getProfile err:", err);
+            setLoading(false);
+            clearTimeout(failsafe);
+          });
         } else {
           setUser(null);
           setProfile(null);
           setLoading(false);
+          clearTimeout(failsafe);
         }
-      }).catch(() => setLoading(false));
+      }).catch((err) => {
+        console.error("AuthContext getSession err:", err);
+        setLoading(false);
+        clearTimeout(failsafe);
+      });
 
       const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+        console.log("AuthContext onAuthStateChange:", event, session?.user?.email);
+
         if (session?.user) {
           const sUser = session.user;
           const mappedUser = {
@@ -158,10 +180,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setProfile(null);
         }
         setLoading(false);
+        clearTimeout(failsafe);
       });
 
       return () => {
         subscription.unsubscribe();
+        clearTimeout(failsafe);
       };
     } else {
       // Mock session restoration
@@ -172,35 +196,45 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setTimeout(() => setUser(mUser), 0);
           
           const getMockProfile = async () => {
-            const prof = await getProfile(mUser.uid);
-            const isAdmin = ADMIN_EMAILS.includes(mUser.email || '');
-            if (prof) {
-              setProfile({
-                ...prof,
-                uid: mUser.uid,
-                isPremium: isAdmin || prof.isPremium || false,
-                role: isAdmin ? 'admin' : 'user'
-              });
-            } else {
-              setProfile({
-                uid: mUser.uid,
-                email: mUser.email || '',
-                displayName: mUser.displayName || 'User',
-                photoURL: mUser.photoURL || '',
-                isPremium: isAdmin,
-                createdAt: new Date().toISOString(),
-                role: isAdmin ? 'admin' : 'user'
-              } as UserProfile);
+            try {
+              const prof = await getProfile(mUser.uid);
+              const isAdmin = ADMIN_EMAILS.includes(mUser.email || '');
+              if (prof) {
+                setProfile({
+                  ...prof,
+                  uid: mUser.uid,
+                  isPremium: isAdmin || prof.isPremium || false,
+                  role: isAdmin ? 'admin' : 'user'
+                });
+              } else {
+                setProfile({
+                  uid: mUser.uid,
+                  email: mUser.email || '',
+                  displayName: mUser.displayName || 'User',
+                  photoURL: mUser.photoURL || '',
+                  isPremium: isAdmin,
+                  createdAt: new Date().toISOString(),
+                  role: isAdmin ? 'admin' : 'user'
+                } as UserProfile);
+              }
+            } catch (err) {
+              console.error("Error in getMockProfile:", err);
+            } finally {
+              setLoading(false);
+              clearTimeout(failsafe);
             }
-            setLoading(false);
           };
           getMockProfile();
         } catch (e) {
           localStorage.removeItem('mock_auth_session');
-          setTimeout(() => setLoading(false), 0);
+          setTimeout(() => { setLoading(false); clearTimeout(failsafe); }, 0);
         }
       } else {
-        setTimeout(() => setLoading(false), 0);
+        setTimeout(() => { setLoading(false); clearTimeout(failsafe); }, 0);
+      }
+      
+      return () => {
+        clearTimeout(failsafe);
       }
     }
   }, []);
