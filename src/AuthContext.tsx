@@ -146,35 +146,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log("AuthContext onAuthStateChange:", event, session?.user?.email);
 
         if (session?.user) {
-          const sUser = session.user;
-          const mappedUser = {
-            uid: sUser.id,
-            id: sUser.id,
-            email: sUser.email || '',
-            displayName: sUser.user_metadata?.displayName || sUser.user_metadata?.full_name || 'User',
-            photoURL: sUser.user_metadata?.avatar_url || '',
-          };
-          setUser(mappedUser);
-          
-          let prof = await getProfile(sUser.id);
-          const isAdmin = ADMIN_EMAILS.includes(sUser.email || '');
-          if (!prof) {
-            prof = await saveProfile(sUser.id, {
+          try {
+            const sUser = session.user;
+            const mappedUser = {
               uid: sUser.id,
+              id: sUser.id,
               email: sUser.email || '',
-              displayName: mappedUser.displayName,
-              photoURL: mappedUser.photoURL,
-              isPremium: isAdmin,
-              createdAt: new Date().toISOString(),
+              displayName: sUser.user_metadata?.displayName || sUser.user_metadata?.full_name || 'User',
+              photoURL: sUser.user_metadata?.avatar_url || '',
+            };
+            setUser(mappedUser);
+            
+            let prof = await getProfile(sUser.id);
+            const isAdmin = ADMIN_EMAILS.includes(sUser.email || '');
+            if (!prof) {
+              prof = await saveProfile(sUser.id, {
+                uid: sUser.id,
+                email: sUser.email || '',
+                displayName: mappedUser.displayName,
+                photoURL: mappedUser.photoURL,
+                isPremium: isAdmin,
+                createdAt: new Date().toISOString(),
+                role: isAdmin ? 'admin' : 'user'
+              });
+            }
+            setProfile({
+              ...prof,
+              uid: sUser.id,
+              isPremium: isAdmin || prof.isPremium || false,
               role: isAdmin ? 'admin' : 'user'
             });
+          } catch (e) {
+            console.error("AuthContext onAuthStateChange inner error:", e);
           }
-          setProfile({
-            ...prof,
-            uid: sUser.id,
-            isPremium: isAdmin || prof.isPremium || false,
-            role: isAdmin ? 'admin' : 'user'
-          });
         } else {
           setUser(null);
           setProfile(null);

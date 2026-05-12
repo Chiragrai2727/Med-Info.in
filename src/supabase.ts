@@ -39,7 +39,7 @@ export async function getProfile(userId: string) {
         .single();
         
       if (!error && data) {
-        localStorage.setItem(localKey, JSON.stringify(data));
+        try { localStorage.setItem(localKey, JSON.stringify(data)); } catch(e) {}
         return data;
       }
     } catch (e) {
@@ -47,18 +47,27 @@ export async function getProfile(userId: string) {
     }
   }
   
-  const localCached = localStorage.getItem(localKey);
+  let localCached = null;
+  try {
+    localCached = localStorage.getItem(localKey);
+  } catch(e) {}
   return safeParse(localCached, null);
 }
 
 export async function saveProfile(userId: string, profileData: any) {
   const localKey = `supabase_profile_${userId}`;
-  const currentLocal = localStorage.getItem(localKey);
+  let currentLocal = null;
+  try {
+    currentLocal = localStorage.getItem(localKey);
+  } catch(e) {}
+  
   const existing = safeParse(currentLocal, {});
   const merged = { ...existing, ...profileData, id: userId };
   
   // Save to local cache first
-  localStorage.setItem(localKey, JSON.stringify(merged));
+  try {
+    localStorage.setItem(localKey, JSON.stringify(merged));
+  } catch(e) {}
   
   if (isSupabaseConfigured()) {
     try {

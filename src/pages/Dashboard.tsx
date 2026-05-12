@@ -48,6 +48,8 @@ export const Dashboard: React.FC = () => {
     setTimeout(() => setSearchHistory(history), 0);
   }, []);
 
+  console.log("Dashboard render: user=", !!user, "profile=", !!profile);
+
   const handleClearHistory = () => {
     if (window.confirm('Are you sure you want to clear your search history?')) {
       offlineService.clearHistory();
@@ -79,7 +81,18 @@ export const Dashboard: React.FC = () => {
     fetchPayments();
   }, [user]);
 
-  if (!user || !profile) return null;
+  if (!user) return null;
+  
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-transparent pt-32 sm:pt-48 pb-12 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm font-black uppercase tracking-widest text-text-primary">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   const isPremium = profile.isPremium;
   const expiryDate = profile.subscriptionExpiry ? new Date(profile.subscriptionExpiry) : null;
