@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { doc, onSnapshot, getDoc, updateDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../AuthContext';
-import { getProfile, saveProfile, isSupabaseConfigured, supabase } from '../supabase';
 
 export interface UserData {
   id: string;
@@ -20,120 +21,55 @@ export function useUser() {
 
   useEffect(() => {
     if (!authUser) {
-      setTimeout(() => {
-        setUserData(null);
-        setIsLoading(false);
-      }, 0);
+      setUserData(null);
+      setIsLoading(false);
       return;
     }
 
-    let isMounted = true;
-
-    const loadUserData = async () => {
-      try {
-        const prof = await getProfile(authUser.uid);
+    const userRef = doc(db, 'users', authUser.uid);
+    
+    // Listen for changes
+    const unsubscribe = onSnapshot(userRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        let currentData = snapshot.data() as UserData;
+        const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
         
+        // Trial expiry check
+        if (currentData.plan === 'premium' && currentData.trial_end) {
+          const trialEnd = new Date(currentData.trial_end);
+          if (trialEnd < new Date()) {
+            await updateDoc(userRef, { plan: 'basic' });
+            return; // onSnapshot will trigger again
+          }
+        }
+        
+        setUserData({ ...currentData, id: snapshot.id });
+      } else {
+        // Create initial if missing
         const now = new Date();
-        const currentMonth = now.toISOString().slice(0, 10);
+        const trialEnd = new Date(now);
+        trialEnd.setDate(now.getDate() + 14);
         
-        let initialData: UserData;
-        
-        if (prof) {
-          initialData = {
-            id: authUser.uid,
-            email: prof.email || authUser.email || '',
-            plan: prof.plan || prof.subscriptionTier || 'premium',
-            trial_start: prof.trial_start || prof.trialStartedAt || now.toISOString(),
-            trial_end: prof.trial_end || prof.trialEndsAt || new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-            scan_count: prof.scan_count || 0,
-            scan_month: prof.scan_month || currentMonth,
-            isPremium: prof.isPremium || false
-          };
-        } else {
-          const trialEnd = new Date(now);
-          trialEnd.setDate(now.getDate() + 14);
-          
-          initialData = {
-            id: authUser.uid,
-            email: authUser.email || '',
-            plan: 'premium',
-            trial_start: now.toISOString(),
-            trial_end: trialEnd.toISOString(),
-            scan_count: 0,
-            scan_month: currentMonth,
-            isPremium: false
-          };
-          
-          await saveProfile(authUser.uid, {
-            email: initialData.email,
-            plan: initialData.plan,
-            trial_start: initialData.trial_start,
-            trial_end: initialData.trial_end,
-            scan_count: initialData.scan_count,
-            scan_month: initialData.scan_month,
-            isPremium: initialData.isPremium
-          });
-        }
-
-        // Validate plan expiry
-        if (initialData.plan === 'premium' && initialData.trial_end) {
-          const trialEnd = new Date(initialData.trial_end);
-          if (trialEnd < now) {
-            initialData.plan = 'basic';
-            initialData.isPremium = false;
-            await saveProfile(authUser.uid, { plan: 'basic', isPremium: false });
-          }
-        }
-
-        if (isMounted) {
-          setUserData(initialData);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.error("Error loading user data from Supabase:", err);
-        if (isMounted) setIsLoading(false);
+        const initial = {
+          email: authUser.email || '',
+          plan: 'premium' as const,
+          trial_start: now.toISOString(),
+          trial_end: trialEnd.toISOString(),
+          scan_count: 0,
+          scan_month: now.toISOString().slice(0, 10),
+          createdAt: serverTimestamp()
+        };
+        await setDoc(userRef, initial);
       }
-    };
+      setIsLoading(false);
+    });
 
-    loadUserData();
-
-    // If Supabase is configured, subscribe to realtime profile updates
-    let channel: any = null;
-    if (isSupabaseConfigured()) {
-      channel = supabase
-        .channel(`public:profiles:id=eq.${authUser.uid}`)
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'profiles', filter: `id=eq.${authUser.uid}` },
-          (payload) => {
-            if (payload.new && isMounted) {
-              const updatedProf = payload.new as any;
-              setUserData(prev => prev ? {
-                ...prev,
-                plan: updatedProf.plan || updatedProf.subscriptionTier || prev.plan,
-                trial_start: updatedProf.trial_start || updatedProf.trialStartedAt || prev.trial_start,
-                trial_end: updatedProf.trial_end || updatedProf.trialEndsAt || prev.trial_end,
-                scan_count: updatedProf.scan_count !== undefined ? updatedProf.scan_count : prev.scan_count,
-                scan_month: updatedProf.scan_month || prev.scan_month,
-                isPremium: updatedProf.isPremium !== undefined ? updatedProf.isPremium : prev.isPremium,
-              } : null);
-            }
-          }
-        )
-        .subscribe();
-    }
-
-    return () => {
-      isMounted = false;
-      if (channel) {
-        supabase.removeChannel(channel);
-      }
-    };
+    return () => unsubscribe();
   }, [authUser]);
 
   // Derived state
   const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
-  const isPremium = isAdmin || userData?.plan === 'premium' || userData?.isPremium === true;
+  const isPremium = isAdmin || userData?.plan === 'premium' || (userData as any)?.isPremium === true;
   
   let scansRemaining = 3;
   if (isPremium) {
@@ -166,21 +102,6 @@ export function useUser() {
       trialDaysLeft,
     } : null,
     isLoading,
-    refreshUser: async () => {
-      if (authUser) {
-        const prof = await getProfile(authUser.uid);
-        if (prof) {
-          setUserData(prev => prev ? {
-            ...prev,
-            plan: prof.plan || prof.subscriptionTier || prev.plan,
-            trial_start: prof.trial_start || prof.trialStartedAt || prev.trial_start,
-            trial_end: prof.trial_end || prof.trialEndsAt || prev.trial_end,
-            scan_count: prof.scan_count !== undefined ? prof.scan_count : prev.scan_count,
-            scan_month: prof.scan_month || prev.scan_month,
-            isPremium: prof.isPremium !== undefined ? prof.isPremium : prev.isPremium,
-          } : null);
-        }
-      }
-    }
+    refreshUser: () => {} // Handled by onSnapshot
   };
 }

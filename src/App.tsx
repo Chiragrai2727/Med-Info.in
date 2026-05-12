@@ -2,7 +2,9 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 import { useToast } from './ToastContext';
-import { addFeedback } from './supabase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from './firebase';
+import { handleFirestoreError, OperationType } from './utils/firestoreErrorHandler';
 import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -51,10 +53,8 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
-    // Start loading medical data in background eagerly but non-blocking
-    setTimeout(() => {
-      ensureDataLoaded().catch(console.error);
-    }, 1500);
+    // Start loading medical data in background eagerly
+    ensureDataLoaded();
 
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
@@ -64,9 +64,6 @@ export default function App() {
       smoothWheel: true,
       wheelMultiplier: 1,
     });
-    
-    // @ts-ignore
-    window.lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -278,10 +275,14 @@ export default function App() {
                             
                             setIsSubmittingFeedback(true);
                             try {
-                              await addFeedback(null, {
-                                rating: 5,
-                                userEmail: 'guest@aethelcare.com',
-                                comment: text
+                              // 1. Save to Firestore for reliability
+                              await addDoc(collection(db, 'feedback'), {
+                                type: 'general',
+                                message: text,
+                                createdAt: serverTimestamp(),
+                                userId: auth.currentUser?.uid || 'guest',
+                                email: auth.currentUser?.email || null,
+                                status: 'new'
                               });
 
                               showToast('Feedback saved! Opening your email client...', 'success');
@@ -293,7 +294,7 @@ export default function App() {
                               
                               form.reset();
                             } catch (err) {
-                              console.error(err);
+                              handleFirestoreError(err, OperationType.CREATE, 'feedback');
                               showToast('Error saving feedback, but opening email client anyway.', 'info');
                               window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
                             } finally {

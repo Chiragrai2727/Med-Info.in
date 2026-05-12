@@ -86,23 +86,6 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
   const { showToast } = useToast();
   const [isUpdating, setIsUpdating] = React.useState(false);
 
-  React.useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      // @ts-expect-error lenis is attached to window
-      if (window.lenis) window.lenis.stop();
-    } else {
-      document.body.style.overflow = '';
-      // @ts-expect-error lenis is attached to window
-      if (window.lenis) window.lenis.start();
-    }
-    return () => {
-      document.body.style.overflow = '';
-      // @ts-expect-error lenis is attached to window
-      if (window.lenis) window.lenis.start();
-    };
-  }, [isOpen]);
-
   const handleSelect = async (url: string) => {
     if (isUpdating) return;
     try {
@@ -127,14 +110,12 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/60 backdrop-blur-md z-[200]"
-            data-lenis-prevent
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-[3rem] shadow-[0_32px_64px_rgba(0,0,0,0.2)] z-[201] overflow-hidden border border-white/20"
-            data-lenis-prevent
           >
             <div className="p-8 sm:p-12 border-b border-black/5 flex items-center justify-between bg-white/50 backdrop-blur-xl">
               <div>
@@ -160,7 +141,7 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
                   Reset to Default
                 </button>
               </div>
-              <div className="max-h-[420px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent" data-lenis-prevent>
+              <div className="max-h-[420px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 sm:gap-6 pb-4">
                   {AVATARS.map((avatar) => (
                     <button

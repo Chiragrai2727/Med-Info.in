@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Clock, Calendar as CalendarIcon, Trash2, AlertCircle, CheckCircle2, Search, X, Bell, BellOff, Loader2 } from 'lucide-react';
-import { getSchedules, addSchedule, deleteSchedule, updateSchedule, isSupabaseConfigured, supabase } from '../supabase';
+import { collection, query, where, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
 import { PremiumPaywall } from '../components/PremiumPaywall';
 import { useToast } from '../ToastContext';
@@ -42,9 +43,7 @@ export const Timetable: React.FC = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [suggestions, setSuggestions] = useState<{ name: string; category: string; source?: string }[]>([]);
   const [bannedWarning, setBannedWarning] = useState<string | null>(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
-    return 'Notification' in window ? Notification.permission === 'granted' : false;
-  });
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [newSchedule, setNewSchedule] = useState({
     medicineName: '',
     dosage: '',
@@ -56,6 +55,8 @@ export const Timetable: React.FC = () => {
 
   useEffect(() => {
     if ("Notification" in window) {
+      setNotificationsEnabled(Notification.permission === "granted");
+      
       if (Notification.permission === "default" && user) {
         const timer = setTimeout(() => {
           showToast(t('enableNotificationsPrompt'), "info");
@@ -116,47 +117,30 @@ export const Timetable: React.FC = () => {
   }, [newSchedule.medicineName, isAdding, language]);
 
   useEffect(() => {
-    let isMounted = true;
     if (!user) {
-      if (schedules.length > 0) {
-        setTimeout(() => setSchedules([]), 0);
-      }
+      setSchedules([]);
       return;
     }
 
-    const fetchSchedules = async () => {
-      try {
-        const data = await getSchedules(user.uid);
-        if (isMounted) {
-          data.sort((a: any, b: any) => a.time.localeCompare(b.time));
-          setSchedules(data);
-        }
-      } catch (err) {
-        console.warn("Failed to fetch schedules:", err);
-      }
-    };
-    fetchSchedules();
+    const q = query(collection(db, 'schedules'), where('userId', '==', user.uid));
+    console.log("Setting up schedules listener for:", user.uid);
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      console.log(`Received schedules snapshot: ${snapshot.size} documents`);
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Schedule[];
+      // Sort by time
+      data.sort((a, b) => a.time.localeCompare(b.time));
+      setSchedules(data);
+    }, (error) => {
+      console.error("Firestore onSnapshot error:", error);
+      handleFirestoreError(error, OperationType.LIST, 'schedules');
+      showToast(t('timetableLoadError'), "error");
+    });
 
-    let channel: any = null;
-    if (isSupabaseConfigured()) {
-      channel = supabase
-        .channel(`public:schedules:userId=eq.${user.uid}`)
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'schedules', filter: `userId=eq.${user.uid}` },
-          () => {
-            fetchSchedules();
-          }
-        )
-        .subscribe();
-    }
-
-    return () => {
-      isMounted = false;
-      if (channel) {
-        supabase.removeChannel(channel);
-      }
-    };
+    return () => unsubscribe();
   }, [user]);
 
   const handleAddSchedule = async (e: React.FormEvent) => {
@@ -164,24 +148,27 @@ export const Timetable: React.FC = () => {
     if (!user) return;
 
     try {
-      const added = await addSchedule(user.uid, newSchedule);
+      await addDoc(collection(db, 'schedules'), {
+        ...newSchedule,
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+        lastTakenDate: null
+      });
       setIsAdding(false);
       setNewSchedule({ medicineName: '', dosage: '', time: '08:00', days: [...DAYS] });
-      setSchedules(prev => [...prev, added].sort((a, b) => a.time.localeCompare(b.time)));
       showToast(t('scheduleAdded'), 'success');
     } catch (error) {
-      console.error(error);
+      handleFirestoreError(error, OperationType.CREATE, 'schedules');
       showToast(t('scheduleAddError'), 'error');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteSchedule(user.uid, id);
-      setSchedules(prev => prev.filter(s => s.id !== id));
+      await deleteDoc(doc(db, 'schedules', id));
       showToast(t('scheduleRemoved'), 'success');
     } catch (error) {
-      console.error(error);
+      handleFirestoreError(error, OperationType.DELETE, `schedules/${id}`);
       showToast(t('scheduleRemoveError'), 'error');
     }
   };
@@ -192,13 +179,13 @@ export const Timetable: React.FC = () => {
     const isTaken = schedule.lastTakenDate === today;
 
     try {
-      await updateSchedule(user.uid, schedule.id, {
-        lastTakenDate: isTaken ? null : today
+      await updateDoc(doc(db, 'schedules', schedule.id), {
+        lastTakenDate: isTaken ? null : today,
+        updatedAt: serverTimestamp()
       });
-      setSchedules(prev => prev.map(s => s.id === schedule.id ? { ...s, lastTakenDate: isTaken ? null : today } : s));
       showToast(isTaken ? t('markedNotTaken') : t('markedTaken'), 'success');
     } catch (error) {
-      console.error(error);
+      handleFirestoreError(error, OperationType.UPDATE, `schedules/${schedule.id}`);
       showToast(t('statusUpdateError'), 'error');
     }
   };

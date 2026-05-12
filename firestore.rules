@@ -82,7 +82,7 @@ service cloud.firestore {
     match /medicines/{medicineId} {
       function isValidMedicine(data) {
         return data.keys().hasAll(['id', 'drug_name', 'createdBy', 'createdAt'])
-          && data.keys().size() <= 28
+          && data.keys().size() <= 25
           && data.createdBy == request.auth.uid // Identity check
           && data.id is string && data.id.size() <= 128
           && data.drug_name is string && data.drug_name.size() <= 200

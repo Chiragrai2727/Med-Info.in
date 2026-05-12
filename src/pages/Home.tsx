@@ -8,6 +8,7 @@ import { AlertTriangle, ArrowRight, Sparkles, Shield, ShieldCheck, HelpCircle, D
 import { useNavigate } from 'react-router-dom';
 import { useCompare } from '../CompareContext';
 import { FAQ } from '../components/FAQ';
+import bannedDrugsData from '../data/banned_medicines.json';
 import { useAuth } from '../AuthContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

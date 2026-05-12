@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Phone, AlertCircle, Loader2, PartyPopper } from 'lucide-react';
+import { db } from '../firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 import { useAuth } from '../AuthContext';
 import { useLanguage } from '../LanguageContext';
 
 export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
-  const { user, updateProfileData } = useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,10 +37,11 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
       }
 
       // Update profile with trial data directly - bypassing paid SMS since they already authenticated via Google
+      const userRef = doc(db, 'users', user.uid);
       const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
       const trialStartedAt = new Date().toISOString();
       
-      await updateProfileData({
+      await updateDoc(userRef, {
         phoneNumber: formattedPhone,
         trialClaimed: true,
         trialStartedAt,

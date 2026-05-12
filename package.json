@@ -14,7 +14,6 @@
     "@google/genai": "^1.29.0",
     "@prerenderer/renderer-jsdom": "^1.1.9",
     "@studio-freight/lenis": "^1.0.42",
-    "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",

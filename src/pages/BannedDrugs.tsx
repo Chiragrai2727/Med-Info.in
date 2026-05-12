@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import bannedDrugsData from '../data/banned_medicines.json';
 import { useLanguage } from '../LanguageContext';
 import { offlineService } from '../services/offlineService';
 
@@ -33,8 +34,7 @@ export const BannedDrugs: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [allDrugs, setAllDrugs] = useState<BannedDrug[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [allDrugs, setAllDrugs] = useState<BannedDrug[]>(bannedDrugsData);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
@@ -42,33 +42,15 @@ export const BannedDrugs: React.FC = () => {
     window.scrollTo(0, 0);
     const query = searchParams.get('q');
     if (query) {
-      setTimeout(() => setSearchQuery(query), 0);
+      setSearchQuery(query);
     }
     
-    let isMounted = true;
-    const fetchDrugs = async () => {
-      try {
-        const module = await import('../data/banned_medicines.json');
-        if (isMounted) {
-          const data = module.default;
-          setAllDrugs(data);
-          setIsLoading(false);
-          try {
-            if (navigator.onLine) {
-              offlineService.cacheBannedDrugs(data);
-            }
-          } catch(e){}
-        }
-      } catch (err) {
-        if (isMounted) {
-          const cached = offlineService.getBannedDrugs();
-          if (cached) setAllDrugs(cached);
-          setIsLoading(false);
-        }
-      }
-    };
-    fetchDrugs();
-    return () => { isMounted = false; };
+    if (navigator.onLine) {
+      offlineService.cacheBannedDrugs(bannedDrugsData);
+    } else {
+      const cached = offlineService.getBannedDrugs();
+      if (cached) setAllDrugs(cached);
+    }
   }, [searchParams]);
 
   const filteredDrugs = useMemo(() => {
@@ -116,7 +98,7 @@ export const BannedDrugs: React.FC = () => {
             <h1 className="text-5xl md:text-8xl font-black tracking-[-0.05em] mb-6 leading-[0.8]">{t('bannedDrugsRegistry')}</h1>
             <div className="space-y-4 mb-12">
               <p className="text-xl md:text-3xl text-white/80 font-bold max-w-4xl leading-tight tracking-tight">
-                Updated with latest CDSCO notifications • {allDrugs.length} medicines currently banned in India
+                Updated with latest CDSCO notifications • {bannedDrugsData.length} medicines currently banned in India
               </p>
               <div className="flex items-center gap-2 text-white/60 text-xs font-black uppercase tracking-[0.2em]">
                 Verified Source: <a href="https://cdsco.gov.in" target="_blank" rel="noreferrer" className="underline hover:text-white flex items-center gap-2 border-none p-0 inline">CDSCO.gov.in <ExternalLink className="w-4 h-4" /></a>
@@ -129,7 +111,7 @@ export const BannedDrugs: React.FC = () => {
               }}
               className="bg-surface text-danger px-12 py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-bg transition-all shadow-2xl active:scale-95"
             >
-              See all {allDrugs.length} banned medicines →
+              See all {bannedDrugsData.length} banned medicines →
             </button>
           </div>
         </div>

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Send, Loader2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { addContactRequest } from '../supabase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { useToast } from '../ToastContext';
 import { Helmet } from 'react-helmet-async';
 
@@ -32,9 +34,11 @@ export const Contact: React.FC = () => {
     
     setIsSubmitting(true);
     try {
-      await addContactRequest({
+      // 1. Save to Firestore
+      await addDoc(collection(db, 'contactRequests'), {
         ...formData,
-        subject: 'Contact Request'
+        userId: auth.currentUser?.uid || 'guest',
+        createdAt: serverTimestamp()
       });
 
       showToast('Request received! Opening email client...', 'success');
@@ -47,7 +51,7 @@ export const Contact: React.FC = () => {
       }, 1500);
 
     } catch (error) {
-      console.error(error);
+      handleFirestoreError(error, OperationType.CREATE, 'contactRequests');
       showToast('Submission failed, but redirecting to email...', 'info');
       // Still allow email fallback
       window.location.href = `mailto:aethelcare.help@gmail.com?subject=Contact Request&body=${encodeURIComponent(formData.message)}`;

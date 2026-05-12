@@ -3,17 +3,17 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../ToastContext';
 import { 
-  getAllUsers, 
-  getAllSearchAnalytics, 
-  getAllFeedbacks, 
-  getAllContactRequests, 
-  deleteUserAndData, 
-  clearSearchAnalytics,
-  updateUserPremium,
-  deleteFeedbackRecord,
-  updateFeedbackStatus,
-  deleteContactRequestRecord
-} from '../supabase';
+  collection, 
+  getDocs, 
+  query, 
+  orderBy, 
+  limit, 
+  deleteDoc, 
+  doc, 
+  writeBatch, 
+  updateDoc 
+} from 'firebase/firestore';
+import { db } from '../firebase';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Users, 
@@ -104,20 +104,40 @@ export const AdminDashboard: React.FC = () => {
 
     try {
       // 1. Fetch Users
-      const fetchedUsersResult = await getAllUsers();
-      const fetchedUsers = fetchedUsersResult.map(u => ({ ...u, uid: u.id })) as UserData[];
+      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const fetchedUsers: UserData[] = [];
+      usersSnapshot.forEach((doc) => {
+        const data = doc.data() as UserData;
+        fetchedUsers.push({ ...data, uid: doc.id });
+      });
+      fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
 
       // 2. Fetch Search Analytics
-      const fetchedSearches = await getAllSearchAnalytics() as SearchData[];
+      const searchesQuery = query(collection(db, 'searchAnalytics'), orderBy('count', 'desc'), limit(50));
+      const searchesSnapshot = await getDocs(searchesQuery);
+      const fetchedSearches: SearchData[] = [];
+      searchesSnapshot.forEach((doc) => {
+        fetchedSearches.push({ id: doc.id, ...doc.data() } as SearchData);
+      });
       setSearches(fetchedSearches);
 
       // 3. Fetch Feedback
-      const fetchedFeedbacks = await getAllFeedbacks() as FeedbackData[];
+      const feedbackQuery = query(collection(db, 'feedback'), orderBy('createdAt', 'desc'), limit(100));
+      const feedbackSnapshot = await getDocs(feedbackQuery);
+      const fetchedFeedbacks: FeedbackData[] = [];
+      feedbackSnapshot.forEach((doc) => {
+        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as FeedbackData);
+      });
       setFeedbacks(fetchedFeedbacks);
 
       // 4. Fetch Contact Requests
-      const fetchedContacts = await getAllContactRequests() as ContactRequestData[];
+      const contactQuery = query(collection(db, 'contactRequests'), orderBy('createdAt', 'desc'), limit(100));
+      const contactSnapshot = await getDocs(contactQuery);
+      const fetchedContacts: ContactRequestData[] = [];
+      contactSnapshot.forEach((doc) => {
+        fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
+      });
       setContactRequests(fetchedContacts);
 
     } catch (error) {
@@ -129,17 +149,20 @@ export const AdminDashboard: React.FC = () => {
   }, [profile, showToast]);
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchAdminData().catch(console.error);
-    }, 0);
+    fetchAdminData();
   }, [fetchAdminData]);
 
   // Admin interactive modifiers
   const handleTogglePremium = async (userId: string, currentIsPremium: boolean) => {
     setActionLoading(`premium-${userId}`);
     try {
+      const userRef = doc(db, 'users', userId);
       const targetState = !currentIsPremium;
-      await updateUserPremium(userId, targetState, targetState ? 'premium' : 'basic');
+      await updateDoc(userRef, {
+        isPremium: targetState,
+        plan: targetState ? 'premium' : 'basic',
+        subscriptionTier: targetState ? 'premium' : 'basic'
+      });
       
       setUsers(prev => prev.map(u => 
         u.uid === userId 
@@ -165,7 +188,7 @@ export const AdminDashboard: React.FC = () => {
 
     setActionLoading(`delete-user-${userId}`);
     try {
-      await deleteUserAndData(userId);
+      await deleteDoc(doc(db, 'users', userId));
       setUsers(prev => prev.filter(u => u.uid !== userId));
       showToast("Patient record successfully removed.", "success");
     } catch (err) {
@@ -180,7 +203,7 @@ export const AdminDashboard: React.FC = () => {
     setActionLoading(`feedback-${feedbackId}`);
     try {
       const targetStatus = currentStatus === 'resolved' ? 'pending' : 'resolved';
-      await updateFeedbackStatus(feedbackId, targetStatus);
+      await updateDoc(doc(db, 'feedback', feedbackId), { status: targetStatus });
       setFeedbacks(prev => prev.map(f => f.id === feedbackId ? { ...f, status: targetStatus } : f));
       showToast(`Feedback set to ${targetStatus.toUpperCase()}.`, "success");
     } catch (err) {
@@ -195,7 +218,7 @@ export const AdminDashboard: React.FC = () => {
     if (!window.confirm("Delete this feedback report forever?")) return;
     setActionLoading(`delete-feedback-${feedbackId}`);
     try {
-      await deleteFeedbackRecord(feedbackId);
+      await deleteDoc(doc(db, 'feedback', feedbackId));
       setFeedbacks(prev => prev.filter(f => f.id !== feedbackId));
       showToast("Feedback record erased.", "success");
     } catch (err) {
@@ -210,7 +233,7 @@ export const AdminDashboard: React.FC = () => {
     if (!window.confirm("Verify: Dismiss and delete this customer contact inquiry?")) return;
     setActionLoading(`delete-contact-${contactId}`);
     try {
-      await deleteContactRequestRecord(contactId);
+      await deleteDoc(doc(db, 'contactRequests', contactId));
       setContactRequests(prev => prev.filter(c => c.id !== contactId));
       showToast("Contact request deleted.", "success");
     } catch (err) {
@@ -251,17 +274,26 @@ export const AdminDashboard: React.FC = () => {
 
     setResetting(true);
     try {
-      const usersSnap = await getAllUsers();
-      
+      const usersSnap = await getDocs(collection(db, 'users'));
+      const batch = writeBatch(db);
       let count = 0;
-      for (const u of usersSnap) {
-        if (u.email !== profile?.email && u.id) {
-          await deleteUserAndData(u.id);
+
+      usersSnap.forEach((userDoc) => {
+        const data = userDoc.data();
+        if (data.email !== profile?.email) {
+          batch.delete(doc(db, 'users', userDoc.id));
           count++;
         }
-      }
+      });
 
-      await clearSearchAnalytics();
+      const searchSnap = await getDocs(collection(db, 'searchAnalytics'));
+      searchSnap.forEach((sDoc) => {
+        batch.delete(doc(db, 'searchAnalytics', sDoc.id));
+      });
+
+      if (count > 0 || searchSnap.size > 0) {
+        await batch.commit();
+      }
 
       setResetSuccess(true);
       setTimeout(() => setResetSuccess(false), 5000);

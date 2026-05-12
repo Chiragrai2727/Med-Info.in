@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
-import { getPayments } from '../supabase';
+import { db } from '../firebase';
+import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download, User as UserIcon } from 'lucide-react';
 import { SubscriptionModal } from '../components/SubscriptionModal';
 import { AvatarSelection } from '../components/AvatarSelection';
@@ -44,11 +45,8 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
-    const history = offlineService.getHistory();
-    setTimeout(() => setSearchHistory(history), 0);
+    setSearchHistory(offlineService.getHistory());
   }, []);
-
-  console.log("Dashboard render: user=", !!user, "profile=", !!profile);
 
   const handleClearHistory = () => {
     if (window.confirm('Are you sure you want to clear your search history?')) {
@@ -69,10 +67,14 @@ export const Dashboard: React.FC = () => {
     const fetchPayments = async () => {
       if (!user) return;
       try {
-        const data = await getPayments(user.uid);
-        setPayments((data || []) as PaymentRecord[]);
+        const paymentsRef = collection(db, 'users', user.uid, 'payments');
+        const q = query(paymentsRef, orderBy('date', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PaymentRecord));
+        setPayments(data || []);
       } catch (error: any) {
         console.error('Error fetching payments:', error);
+        // Silently handle if collection doesn't exist yet
       } finally {
         setLoading(false);
       }
@@ -81,18 +83,7 @@ export const Dashboard: React.FC = () => {
     fetchPayments();
   }, [user]);
 
-  if (!user) return null;
-  
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-transparent pt-32 sm:pt-48 pb-12 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm font-black uppercase tracking-widest text-text-primary">Loading your profile...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!user || !profile) return null;
 
   const isPremium = profile.isPremium;
   const expiryDate = profile.subscriptionExpiry ? new Date(profile.subscriptionExpiry) : null;

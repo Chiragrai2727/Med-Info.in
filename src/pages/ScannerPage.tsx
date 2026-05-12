@@ -28,6 +28,9 @@ import { checkAndIncrementScan } from '../lib/scanLogic';
 import { DEFAULT_MODEL } from '../services/geminiService';
 import { useUser } from '../hooks/useUser';
 
+import medicinesData from '../data/medicines.json';
+import bannedDrugsData from '../data/banned_medicines.json';
+
 type ScanTab = 'medicine' | 'prescription' | 'lab';
 
 interface MedicineResult {
@@ -159,30 +162,18 @@ export const ScannerPage: React.FC = () => {
       const extractedText = text.toLowerCase();
       const detectedMeds: MedicineResult[] = [];
 
-      // Dynamically load data to prevent initial blocking
-      let localMeds: any[] = [];
-      let localBanned: any[] = [];
-      try {
-        const medsData = await import('../data/medicines.json');
-        localMeds = medsData.default;
-        const bannedData = await import('../data/banned_medicines.json');
-        localBanned = bannedData.default;
-      } catch(e) {
-        console.warn("Could not load local med data", e);
-      }
-
       // Look for matches in medicines data
-      localMeds.forEach(med => {
+      medicinesData.slice(0, 500).forEach(med => {
         const drugName = med.drug_name.toLowerCase();
-        const brands = med.brand_names_india.map((b: string) => b.toLowerCase());
+        const brands = med.brand_names_india.map(b => b.toLowerCase());
         
-        const isMatch = extractedText.includes(drugName) || brands.some((b: string) => extractedText.includes(b));
+        const isMatch = extractedText.includes(drugName) || brands.some(b => extractedText.includes(b));
 
         if (isMatch) {
           // Check if already detected to avoid duplicates
           if (!detectedMeds.find(m => m.name === med.drug_name)) {
             // Check if banned
-            const isBanned = localBanned.some(b => b.drug_name.toLowerCase() === med.drug_name.toLowerCase());
+            const isBanned = bannedDrugsData.some(b => b.drug_name.toLowerCase() === med.drug_name.toLowerCase());
             
             detectedMeds.push({
               name: med.drug_name,
@@ -345,17 +336,11 @@ export const ScannerPage: React.FC = () => {
         generic_alternative?: { name: string; price: string };
       }
       
-      let localBanned: any[] = [];
-      try {
-        const bannedData = await import('../data/banned_medicines.json');
-        localBanned = bannedData.default;
-      } catch(e) {}
-      
       const rawMedsList = parsed.medicines || parsed.meds || parsed.medicine_list || [];
       const processedMeds = Array.isArray(rawMedsList)
         ? rawMedsList.map((m: ParsedMedicine) => ({
             ...m,
-            is_banned: m.name ? localBanned.some(b => b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
+            is_banned: m.name ? bannedDrugsData.some(b => b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
           }))
         : [];
 
