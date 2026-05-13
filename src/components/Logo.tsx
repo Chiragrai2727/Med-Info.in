@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { useTheme } from '../ThemeContext';
 
 interface LogoProps {
   className?: string;
@@ -40,10 +41,13 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
     );
   }
 
+  const { theme } = useTheme();
+
+  // ... (rest of the code)
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       <img 
-        src="/logo.png" 
+        src={theme === 'dark' ? '/logo-white.png' : '/logo.png'} 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         onError={() => setImageError(true)}

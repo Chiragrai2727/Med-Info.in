@@ -545,7 +545,7 @@ export const AdminDashboard: React.FC = () => {
                       <p className="text-xs text-text-secondary mt-1">Real-time keyword search tracker for analytical analysis.</p>
                     </div>
                     
-                    <div data-lenis-prevent="true" onWheel={(e) => e.stopPropagation()} className="max-h-[500px] overflow-y-auto">
+                    <div data-lenis-prevent className="max-h-[500px] overflow-y-auto">
                       {searches.length === 0 ? (
                         <p className="p-10 text-center text-sm text-text-secondary italic">No search logs present in the database yet.</p>
                       ) : (
@@ -581,7 +581,7 @@ export const AdminDashboard: React.FC = () => {
                         <AlertTriangle className="w-5 h-5 text-amber-500" />
                         Urgent Flagged Reports
                       </h4>
-                      <div data-lenis-prevent="true" onWheel={(e) => e.stopPropagation()} className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
+                      <div data-lenis-prevent className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
                         {feedbacks.filter(f => f.status !== 'resolved').slice(0, 4).map(f => (
                           <div key={f.id} className="p-3 bg-amber-500/5 border border-amber-500/10 rounded-xl text-xs">
                             <div className="flex justify-between items-start mb-1.5">
@@ -603,7 +603,7 @@ export const AdminDashboard: React.FC = () => {
                         <Mail className="w-5 h-5 text-purple-600" />
                         Recent Customer Enquiries
                       </h4>
-                      <div data-lenis-prevent="true" onWheel={(e) => e.stopPropagation()} className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
+                      <div data-lenis-prevent className="space-y-4 max-h-[250px] overflow-y-auto pr-1">
                         {contactRequests.slice(0, 3).map(c => (
                           <div key={c.id} className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl text-xs">
                             <div className="flex justify-between items-center mb-1.5">

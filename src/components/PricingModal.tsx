@@ -157,8 +157,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        data-lenis-prevent="true"
-        onWheel={(e) => e.stopPropagation()}
+        data-lenis-prevent
         className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/80 backdrop-blur-md overflow-y-auto"
         onClick={onClose}
       >
