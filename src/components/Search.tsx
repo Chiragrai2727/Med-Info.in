@@ -375,10 +375,10 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
         {/* Typeahead overlay */}
         {typeahead && query && typeahead.toLowerCase().startsWith(query.toLowerCase()) && (
           <div 
-            className="absolute inset-0 pointer-events-none flex items-center pl-12 sm:pl-16 pr-20 sm:pr-28 overflow-hidden"
+            className="absolute inset-0 pointer-events-none flex items-center pl-16 pr-28 overflow-hidden"
             aria-hidden="true"
           >
-            <div className="text-base sm:text-xl font-medium whitespace-pre flex opacity-50">
+            <div className="text-xl font-medium whitespace-pre flex opacity-50">
               <span className="text-transparent">{query}</span>
               <span className="text-text-secondary">{typeahead.substring(query.length)}</span>
             </div>
@@ -401,13 +401,13 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             // Delay hiding to allow clicks on suggestions to register
             setTimeout(() => setIsFocused(false), 200);
           }}
-          className={`block w-full pl-12 sm:pl-16 pr-20 sm:pr-28 py-4 sm:py-6 glass border border-border rounded-[2rem] sm:rounded-[2.5rem] text-base sm:text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-lg hover:shadow-xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
+          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
           placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
           autoComplete="off"
         />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:pr-3 gap-1 sm:gap-2 z-10">
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2 z-10">
           {isListening && (
-            <div className="flex items-center gap-1 mr-1 sm:mr-2">
+            <div className="flex items-center gap-1 mr-2">
               <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="w-1.5 h-1.5 bg-danger rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -417,18 +417,18 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="p-1 sm:p-2 text-text-secondary hover:text-text-primary transition-colors"
+              className="p-2 text-text-secondary hover:text-text-primary transition-colors"
             >
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
+              <X className="h-6 w-6" />
             </button>
           )}
           <button
             type="button"
             disabled={isTranscribing}
             onClick={toggleVoiceSearch}
-            className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all ${isListening ? 'bg-danger text-white animate-pulse' : 'bg-surface text-text-secondary hover:text-text-primary hover:bg-border/30 border border-border'} disabled:opacity-50`}
+            className={`p-4 rounded-2xl transition-all ${isListening ? 'bg-danger text-white animate-pulse' : 'bg-surface text-text-secondary hover:text-text-primary hover:bg-border/30 border border-border'} disabled:opacity-50`}
           >
-            {isTranscribing ? <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" /> : <Mic className="h-4 w-4 sm:h-5 sm:w-5" />}
+            {isTranscribing ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mic className="h-5 w-5" />}
           </button>
         </div>
       </form>

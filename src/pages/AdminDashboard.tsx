@@ -31,7 +31,10 @@ import {
   Mail, 
   Filter, 
   CheckSquare, 
-  RefreshCw 
+  RefreshCw,
+  UploadCloud,
+  Cpu,
+  Play
 } from 'lucide-react';
 
 const STATIC_FALLBACK_TIMESTAMP = 1778400000000; // May 2026
@@ -85,10 +88,30 @@ export const AdminDashboard: React.FC = () => {
   const [searches, setSearches] = useState<SearchData[]>([]);
   const [feedbacks, setFeedbacks] = useState<FeedbackData[]>([]);
   const [contactRequests, setContactRequests] = useState<ContactRequestData[]>([]);
-  const [datasetStats, setDatasetStats] = useState<{totalRecords: number, totalMedicines: number, totalBanned: number} | null>(null);
+  const [datasetStats, setDatasetStats] = useState<{
+    totalRecords: number;
+    totalMedicines: number;
+    totalBanned: number;
+    totalRawCrawled?: number;
+    schedulerLogs?: Array<{
+      timestamp: string;
+      status: string;
+      processedCount: number;
+      processedItems: string[];
+      message: string;
+    }>;
+  } | null>(null);
+
+  // CDSCO Scheduler States
+  const [unverifiedList, setUnverifiedList] = useState<string[]>([]);
+  const [unverifiedTotal, setUnverifiedTotal] = useState(0);
+  const [loadingUnverified, setLoadingUnverified] = useState(false);
+  const [batchSize, setBatchSize] = useState<number>(2);
+  const [csvUploading, setCsvUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   // Navigation / Filter States
-  const [activeTab, setActiveTab] = useState<'overview' | 'patients' | 'feedback' | 'contact'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'patients' | 'feedback' | 'contact' | 'cdsco'>('overview');
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [planFilter, setPlanFilter] = useState<'all' | 'premium' | 'standard' | 'admin'>('all');
   const [feedbackFilter, setFeedbackFilter] = useState<'all' | 'pending' | 'resolved'>('all');
@@ -142,7 +165,7 @@ export const AdminDashboard: React.FC = () => {
       });
       setContactRequests(fetchedContacts);
 
-      // 5. Fetch Dataset Stats
+      // 5. Fetch Dataset Stats and Unverified List
       try {
         const statsRes = await fetch("/api/admin/dataset-stats");
         if (statsRes.ok) {
@@ -153,6 +176,22 @@ export const AdminDashboard: React.FC = () => {
         }
       } catch (err) {
         console.error("Failed to fetch dataset stats", err);
+      }
+
+      try {
+        setLoadingUnverified(true);
+        const unverifiedRes = await fetch("/api/admin/unverified-list");
+        if (unverifiedRes.ok) {
+          const uvData = await unverifiedRes.json();
+          if (uvData.success) {
+            setUnverifiedList(uvData.list || []);
+            setUnverifiedTotal(uvData.totalCount || 0);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch unverified lists", err);
+      } finally {
+        setLoadingUnverified(false);
       }
 
     } catch (error) {
@@ -529,6 +568,25 @@ export const AdminDashboard: React.FC = () => {
                Total CDSCO records available.
             </div>
             <div className="absolute bottom-0 left-0 h-[3px] bg-indigo-500 w-full opacity-60" />
+          </div>
+
+          {/* AI Queue Target Metric Box */}
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-blue-500 transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">AI Crawl Queue</p>
+                <h3 className="text-3xl font-black text-blue-500 tracking-tight mt-2">
+                  {loading ? "..." : (datasetStats?.totalRawCrawled ? new Intl.NumberFormat().format(datasetStats.totalRawCrawled) : "0")}
+                </h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+                <Cpu className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5 flex-wrap">
+               Pending crawler verifications.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-full opacity-60" />
           </div>
         </div>
 
@@ -970,6 +1028,180 @@ export const AdminDashboard: React.FC = () => {
                     )}
                   </div>
                 </div>
+              )}
+
+              {/* TAB 5: CDSCO/Gemini Dataset Manager */}
+              {activeTab === 'cdsco' && (
+                 <div className="space-y-8">
+                  {/* CSV Upload & Manual Execution Block */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm">
+                      <h4 className="text-base font-bold text-text-primary flex items-center gap-2 mb-2">
+                        <UploadCloud className="w-5 h-5 text-indigo-500" /> Upload Raw Pharmeasy Crawl
+                      </h4>
+                      <p className="text-xs text-text-secondary mb-6 leading-relaxed">
+                        Drag and drop a <code>raw_crawled_medicines.csv</code> export file to update the baseline catalog. This CSV should contain "BrowseList_medicine__bz_e7" in the first column for the AI to parse through.
+                      </p>
+                      
+                      <div 
+                        onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+                        onDragLeave={() => setIsDragOver(false)}
+                        onDrop={async (e) => {
+                          e.preventDefault();
+                          setIsDragOver(false);
+                          if (!e.dataTransfer.files || e.dataTransfer.files.length === 0) return;
+                          
+                          const file = e.dataTransfer.files[0];
+                          if (!file.name.endsWith('.csv')) {
+                            showToast("Please upload a .csv file.", "error"); return;
+                          }
+                          
+                          const reader = new FileReader();
+                          reader.onload = async (event) => {
+                             setCsvUploading(true);
+                             try {
+                               const text = event.target?.result as string;
+                               const res = await fetch("/api/admin/upload-raw-csv", {
+                                 method: "POST",
+                                 headers: {"Content-Type": "application/json"},
+                                 body: JSON.stringify({ csvContent: text })
+                               });
+                               
+                               if (res.ok) {
+                                 const data = await res.json();
+                                 if (data.success) {
+                                  showToast(data.message, "success");
+                                  window.location.reload();
+                                 } else {
+                                  showToast("Upload failed server-side.", "error");
+                                 }
+                               } else {
+                                  showToast("Upload endpoint failed.", "error");
+                               }
+                             } catch (err) {
+                               showToast("Network error during upload.", "error");
+                             } finally {
+                               setCsvUploading(false);
+                             }
+                          };
+                          reader.readAsText(file);
+                        }}
+                        className={`mt-4 border-2 border-dashed rounded-xl p-8 text-center transition-all ${isDragOver ? "border-indigo-500 bg-indigo-500/10" : "border-border hover:bg-bg/50"} flex flex-col items-center justify-center min-h-[140px]`}
+                      >
+                         {csvUploading ? (
+                           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                         ) : (
+                           <>
+                             <UploadCloud className={`w-8 h-8 ${isDragOver ? "text-indigo-500" : "text-text-secondary"} mb-2 opacity-70`} />
+                             <p className="text-sm font-semibold text-text-primary">Drag CSV Here to Upload</p>
+                             <p className="text-xs text-text-secondary mt-1 max-w-[200px]">Data will be written to server disk safely</p>
+                           </>
+                         )}
+                      </div>
+                    </div>
+
+                    <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm h-full flex flex-col justify-between">
+                     <div>
+                      <h4 className="text-base font-bold text-text-primary flex items-center gap-2 mb-2">
+                        <Play className="w-5 h-5 text-indigo-500" /> Start AI Synchronization
+                      </h4>
+                      <p className="text-xs text-text-secondary mb-6 leading-relaxed">
+                        Manually trigger the Gemini verification engine to immediately process a chunk of pending medications from the raw crawler CSV pool.
+                      </p>
+                      <div className="flex items-center gap-4 mb-4">
+                        <label className="text-xs font-semibold text-text-secondary">Batch Size (Max 10 per run):</label>
+                        <select 
+                          className="bg-bg border border-border text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500 text-text-primary"
+                          value={batchSize}
+                          onChange={(e) => setBatchSize(Number(e.target.value))}
+                        >
+                          <option value="1">1 Medicine</option>
+                          <option value="2">2 Medicines</option>
+                          <option value="3">3 Medicines</option>
+                          <option value="5">5 Medicines</option>
+                          <option value="10">10 Medicines (Slow)</option>
+                        </select>
+                      </div>
+                     </div>
+
+                      <button
+                        onClick={async () => {
+                           if (!window.confirm(`Are you sure you want to run sync for ${batchSize} medicines? This process may take a minute.`)) return;
+                           try {
+                             showToast("Triggering backend Sync Worker...", "success");
+                             const response = await fetch("/api/admin/trigger-data-update", {
+                               method: "POST",
+                               headers: {"Content-Type": "application/json"},
+                               body: JSON.stringify({ batchSize })
+                             });
+
+                             const data = await response.json();
+                             if (data.success) {
+                               showToast(data.message, "success");
+                               window.location.reload();
+                             } else {
+                               showToast("Sync failed: " + data.message, "error");
+                             }
+                           } catch (err) {
+                             showToast("Network / API failure during manual sync trigger.", "error");
+                           }
+                        }}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-indigo-600/20 active:scale-[0.98] w-full flex items-center justify-center gap-2"
+                      >
+                         <Cpu className="w-4 h-4" /> Start Verifying {batchSize} Medicines
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Pool Status Table */}
+                  <div className="bg-surface border border-border rounded-2xl shadow-sm p-6 mt-8">
+                     <h4 className="text-base font-bold text-text-primary mb-4 flex items-center gap-2">Raw File Pool Queue ({unverifiedTotal} Remaining)</h4>
+                     {loadingUnverified ? (
+                       <p className="text-xs italic text-text-secondary">Loading backlog list...</p>
+                     ) : (
+                       <div className="max-h-[300px] overflow-y-auto scrollbar-thin flex flex-wrap gap-2 pr-2">
+                         {unverifiedList.length > 0 ? (
+                           unverifiedList.map((item, idx) => (
+                             <span key={idx} className="bg-bg border border-border px-3 py-1 text-[11px] font-mono text-text-secondary rounded-lg whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
+                               {item}
+                             </span>
+                           ))
+                         ) : (
+                           <p className="text-xs text-success font-semibold flex items-center gap-2">
+                             <Check className="w-4 h-4" /> Crawled pool is fully consumed and verified!
+                           </p>
+                         )}
+                         {unverifiedTotal > 100 && (
+                           <span className="bg-bg border border-border px-3 py-1 text-[11px] font-mono text-text-secondary rounded-lg opacity-60">
+                             + {unverifiedTotal - 100} more items...
+                           </span>
+                         )}
+                       </div>
+                     )}
+                  </div>
+
+                  {/* Execution Logs */}
+                  <div className="bg-surface border border-border rounded-2xl shadow-sm p-6 mt-8">
+                     <h4 className="text-base font-bold text-text-primary mb-4 flex items-center gap-2">Daily CDSCO Verification Worker Logs</h4>
+                     <div className="max-h-[300px] overflow-y-auto scrollbar-thin space-y-3">
+                       {datasetStats?.schedulerLogs?.length ? (
+                         datasetStats.schedulerLogs.map((log, idx) => (
+                           <div key={idx} className="bg-bg border border-border p-3 rounded-lg text-xs flex flex-col gap-1.5">
+                              <div className="flex justify-between items-center">
+                                <span className="font-mono text-text-secondary opacity-70">{new Date(log.timestamp).toLocaleString()}</span>
+                                <span className={`font-bold px-2 py-0.5 rounded-full ${log.status === 'success' ? 'bg-success/10 text-success' : 'bg-text-secondary/10 text-text-secondary'}`}>
+                                  {log.status.toUpperCase()}
+                                </span>
+                              </div>
+                              <p className="text-text-primary text-[13px]">{log.message}</p>
+                           </div>
+                         ))
+                       ) : (
+                         <p className="text-xs italic text-text-secondary">No AI sync execution logs available.</p>
+                       )}
+                     </div>
+                  </div>
+                 </div>
               )}
 
             </motion.div>
