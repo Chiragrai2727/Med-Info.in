@@ -372,13 +372,14 @@ export const AdminDashboard: React.FC = () => {
       });
       const data = await res.json();
       if (data.success) {
-        showToast("Dataset update started in the background successfully.", "success");
+        showToast(data.message || "Dataset update started successfully.", "success");
+        await fetchAdminData(); // Refresh UI stats
       } else {
-        throw new Error(data.message || "Failed to trigger");
+        showToast(data.message || "Failed to trigger update.", "error");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      showToast("Error triggering AI dataset update.", "error");
+      showToast(e.message || "Error triggering AI dataset update.", "error");
     } finally {
       setUpdatingData(false);
     }

@@ -154,9 +154,13 @@ async function runMedicineSync(batchSize = 2) {
   console.log(`[Sync Worker] Processing ${targetBatch.length} medicines via Gemini config...`, targetBatch);
 
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    console.warn("[Sync Worker] No GEMINI_API_KEY found. Skipping AI sync simulation.");
-    return { success: false, error: "Missing GEMINI_API_KEY", message: "API Key is required to run the AI verification scheduler." };
+  if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+    console.warn("[Sync Worker] No valid GEMINI_API_KEY found. Placeholder detected.");
+    return { 
+      success: false, 
+      error: "Invalid API Key", 
+      message: "The Gemini API Key is currently set to a placeholder ('MY_GEMINI_API_KEY'). Please set a valid API key in the Settings menu to enable AI verification." 
+    };
   }
 
   const ai = new GoogleGenAI({ apiKey });
@@ -170,7 +174,7 @@ Verify it against CDSCO (Central Drugs Standard Control Organization) guidelines
 Provide educational facts about its active constituents, dosage, precise category, side effects, precautions, and whether it requires an active doctor prescription.`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-3.1-pro-preview',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -220,8 +224,9 @@ Provide educational facts about its active constituents, dosage, precise categor
         processedItems.push(parsedMedObj.drug_name);
         console.log(`[Sync Worker] Integrated & Saved: ${parsedMedObj.drug_name}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(`[Sync Worker] Failed writing medicine payload to file for raw medicine ${rawName}:`, err);
+      return { success: false, error: err.message, message: `Failed on ${rawName}: ${err.message}` };
     }
   }
 
@@ -370,29 +375,41 @@ async function startServer() {
       let totalRawCrawled = 0;
       let schedulerLogs = [];
 
-      if (fs.existsSync(medPath)) {
-        const meds = JSON.parse(fs.readFileSync(medPath, 'utf-8'));
-        totalVerifiedMedicines = Array.isArray(meds) ? meds.length : 0;
+      try {
+        if (fs.existsSync(medPath)) {
+          const meds = JSON.parse(fs.readFileSync(medPath, 'utf-8'));
+          totalVerifiedMedicines = Array.isArray(meds) ? meds.length : 0;
+        }
+      } catch (e) {
+        console.error("Error reading medPath JSON:", e);
       }
       
-      if (fs.existsSync(bannedPath)) {
-        const banned = JSON.parse(fs.readFileSync(bannedPath, 'utf-8'));
-        totalBanned = Array.isArray(banned) ? banned.length : 0;
-      }
-
-      if (fs.existsSync(rawPath)) {
-        const rawContent = fs.readFileSync(rawPath, 'utf-8');
-        const lines = rawContent.split(/\r?\n/).filter(line => line.trim().length > 0);
-        // Deduct 1 for header if populated
-        totalRawCrawled = Math.max(0, lines.length - 1);
-      }
-
-      if (fs.existsSync(logPath)) {
-        try {
-          schedulerLogs = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
-        } catch {
-          schedulerLogs = [];
+      try {
+        if (fs.existsSync(bannedPath)) {
+          const banned = JSON.parse(fs.readFileSync(bannedPath, 'utf-8'));
+          totalBanned = Array.isArray(banned) ? banned.length : 0;
         }
+      } catch (e) {
+        console.error("Error reading bannedPath JSON:", e);
+      }
+
+      try {
+        if (fs.existsSync(rawPath)) {
+          const rawContent = fs.readFileSync(rawPath, 'utf-8');
+          const lines = rawContent.split(/\r?\n/).filter(line => line.trim().length > 0);
+          // Deduct 1 for header if populated
+          totalRawCrawled = Math.max(0, lines.length - 1);
+        }
+      } catch (e) {
+        console.error("Error reading rawPath:", e);
+      }
+
+      try {
+        if (fs.existsSync(logPath)) {
+          schedulerLogs = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
+        }
+      } catch (e) {
+        schedulerLogs = [];
       }
       
       res.json({
@@ -413,7 +430,7 @@ async function startServer() {
   app.post("/api/admin/trigger-data-update", async (req, res) => {
     console.log(`[Manual Trigger] Medical Dataset Update started at ${new Date().toISOString()}`);
     try {
-      const batchSize = req.body.batchSize ? parseInt(req.body.batchSize) : 2;
+      const batchSize = req.body && req.body.batchSize ? parseInt(req.body.batchSize) : 2;
       const result = await runMedicineSync(batchSize);
       res.json(result);
     } catch (error: any) {
