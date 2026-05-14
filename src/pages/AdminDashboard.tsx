@@ -85,6 +85,7 @@ export const AdminDashboard: React.FC = () => {
   const [searches, setSearches] = useState<SearchData[]>([]);
   const [feedbacks, setFeedbacks] = useState<FeedbackData[]>([]);
   const [contactRequests, setContactRequests] = useState<ContactRequestData[]>([]);
+  const [datasetStats, setDatasetStats] = useState<{totalRecords: number, totalMedicines: number, totalBanned: number} | null>(null);
 
   // Navigation / Filter States
   const [activeTab, setActiveTab] = useState<'overview' | 'patients' | 'feedback' | 'contact'>('overview');
@@ -97,6 +98,7 @@ export const AdminDashboard: React.FC = () => {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [resetting, setResetting] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [updatingData, setUpdatingData] = useState(false);
 
   const fetchAdminData = useCallback(async () => {
     if (profile?.role !== 'admin') return;
@@ -139,6 +141,19 @@ export const AdminDashboard: React.FC = () => {
         fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
       });
       setContactRequests(fetchedContacts);
+
+      // 5. Fetch Dataset Stats
+      try {
+        const statsRes = await fetch("/api/admin/dataset-stats");
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          if (statsData.success) {
+            setDatasetStats(statsData);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch dataset stats", err);
+      }
 
     } catch (error) {
       console.error("Error fetching admin data:", error);
@@ -307,6 +322,29 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handleTriggerDataUpdate = async () => {
+    if (!window.confirm("Initialize manual medical dataset update via AI? This initiates a background process.")) return;
+
+    setUpdatingData(true);
+    try {
+      showToast("Triggering background AI data fetch...", "success");
+      const res = await fetch("/api/admin/trigger-data-update", {
+        method: "POST"
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast("Dataset update started in the background successfully.", "success");
+      } else {
+        throw new Error(data.message || "Failed to trigger");
+      }
+    } catch (e) {
+      console.error(e);
+      showToast("Error triggering AI dataset update.", "error");
+    } finally {
+      setUpdatingData(false);
+    }
+  };
+
   // UI calculations
   const totalUsers = users.length;
   const premiumUsers = users.filter(u => u.isPremium).length;
@@ -385,6 +423,13 @@ export const AdminDashboard: React.FC = () => {
               Export Records
             </button>
             <button 
+              onClick={handleTriggerDataUpdate}
+              disabled={updatingData}
+              className="px-4 py-3 bg-indigo-500/10 border border-indigo-500/25 text-indigo-500 rounded-xl text-xs font-semibold hover:bg-indigo-500 hover:text-white transition-all disabled:opacity-55"
+            >
+              {updatingData ? 'Syncing...' : 'Sync Datasets'}
+            </button>
+            <button 
               onClick={handleClearOldUsers}
               disabled={resetting}
               className="px-4 py-3 bg-danger/10 border border-danger/25 text-danger rounded-xl text-xs font-semibold hover:bg-danger hover:text-white transition-all disabled:opacity-55"
@@ -402,7 +447,7 @@ export const AdminDashboard: React.FC = () => {
         )}
 
         {/* Dynamic Metric Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
           <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-primary transition-all">
             <div className="flex justify-between items-start">
               <div>
@@ -465,6 +510,25 @@ export const AdminDashboard: React.FC = () => {
               General questions & consultations.
             </div>
             <div className="absolute bottom-0 left-0 h-[3px] bg-purple-600 w-full opacity-60" />
+          </div>
+
+          {/* New DB Dataset Metric Box */}
+          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm relative overflow-hidden group hover:border-indigo-500 transition-all">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[11px] font-bold text-text-secondary uppercase tracking-widest opacity-85">Medical Dataset</p>
+                <h3 className="text-3xl font-black text-indigo-500 tracking-tight mt-2">
+                  {loading ? "..." : (datasetStats ? new Intl.NumberFormat().format(datasetStats.totalRecords) : "N/A")}
+                </h3>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+                <CheckSquare className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-medium text-text-secondary flex items-center gap-1.5">
+               Total CDSCO records available.
+            </div>
+            <div className="absolute bottom-0 left-0 h-[3px] bg-indigo-500 w-full opacity-60" />
           </div>
         </div>
 

@@ -330,7 +330,7 @@ export default function App() {
                         <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">{t('cdscoOfficial')}</a>
                       </div>
                       <p className="text-[10px] uppercase font-black tracking-widest mt-8 max-w-3xl mx-auto opacity-50">
-                        {t('educationalDisclaimer')}
+                        {t('educationalDisclaimer')} Data analyzed by Aethelcare AI using <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-text-primary transition-colors">CDSCO</a> & other verified medical sources.
                       </p>
                     </div>
                   </div>

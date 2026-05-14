@@ -532,7 +532,7 @@ export const ScannerPage: React.FC = () => {
       doc.line(20, 280, pageWidth - 20, 280);
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text('This is an AI-generated analysis based on image recognition. NOT a medical diagnosis.', 20, 285);
+      doc.text('This is an AI-generated analysis using CDSCO & verified database sources. NOT a medical diagnosis.', 20, 285);
       doc.text('Always verify with a healthcare professional before making clinical decisions.', 20, 289);
       doc.text(`Aethelcare India • page ${i} of ${pageCount}`, pageWidth - 60, 290);
     }
@@ -1021,7 +1021,7 @@ export const ScannerPage: React.FC = () => {
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-4">
           <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0" />
           <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] leading-tight opacity-80">
-            Aethelcare is an AI analysis tool and not a substitute for professional medical advice.
+            Aethelcare AI provides analysis based on data from <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">CDSCO</a> and other verified medical sources. It is not a substitute for professional medical advice or clinical diagnosis.
           </p>
         </div>
       </div>

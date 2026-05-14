@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FileText, Check, ShieldAlert } from 'lucide-react';
+import { FileText, Check, ShieldAlert, ExternalLink } from 'lucide-react';
 
 export const MedicalDisclaimerModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(() => {
@@ -60,9 +60,9 @@ export const MedicalDisclaimerModal: React.FC = () => {
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-1">AI Scanner Limitations</h3>
-                  <p className="text-sm opacity-90 leading-relaxed">
-                    While our AI-powered scanner utilizes advanced models that are highly accurate in extracting and analyzing information, AI can occasionally generate incorrect or misleading results. You must always manually verify the information extracted and consult with a healthcare professional regarding any medical concerns.
+                  <h3 className="font-bold mb-1">AI & Data Limitations</h3>
+                  <p className="text-sm opacity-90 leading-relaxed items-center">
+                    While our AI-powered scanner utilizes advanced models and our data is cross-referenced with the <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600 transition-colors inline-flex items-center gap-1">Central Drugs Standard Control Organisation (CDSCO) <ExternalLink className="w-3 h-3" /></a> and other verified medical databases, AI can occasionally generate incorrect or misleading results. You must always manually verify the information extracted and consult with a healthcare professional regarding any medical concerns.
                   </p>
                 </div>
               </div>

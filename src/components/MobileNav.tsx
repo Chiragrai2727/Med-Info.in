@@ -17,51 +17,76 @@ export const MobileNav: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] safe-bottom px-4 w-full flex justify-center">
-      <div className="bg-surface/90 backdrop-blur-xl px-2 py-2 rounded-full flex items-center gap-1 border border-border shadow-[0_20px_40px_-5px_rgba(29,78,216,0.12)]">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] safe-bottom w-full">
+      <div className="bg-surface/90 backdrop-blur-xl border-t border-border shadow-[0_-10px_40px_rgba(0,0,0,0.05)] flex items-center justify-around px-2 py-2 pb-safe">
         <Link 
           to="/" 
-          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/') ? 'text-white' : 'text-text-secondary hover:text-primary'}`}
+          className="flex flex-col items-center gap-1 p-2 flex-1"
         >
-          {profile?.photoURL ? (
-            <img src={profile.photoURL} alt="" className={`w-6 h-6 aspect-square rounded-full object-cover border transition-all flex-shrink-0 ${isActive('/') ? 'border-white' : 'border-transparent opacity-40'}`} referrerPolicy="no-referrer" />
-          ) : (
-            <div className={`w-6 h-6 aspect-square flex items-center justify-center flex-shrink-0 ${isActive('/') ? 'text-white' : 'text-text-secondary'}`}>
-              <UserIcon className="w-5 h-5" />
-            </div>
-          )}
-          {isActive('/') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
+          <div className="relative">
+            {profile?.photoURL ? (
+              <img src={profile.photoURL} alt="" className={`w-6 h-6 aspect-square rounded-full object-cover border transition-all ${isActive('/') ? 'border-primary' : 'border-transparent opacity-60'}`} referrerPolicy="no-referrer" />
+            ) : (
+              <div className={`w-6 h-6 aspect-square rounded-full flex items-center justify-center ${isActive('/') ? 'text-primary bg-primary/10' : 'text-text-secondary'}`}>
+                <UserIcon className="w-5 h-5" />
+              </div>
+            )}
+            {isActive('/') && <motion.div layoutId="activeMobileNav" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />}
+          </div>
+          <span className={`text-[10px] font-medium ${isActive('/') ? 'text-primary' : 'text-text-secondary'}`}>
+            {t('home')}
+          </span>
         </Link>
         
         <Link 
           to="/scan" 
-          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/scan') ? 'text-white' : 'text-text-secondary hover:text-primary'}`}
+          className="flex flex-col items-center gap-1 p-2 flex-1 relative"
         >
-          <Camera className="w-5 h-5" />
-          {isActive('/scan') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
+          <div className={`w-12 h-12 -mt-6 rounded-full flex items-center justify-center text-white shadow-lg transition-transform active:scale-95 ${isActive('/scan') ? 'bg-primary shadow-primary/30' : 'bg-primary/90'}`}>
+            <Camera className="w-5 h-5" />
+          </div>
+          <span className={`text-[10px] font-medium pt-0.5 ${isActive('/scan') ? 'text-primary' : 'text-text-secondary'}`}>
+            {t('scan')}
+          </span>
+          {isActive('/scan') && <motion.div layoutId="activeMobileNav" className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full hidden" />}
         </Link>
 
         <Link 
           to="/dashboard" 
-          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/dashboard') ? 'text-white' : 'text-text-secondary hover:text-primary'}`}
+          className="flex flex-col items-center gap-1 p-2 flex-1 relative"
         >
-          <LayoutDashboard className="w-5 h-5" />
-          {isActive('/dashboard') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
+          <div className={`transition-all ${isActive('/dashboard') ? 'text-primary' : 'text-text-secondary'}`}>
+            <LayoutDashboard className="w-5 h-5" />
+          </div>
+          <span className={`text-[10px] font-medium ${isActive('/dashboard') ? 'text-primary' : 'text-text-secondary'}`}>
+            {t('dashboard')}
+          </span>
+          {isActive('/dashboard') && <motion.div layoutId="activeMobileNav" className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />}
         </Link>
 
         <button 
           onClick={toggleTheme}
-          className="relative p-3 rounded-full transition-all duration-300 text-text-secondary hover:text-primary shrink-0"
+          className="flex flex-col items-center gap-1 p-2 flex-1 text-text-secondary"
         >
-          {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          <div>
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </div>
+          <span className="text-[10px] font-medium">
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </span>
         </button>
 
         <Link 
           to="/timetable" 
-          className={`relative p-3 rounded-full transition-all duration-300 ${isActive('/timetable') ? 'text-white' : 'text-text-secondary hover:text-primary'}`}
+          className="flex flex-col items-center gap-1 p-2 flex-1 relative"
         >
-          <Calendar className="w-5 h-5" />
-          {isActive('/timetable') && <motion.div layoutId="activeNav" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_8px_20px_rgba(29,78,216,0.3)]" />}
+          <div className={`transition-all ${isActive('/timetable') ? 'text-primary' : 'text-text-secondary'}`}>
+            <Calendar className="w-5 h-5" />
+          </div>
+          <span className={`text-[10px] font-medium ${isActive('/timetable') ? 'text-primary' : 'text-text-secondary'}`}>
+            {t('timetable')}
+          </span>
+          {isActive('/timetable') && <motion.div layoutId="activeMobileNav" className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />}
         </Link>
       </div>
     </div>

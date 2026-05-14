@@ -135,7 +135,7 @@ export const generateMedReport = async (data: ReportData) => {
   // 5. Watermark & Security
   doc.setFontSize(8);
   doc.setTextColor(180, 180, 180);
-  const watermarkText = 'This report is AI-generated for informational purposes. Always consult a licensed medical professional for clinical diagnosis.';
+  const watermarkText = 'This report is AI-generated using data from CDSCO and verified medical sources. It is for informational purposes only. Always consult a licensed medical professional for clinical diagnosis or treatment.';
   const splitWatermark = doc.splitTextToSize(watermarkText, pageWidth - 40);
   doc.text(splitWatermark, pageWidth / 2, pageHeight - 20, { align: 'center' });
 

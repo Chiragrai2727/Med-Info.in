@@ -648,7 +648,7 @@ export const MedicineDetail: React.FC = () => {
             </p>
             <div className="w-32 h-2 bg-amber-200/50 mx-auto rounded-full" />
             <p className="text-[11px] font-black uppercase tracking-[0.4em] text-amber-700/60 max-w-3xl mx-auto leading-loose">
-              {t('educationalDisclaimer')}
+              {t('educationalDisclaimer')} Data analyzed by Aethelcare AI using <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-800 transition-colors">CDSCO</a> & other verified medical sources.
             </p>
           </div>
         </motion.div>
