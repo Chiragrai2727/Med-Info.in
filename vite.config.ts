@@ -70,7 +70,7 @@ export default defineConfig(({mode}) => {
         ],
         exclude: ['/google20f926fe5b04d78e']
       }),
-      prerender({
+      /*prerender({
         // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
         // Required - Routes to render.
@@ -88,10 +88,11 @@ export default defineConfig(({mode}) => {
         renderer: new JSDOMRenderer({
           renderAfterDocumentEvent: 'render-event', // or just use fallback
         })
-      }),
+      }),*/
     ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY || env.GEMINI_API_KEY || ''),
+      'process.env.GEMINI_API_KEYS': JSON.stringify(process.env.GEMINI_API_KEYS || env.GEMINI_API_KEYS || ''),
     },
     resolve: {
       alias: {

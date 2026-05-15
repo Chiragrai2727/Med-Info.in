@@ -128,10 +128,11 @@ export const ScannerPage: React.FC = () => {
       return;
     }
 
-    if (isPremium) {
-      handleGeminiScan(pendingFile);
-    } else {
-      handleTesseractScan(pendingFile);
+    try {
+      await handleGeminiScan(pendingFile);
+    } catch (err) {
+      console.warn("Advanced AI failed or hit limits, falling back to Basic OCR...", err);
+      await handleTesseractScan(pendingFile);
     }
   };
 
@@ -246,7 +247,7 @@ export const ScannerPage: React.FC = () => {
   };
 
   const handleGeminiScan = async (file: File) => {
-    setLoadingMsg("Scanning with Advanced AI... (99% accuracy)");
+    setLoadingMsg("Scanning with Advanced AI... " + (!isPremium ? "(Trial)" : "(99% accuracy)"));
 
     try {
       const base64Data = await new Promise<string>((resolve, reject) => {
@@ -256,7 +257,10 @@ export const ScannerPage: React.FC = () => {
         r.readAsDataURL(file);
       });
 
-      const apiKey = process.env.GEMINI_API_KEY || "";
+      const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
+      const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
+      const apiKey = keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : "";
+      
       if (!apiKey) {
         throw new Error("AI Service configuration missing. Please report this to support.");
       }
@@ -358,11 +362,11 @@ export const ScannerPage: React.FC = () => {
         accuracy: "99%"
       });
       // Scan recorded automatically in Supabase
-    } catch (err) {
-      console.error(err);
-      setError("AI analysis failed. Please try again.");
-    } finally {
       setLoading(false);
+    } catch (err) {
+      console.error("Gemini Scan Error:", err);
+      // Let it fall back to Tesseract
+      throw err;
     }
   };
 
