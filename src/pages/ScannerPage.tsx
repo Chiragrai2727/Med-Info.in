@@ -126,16 +126,117 @@ export const ScannerPage: React.FC = () => {
     const quotaResult = await checkAndIncrementScan(user.id);
     
     if (!quotaResult.allowed) {
-      setError("Daily scan limit reached. Please upgrade to Premium or wait until tomorrow.");
-      setLoading(false);
-      return;
+      if (quotaResult.reason === 'limit_reached') {
+        try {
+          await handleOcrWithSlightAi(pendingFile);
+        } catch (err) {
+          setError("Basic scan failed. Please try again with a clearer photo.");
+          setLoading(false);
+        }
+        return;
+      } else {
+        setError("Scan error. Please try again or check your account.");
+        setLoading(false);
+        return;
+      }
     }
 
     try {
       await handleGeminiScan(pendingFile);
     } catch (err) {
       console.warn("Advanced AI failed or hit limits, falling back to Basic OCR...", err);
-      await handleTesseractScan(pendingFile);
+      await handleOcrWithSlightAi(pendingFile);
+    }
+  };
+
+  const handleOcrWithSlightAi = async (file: File) => {
+    setLoadingMsg("Scanning with OCR and Basic AI...");
+    
+    const timeout = setTimeout(() => {
+      if (loading) {
+        setLoading(false);
+        setError("Scanning is taking longer than expected. Please try again with a clearer photo.");
+      }
+    }, 60000); // 60s safety net
+    
+    try {
+      // 1. OCR with Tesseract
+      const worker = await createWorker('eng', 1, {
+        logger: m => {
+          if (m.status === 'recognizing text') {
+            setLoadingMsg(`Extracting text... ${Math.round(m.progress * 100)}%`);
+          }
+        }
+      });
+      const { data: { text } } = await worker.recognize(file);
+      await worker.terminate();
+
+      if (!text || text.trim().length < 10) {
+        throw new Error("No readable text found by OCR.");
+      }
+
+      setLoadingMsg("Running basic AI analysis...");
+
+      // 2. Slightly use AI text parsing
+      const keysStr = import.meta.env.VITE_GEMINI_API_KEYS || import.meta.env.VITE_GEMINI_API_KEY || "";
+      const keys = keysStr.split(',').map((k: string) => k.trim()).filter(Boolean);
+      // eslint-disable-next-line react-hooks/purity
+      const apiKey = keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : "";
+      
+      if (!apiKey) {
+        throw new Error("AI Service configuration missing.");
+      }
+      const ai = new GoogleGenAI({ apiKey });
+
+      let promptText = `Parse the following raw OCR text from a ${activeTab} document for an Indian healthcare context. Fix typos and reconstruct the data. \nRaw OCR Text:\n${text}\n\n`;
+      if (activeTab === 'medicine') {
+        promptText += `Return JSON: { "document_type": "medicine", "medicines": [{ "name": "string", "generic_name": "string", "dosage": "string", "mrp": "₹...", "is_banned": boolean, "generic_alternative": { "name": "string", "price": "₹..." }, "purpose": "string" }], "notes": "string" }`;
+      } else if (activeTab === 'prescription') {
+        promptText += `Return JSON: { "document_type": "prescription", "patient_name": "string", "age": "string", "gender": "string", "date": "string", "medicines": [{ "name": "string", "generic_name": "string", "dosage": "string", "timing": "string", "duration": "string", "purpose": "string" }], "notes": "string" }`;
+      } else {
+        promptText += `Return JSON: { "document_type": "lab", "patient_name": "string", "age": "string", "gender": "string", "date": "string", "lab_results": [{ "test_name": "string", "result": "string", "unit": "string", "reference_range": "string", "interpretation": "string" }], "notes": "string" }`;
+      }
+
+      const response = await ai.models.generateContent({
+        model: DEFAULT_MODEL,
+        contents: promptText,
+        config: {
+          responseMimeType: "application/json"
+        }
+      });
+
+      clearTimeout(timeout);
+
+      const responseText = response.text || "";
+      const match = responseText.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error("Parsing failed");
+      
+      const parsed = JSON.parse(match[0]);
+      
+      const rawMedsList = parsed.medicines || parsed.meds || parsed.medicine_list || [];
+      const processedMeds = Array.isArray(rawMedsList)
+        ? rawMedsList.map((m: any) => ({
+            ...m,
+            is_banned: m.name ? (bannedDrugsData as any).some((b: any) => b.drug_name && b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
+          }))
+        : [];
+
+      const rawLabList = parsed.lab_results || parsed.labResults || parsed.results || [];
+
+      setScanResult({
+        ...parsed,
+        document_type: activeTab,
+        lab_results: Array.isArray(rawLabList) ? rawLabList : [],
+        medicines: processedMeds,
+        accuracy: "75-80%",
+        notes: (parsed.notes || '')
+      });
+      setLoading(false);
+
+    } catch (err) {
+      clearTimeout(timeout);
+      console.warn("Basic OCR+AI failed, falling back to pure Tesseract OCR...", err);
+      await handleTesseractScan(file);
     }
   };
 
@@ -316,6 +417,7 @@ export const ScannerPage: React.FC = () => {
 
       const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
       const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
+      // eslint-disable-next-line react-hooks/purity
       const apiKey = keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : "";
       
       if (!apiKey) {
@@ -645,33 +747,37 @@ export const ScannerPage: React.FC = () => {
       </Helmet>
       <div className="max-w-4xl mx-auto px-4">
         
-               {!isPremium && (
-          <div className="mb-12 p-8 backdrop-blur-xl bg-surface/70 rounded-[3rem] border border-surface shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="font-black text-text-primary uppercase tracking-[0.3em] text-[10px] opacity-60">Usage Tracker</h3>
-              <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{3 - remainingScans} / 3 scans used</span>
+        {!isPremium && (
+          <div className="mb-10 max-w-2xl mx-auto p-6 backdrop-blur-2xl bg-surface/50 rounded-3xl border border-surface shadow-sm group">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="font-bold text-text-primary uppercase tracking-widest text-xs opacity-70">Free Scans Remaining</h3>
+                  <span className="text-xs font-black text-primary uppercase tracking-widest">{Math.min(3, Math.max(0, remainingScans))} of 3</span>
+                </div>
+                <div className="h-3 bg-dark-bg/5 rounded-full overflow-hidden shadow-inner">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min(100, Math.max(0, (remainingScans / 3) * 100))}%` }}
+                    className="h-full bg-gradient-to-r from-primary to-primary-hover rounded-full shadow-sm"
+                  />
+                </div>
+              </div>
+              {remainingScans <= 0 && (
+                <button 
+                  onClick={() => navigate('/pricing')}
+                  className="px-6 py-3 bg-dark-bg text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-dark-bg/90 transition-all shadow-md active:scale-95 whitespace-nowrap"
+                >
+                  Upgrade
+                </button>
+              )}
             </div>
-            <div className="h-5 bg-dark-bg/5 rounded-full overflow-hidden p-1 shadow-inner">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${((3 - remainingScans) / 3) * 100}%` }}
-                className="h-full bg-gradient-to-r from-primary to-primary-hover rounded-full shadow-lg"
-              />
-            </div>
-            {remainingScans === 0 && (
-              <button 
-                onClick={() => navigate('/pricing')}
-                className="mt-8 w-full py-5 bg-dark-bg text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-dark-bg/90 transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3"
-              >
-                Unlock Unlimited Scans <ArrowRight className="w-5 h-5 text-yellow-400" />
-              </button>
-            )}
           </div>
         )}
  
-        <div className="text-center mb-16 px-4">
-          <h1 className="text-4xl md:text-7xl font-black text-text-primary mb-6 tracking-[-0.05em] uppercase leading-[0.8]">AI Health Scanner</h1>
-          <p className="text-text-secondary font-bold tracking-tight text-lg md:text-xl opacity-70">Instantly analyze prescriptions or medicine strips with 99% accuracy.</p>
+        <div className="text-center mb-12 px-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-text-primary mb-4 tracking-[-0.02em] uppercase leading-[1.1]">AI Health Scanner</h1>
+          <p className="text-text-secondary font-medium tracking-wide text-base md:text-lg opacity-80 max-w-xl mx-auto">Instantly analyze prescriptions, lab reports, or medicine strips with high accuracy.</p>
         </div>
 
         {error && (
@@ -695,7 +801,7 @@ export const ScannerPage: React.FC = () => {
         )}
  
         {/* Tabs */}
-        <div className="flex p-2 backdrop-blur-xl bg-surface/40 rounded-[2.5rem] mb-12 border border-surface shadow-sm overflow-hidden">
+        <div className="flex p-2 backdrop-blur-xl bg-surface/50 rounded-3xl mb-12 border border-surface shadow-sm overflow-hidden max-w-2xl mx-auto">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
             const isLocked = false;
             return (
@@ -711,10 +817,10 @@ export const ScannerPage: React.FC = () => {
                     setImage(null);
                   }
                 }}
-                className={`flex-1 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.25em] transition-all flex items-center justify-center gap-3 ${
+                className={`flex-1 py-3 rounded-2xl font-bold text-xs md:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
                   activeTab === tab 
-                    ? 'bg-dark-bg text-white shadow-xl' 
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'bg-dark-bg text-white shadow-md' 
+                    : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
                 }`}
               >
                 {tab}
@@ -727,78 +833,76 @@ export const ScannerPage: React.FC = () => {
           {/* Preview State */}
           {showPreview && !loading && image && (
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="backdrop-blur-3xl bg-surface/70 rounded-[4rem] border border-surface overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.08)]"
+              className="backdrop-blur-2xl bg-surface/80 rounded-3xl border border-surface overflow-hidden shadow-xl max-w-2xl mx-auto"
             >
-              <div className="p-10 border-b border-border flex items-center justify-between">
+              <div className="p-6 border-b border-border flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-black text-text-primary uppercase tracking-tight">Scan Preview</h3>
-                  <p className="text-text-secondary text-xs font-black uppercase tracking-[0.2em] mt-1 opacity-60">Ready for AI Analysis</p>
+                  <h3 className="text-xl font-bold text-text-primary uppercase tracking-wide">Scan Preview</h3>
+                  <p className="text-text-secondary text-xs uppercase tracking-widest mt-1 opacity-60">Ready for Analysis</p>
                 </div>
                 <button 
                   onClick={() => { setShowPreview(false); setImage(null); setPendingFile(null); }}
-                  className="w-12 h-12 backdrop-blur-md bg-surface text-text-secondary rounded-2xl flex items-center justify-center border border-surface shadow-sm hover:bg-danger/10 hover:text-danger transition-all"
+                  className="w-10 h-10 backdrop-blur-md bg-surface text-text-secondary rounded-xl flex items-center justify-center border border-surface shadow-sm hover:bg-danger/10 hover:text-danger transition-all"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
               <div className="p-6 bg-dark-bg/5 flex justify-center">
                 <img 
                   src={image} 
                   alt="Scan Preview" 
-                  className="max-h-[450px] object-contain rounded-[2rem] shadow-2xl border-4 border-surface" 
+                  className="max-h-[350px] object-contain rounded-2xl shadow-md border-2 border-surface bg-white" 
                 />
               </div>
-              <div className="p-10 flex flex-col sm:flex-row gap-6">
+              <div className="p-6 flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => cameraInputRef.current?.click()}
-                  className="flex-1 py-6 backdrop-blur-md bg-surface border-2 border-border text-text-secondary font-black text-xs uppercase tracking-widest rounded-[2rem] hover:border-dark-bg hover:text-text-primary transition-all shadow-sm"
+                  className="flex-1 py-4 backdrop-blur-md bg-surface border-2 border-border text-text-secondary font-bold text-xs uppercase tracking-widest rounded-xl hover:border-dark-bg hover:text-text-primary transition-all shadow-sm"
                 >
                   Take Another
                 </button>
                 <button 
                   onClick={startActualScan}
-                  className="flex-1 py-6 bg-dark-bg text-white rounded-[2rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-4 shadow-2xl hover:opacity-90 active:scale-95 transition-all"
+                  className="flex-1 py-4 bg-dark-bg text-white rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-md hover:opacity-90 active:scale-95 transition-all"
                 >
-                  <ShieldCheck className="w-5 h-5 text-success" /> Confirm & Process
+                  <ShieldCheck className="w-5 h-5 text-success" /> Confirm & Analyze
                 </button>
               </div>
             </motion.div>
           )}
  
           {/* Scan Area */}
-          <div className="relative">
+          <div className="relative max-w-2xl mx-auto">
             {!scanResult && !loading && !showPreview && (
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              className="backdrop-blur-xl bg-surface/60 border-[3px] border-dashed border-surface rounded-[5rem] p-16 text-center hover:bg-surface/80 transition-all duration-700 group shadow-[0_20px_50px_rgba(0,0,0,0.02)]"
+              className="backdrop-blur-xl bg-surface/60 border-2 border-dashed border-border rounded-3xl p-12 text-center hover:bg-surface/80 transition-all duration-300 shadow-sm"
             >
-              <div className="flex flex-col items-center gap-10">
+              <div className="flex flex-col items-center gap-8">
                 <div 
                   onClick={() => cameraInputRef.current?.click()}
-                  className="w-32 h-32 bg-bg rounded-[3rem] flex items-center justify-center text-text-secondary opacity-30 group-hover:bg-dark-bg group-hover:text-white group-hover:opacity-100 transition-all duration-700 shadow-xl cursor-pointer active:scale-90"
+                  className="w-24 h-24 bg-bg rounded-full flex items-center justify-center text-primary/50 hover:bg-primary/10 hover:text-primary transition-all duration-300 shadow-inner cursor-pointer active:scale-95"
                 >
                   <Camera className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
-                  <h3 className="text-3xl font-black text-text-primary mb-4 tracking-tight uppercase leading-none">Ready to start?</h3>
-                  <p className="text-text-secondary font-bold tracking-tight text-lg opacity-80 leading-relaxed px-4">Ensure your {activeTab} is centered and stable for the highest accuracy.</p>
+                  <h3 className="text-2xl font-bold text-text-primary mb-3 tracking-wide uppercase">Upload {activeTab}</h3>
+                  <p className="text-text-secondary font-medium text-sm opacity-80 px-2 line-clamp-2">Ensure your document is well-lit and the text is clearly visible.</p>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-6 w-full max-w-lg">
+                <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <button 
-                    disabled={remainingScans === 0 && !isPremium}
                     onClick={() => cameraInputRef.current?.click()}
-                    className="flex-1 py-6 bg-dark-bg text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-2xl hover:opacity-90 border border-dark-bg/10"
+                    className="flex-1 py-4 bg-primary text-white rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 shadow-md hover:bg-primary-hover"
                   >
                     Open Camera
                   </button>
                   <button 
-                    disabled={remainingScans === 0 && !isPremium}
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-6 backdrop-blur-md bg-surface border-2 border-surface text-text-primary rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-4 disabled:opacity-40 active:scale-95 shadow-sm hover:border-dark-bg"
+                    className="flex-1 py-4 backdrop-blur-md bg-surface border-2 border-border text-text-primary rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 shadow-sm hover:border-primary/50"
                   >
                     Upload File
                   </button>
@@ -815,43 +919,44 @@ export const ScannerPage: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-12 backdrop-blur-2xl bg-dark-bg p-10 rounded-[3.5rem] flex items-center justify-between shadow-2xl relative overflow-hidden group border-2 border-dark-bg/10"
+              className="mt-8 max-w-2xl mx-auto backdrop-blur-2xl bg-gradient-to-r from-dark-bg to-dark-bg/90 p-6 rounded-3xl flex items-center justify-between shadow-lg relative border border-white/10"
             >
-               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-[100px] group-hover:scale-150 transition-transform duration-1000" />
-               <div className="flex items-center gap-6 relative z-10">
-                 <div className="w-14 h-14 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shrink-0 shadow-lg">
-                    <Zap className="w-7 h-7 text-yellow-400 fill-yellow-400" />
+               <div className="flex items-center gap-5 relative z-10 flex-1">
+                 <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 shrink-0 shadow-sm">
+                    <Zap className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                  </div>
-                 <div className="pr-12">
-                   <p className="font-black text-white text-xl tracking-tight mb-2 uppercase leading-none">Handwriting Detected?</p>
-                   <p className="text-white/50 text-xs font-black uppercase tracking-[0.2em] leading-relaxed">Basic scan may miss details. Get AI-Vision precise results with Premium — ₹99/mo</p>
+                 <div className="pr-4">
+                   <p className="font-bold text-white text-base mb-1">Boost Scan Accuracy</p>
+                   <p className="text-white/70 text-xs leading-relaxed">Unlock Premium for AI-Vision handwriting recognition.</p>
                  </div>
                </div>
-               <div className="flex flex-col items-end gap-3 shrink-0 relative z-10">
-                 <button onClick={() => navigate('/pricing')} className="p-3 bg-white text-dark-bg rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-xl">
-                    <ChevronRight className="w-6 h-6" />
+               <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10">
+                 <button onClick={() => navigate('/pricing')} className="px-5 py-2.5 bg-white text-dark-bg rounded-xl font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-md">
+                    Upgrade
                  </button>
-                 <button onClick={() => setNudgeDismissed(true)} className="text-[9px] uppercase font-black tracking-[0.3em] text-white/40 hover:text-white transition-opacity">Dismiss</button>
+                 <button onClick={() => setNudgeDismissed(true)} className="p-2 text-white/40 hover:text-white transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-white/10">
+                    <X className="w-5 h-5" />
+                 </button>
                </div>
             </motion.div>
           )}
  
           {/* Loading State */}
           {loading && (
-            <div className="py-32 text-center flex flex-col items-center">
-              <div className="relative w-48 h-48 mb-12">
-                <div className="absolute inset-0 border-[8px] border-bg rounded-[3.5rem]" />
+            <div className="py-24 text-center flex flex-col items-center">
+              <div className="relative w-28 h-28 mb-8">
+                <div className="absolute inset-0 border-[6px] border-bg rounded-full" />
                 <motion.div 
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 border-[8px] border-dark-bg rounded-[3.5rem] border-t-transparent shadow-2xl"
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 border-[6px] border-primary rounded-full border-t-transparent shadow-lg"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Zap className="w-14 h-14 text-dark-bg fill-yellow-400 animate-pulse" />
+                  <Zap className="w-8 h-8 text-primary fill-primary animate-pulse" />
                 </div>
               </div>
-              <h3 className="text-3xl font-black text-text-primary mb-4 tracking-tight uppercase leading-none">{loadingMsg}</h3>
-              <p className="text-text-secondary font-extrabold uppercase tracking-[0.4em] text-[10px]">Processing Neuro-Medical Patterns</p>
+              <h3 className="text-xl md:text-2xl font-bold text-text-primary mb-3 tracking-wide">{loadingMsg}</h3>
+              <p className="text-text-secondary font-bold uppercase tracking-widest text-[10px] opacity-70">Processing Image...</p>
             </div>
           )}
  
@@ -859,72 +964,72 @@ export const ScannerPage: React.FC = () => {
           {scanResult && !loading && (
             <div className="space-y-12 pb-32">
               {/* Scan Info Banner */}
-              <div className={`p-10 rounded-[4rem] border shadow-2xl flex items-center justify-between backdrop-blur-xl ${
+              <div className={`p-6 md:p-8 rounded-3xl border shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl ${
                 isPremium ? 'bg-success/5 border-success/20 text-success' : 'bg-primary/5 border-primary/20 text-primary'
               }`}>
-                <div className="flex items-center gap-6">
-                  <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-lg ${
+                <div className="flex items-center gap-5">
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center shadow-md ${
                     isPremium ? 'bg-success text-white' : 'bg-primary text-white'
                   }`}>
-                    {isPremium ? <CheckCircle2 className="w-8 h-8" /> : <Zap className="w-8 h-8" />}
+                    {isPremium ? <CheckCircle2 className="w-7 h-7" /> : <Zap className="w-7 h-7" />}
                   </div>
                   <div>
-                    <h4 className="font-black uppercase tracking-[0.3em] text-[10px] mb-2 opacity-60">
-                      {isPremium ? 'Analysis Verified' : 'AI Analysis Ready'}
+                    <h4 className="font-bold uppercase tracking-widest text-[10px] mb-1 opacity-70">
+                      {isPremium ? 'Premium Analysis Verified' : 'Standard Analysis Ready'}
                     </h4>
-                    <p className="text-2xl font-black tracking-tight leading-none">
+                    <p className="text-lg md:text-xl font-bold tracking-tight">
                       {isPremium 
-                        ? '100% Precise Results' 
+                        ? 'High Precision Results' 
                         : 'Review Your Scan'}
                     </p>
                   </div>
                 </div>
                 <button 
                   onClick={downloadPDF}
-                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-sm ${
+                  className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm ${
                     isPremium 
-                      ? 'bg-surface border-2 border-success/20 text-success hover:bg-success hover:text-white'
-                      : 'bg-surface border-2 border-primary/20 text-primary hover:bg-primary hover:text-white'
+                      ? 'bg-success text-white hover:bg-success/90'
+                      : 'bg-primary text-white hover:bg-primary-hover'
                   }`}
                 >
-                  <Download className="w-5 h-5" /> Download Report
+                  <Download className="w-5 h-5" /> Save PDF
                 </button>
               </div>
  
               {/* Patient Meta */}
               {(scanResult.patient_name || scanResult.date) && (
-                <div className="px-10 py-8 backdrop-blur-xl bg-surface/40 border border-surface rounded-[3rem] shadow-sm flex flex-wrap gap-10">
+                <div className="px-8 py-6 backdrop-blur-xl bg-surface/50 border border-surface rounded-3xl shadow-sm flex flex-col sm:flex-row flex-wrap gap-8">
                   {scanResult.patient_name && (
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1">Patient Name</span>
-                      <p className="text-xl font-black text-text-primary uppercase">{scanResult.patient_name}</p>
+                    <div className="flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-1">Patient Name</span>
+                      <p className="text-lg md:text-xl font-bold text-text-primary capitalize leading-tight">{scanResult.patient_name}</p>
                       {(scanResult.age || scanResult.gender) && (
-                        <p className="text-xs font-bold text-text-secondary mt-1 uppercase tracking-wider">
+                        <p className="text-xs font-medium text-text-secondary mt-1 tracking-wider">
                           {scanResult.age && `${scanResult.age} Years`} {scanResult.gender && `• ${scanResult.gender}`}
                         </p>
                       )}
                     </div>
                   )}
                   {scanResult.date && (
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1">Document Date</span>
-                      <p className="text-xl font-black text-text-primary">{scanResult.date}</p>
+                    <div className="flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-1">Document Date</span>
+                      <p className="text-lg md:text-xl font-bold text-text-primary leading-tight">{scanResult.date}</p>
                     </div>
                   )}
-                  <div className="ml-auto flex items-center gap-3 bg-success/5 text-success px-6 py-3 rounded-2xl border border-success/10">
-                    <ShieldCheck className="w-5 h-5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Accuracy: {scanResult.accuracy}</span>
+                  <div className="sm:ml-auto flex items-center justify-center gap-2 bg-success/10 text-success px-5 py-2.5 rounded-xl border border-success/20">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span className="text-xs font-bold tracking-wide">Accuracy: {scanResult.accuracy}</span>
                   </div>
                 </div>
               )}
  
               {!isPremium && (
-                <div className="bg-dark-bg shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-dark-bg/10">
-                  <div className="w-12 h-12 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shrink-0">
-                    <AlertTriangle className="w-6 h-6 text-yellow-400" />
+                <div className="bg-dark-bg/5 shadow-sm p-6 rounded-3xl flex items-start sm:items-center gap-5 text-text-primary border border-dark-bg/10">
+                  <div className="w-10 h-10 bg-yellow-400/20 rounded-full flex items-center justify-center border border-yellow-400/30 shrink-0">
+                    <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                   </div>
-                  <p className="text-base md:text-lg font-bold tracking-tight">
-                    Note: You might not get the result correct because you do not have a subscription plan. <button onClick={() => navigate('/pricing')} className="text-yellow-400 hover:underline ml-1">Upgrade to Premium Plan</button> for highest accuracy.
+                  <p className="text-sm md:text-base font-medium leading-relaxed">
+                    <strong>Note:</strong> Standard scans may miss cursive or handwritten details. <button onClick={() => navigate('/pricing')} className="text-primary font-bold hover:underline ml-1">Upgrade to Premium</button> for AI-Vision handwriting accuracy.
                   </p>
                 </div>
               )}
@@ -956,32 +1061,32 @@ export const ScannerPage: React.FC = () => {
  
                   {/* Lab Results Specific Grid */}
                 {scanResult.document_type === 'lab' && scanResult.lab_results && scanResult.lab_results.length > 0 && (
-                  <div className="grid grid-cols-1 gap-6">
+                  <div className="grid grid-cols-1 gap-4">
                     {scanResult.lab_results.map((res, i) => (
                       <motion.div 
                         key={i}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.05 }}
-                        className="p-8 backdrop-blur-xl bg-surface/70 rounded-[3rem] border border-surface shadow-sm flex flex-col md:flex-row gap-8 items-start md:items-center"
+                        className="p-6 backdrop-blur-xl bg-surface/50 rounded-3xl border border-surface shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-center"
                       >
-                        <div className="w-14 h-14 bg-primary/5 text-primary rounded-3xl flex items-center justify-center shrink-0">
-                          <FlaskConical className="w-7 h-7" />
+                        <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                          <FlaskConical className="w-6 h-6" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-xl font-black text-text-primary mb-1 leading-tight uppercase tracking-tight">{res.test_name}</h4>
-                          <div className="flex flex-wrap gap-4 text-xs font-bold text-text-secondary">
-                             <span className="bg-bg px-3 py-1 rounded-lg">Reference: {res.reference_range}</span>
-                             <span className="bg-bg px-3 py-1 rounded-lg">Unit: {res.unit}</span>
+                          <h4 className="text-lg font-bold text-text-primary mb-2 line-clamp-1">{res.test_name}</h4>
+                          <div className="flex flex-wrap gap-2 text-xs font-medium text-text-secondary">
+                             <span className="bg-bg px-2.5 py-1 rounded-md">Ref: {res.reference_range}</span>
+                             <span className="bg-bg px-2.5 py-1 rounded-md">Unit: {res.unit}</span>
                           </div>
                         </div>
-                        <div className="flex flex-col items-end gap-1">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary opacity-60">Result Value</span>
-                          <span className="text-3xl font-black text-text-primary">{res.result}</span>
+                        <div className="flex flex-col items-start md:items-end gap-1 min-w-[100px]">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary opacity-70">Result</span>
+                          <span className="text-2xl font-black text-text-primary">{res.result}</span>
                         </div>
-                        <div className="md:w-64 p-5 bg-dark-bg/[0.02] rounded-2xl border border-border">
-                           <span className="text-[8px] font-black uppercase tracking-widest text-text-secondary block mb-2">Interpretation</span>
-                           <p className="text-[11px] font-bold text-text-secondary leading-relaxed italic">{res.interpretation}</p>
+                        <div className="w-full md:w-64 p-4 bg-dark-bg/5 rounded-2xl border border-border">
+                           <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-1">Interpretation</span>
+                           <p className="text-xs font-medium text-text-secondary leading-relaxed italic">{res.interpretation}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -990,59 +1095,59 @@ export const ScannerPage: React.FC = () => {
 
                 {/* Medicine Cards */}
                 {scanResult.medicines && scanResult.medicines.length > 0 && (
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 p-2">
                     {scanResult.medicines.map((med, i) => (
                       <motion.div 
                         key={i}
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.1 }}
-                        className={`p-8 lg:p-10 backdrop-blur-xl bg-surface/70 rounded-[3rem] lg:rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 flex flex-col justify-between ${
-                          med.is_banned ? 'border-danger/50 bg-danger/5' : 'border-surface hover:border-dark-bg'
+                        className={`p-6 lg:p-8 backdrop-blur-xl bg-surface/50 rounded-3xl border transition-all duration-300 relative overflow-hidden shadow-sm group hover:shadow-lg flex flex-col justify-between ${
+                          med.is_banned ? 'border-danger/50 bg-danger/5' : 'border-surface hover:border-border'
                         }`}
                       >
                         {med.is_banned && (
-                          <div className="absolute top-0 right-0 bg-danger text-white px-6 py-2 rounded-bl-[2rem] font-black text-[9px] uppercase tracking-[0.2em] shadow-2xl z-20">
+                          <div className="absolute top-0 right-0 bg-danger text-white px-4 py-1.5 rounded-bl-xl font-bold text-[10px] uppercase tracking-widest shadow-md z-20">
                             Banned
                           </div>
                         )}
                         
-                        <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-5">
                           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                              <div className="p-4 bg-bg text-text-primary rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700 shrink-0">
-                                <FlaskConical className="w-8 h-8" />
+                              <div className="p-3 bg-bg text-text-primary rounded-xl shadow-inner shrink-0">
+                                <FlaskConical className="w-6 h-6" />
                               </div>
                               <div className="flex items-center gap-2">
                                 <button 
                                   onClick={() => handleWhatsAppShare(med)}
-                                  className="p-3 backdrop-blur-md bg-surface text-success rounded-xl hover:bg-success hover:text-white transition-all shadow-sm border border-surface shrink-0"
+                                  className="p-2.5 backdrop-blur-md bg-surface text-success rounded-xl hover:bg-success hover:text-white transition-all shadow-sm border border-surface shrink-0"
                                   title="Share on WhatsApp"
                                 >
-                                  <Share2 className="w-5 h-5" />
+                                  <Share2 className="w-4 h-4" />
                                 </button>
                                 <button 
                                   onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                                  className="p-3 backdrop-blur-md bg-surface text-text-primary rounded-xl hover:bg-dark-bg hover:text-white transition-all shadow-sm border border-surface shrink-0"
+                                  className="p-2.5 backdrop-blur-md bg-surface text-text-primary rounded-xl hover:bg-dark-bg hover:text-white transition-all shadow-sm border border-surface shrink-0"
                                 >
-                                  <ArrowRight className="w-5 h-5" />
+                                  <ArrowRight className="w-4 h-4" />
                                 </button>
                               </div>
                           </div>
   
                           <div>
-                            <div className="flex flex-col gap-2 mb-4">
-                              <h4 className="text-2xl lg:text-3xl font-black text-text-primary leading-[1.1] tracking-tighter uppercase break-words w-full">{med.name}</h4>
-                              <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] opacity-60 leading-normal">{med.generic_name || 'Generic details unknown'}</p>
+                            <div className="flex flex-col gap-1 mb-3">
+                              <h4 className="text-xl lg:text-2xl font-bold text-text-primary leading-tight break-words capitalize">{med.name}</h4>
+                              <p className="text-xs font-bold text-text-secondary uppercase tracking-wider opacity-70 leading-normal">{med.generic_name || 'Generic details unknown'}</p>
                               {med.purpose && (
-                                <p className="text-[11px] font-bold text-primary italic mt-1 leading-tight line-clamp-2">
+                                <p className="text-xs font-medium text-primary mt-1 leading-relaxed line-clamp-2">
                                   Purpose: {med.purpose}
                                 </p>
                               )}
                             </div>
                             
-                            <div className="flex flex-wrap gap-2 mb-6">
-                              {med.timing && <span className="bg-primary/5 text-primary px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider">{med.timing}</span>}
-                              {med.duration && <span className="bg-bg text-text-secondary px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider">{med.duration}</span>}
+                            <div className="flex flex-wrap gap-2 mb-5">
+                              {med.timing && <span className="bg-primary/10 text-primary px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">{med.timing}</span>}
+                              {med.duration && <span className="bg-bg text-text-secondary px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">{med.duration}</span>}
                             </div>
  
                             <button
@@ -1057,39 +1162,39 @@ export const ScannerPage: React.FC = () => {
                                 const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
                                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                               }}
-                              className="inline-flex w-full sm:w-auto px-5 py-2.5 backdrop-blur-md bg-surface border border-border text-text-primary rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-dark-bg hover:text-white transition-all items-center justify-center gap-2 shadow-sm"
+                              className="inline-flex w-full sm:w-auto px-4 py-2 bg-surface border border-border text-text-primary rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-dark-bg hover:text-white transition-all items-center justify-center gap-2 shadow-sm"
                             >
                               <Clock className="w-4 h-4 shrink-0" /> Refill Reminder
                             </button>
                           </div>
   
                           {med.dosage && (
-                            <div className="py-2.5 px-5 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-xl inline-block max-w-fit shadow-inner">
-                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1 opacity-50">Detected Dosage</span>
-                              <span className="font-black text-text-primary text-sm lg:text-base tracking-tight">{med.dosage}</span>
+                            <div className="py-2 px-4 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-xl inline-block max-w-fit shadow-inner">
+                              <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-0.5 opacity-70">Detected Dosage</span>
+                              <span className="font-bold text-text-primary text-sm tracking-tight">{med.dosage}</span>
                             </div>
                           )}
   
                           {scanResult.document_type === 'medicine' && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-border mt-auto">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5 border-t border-border mt-auto">
                               <div className="bg-bg p-4 rounded-2xl flex flex-col justify-center">
-                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1 opacity-50">Market Price</span>
-                                  <span className="text-lg font-black text-text-primary tracking-tighter">{med.mrp || 'N/A'}</span>
+                                  <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-1 opacity-70">Market Price</span>
+                                  <span className="text-base font-bold text-text-primary tracking-tighter">{med.mrp || 'N/A'}</span>
                               </div>
-                              <div className="backdrop-blur-md bg-success/5 p-4 rounded-2xl border border-success/10 shadow-sm flex flex-col justify-center overflow-hidden">
-                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-success block mb-1">Smart Alternative</span>
+                              <div className="bg-success/5 p-4 rounded-2xl border border-success/10 flex flex-col justify-center overflow-hidden">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-success block mb-1">Smart Alternative</span>
                                 <div className="flex flex-col gap-0.5 mt-auto">
-                                  <span className="font-black text-text-primary text-[10px] tracking-tight uppercase leading-tight truncate">{med.generic_alternative?.name || 'Searching...'}</span>
-                                  <span className="font-bold text-success text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
+                                  <span className="font-bold text-text-primary text-xs tracking-tight uppercase leading-tight truncate">{med.generic_alternative?.name || 'Searching...'}</span>
+                                  <span className="font-bold text-success text-xs tracking-tight">{med.generic_alternative?.price || ''}</span>
                                 </div>
                               </div>
                             </div>
                           )}
   
                           {med.is_banned && (
-                            <div className="backdrop-blur-md bg-danger p-4 rounded-2xl flex items-center gap-3 shadow-2xl border border-danger mt-4">
-                              <AlertTriangle className="w-6 h-6 text-white shrink-0 animate-pulse" />
-                              <p className="text-[9px] font-black uppercase tracking-widest text-white/90 leading-relaxed">
+                            <div className="bg-danger p-4 rounded-2xl flex items-center gap-3 shadow-md border border-danger mt-4">
+                              <AlertTriangle className="w-5 h-5 text-white shrink-0 animate-pulse" />
+                              <p className="text-xs font-bold uppercase tracking-widest text-white/90 leading-relaxed">
                                 BANNED in India. Stop use immediately.
                               </p>
                             </div>
@@ -1101,27 +1206,27 @@ export const ScannerPage: React.FC = () => {
                 )}
 
                 {scanResult.notes && (
-                  <div className="p-10 backdrop-blur-xl bg-surface/70 rounded-[4rem] border border-surface shadow-sm mt-12">
-                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-4 opacity-60">AI Clinical Observations</span>
-                     <p className="text-xl font-bold text-text-secondary leading-relaxed italic">{scanResult.notes}</p>
+                  <div className="p-8 backdrop-blur-xl bg-surface/50 rounded-3xl border border-surface shadow-sm mt-8">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary block mb-2 opacity-70">AI Clinical Observations</span>
+                     <p className="text-sm md:text-base font-medium text-text-secondary leading-relaxed italic">{scanResult.notes}</p>
                   </div>
                 )}
               </div>
               </div>
  
               {/* Reset Button */}
-              <div className="flex flex-col items-center gap-10 mt-24 pb-20">
+              <div className="flex flex-col items-center gap-6 mt-16 pb-12">
                  {!isPremium && (
                    <button 
                      onClick={() => navigate('/pricing')}
-                     className="text-[10px] font-black text-text-secondary hover:text-primary uppercase tracking-[0.4em] transition-colors"
+                     className="text-xs font-bold text-text-secondary hover:text-primary uppercase tracking-widest transition-colors flex items-center gap-2"
                    >
-                     Scan unclear? → Try Premium AI-Vision
+                     Scan unclear? <ArrowRight className="w-4 h-4" /> Try Premium AI-Vision
                    </button>
                  )}
                  <button 
                   onClick={() => { setScanResult(null); setImage(null); }}
-                  className="px-14 py-6 bg-surface border-2 border-dark-bg text-text-primary rounded-[2.5rem] font-black text-xs uppercase tracking-[0.3em] hover:bg-dark-bg hover:text-white transition-all shadow-[0_20px_50_rgba(0,0,0,0.1)] active:scale-95"
+                  className="px-8 py-4 bg-surface border-2 border-dark-bg text-text-primary rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-dark-bg hover:text-white transition-all shadow-md active:scale-95"
                  >
                    Scan Another Document
                  </button>
