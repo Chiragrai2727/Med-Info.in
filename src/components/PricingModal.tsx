@@ -104,7 +104,12 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
             const result = await verifyRes.json();
             if (result.success) {
               // 4. Update user profile - calculate expiry
-              const expiryDate = new Date();
+              let startDate = new Date();
+              if (profile?.subscriptionExpiry && new Date(profile.subscriptionExpiry) > startDate) {
+                 startDate = new Date(profile.subscriptionExpiry);
+              }
+              
+              const expiryDate = new Date(startDate);
               if (billingCycle === 'yearly') {
                 expiryDate.setFullYear(expiryDate.getFullYear() + 1);
               } else {

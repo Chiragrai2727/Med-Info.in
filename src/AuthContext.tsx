@@ -71,17 +71,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (user) {
         // Real-time listener for profile
         const userRef = doc(db, 'users', user.uid);
-        unsubscribeProfile = onSnapshot(userRef, (docSnap) => {
+        unsubscribeProfile = onSnapshot(userRef, async (docSnap) => {
           if (docSnap.exists()) {
             const data = docSnap.data();
             const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+            let isPremium = isAdmin || data.isPremium || false;
+
+            // Check if subscription has expired
+            if (!isAdmin && data.isPremium && data.subscriptionExpiry) {
+              if (new Date(data.subscriptionExpiry) < new Date()) {
+                isPremium = false;
+                // Auto-update db to reflect expired state
+                try {
+                  await updateDoc(userRef, { isPremium: false, subscriptionTier: 'basic' });
+                } catch (err) {
+                  console.error('Failed to update expired sub', err);
+                }
+              }
+            }
+
             setProfile({
               uid: user.uid,
               email: user.email || '',
               displayName: data.displayName || user.displayName || 'User',
               photoURL: data.photoURL || user.photoURL || '',
-              isPremium: isAdmin || data.isPremium || false,
-              subscriptionTier: data.subscriptionTier,
+              isPremium,
+              subscriptionTier: data.subscriptionTier || (isPremium ? 'premium' : 'basic'),
               subscriptionExpiry: data.subscriptionExpiry,
               createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
               role: isAdmin ? 'admin' : 'user',
@@ -158,7 +173,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const upgradeToPremium = async () => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, { isPremium: true, subscriptionTier: 'premium' });
+      await updateDoc(userRef, { 
+        isPremium: true, 
+        subscriptionTier: 'premium',
+        subscriptionExpiry: null 
+      });
     }
   };
 

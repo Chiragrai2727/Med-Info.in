@@ -83,7 +83,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
 
             if (verifyResult.success) {
               // 3. Update profile
-              const expiryDate = new Date();
+              let startDate = new Date();
+              if (profile?.subscriptionExpiry && new Date(profile.subscriptionExpiry) > startDate) {
+                 startDate = new Date(profile.subscriptionExpiry);
+              }
+
+              const expiryDate = new Date(startDate);
               expiryDate.setMonth(expiryDate.getMonth() + 1);
 
               await updateSubscription(selectedPlanId, expiryDate.toISOString());

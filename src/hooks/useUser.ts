@@ -31,16 +31,45 @@ export function useUser() {
     // Listen for changes
     const unsubscribe = onSnapshot(userRef, async (snapshot) => {
       if (snapshot.exists()) {
-        let currentData = snapshot.data() as UserData;
+        let currentData = snapshot.data() as any;
         const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
         
-        // Trial expiry check
+        let shouldUpdate = false;
+        
+        // Trial expiry check (Legacy)
         if (currentData.plan === 'premium' && currentData.trial_end) {
           const trialEnd = new Date(currentData.trial_end);
           if (trialEnd < new Date()) {
-            await updateDoc(userRef, { plan: 'basic' });
-            return; // onSnapshot will trigger again
+            currentData.plan = 'basic';
+            shouldUpdate = true;
           }
+        }
+        
+        // Trial expiry check (New profile fields)
+        if (currentData.trialClaimed && currentData.trialEndsAt && currentData.isPremium) {
+          if (new Date(currentData.trialEndsAt) < new Date() && !currentData.subscriptionExpiry) {
+             currentData.isPremium = false;
+             currentData.subscriptionTier = 'basic';
+             shouldUpdate = true;
+          }
+        }
+
+        // Subscription expiry check
+        if (currentData.isPremium && currentData.subscriptionExpiry) {
+           if (new Date(currentData.subscriptionExpiry) < new Date()) {
+              currentData.isPremium = false;
+              currentData.subscriptionTier = 'basic';
+              shouldUpdate = true;
+           }
+        }
+
+        if (shouldUpdate) {
+           await updateDoc(userRef, { 
+             plan: currentData.plan || 'basic',
+             isPremium: currentData.isPremium || false,
+             subscriptionTier: currentData.subscriptionTier || 'basic'
+           });
+           return;
         }
         
         setUserData({ ...currentData, id: snapshot.id });

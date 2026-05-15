@@ -8,11 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
-});
-
 const router = express.Router();
 
 router.get("/health", (req, res) => {

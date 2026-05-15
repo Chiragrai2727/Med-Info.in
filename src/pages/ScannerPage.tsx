@@ -697,7 +697,7 @@ export const ScannerPage: React.FC = () => {
         {/* Tabs */}
         <div className="flex p-2 backdrop-blur-xl bg-surface/40 rounded-[2.5rem] mb-12 border border-surface shadow-sm overflow-hidden">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
-            const isLocked = !isPremium && tab === 'lab';
+            const isLocked = false;
             return (
               <button
                 key={tab}
@@ -918,13 +918,13 @@ export const ScannerPage: React.FC = () => {
                 </div>
               )}
  
-              {activeTab === 'prescription' && !isPremium && (
+              {!isPremium && (
                 <div className="bg-dark-bg shadow-2xl p-8 rounded-[2.5rem] flex items-center gap-6 text-white border-2 border-dark-bg/10">
-                  <div className="w-12 h-12 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
-                    <Info className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 backdrop-blur-md bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shrink-0">
+                    <AlertTriangle className="w-6 h-6 text-yellow-400" />
                   </div>
-                  <p className="text-lg font-bold tracking-tight">
-                    Basic AI reads printed text. <span className="text-primary">Upgrade to Premium Plan</span> for cursive/handwritten scripts.
+                  <p className="text-base md:text-lg font-bold tracking-tight">
+                    Note: You might not get the result correct because you do not have a subscription plan. <button onClick={() => navigate('/pricing')} className="text-yellow-400 hover:underline ml-1">Upgrade to Premium Plan</button> for highest accuracy.
                   </p>
                 </div>
               )}

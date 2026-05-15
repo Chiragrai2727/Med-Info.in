@@ -1,5 +1,6 @@
 import crypto from "crypto";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handler = async (event: any) => {
   // Handle CORS preflight
   if (event.httpMethod === "OPTIONS") {

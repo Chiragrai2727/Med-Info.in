@@ -46,6 +46,9 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
         trialClaimed: true,
         trialStartedAt,
         trialEndsAt,
+        isPremium: true,
+        subscriptionTier: 'premium',
+        plan: 'premium',
         trialExpiredSmsSent: false
       });
 
