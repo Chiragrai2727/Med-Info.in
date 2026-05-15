@@ -163,17 +163,21 @@ export const ScannerPage: React.FC = () => {
       const detectedMeds: MedicineResult[] = [];
 
       // Look for matches in medicines data
-      medicinesData.slice(0, 500).forEach(med => {
-        const drugName = med.drug_name.toLowerCase();
-        const brands = med.brand_names_india.map(b => b.toLowerCase());
+      const medsArray = medicinesData as any[];
+      medsArray.slice(0, 500).forEach((med: any) => {
+        if (!med.drug_name || !med.brand_names_india) return;
         
-        const isMatch = extractedText.includes(drugName) || brands.some(b => extractedText.includes(b));
+        const drugName = med.drug_name.toLowerCase();
+        const brands = med.brand_names_india.map((b: string) => b.toLowerCase());
+        
+        const isMatch = extractedText.includes(drugName) || brands.some((b: string) => extractedText.includes(b));
 
         if (isMatch) {
           // Check if already detected to avoid duplicates
           if (!detectedMeds.find(m => m.name === med.drug_name)) {
             // Check if banned
-            const isBanned = bannedDrugsData.some(b => b.drug_name.toLowerCase() === med.drug_name.toLowerCase());
+            const bannedArray = bannedDrugsData as any[];
+            const isBanned = bannedArray.some((b: any) => b.drug_name && b.drug_name.toLowerCase() === med.drug_name.toLowerCase());
             
             detectedMeds.push({
               name: med.drug_name,
