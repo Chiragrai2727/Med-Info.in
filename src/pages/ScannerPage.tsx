@@ -930,11 +930,11 @@ export const ScannerPage: React.FC = () => {
               )}
  
               {/* Results Display */}
-              <div className="flex flex-col md:flex-row gap-12">
+              <div className="flex flex-col lg:flex-row gap-12">
                 
                 {/* Scanned Image Preview */}
                 {image && (
-                  <div className="w-full md:w-1/3 shrink-0">
+                  <div className="w-full lg:w-1/3 xl:w-1/4 shrink-0">
                     <h3 className="font-black text-text-primary uppercase tracking-[0.3em] text-[10px] px-4 opacity-40 mb-4">Scanned Document</h3>
                     <div className="p-4 backdrop-blur-xl bg-surface/70 rounded-[3rem] border border-surface shadow-sm sticky top-8">
                       <img src={image} alt="Scanned Document" className="w-full h-auto object-contain rounded-[2rem] shadow-inner border-4 border-surface" />
@@ -942,7 +942,7 @@ export const ScannerPage: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex-1 space-y-12">
+                <div className="flex-1 space-y-12 min-w-0">
                   <h3 className="font-black text-text-primary uppercase tracking-[0.3em] text-[10px] px-8 opacity-40">AI-Extracted Details</h3>
                   
                   {scanResult.medicines.length === 0 && (!scanResult.lab_results || scanResult.lab_results.length === 0) && (
@@ -990,59 +990,59 @@ export const ScannerPage: React.FC = () => {
 
                 {/* Medicine Cards */}
                 {scanResult.medicines && scanResult.medicines.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                     {scanResult.medicines.map((med, i) => (
                       <motion.div 
                         key={i}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.1 }}
-                        className={`p-10 backdrop-blur-xl bg-surface/70 rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 ${
+                        className={`p-8 lg:p-10 backdrop-blur-xl bg-surface/70 rounded-[3rem] lg:rounded-[4rem] border-2 transition-all duration-700 relative overflow-hidden shadow-sm group hover:shadow-2xl hover:-translate-y-2 flex flex-col justify-between ${
                           med.is_banned ? 'border-danger/50 bg-danger/5' : 'border-surface hover:border-dark-bg'
                         }`}
                       >
                         {med.is_banned && (
-                          <div className="absolute top-0 right-0 bg-danger text-white px-8 py-3 rounded-bl-[2.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-20">
-                            Banned Alert
+                          <div className="absolute top-0 right-0 bg-danger text-white px-6 py-2 rounded-bl-[2rem] font-black text-[9px] uppercase tracking-[0.2em] shadow-2xl z-20">
+                            Banned
                           </div>
                         )}
                         
-                        <div className="flex flex-col gap-8">
-                          <div className="flex items-start justify-between">
-                              <div className="p-4 bg-bg text-text-primary rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700">
+                        <div className="flex flex-col gap-6">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                              <div className="p-4 bg-bg text-text-primary rounded-[1.5rem] shadow-inner group-hover:rotate-12 transition-transform duration-700 shrink-0">
                                 <FlaskConical className="w-8 h-8" />
                               </div>
-                              <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2">
                                 <button 
                                   onClick={() => handleWhatsAppShare(med)}
-                                  className="p-3.5 backdrop-blur-md bg-surface text-success rounded-[1.25rem] hover:bg-success hover:text-white transition-all shadow-sm border border-surface"
+                                  className="p-3 backdrop-blur-md bg-surface text-success rounded-xl hover:bg-success hover:text-white transition-all shadow-sm border border-surface shrink-0"
                                   title="Share on WhatsApp"
                                 >
-                                  <Share2 className="w-6 h-6" />
+                                  <Share2 className="w-5 h-5" />
                                 </button>
                                 <button 
                                   onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-                                  className="p-3.5 backdrop-blur-md bg-surface text-text-primary rounded-[1.25rem] hover:bg-dark-bg hover:text-white transition-all shadow-sm border border-surface"
+                                  className="p-3 backdrop-blur-md bg-surface text-text-primary rounded-xl hover:bg-dark-bg hover:text-white transition-all shadow-sm border border-surface shrink-0"
                                 >
-                                  <ArrowRight className="w-6 h-6" />
+                                  <ArrowRight className="w-5 h-5" />
                                 </button>
                               </div>
                           </div>
   
                           <div>
                             <div className="flex flex-col gap-2 mb-4">
-                              <h4 className="text-3xl font-black text-text-primary leading-[0.9] tracking-tighter uppercase">{med.name}</h4>
-                              <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.3em] opacity-60 leading-none">{med.generic_name || 'Generic details unknown'}</p>
+                              <h4 className="text-2xl lg:text-3xl font-black text-text-primary leading-[1.1] tracking-tighter uppercase break-words w-full">{med.name}</h4>
+                              <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] opacity-60 leading-normal">{med.generic_name || 'Generic details unknown'}</p>
                               {med.purpose && (
-                                <p className="text-[11px] font-bold text-primary italic mt-1 leading-tight">
+                                <p className="text-[11px] font-bold text-primary italic mt-1 leading-tight line-clamp-2">
                                   Purpose: {med.purpose}
                                 </p>
                               )}
                             </div>
                             
                             <div className="flex flex-wrap gap-2 mb-6">
-                              {med.timing && <span className="bg-primary/5 text-primary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.timing}</span>}
-                              {med.duration && <span className="bg-bg text-text-secondary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">{med.duration}</span>}
+                              {med.timing && <span className="bg-primary/5 text-primary px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider">{med.timing}</span>}
+                              {med.duration && <span className="bg-bg text-text-secondary px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider">{med.duration}</span>}
                             </div>
  
                             <button
@@ -1057,29 +1057,29 @@ export const ScannerPage: React.FC = () => {
                                 const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
                                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                               }}
-                              className="inline-flex px-6 py-3 backdrop-blur-md bg-surface border border-border text-text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-dark-bg hover:text-white transition-all items-center gap-3 shadow-sm"
+                              className="inline-flex w-full sm:w-auto px-5 py-2.5 backdrop-blur-md bg-surface border border-border text-text-primary rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-dark-bg hover:text-white transition-all items-center justify-center gap-2 shadow-sm"
                             >
-                              <Clock className="w-4 h-4" /> Refill Reminder
+                              <Clock className="w-4 h-4 shrink-0" /> Refill Reminder
                             </button>
                           </div>
   
                           {med.dosage && (
-                            <div className="py-3 px-6 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-2xl inline-block max-w-fit shadow-inner">
-                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-2 opacity-50">Detected Dosage</span>
-                              <span className="font-black text-text-primary text-base tracking-tight">{med.dosage}</span>
+                            <div className="py-2.5 px-5 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-xl inline-block max-w-fit shadow-inner">
+                              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1 opacity-50">Detected Dosage</span>
+                              <span className="font-black text-text-primary text-sm lg:text-base tracking-tight">{med.dosage}</span>
                             </div>
                           )}
   
                           {scanResult.document_type === 'medicine' && (
-                            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-border">
-                              <div>
-                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-2 opacity-50">Market Price</span>
-                                  <span className="text-xl font-black text-text-primary tracking-tighter">{med.mrp || 'N/A'}</span>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-border mt-auto">
+                              <div className="bg-bg p-4 rounded-2xl flex flex-col justify-center">
+                                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-text-secondary block mb-1 opacity-50">Market Price</span>
+                                  <span className="text-lg font-black text-text-primary tracking-tighter">{med.mrp || 'N/A'}</span>
                               </div>
-                              <div className="backdrop-blur-md bg-success/5 p-5 rounded-[1.5rem] border border-success/10 shadow-sm">
-                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-success block mb-2">Smart Alternative</span>
-                                <div className="flex flex-col gap-1">
-                                  <span className="font-black text-text-primary text-xs tracking-tight uppercase leading-tight">{med.generic_alternative?.name || 'Searching...'}</span>
+                              <div className="backdrop-blur-md bg-success/5 p-4 rounded-2xl border border-success/10 shadow-sm flex flex-col justify-center overflow-hidden">
+                                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-success block mb-1">Smart Alternative</span>
+                                <div className="flex flex-col gap-0.5 mt-auto">
+                                  <span className="font-black text-text-primary text-[10px] tracking-tight uppercase leading-tight truncate">{med.generic_alternative?.name || 'Searching...'}</span>
                                   <span className="font-bold text-success text-[10px] tracking-tight">{med.generic_alternative?.price || ''}</span>
                                 </div>
                               </div>
@@ -1087,10 +1087,10 @@ export const ScannerPage: React.FC = () => {
                           )}
   
                           {med.is_banned && (
-                            <div className="backdrop-blur-md bg-danger p-6 rounded-[2rem] flex items-start gap-4 shadow-2xl border border-danger">
-                              <AlertTriangle className="w-8 h-8 text-white shrink-0 animate-pulse" />
-                              <p className="text-xs font-black uppercase tracking-widest text-white/90 leading-relaxed">
-                                This medicine is BANNED in India. Stop use and consult a doctor immediately.
+                            <div className="backdrop-blur-md bg-danger p-4 rounded-2xl flex items-center gap-3 shadow-2xl border border-danger mt-4">
+                              <AlertTriangle className="w-6 h-6 text-white shrink-0 animate-pulse" />
+                              <p className="text-[9px] font-black uppercase tracking-widest text-white/90 leading-relaxed">
+                                BANNED in India. Stop use immediately.
                               </p>
                             </div>
                           )}
