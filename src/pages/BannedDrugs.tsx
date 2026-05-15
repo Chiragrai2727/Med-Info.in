@@ -10,7 +10,6 @@ import {
   Share2, 
   ChevronDown, 
   ChevronUp, 
-  ExternalLink,
   CheckCircle2,
   Calendar,
   AlertCircle
@@ -101,7 +100,7 @@ export const BannedDrugs: React.FC = () => {
                 Updated with latest CDSCO notifications • {bannedDrugsData.length} medicines currently banned in India
               </p>
               <div className="flex items-center gap-2 text-white/60 text-xs font-black uppercase tracking-[0.2em]">
-                Verified Source: <a href="https://cdsco.gov.in" target="_blank" rel="noreferrer" className="underline hover:text-white flex items-center gap-2 border-none p-0 inline">CDSCO.gov.in <ExternalLink className="w-4 h-4" /></a>
+                Verified Source: <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">CDSCO.gov.in</a>
               </div>
             </div>
             <button 

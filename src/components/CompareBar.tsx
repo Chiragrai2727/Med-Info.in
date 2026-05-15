@@ -20,12 +20,8 @@ export const CompareBar: React.FC = () => {
 
   const handleCompare = () => {
     if (compareList.length === 2) {
-      if (profile?.isPremium || profile?.role === 'admin') {
-        navigate(`/compare/${encodeURIComponent(compareList[0])}/${encodeURIComponent(compareList[1])}`);
-        clearCompare();
-      } else {
-        setShowPricingModal(true);
-      }
+      navigate(`/compare/${encodeURIComponent(compareList[0])}/${encodeURIComponent(compareList[1])}`);
+      clearCompare();
     }
   };
 

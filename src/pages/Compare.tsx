@@ -203,10 +203,10 @@ export const Compare: React.FC = () => {
             </div>
  
             {/* Comparison Table */}
-            <div className="backdrop-blur-3xl bg-surface/70 border-2 border-surface rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] overflow-hidden mb-24">
-              <div className="overflow-x-auto">
+            <div className="backdrop-blur-3xl bg-surface/70 border-2 border-surface rounded-[5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] overflow-visible mb-24">
+              <div className="overflow-x-auto rounded-[5rem]">
                 <table className="w-full text-left border-collapse">
-                  <thead>
+                  <thead className="sticky top-0 z-20 shadow-xl">
                     <tr className="bg-dark-bg text-white">
                       <th className="px-12 py-10 text-[10px] font-black uppercase tracking-[0.3em] w-1/4 opacity-40">{t('feature')}</th>
                       <th className="px-12 py-10 text-2xl font-black tracking-tight uppercase w-1/4">{data.med1.drug_name}</th>
@@ -230,6 +230,12 @@ export const Compare: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            <div className="flex justify-center mb-24">
+              <Link to="/" className="px-12 py-6 bg-surface border border-border text-text-primary rounded-[2.5rem] font-black text-xs uppercase tracking-widest flex items-center gap-3 shadow-xl hover:bg-surface/80 transition-all active:scale-95">
+                <ChevronLeft className="w-5 h-5" /> {t('backToSearch')}
+              </Link>
             </div>
  
             {/* Disclaimer */}

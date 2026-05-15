@@ -1021,7 +1021,7 @@ export const ScannerPage: React.FC = () => {
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-4">
           <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0" />
           <p className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] leading-tight opacity-80">
-            Aethelcare AI provides analysis based on data from <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">CDSCO</a> and other verified medical sources. It is not a substitute for professional medical advice or clinical diagnosis.
+            Aethelcare AI provides analysis based on data from <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">CDSCO</a> and other verified medical sources. It is not a substitute for professional medical advice or clinical diagnosis.
           </p>
         </div>
       </div>

@@ -182,7 +182,15 @@ export const Home: React.FC = () => {
             )}
             {[
               { icon: Sparkles, text: 'AI Intelligence', color: 'text-primary bg-surface/60 border-surface/80' },
-              { icon: ShieldCheck, text: 'CDSCO Verified', color: 'text-success bg-surface/60 border-surface/80' },
+              { 
+                icon: ShieldCheck, 
+                text: (
+                  <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-success/80 transition-colors">
+                    CDSCO Verified
+                  </a>
+                ), 
+                color: 'text-success bg-surface/60 border-surface/80' 
+              },
               { icon: Shield, text: 'Privacy Protected', color: 'text-text-secondary bg-surface/60 border-surface/80' },
             ].map((badge, i) => (
               <motion.div
@@ -454,7 +462,7 @@ export const Home: React.FC = () => {
             </p>
             <div className="w-40 h-2 bg-amber-200/50 mx-auto rounded-full" />
             <p className="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-amber-700/60 max-w-3xl mx-auto leading-loose">
-              {t('educationalDisclaimer')} Data analyzed by Aethelcare AI using <a href="https://cdsco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-800 transition-colors">CDSCO</a> & other verified medical sources.
+              {t('educationalDisclaimer')} Data analyzed by Aethelcare AI using <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900 transition-colors">CDSCO</a> & other verified medical sources.
             </p>
           </div>
         </motion.div>

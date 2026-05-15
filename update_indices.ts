@@ -1,36 +1,42 @@
-import fs from 'fs';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const medicinesPath = './src/data/medicines.json';
-const indexPath = './src/data/index.json';
-const categoriesPath = './src/data/categories.json';
-const diseasesPath = './src/data/diseases.json';
+const medicinesPath = path.join(process.cwd(), 'src/data/medicines.json');
+const indexPath = path.join(process.cwd(), 'src/data/index.json');
+const categoriesPath = path.join(process.cwd(), 'src/data/categories.json');
+const diseasesPath = path.join(process.cwd(), 'src/data/diseases.json');
 
 const medicines = JSON.parse(fs.readFileSync(medicinesPath, 'utf8'));
-let index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
-let categories = JSON.parse(fs.readFileSync(categoriesPath, 'utf8'));
-let diseases = JSON.parse(fs.readFileSync(diseasesPath, 'utf8'));
 
-// Only process the first 7 medicines we just added
-const newMedicines = medicines.slice(0, 7);
+let index = {};
+let categories = {};
+let diseases = {};
 
-newMedicines.forEach((med: any) => {
-  // Update index.json
-  const terms = [med.drug_name, ...med.brand_names_india].map((t: string) => t.toLowerCase());
-  terms.forEach((term: string) => {
-    if (!index[term]) index[term] = [];
-    if (!index[term].includes(med.id)) index[term].push(med.id);
+medicines.forEach(med => {
+  const brandNames = med.brand_names_india || [];
+  const drugName = med.drug_name || "";
+  const id = med.id;
+
+  // Search Index
+  [drugName, ...brandNames].forEach(name => {
+    if (!name) return;
+    const lowerName = name.toLowerCase();
+    if (!index[lowerName]) index[lowerName] = [];
+    if (!index[lowerName].includes(id)) index[lowerName].push(id);
   });
 
-  // Update categories.json
-  const cat = med.category.toLowerCase();
-  if (!categories[cat]) categories[cat] = [];
-  if (!categories[cat].includes(med.id)) categories[cat].push(med.id);
+  // Categories Index
+  const category = med.category;
+  if (category) {
+    if (!categories[category]) categories[category] = [];
+    if (!categories[category].includes(id)) categories[category].push(id);
+  }
 
-  // Update diseases.json
-  med.uses.forEach((use: string) => {
-    const u = use.toLowerCase();
-    if (!diseases[u]) diseases[u] = [];
-    if (!diseases[u].includes(med.id)) diseases[u].push(med.id);
+  // Diseases Index (from uses)
+  const uses = med.uses || [];
+  uses.forEach(use => {
+    if (!diseases[use]) diseases[use] = [];
+    if (!diseases[use].includes(id)) diseases[use].push(id);
   });
 });
 
@@ -38,4 +44,4 @@ fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
 fs.writeFileSync(categoriesPath, JSON.stringify(categories, null, 2));
 fs.writeFileSync(diseasesPath, JSON.stringify(diseases, null, 2));
 
-console.log("Successfully updated datasets.");
+console.log("Indices updated successfully.");

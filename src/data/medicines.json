@@ -205,8 +205,9 @@
     ],
     "overdose_effects": "Severe drowsiness, abdominal pain, restlessness.",
     "contraindications": [
-      "Severe kidney impairment",
-      "Hepatic impairment"
+      "Severe kidney impairment (CrCl < 10 ml/min)",
+      "Severe hepatic impairment",
+      "Hypersensitivity to active ingredients"
     ],
     "drug_interactions": [
       "Phenobarbital",
@@ -215,7 +216,7 @@
       "CNS depressants"
     ],
     "pregnancy_safety": "Category B/C - Consult doctor before use.",
-    "kidney_liver_warning": "Not recommended in severe kidney failure.",
+    "kidney_liver_warning": "Contraindicated in severe kidney failure (CrCl < 10 ml/min) and not recommended in severe hepatic impairment.",
     "how_it_works_in_body": "Opens up the airways and prevents the immune system's hyper-reaction to allergens.",
     "onset_of_action": "1-2 hours",
     "duration_of_effect": "24 hours",
@@ -224,7 +225,7 @@
     "india_regulatory_status": "CDSCO Approved",
     "quick_summary": "A highly effective combination for treating chronic allergies, asthma, and severe runny nose.",
     "who_should_take": "Patients with persistent allergies or concurrent asthma.",
-    "who_should_not_take": "Patients with severe kidney disease.",
+    "who_should_not_take": "Patients with severe kidney or hepatic disease.",
     "food_interactions": [
       "Can be taken with or without food."
     ],
@@ -781,7 +782,8 @@
     ],
     "overdose_effects": "Severe drowsiness, restlessness, stomach pain.",
     "contraindications": [
-      "Severe kidney impairment",
+      "Severe kidney impairment (CrCl < 10 ml/min)",
+      "Severe hepatic impairment",
       "Allergy to either component"
     ],
     "drug_interactions": [
@@ -790,7 +792,7 @@
       "Rifampin"
     ],
     "pregnancy_safety": "Category B - Consult doctor before use.",
-    "kidney_liver_warning": "Dose adjustment needed in severe kidney disease.",
+    "kidney_liver_warning": "Contraindicated in severe renal failure and dose adjustment or caution in hepatic impairment.",
     "how_it_works_in_body": "Reduces allergic response and keeps airways open by blocking specific inflammatory chemicals.",
     "onset_of_action": "1-2 hours",
     "duration_of_effect": "24 hours",
@@ -799,7 +801,7 @@
     "india_regulatory_status": "CDSCO Approved",
     "quick_summary": "Highly effective combination for treating severe allergies, runny nose, and preventing asthma attacks.",
     "who_should_take": "Patients suffering from chronic allergies or allergic asthma.",
-    "who_should_not_take": "Patients with end-stage renal disease.",
+    "who_should_not_take": "Patients with severe kidney or hepatic disease.",
     "food_interactions": [
       "Can be taken with or without food."
     ],
@@ -24811,5 +24813,1614 @@
     ],
     "alcohol_warning": "Avoid alcohol",
     "source": "Verified Database"
+  },
+  {
+    "id": "ALK-ATOZ-001",
+    "category": "Multivitamin and Mineral Supplements",
+    "drug_name": "A to Z Multivitamin with Minerals and Pine Bark Extract Tablet",
+    "brand_names_india": [
+      "A TO Z TAB",
+      "A to Z Gold",
+      "A to Z NS",
+      "A to Z Women"
+    ],
+    "drug_class": "Nutraceutical / Antioxidant / Nutritional Supplement",
+    "mechanism_of_action": "Provides essential micronutrients that act as co-enzymes and co-factors for various metabolic processes while antioxidants like Pine Bark Extract neutralize free radicals to prevent oxidative stress.",
+    "uses": [
+      "Treatment of nutritional deficiencies",
+      "Boosting immune system function",
+      "Supportive therapy during recovery from surgery or chronic illness",
+      "Reducing oxidative stress and fatigue",
+      "General wellness and health maintenance"
+    ],
+    "dosage_common": "One tablet daily, preferably after a meal to maximize absorption of fat-soluble vitamins.",
+    "side_effects_common": [
+      "Nausea",
+      "Stomach upset",
+      "Metallic taste",
+      "Constipation",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (hives, swelling of face/tongue)",
+      "Severe dizziness",
+      "Difficulty breathing",
+      "Hypervitaminosis (Vitamin toxicity)"
+    ],
+    "overdose_effects": "Overdose can lead to toxicity, particularly from fat-soluble vitamins (A, D, E), resulting in severe nausea, blurred vision, headache, and potential liver or kidney stress.",
+    "contraindications": [
+      "Hypersensitivity to any of the ingredients",
+      "Pre-existing hypervitaminosis",
+      "Severe renal impairment",
+      "Wilson's disease (due to mineral content)"
+    ],
+    "drug_interactions": [
+      "Antacids (may interfere with mineral absorption)",
+      "Warfarin (Vitamin E may enhance anticoagulant effect)",
+      "Tetracycline antibiotics (minerals can decrease absorption)",
+      "Levodopa"
+    ],
+    "pregnancy_safety": "Category A/B: Generally considered safe and often prescribed during pregnancy, but dosage should be strictly monitored by a healthcare professional.",
+    "kidney_liver_warning": "Use with caution in patients with chronic kidney disease or liver dysfunction as they may have difficulty excreting excess minerals.",
+    "how_it_works_in_body": "The B-vitamins aid in energy metabolism, Vitamin C and E along with Pine Bark Extract act as antioxidants to protect cellular integrity, and minerals like Zinc and Selenium support enzyme functions and immune response.",
+    "onset_of_action": "1 to 2 weeks for noticeable improvement in energy levels and general well-being.",
+    "duration_of_effect": "24 hours",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "FSSAI / CDSCO Approved as a Nutraceutical/Drug supplement",
+    "quick_summary": "A TO Z TAB is a comprehensive health supplement containing vitamins, minerals, and antioxidants designed to bridge nutritional gaps and support the body's immune system.",
+    "who_should_take": "Individuals with a poor diet, those recovering from illness, people with high physical activity levels, or those feeling chronically fatigued.",
+    "who_should_not_take": "Those with known allergies to multivitamin components or individuals suffering from copper or iron storage disorders.",
+    "food_interactions": [
+      "Avoid taking with tea or coffee as tannins and caffeine can inhibit the absorption of vitamins and minerals."
+    ],
+    "alcohol_warning": "Alcohol does not directly interact with the tablet, but chronic consumption can deplete the body's vitamin stores, making the supplement less effective.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is close to the time for your next dose, skip it and continue your regular schedule. Do not double the dose."
+  },
+  {
+    "id": "ABIXIM-200-CEF-001",
+    "category": "Antibiotic",
+    "drug_name": "Cefixime 200 mg",
+    "brand_names_india": [
+      "ABIXIM-200TAB",
+      "Taxim-O 200",
+      "Zifi 200",
+      "Maha-Cef 200",
+      "Cefix 200"
+    ],
+    "drug_class": "Third-generation Cephalosporin",
+    "mechanism_of_action": "Bactericidal action resulting from inhibition of cell-wall synthesis. It binds to one or more of the penicillin-binding proteins (PBPs) which in turn inhibits the final transpeptidation step of peptidoglycan synthesis in bacterial cell walls.",
+    "uses": [
+      "Urinary Tract Infections",
+      "Otitis Media",
+      "Pharyngitis and Tonsillitis",
+      "Acute Bronchitis and Chronic Bronchitis Exacerbations",
+      "Uncomplicated Gonorrhea",
+      "Typhoid Fever"
+    ],
+    "dosage_common": "Adults: 200 mg to 400 mg daily, taken either as a single dose or in two divided doses every 12 hours.",
+    "side_effects_common": [
+      "Diarrhea",
+      "Nausea",
+      "Abdominal pain",
+      "Dyspepsia",
+      "Flatulence"
+    ],
+    "side_effects_serious": [
+      "Clostridium difficile-associated diarrhea",
+      "Anaphylaxis",
+      "Stevens-Johnson syndrome",
+      "Toxic epidermal necrolysis",
+      "Thrombocytopenia"
+    ],
+    "overdose_effects": "Symptoms may include nausea, vomiting, and epigastric distress. In case of severe overdose, gastric lavage may be indicated; there is a risk of seizures in patients with renal impairment.",
+    "contraindications": [
+      "Hypersensitivity to Cefixime",
+      "Hypersensitivity to other Cephalosporins",
+      "History of severe immediate hypersensitivity to Penicillin"
+    ],
+    "drug_interactions": [
+      "Warfarin (increases prothrombin time)",
+      "Probenecid (increases peak serum concentrations)",
+      "Carbamazepine (increases carbamazepine levels)"
+    ],
+    "pregnancy_safety": "Category B: Studies in animals have failed to demonstrate a risk to the fetus, but there are no adequate and well-controlled studies in pregnant women. Use only if clearly needed.",
+    "kidney_liver_warning": "Dose adjustment is required for patients with significant renal impairment (creatinine clearance < 20 mL/min). Use with caution in patients with pre-existing liver disease.",
+    "how_it_works_in_body": "Once ingested, cefixime reaches peak plasma levels and interferes with the enzymes responsible for making the bacterial cell wall. This weakens the cell wall, causing the bacteria to rupture and die, effectively clearing the infection.",
+    "onset_of_action": "2 to 4 hours",
+    "duration_of_effect": "12 to 24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved; Schedule H",
+    "quick_summary": "ABIXIM-200 is an oral cephalosporin antibiotic used to treat various bacterial infections by stopping the growth of bacteria.",
+    "who_should_take": "Individuals with bacterial infections of the respiratory tract, urinary tract, or ear, as diagnosed and prescribed by a healthcare professional.",
+    "who_should_not_take": "Individuals with a known allergy to cephalosporins or penicillins, and those with a history of severe gastrointestinal disease like colitis.",
+    "food_interactions": [
+      "Can be taken with or without food",
+      "Taking with food may help reduce gastrointestinal upset"
+    ],
+    "alcohol_warning": "While no direct interaction is established, alcohol should be avoided as it can increase the risk of side effects like dizziness and nausea.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next scheduled dose, skip the missed dose. Do not take extra medicine to make up the missed dose."
+  },
+  {
+    "id": "ABSOLUT-3G-NUTRA-001",
+    "category": "Nutraceutical / Multivitamin Supplement",
+    "drug_name": "Absolut 3G Capsule",
+    "brand_names_india": [
+      "Absolut 3G",
+      "Absolut Woman",
+      "Absolut Silver"
+    ],
+    "drug_class": "Antioxidants, Multivitamins, Multiminerals, and Herbal Extracts",
+    "mechanism_of_action": "It works as a nutritional supplement that combines the synergistic effects of Green Tea Extract, Ginkgo Biloba, Ginseng, and Grape Seed Extract (the 4G/3G complex) with essential vitamins and minerals to neutralize free radicals, improve blood circulation, and enhance metabolic processes.",
+    "uses": [
+      "Nutritional deficiency",
+      "General weakness and fatigue",
+      "Boosting immunity",
+      "Recovery after illness",
+      "Supporting cardiovascular health",
+      "Improving cognitive function and memory"
+    ],
+    "dosage_common": "One capsule daily, preferably after a meal, or as directed by a healthcare professional.",
+    "side_effects_common": [
+      "Nausea",
+      "Stomach upset",
+      "Headache",
+      "Metallic taste",
+      "Diarrhea"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (rash, itching, swelling)",
+      "Increased heart rate",
+      "Abnormal bleeding or bruising",
+      "Insomnia"
+    ],
+    "overdose_effects": "Symptoms may include severe gastrointestinal distress, vitamin toxicity (hypervitaminosis), and electrolyte imbalance. Seek immediate medical attention.",
+    "contraindications": [
+      "Hypersensitivity to any of the ingredients",
+      "Bleeding disorders",
+      "Prior to scheduled surgery (due to Ginkgo Biloba)",
+      "Children under 12 years (unless prescribed)"
+    ],
+    "drug_interactions": [
+      "Warfarin (Blood thinners)",
+      "Aspirin",
+      "Anti-diabetic medications",
+      "Immunosuppressants",
+      "Anti-hypertensive drugs"
+    ],
+    "pregnancy_safety": "Category C: Use only if prescribed by a doctor. High doses of certain vitamins and herbal extracts may not be recommended during pregnancy.",
+    "kidney_liver_warning": "Consult a physician before use if you have pre-existing renal or hepatic conditions to avoid mineral accumulation.",
+    "how_it_works_in_body": "Ginseng enhances energy levels and stress resistance; Ginkgo Biloba improves peripheral and cerebral blood flow; Green tea and Grape seed extracts provide potent antioxidant protection against oxidative stress; Omega-3 fatty acids support heart health and cellular membrane integrity.",
+    "onset_of_action": "Not immediate; nutritional benefits typically manifest after 2 to 4 weeks of regular intake.",
+    "duration_of_effect": "Nutrients remain active in the metabolic cycle for approximately 12 to 24 hours.",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Allopathic (Nutraceutical)",
+    "india_regulatory_status": "FSSAI Approved / CDSCO regulated as a Food Supplement",
+    "quick_summary": "Absolut 3G is a comprehensive daily supplement designed to fill nutritional gaps, boost energy, and provide antioxidant protection through a blend of herbal extracts, vitamins, and minerals.",
+    "who_should_take": "Individuals with hectic lifestyles, those recovering from chronic illness, elderly patients requiring cognitive support, and people with dietary deficiencies.",
+    "who_should_not_take": "Individuals with known allergies to herbal extracts, patients on anticoagulant therapy, and those with certain hormone-sensitive conditions.",
+    "food_interactions": [
+      "Avoid taking with very high-fiber meals as it may reduce mineral absorption.",
+      "Best taken with a meal containing some fat for better absorption of fat-soluble vitamins."
+    ],
+    "alcohol_warning": "No direct interaction, but alcohol can impair the absorption of B-complex vitamins contained in the supplement.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next dose, skip it and continue your regular schedule. Do not double the dose."
+  },
+  {
+    "id": "ACCECLOWOC-SP-001",
+    "category": "Non-Steroidal Anti-Inflammatory Drug (NSAID) / Analgesic",
+    "drug_name": "Aceclofenac (100mg) + Paracetamol (325mg) + Serratiopeptidase (15mg) Tablet",
+    "brand_names_india": [
+      "ACCECLOWOC SP TAB",
+      "Zerodol-SP",
+      "Aceclo-SP",
+      "Ibugesic ASP",
+      "Signoflam"
+    ],
+    "drug_class": "Analgesic, Antipyretic, and Proteolytic Enzyme Combination",
+    "mechanism_of_action": "Aceclofenac inhibits the cyclooxygenase (COX) enzyme, reducing prostaglandin synthesis; Paracetamol acts on the central nervous system to increase pain threshold and reduce fever; Serratiopeptidase is a proteolytic enzyme that breaks down abnormal proteins at the site of inflammation to promote tissue repair and reduce edema.",
+    "uses": [
+      "Post-operative pain and inflammation",
+      "Osteoarthritis",
+      "Rheumatoid arthritis",
+      "Ankylosing spondylitis",
+      "Traumatic injury pain",
+      "Dental pain"
+    ],
+    "dosage_common": "One tablet twice daily after meals, or as prescribed by a physician.",
+    "side_effects_common": [
+      "Nausea",
+      "Dizziness",
+      "Stomach pain",
+      "Diarrhea",
+      "Heartburn",
+      "Loss of appetite"
+    ],
+    "side_effects_serious": [
+      "Gastrointestinal bleeding",
+      "Severe allergic reactions (rash, swelling)",
+      "Hepatotoxicity (liver damage)",
+      "Stevens-Johnson syndrome",
+      "Renal impairment"
+    ],
+    "overdose_effects": "Common symptoms include severe vomiting, gastric irritation, hepatic tenderness, and in severe cases, liver necrosis or acute renal failure due to high paracetamol levels.",
+    "contraindications": [
+      "Active peptic ulcer or GI bleeding",
+      "Hypersensitivity to NSAIDs or Aspirin",
+      "Severe heart failure",
+      "Severe liver or kidney disease",
+      "Third trimester of pregnancy"
+    ],
+    "drug_interactions": [
+      "Warfarin (increases bleeding risk)",
+      "Lithium (increases lithium toxicity)",
+      "Methotrexate (increases risk of toxicity)",
+      "Antihypertensives (reduced efficacy)",
+      "Other NSAIDs"
+    ],
+    "pregnancy_safety": "Category C/D: Generally not recommended, especially in the third trimester as it may cause premature closure of the ductus arteriosus in the fetus.",
+    "kidney_liver_warning": "Use with extreme caution in patients with hepatic or renal impairment; dose adjustment may be required. Avoid use in severe failure.",
+    "how_it_works_in_body": "The combination provides a multi-modal approach: it blocks pain signals at the site of injury (Aceclofenac), raises the overall pain threshold via the brain (Paracetamol), and physically breaks down inflammatory debris to reduce swelling (Serratiopeptidase).",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "8 to 12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "A combination medication used to relieve pain, inflammation, and swelling in various conditions involving bones, joints, and soft tissues.",
+    "who_should_take": "Individuals suffering from acute inflammatory pain, post-surgical inflammation, or chronic joint disorders under medical supervision.",
+    "who_should_not_take": "Individuals with a history of stomach ulcers, bleeding disorders, severe liver/kidney disease, or those allergic to aspirin and other NSAIDs.",
+    "food_interactions": [
+      "Take with food or milk to minimize gastric irritation."
+    ],
+    "alcohol_warning": "Strictly avoid alcohol as it significantly increases the risk of gastric bleeding and liver toxicity when combined with Paracetamol and Aceclofenac.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed dose. Do not double the dose to catch up."
+  },
+  {
+    "id": "aceclo-plus-100-325",
+    "category": "Analgesic and Antipyretic",
+    "drug_name": "Aceclofenac (100mg) + Paracetamol (325mg)",
+    "brand_names_india": [
+      "Aceclo Plus",
+      "Zerodol-P",
+      "Ibugesic AP",
+      "Dolokind Plus",
+      "Hifenac P",
+      "Aclopen Plus"
+    ],
+    "drug_class": "NSAID (Non-Steroidal Anti-Inflammatory Drug) and Analgesic Combination",
+    "mechanism_of_action": "Aceclofenac inhibits the enzyme cyclooxygenase (COX), which is involved in the synthesis of prostaglandins that cause pain and inflammation. Paracetamol acts primarily on the central nervous system to increase the pain threshold and regulate body temperature via the hypothalamus.",
+    "uses": [
+      "Rheumatoid arthritis",
+      "Osteoarthritis",
+      "Ankylosing spondylitis",
+      "Muscle pain",
+      "Back pain",
+      "Dental pain",
+      "Fever"
+    ],
+    "dosage_common": "Adults: Usually one tablet twice daily (morning and evening) taken after food to prevent stomach upset.",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Dizziness",
+      "Abdominal pain",
+      "Heartburn",
+      "Loss of appetite"
+    ],
+    "side_effects_serious": [
+      "Gastrointestinal bleeding",
+      "Hepatotoxicity (Liver damage)",
+      "Acute renal failure",
+      "Stevens-Johnson Syndrome",
+      "Anaphylactic shock"
+    ],
+    "overdose_effects": "Nausea, vomiting, and epigastric pain are common. High doses of Paracetamol can lead to fatal hepatic necrosis and renal tubular necrosis.",
+    "contraindications": [
+      "Active peptic ulcer",
+      "Hypersensitivity to Aceclofenac or Paracetamol",
+      "History of asthma attacks induced by Aspirin or NSAIDs",
+      "Severe heart failure",
+      "Severe liver or kidney impairment"
+    ],
+    "drug_interactions": [
+      "Lithium",
+      "Digoxin",
+      "Warfarin",
+      "Antihypertensives (ACE inhibitors)",
+      "Methotrexate",
+      "Corticosteroids"
+    ],
+    "pregnancy_safety": "Category D - Not recommended, especially during the third trimester, as it may cause premature closure of the ductus arteriosus in the fetus and delay labor.",
+    "kidney_liver_warning": "Use with caution in patients with mild to moderate renal or hepatic impairment. Contraindicated in severe cases. Long-term use can lead to nephrotoxicity.",
+    "how_it_works_in_body": "After oral administration, the drugs are rapidly absorbed. Aceclofenac targets peripheral inflammation sites to reduce swelling and pain, while Paracetamol provides a systemic analgesic and antipyretic effect, effectively managing the perception of pain and reducing fever.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "8 to 12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Aceclo Plus is a widely used combination medicine in India for managing moderate to severe pain and inflammation associated with arthritis and injuries.",
+    "who_should_take": "Adults experiencing acute pain, inflammatory joint conditions, or musculoskeletal pain as prescribed by a physician.",
+    "who_should_not_take": "Individuals with a history of stomach ulcers, severe heart/kidney/liver disease, pregnant women in their third trimester, and those allergic to NSAIDs.",
+    "food_interactions": [
+      "Take with food or milk to reduce gastric irritation.",
+      "Avoid chronic use with high-protein diets which may affect absorption slightly."
+    ],
+    "alcohol_warning": "Avoid alcohol as it significantly increases the risk of stomach bleeding and enhances the hepatotoxic effects of Paracetamol.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip it. Do not double the dose to catch up."
+  },
+  {
+    "id": "ACITROM4MG-001",
+    "category": "Anticoagulant / Blood Thinner",
+    "drug_name": "Acenocoumarol 4mg",
+    "brand_names_india": [
+      "Acitrom 4mg",
+      "Noclot 4mg",
+      "Artiflo 4mg"
+    ],
+    "drug_class": "Vitamin K Antagonist (VKA)",
+    "mechanism_of_action": "Acenocoumarol inhibits the enzyme vitamin K epoxide reductase, which results in the depletion of the reduced form of vitamin K (vitamin KH2). This depletion prevents the gamma-carboxylation of glutamic acid residues on the vitamin K-dependent clotting factors II, VII, IX, and X, as well as anticoagulant proteins C and S, rendering them inactive.",
+    "uses": [
+      "Prevention and treatment of deep vein thrombosis (DVT)",
+      "Prevention of pulmonary embolism (PE)",
+      "Prophylaxis of thromboembolism in atrial fibrillation",
+      "Management of thromboembolic risk in patients with prosthetic heart valves",
+      "Treatment of myocardial infarction to reduce the risk of systemic embolism"
+    ],
+    "dosage_common": "Dosage is highly individualized and must be adjusted based on regular International Normalized Ratio (INR) blood tests. A typical maintenance dose ranges from 1mg to 8mg daily, taken at the same time each day.",
+    "side_effects_common": [
+      "Minor bleeding (gums, nosebleeds)",
+      "Easy bruising",
+      "Nausea",
+      "Loss of appetite",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Severe internal hemorrhage",
+      "Hematoma",
+      "Blood in urine (hematuria)",
+      "Black or tarry stools",
+      "Skin necrosis or gangrene",
+      "Hemorrhagic stroke"
+    ],
+    "overdose_effects": "The primary symptom of overdose is excessive bleeding from various sites. Symptoms include ecchymosis, hematuria, gastrointestinal hemorrhage, and uterine bleeding. Treatment usually involves administration of Vitamin K1 (Phytonadione) and potentially fresh frozen plasma or prothrombin complex concentrate.",
+    "contraindications": [
+      "Active clinical bleeding",
+      "Pregnancy (especially first and third trimesters)",
+      "Severe hypertension",
+      "Recent surgery of the eye, brain, or spinal cord",
+      "Peptic ulcer or GI bleeding",
+      "Bacterial endocarditis",
+      "Severe liver or kidney impairment"
+    ],
+    "drug_interactions": [
+      "NSAIDs (Aspirin, Ibuprofen) - increases bleeding risk",
+      "Amiodarone - increases acenocoumarol effect",
+      "Rifampicin - decreases acenocoumarol effect",
+      "Broad-spectrum antibiotics - may increase INR",
+      "Fluconazole",
+      "Phenytoin"
+    ],
+    "pregnancy_safety": "Category X: Acenocoumarol is contraindicated in pregnancy as it crosses the placental barrier and can cause fetal warfarin syndrome, including nasal hypoplasia and skeletal abnormalities, as well as fatal fetal hemorrhage.",
+    "kidney_liver_warning": "Use with extreme caution. Liver impairment reduces the synthesis of clotting factors and metabolism of the drug. Kidney impairment increases the risk of over-anticoagulation and bleeding complications.",
+    "how_it_works_in_body": "After oral administration, it is rapidly absorbed. It acts in the liver to block the recycling of Vitamin K. Since the body relies on Vitamin K to produce functional clotting factors, the blood's ability to form clots is significantly delayed. It does not dissolve existing clots but prevents them from enlarging or new ones from forming.",
+    "onset_of_action": "24 to 48 hours (Peak effect reached in 72 to 96 hours)",
+    "duration_of_effect": "48 to 72 hours after the last dose",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved / Schedule H Drug",
+    "quick_summary": "Acitrom 4mg is a potent anticoagulant used to prevent unwanted blood clots that can lead to stroke, heart attack, or pulmonary embolism. It requires strict medical supervision and regular INR monitoring.",
+    "who_should_take": "Patients diagnosed with conditions putting them at high risk for thromboembolic events, such as those with artificial heart valves or chronic atrial fibrillation.",
+    "who_should_not_take": "Pregnant women, individuals with a high risk of falling, people with active bleeding disorders, or those unable to comply with regular blood testing schedules.",
+    "food_interactions": [
+      "Foods high in Vitamin K (Spinach, Kale, Broccoli, Cabbage) - can decrease effectiveness",
+      "Cranberry juice - may increase the effect/bleeding risk"
+    ],
+    "alcohol_warning": "Avoid or strictly limit alcohol. Binge drinking can increase the risk of bleeding, while chronic heavy drinking may decrease the drug's effectiveness.",
+    "missed_dose": "Take the missed dose as soon as possible on the same day. If it is almost time for the next day's dose, skip the missed dose. Do not double the dose. Inform your doctor about the missed dose during your next INR check."
+  },
+  {
+    "id": "acivir-200-dt-in-001",
+    "category": "Antiviral",
+    "drug_name": "ACIVIR 200MG DT (Acyclovir 200mg)",
+    "brand_names_india": [
+      "ACIVIR 200MG DT",
+      "Zovirax",
+      "Herperax",
+      "Ocuvir",
+      "Lovir",
+      "Acyclovir Cipla"
+    ],
+    "drug_class": "Purine Nucleoside Analogue",
+    "mechanism_of_action": "Acyclovir is a synthetic purine nucleoside analogue. It is converted to acyclovir monophosphate by viral thymidine kinase, then further to triphosphate by cellular enzymes. Acyclovir triphosphate competitively inhibits viral DNA polymerase and incorporates into viral DNA, resulting in DNA chain termination.",
+    "uses": [
+      "Treatment of Herpes Simplex Virus (HSV-1, HSV-2) infections",
+      "Management of Varicella-zoster (Chickenpox)",
+      "Management of Herpes zoster (Shingles)",
+      "Prevention of recurrent Genital Herpes"
+    ],
+    "dosage_common": "Usually 200 mg taken five times daily at 4-hour intervals (skipping the night dose) for 5 to 10 days. The tablet should be dissolved in a glass of water before consumption.",
+    "side_effects_common": [
+      "Headache",
+      "Dizziness",
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Abdominal pain",
+      "Fatigue",
+      "Photosensitivity"
+    ],
+    "side_effects_serious": [
+      "Acute renal failure",
+      "Thrombocytopenic purpura",
+      "Encephalopathy",
+      "Hallucinations",
+      "Seizures",
+      "Anaphylaxis",
+      "Hepatitis"
+    ],
+    "overdose_effects": "Overdosage may lead to elevations in serum creatinine, blood urea nitrogen, and subsequent renal failure. Neurological effects such as confusion, hallucinations, and agitation may also occur.",
+    "contraindications": [
+      "Hypersensitivity to Acyclovir",
+      "Hypersensitivity to Valacyclovir",
+      "Severe dehydration"
+    ],
+    "drug_interactions": [
+      "Probenecid (increases acyclovir half-life)",
+      "Cimetidine",
+      "Mycophenolate mofetil",
+      "Nephrotoxic drugs like Aminoglycosides",
+      "Tenofovir"
+    ],
+    "pregnancy_safety": "Category B: Use only if clearly needed. Animal studies show no fetal risk, but adequate human studies are limited.",
+    "kidney_liver_warning": "Dose adjustment is mandatory in patients with renal impairment to prevent neurotoxicity and renal crystal formation. Use with caution in patients with hepatic disease.",
+    "how_it_works_in_body": "After oral administration, acyclovir is partially absorbed from the gut. It selectively enters cells infected with the herpes virus. Once inside, it undergoes phosphorylation into its active form, which blocks the virus's ability to replicate its genetic material (DNA), thereby stopping the spread of the infection.",
+    "onset_of_action": "1.5 to 2 hours (Peak plasma concentration)",
+    "duration_of_effect": "4 to 8 hours (Half-life is approximately 2.5 to 3.3 hours in adults with normal renal function)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved; Schedule H Drug",
+    "quick_summary": "ACIVIR 200MG DT is a widely used antiviral medication in India primarily for treating herpes and chickenpox by stopping viral replication.",
+    "who_should_take": "Patients suffering from initial or recurrent mucosal or cutaneous herpes simplex infections or shingles as diagnosed by a healthcare professional.",
+    "who_should_not_take": "Those with known allergies to acyclovir or valacyclovir, and patients with severely impaired kidney function unless the dose is specifically adjusted.",
+    "food_interactions": [
+      "Can be taken with or without food; no major food interactions noted."
+    ],
+    "alcohol_warning": "Avoid alcohol as it may increase dizziness and dehydration, potentially worsening side effects or putting additional strain on the kidneys.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed one. Do not take two doses at once."
+  },
+  {
+    "id": "acivir-400mg-dt-001",
+    "category": "Antiviral",
+    "drug_name": "Acivir 400mg DT (Acyclovir 400mg Dispersible Tablet)",
+    "brand_names_india": [
+      "Acivir 400mg DT",
+      "Zovirax",
+      "Herperax",
+      "Ocuvir",
+      "Lovir"
+    ],
+    "drug_class": "Purine Nucleoside Analogue",
+    "mechanism_of_action": "Acyclovir is converted to acyclovir triphosphate by viral and cellular enzymes. This triphosphate acts as a false substrate for viral DNA polymerase, competing with natural dGTP and leading to viral DNA chain termination.",
+    "uses": [
+      "Treatment of Herpes Simplex virus infections (Genital Herpes and Cold Sores)",
+      "Treatment of Herpes Zoster (Shingles)",
+      "Treatment of Varicella-Zoster (Chickenpox)",
+      "Prevention of recurrent Herpes Simplex infections in immunocompromised patients"
+    ],
+    "dosage_common": "Usually 400mg three to five times daily for 5-10 days depending on the severity and type of infection. The dispersible tablet should be dissolved in a glass of water before administration.",
+    "side_effects_common": [
+      "Headache",
+      "Dizziness",
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Abdominal pain",
+      "Fatigue",
+      "Skin rashes"
+    ],
+    "side_effects_serious": [
+      "Acute Renal Failure",
+      "Encephalopathy (Confusion, Hallucinations)",
+      "Seizures",
+      "Thrombocytopenic Purpura",
+      "Anaphylaxis",
+      "Hepatitis"
+    ],
+    "overdose_effects": "Overdose may lead to elevated serum creatinine, renal failure, agitation, coma, and seizures. Hemodialysis may be required to remove the drug from the blood.",
+    "contraindications": [
+      "Hypersensitivity to Acyclovir or Valacyclovir",
+      "Severe dehydration",
+      "Pre-existing neurological abnormalities"
+    ],
+    "drug_interactions": [
+      "Probenecid (increases acyclovir levels)",
+      "Cimetidine",
+      "Mycophenolate Mofetil",
+      "Nephrotoxic drugs (like Aminoglycosides)",
+      "Zidovudine (may cause extreme lethargy)"
+    ],
+    "pregnancy_safety": "Category B: Generally considered safe. Studies in animals have not shown fetal risk, but it should be used in pregnancy only if clearly needed and prescribed by a doctor.",
+    "kidney_liver_warning": "Dose adjustment is mandatory in patients with renal impairment to prevent drug accumulation and neurotoxicity. Use with caution in patients with underlying liver disease.",
+    "how_it_works_in_body": "Once ingested, the drug is selectively taken up by virus-infected cells. Viral thymidine kinase converts it into acyclovir monophosphate, which is further phosphorylated to the active triphosphate form. This active form halts the replication of viral DNA, stopping the spread of the virus in the body.",
+    "onset_of_action": "1.5 to 2 hours",
+    "duration_of_effect": "4 to 6 hours (Half-life is approximately 2.5 to 3.3 hours in adults with normal renal function)",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved; Schedule H Prescription Drug",
+    "quick_summary": "Acivir 400mg DT is a potent antiviral medication used to manage and treat infections caused by the herpes virus, including shingles, chickenpox, and genital herpes.",
+    "who_should_take": "Individuals diagnosed with viral infections such as herpes simplex or herpes zoster, particularly those who prefer or require a dispersible tablet format.",
+    "who_should_not_take": "Individuals with a known allergy to Acyclovir or Valacyclovir and patients with severe, unmonitored kidney disease.",
+    "food_interactions": [
+      "Can be taken with or without food",
+      "High fluid intake is recommended to maintain hydration and renal flow"
+    ],
+    "alcohol_warning": "Alcohol should be avoided as it can worsen side effects like dizziness and may increase the risk of dehydration, impacting kidney function during treatment.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is nearly time for the next dose, skip the missed one. Do not double the dose to catch up."
+  },
+  {
+    "id": "ACIVIR-800DT-A01",
+    "category": "Antiviral",
+    "drug_name": "Acyclovir 800mg Dispersible Tablet",
+    "brand_names_india": [
+      "ACIVIR 800MG DT",
+      "Herperax 800",
+      "Zovirax",
+      "Ocurax 800",
+      "Lovir 800"
+    ],
+    "drug_class": "Purine Nucleoside Analogue",
+    "mechanism_of_action": "It works by inhibiting viral DNA synthesis. It is converted by viral thymidine kinase into acyclovir monophosphate, which is then further converted into acyclovir triphosphate. This triphosphate competes with deoxyguanosine triphosphate for viral DNA polymerase and becomes incorporated into viral DNA, causing DNA chain termination.",
+    "uses": [
+      "Herpes Zoster (Shingles)",
+      "Varicella (Chickenpox)",
+      "Genital Herpes (Treatment and Suppression)",
+      "Herpes Simplex Labialis (Cold Sores)"
+    ],
+    "dosage_common": "For Shingles: 800mg five times daily (every 4 hours while awake) for 7 to 10 days. For Chickenpox: 800mg four times daily for 5 days. Must be dissolved in water before consumption.",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Headache",
+      "Dizziness",
+      "Abdominal pain"
+    ],
+    "side_effects_serious": [
+      "Acute Renal Failure",
+      "Thrombocytopenic Purpura",
+      "Encephalopathic changes (confusion, hallucinations)",
+      "Anaphylaxis",
+      "Hepatitis"
+    ],
+    "overdose_effects": "High doses may lead to elevated serum creatinine, renal failure, agitation, coma, and seizures. Hemodialysis may be required to remove the drug from the blood.",
+    "contraindications": [
+      "Hypersensitivity to Acyclovir",
+      "Hypersensitivity to Valacyclovir",
+      "Known allergy to any component of the dispersible tablet"
+    ],
+    "drug_interactions": [
+      "Probenecid (increases acyclovir concentration)",
+      "Cimetidine",
+      "Mycophenolate mofetil",
+      "Nephrotoxic agents like Aminoglycosides or NSAIDs"
+    ],
+    "pregnancy_safety": "Category B: Studies in animals have not shown a risk to the fetus, but there are no adequate and well-controlled studies in pregnant women. Use only if clearly needed.",
+    "kidney_liver_warning": "Dose adjustment is mandatory in patients with renal impairment. Use with caution in patients with pre-existing liver disease, though primary clearance is renal.",
+    "how_it_works_in_body": "Once ingested and absorbed, it selectively targets cells infected with the Herpes virus. The viral enzyme thymidine kinase activates the drug, which then prevents the virus from replicating its genetic material, thereby stopping the spread of the infection and allowing the immune system to manage the virus.",
+    "onset_of_action": "1.5 to 2 hours",
+    "duration_of_effect": "The half-life is approximately 2.5 to 3.3 hours in adults with normal renal function.",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved; Schedule H Prescription Drug",
+    "quick_summary": "Acivir 800mg DT is a high-strength antiviral dispersible tablet used primarily to treat severe viral infections like shingles and chickenpox by stopping viral replication.",
+    "who_should_take": "Adults and children (as per weight-based dosing) suffering from Herpes Zoster or Varicella infections within 24-48 hours of rash onset.",
+    "who_should_not_take": "Dehydrated patients, those with significant kidney dysfunction without dose adjustment, or those with known hypersensitivity to acyclovir.",
+    "food_interactions": [
+      "No specific food restrictions",
+      "High fluid intake is recommended to prevent crystals from forming in the kidneys"
+    ],
+    "alcohol_warning": "While there is no direct interaction, alcohol can cause dehydration and dizziness, which may worsen the side effects of the medication.",
+    "missed_dose": "Take it as soon as you remember. If it is nearly time for your next dose, skip the missed dose. Do not double the dose to catch up."
+  },
+  {
+    "id": "ACIVIR_CRM_001",
+    "category": "Antiviral",
+    "drug_name": "Acyclovir 5% w/w Cream",
+    "brand_names_india": [
+      "Acivir Cream",
+      "Herperax",
+      "Ocuvir Cream",
+      "Zovirax",
+      "Acyclo"
+    ],
+    "drug_class": "Purine Nucleoside Analogue",
+    "mechanism_of_action": "Acyclovir is converted by viral thymidine kinase into acyclovir monophosphate, which is then converted by host cell kinases into acyclovir triphosphate. This metabolite competes with deoxyguanosine triphosphate as a substrate for viral DNA polymerase and is incorporated into viral DNA, causing premature DNA chain termination.",
+    "uses": [
+      "Herpes Labialis (Cold Sores)",
+      "Recurrent Genital Herpes Labialis"
+    ],
+    "dosage_common": "Apply to the affected area 5 times daily (approximately every 4 hours while awake) for 4 to 10 days.",
+    "side_effects_common": [
+      "Mild stinging",
+      "Transient burning",
+      "Dryness of skin",
+      "Flakiness",
+      "Itching"
+    ],
+    "side_effects_serious": [
+      "Angioedema",
+      "Contact dermatitis",
+      "Severe skin irritation",
+      "Hives"
+    ],
+    "overdose_effects": "Topical overdose is unlikely due to low systemic absorption. If accidentally ingested, symptoms may include gastrointestinal upset or neurological effects if large quantities are consumed.",
+    "contraindications": [
+      "Hypersensitivity to Acyclovir",
+      "Hypersensitivity to Valacyclovir",
+      "Hypersensitivity to any excipients in the cream base"
+    ],
+    "drug_interactions": [
+      "Probenecid (may increase systemic levels if significant absorption occurs)",
+      "Other topical medications applied to the same site"
+    ],
+    "pregnancy_safety": "Category B: Studies in animals have not shown a risk to the fetus, but there are no adequate and well-controlled studies in pregnant women. Use only if clearly needed.",
+    "kidney_liver_warning": "Systemic absorption through topical application is minimal, making it generally safe for patients with kidney or liver impairment; however, caution is advised in severe renal failure if extensive areas are treated.",
+    "how_it_works_in_body": "When applied topically, acyclovir penetrates the skin layers to reach the site of viral replication. It selectively targets cells infected with the Herpes Simplex Virus (HSV), where it halts the production of viral DNA, preventing the virus from multiplying and spreading to healthy cells.",
+    "onset_of_action": "Symptomatic relief usually begins within 24 to 48 hours of starting treatment.",
+    "duration_of_effect": "The medication remains active at the site of application for several hours; regular dosing is required to maintain therapeutic levels.",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Acivir Cream is a topical antiviral medication used to treat cold sores and skin infections caused by the Herpes Simplex Virus.",
+    "who_should_take": "Individuals suffering from recurrent cold sores (Herpes Labialis) or initial/recurrent genital herpes lesions.",
+    "who_should_not_take": "Patients with known hypersensitivity to acyclovir or valacyclovir; not for use on mucous membranes like the inside of the mouth, eyes, or vagina.",
+    "food_interactions": [
+      "None established for topical application"
+    ],
+    "alcohol_warning": "No known interactions with alcohol for the topical cream formulation.",
+    "missed_dose": "Apply the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed one and continue with your regular schedule. Do not double the application."
+  },
+  {
+    "id": "racecadotril-100mg-ad",
+    "category": "Antidiarrheal",
+    "drug_name": "Racecadotril 100mg",
+    "brand_names_india": [
+      "AD 100",
+      "Zedott 100",
+      "Redotil",
+      "Enuff",
+      "Racedot",
+      "Racigyl"
+    ],
+    "drug_class": "Enkephalinase Inhibitor",
+    "mechanism_of_action": "Racecadotril acts as a prodrug that is hydrolyzed to thiorphan, which inhibits enkephalinase. This prevents the degradation of endogenous enkephalins, reducing intestinal hypersecretion of water and electrolytes without affecting gut motility.",
+    "uses": [
+      "Acute diarrhea in adults",
+      "Symptomatic relief of sudden onset diarrhea"
+    ],
+    "dosage_common": "100 mg orally three times a day, preferably before meals, continued until two normal stools are recorded, not exceeding 7 days of treatment.",
+    "side_effects_common": [
+      "Headache",
+      "Nausea",
+      "Vomiting",
+      "Constipation",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Angioedema",
+      "Severe skin rash",
+      "Erythema multiforme",
+      "Tongue edema",
+      "Urticaria"
+    ],
+    "overdose_effects": "No specific symptoms of overdose have been reported, but it may lead to an intensification of common side effects like nausea or abdominal pain.",
+    "contraindications": [
+      "Hypersensitivity to Racecadotril",
+      "Renal impairment",
+      "Hepatic impairment",
+      "Chronic diarrhea",
+      "Diarrhea caused by antibiotic treatment"
+    ],
+    "drug_interactions": [
+      "No significant drug-drug interactions have been reported in humans",
+      "ACE Inhibitors (may increase risk of angioedema)"
+    ],
+    "pregnancy_safety": "Category B. Limited data available; use during pregnancy is not recommended unless the potential benefit justifies the risk.",
+    "kidney_liver_warning": "Not recommended for patients with severe kidney or liver disease as clinical data is insufficient for these populations.",
+    "how_it_works_in_body": "It is rapidly absorbed and converted into its active metabolite, thiorphan. Thiorphan binds to the active site of enkephalinase, preventing it from breaking down enkephalins in the small intestine. This results in decreased levels of cyclic adenosine monophosphate (cAMP), thereby reducing the secretion of water and electrolytes into the gut lumen.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "Approximately 8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H)",
+    "quick_summary": "AD 100MG (Racecadotril) is an anti-secretory drug used to treat acute diarrhea by reducing excessive fluid secretion in the intestines without causing constipation.",
+    "who_should_take": "Adults experiencing acute, non-infectious diarrhea where fluid loss is a concern.",
+    "who_should_not_take": "Children (unless specifically prescribed pediatric formulations), pregnant or breastfeeding women, and those with blood or pus in their stools (dysentery).",
+    "food_interactions": [
+      "None significant; can be taken with or without food, though before meals is often preferred."
+    ],
+    "alcohol_warning": "No direct interaction, but alcohol should be avoided during diarrhea as it can worsen dehydration and gastrointestinal irritation.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is nearly time for the next dose, skip the missed dose and continue with the regular schedule. Do not double the dose."
+  },
+  [
+    {
+      "id": "ADR-INJ-INDIA-001",
+      "category": "Emergency & Critical Care",
+      "drug_name": "Adrenaline Injection IP 1mg/ml",
+      "brand_names_india": [
+        "ADRENALINE INJ",
+        "Adrenor",
+        "Vasocon",
+        "Epin",
+        "Adrenaline (Neon Labs)",
+        "Adrenaline (Troikaa)"
+      ],
+      "drug_class": "Adrenergic Agonist (Sympathomimetic)",
+      "mechanism_of_action": "Acts directly on both alpha and beta-adrenergic receptors of the sympathetic nervous system to produce rapid systemic effects including vasoconstriction and bronchodilation.",
+      "uses": [
+        "Anaphylaxis (Severe allergic reactions)",
+        "Cardiac arrest",
+        "Acute severe asthma exacerbation",
+        "Croup in children",
+        "Control of superficial mucosal bleeding"
+      ],
+      "dosage_common": "Anaphylaxis: 0.3mg to 0.5mg (1:1000) IM in the mid-outer thigh. Cardiac Arrest: 1mg (1:10,000) IV/IO every 3 to 5 minutes.",
+      "side_effects_common": [
+        "Palpitations",
+        "Tachycardia (Fast heart rate)",
+        "Anxiety",
+        "Tremors",
+        "Headache",
+        "Dizziness",
+        "Sweating"
+      ],
+      "side_effects_serious": [
+        "Ventricular arrhythmias",
+        "Severe hypertension",
+        "Cerebral hemorrhage",
+        "Pulmonary edema",
+        "Myocardial ischemia"
+      ],
+      "overdose_effects": "Extreme elevation in blood pressure which may lead to cerebrovascular hemorrhage, cardiac arrhythmias, and acute pulmonary edema due to peripheral vasoconstriction.",
+      "contraindications": [
+        "Known hypersensitivity to adrenaline",
+        "Narrow-angle glaucoma (except in life-threatening situations)",
+        "Severe coronary artery disease (unless emergency)",
+        "Use with local anesthetics in distal appendages (fingers, toes, nose)"
+      ],
+      "drug_interactions": [
+        "Beta-blockers (may lead to severe hypertension)",
+        "MAO Inhibitors (potentiates effects)",
+        "Tricyclic Antidepressants",
+        "Digoxin (increases risk of arrhythmias)"
+      ],
+      "pregnancy_safety": "Category C: Potential benefits may warrant use in pregnant women despite potential risks in life-threatening emergencies.",
+      "kidney_liver_warning": "Use with caution; adrenaline can cause renal artery constriction and transiently decrease renal blood flow.",
+      "how_it_works_in_body": "By stimulating Alpha-1 receptors, it causes vasoconstriction to increase blood pressure. Stimulating Beta-1 receptors increases heart rate and contractility. Stimulating Beta-2 receptors leads to bronchodilation and decreased release of inflammatory mediators from mast cells.",
+      "onset_of_action": "IV: Immediate; IM: 5-10 minutes; Subcutaneous: 10-15 minutes",
+      "duration_of_effect": "20 to 30 minutes",
+      "prescription_required": true,
+      "ayurvedic_or_allopathic": "Allopathic",
+      "india_regulatory_status": "CDSCO Approved (Schedule H)",
+      "quick_summary": "Adrenaline is a life-saving injection used primarily for emergency treatment of severe allergic reactions (anaphylaxis) and for restoring heart function during cardiac arrest.",
+      "who_should_take": "Patients experiencing life-threatening allergic reactions, severe asthma attacks not responding to other treatments, or cardiac arrest.",
+      "who_should_not_take": "Individuals with hypersensitivity (in non-emergency cases); use with extreme caution in patients with hyperthyroidism, hypertension, or heart disease.",
+      "food_interactions": [
+        "Not applicable as it is administered parenterally in emergencies."
+      ],
+      "alcohol_warning": "Avoid alcohol as it can exacerbate the cardiovascular side effects like increased heart rate and blood pressure fluctuations.",
+      "missed_dose": "Not applicable as this is an emergency medication administered by healthcare professionals or via auto-injector when needed."
+    }
+  ],
+  {
+    "id": "aldactone-25-rpg",
+    "category": "Diuretics / Cardiovascular Drugs",
+    "drug_name": "Aldactone 25mg",
+    "brand_names_india": [
+      "Aldactone 25mg",
+      "Spiron",
+      "Sprilactone",
+      "Aldosone",
+      "Spiractin"
+    ],
+    "drug_class": "Potassium-sparing Diuretics (Aldosterone Antagonist)",
+    "mechanism_of_action": "Aldactone (Spironolactone) is a competitive antagonist of aldosterone. It binds to the mineralocorticoid receptors in the distal renal tubules, which blocks the exchange of sodium for potassium, resulting in increased excretion of sodium and water while retaining potassium.",
+    "uses": [
+      "Edema associated with Congestive Heart Failure",
+      "Cirrhosis of the liver with ascites",
+      "Nephrotic Syndrome",
+      "Essential Hypertension",
+      "Primary Hyperaldosteronism",
+      "Hypokalemia treatment and prevention"
+    ],
+    "dosage_common": "Usually ranges from 25mg to 100mg daily, either in single or divided doses, based on the condition being treated.",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Dizziness",
+      "Headache",
+      "Stomach cramps",
+      "Drowsiness",
+      "Gynecomastia (in men)",
+      "Breast tenderness"
+    ],
+    "side_effects_serious": [
+      "Hyperkalemia (High potassium levels)",
+      "Cardiac arrhythmias",
+      "Acute Renal Failure",
+      "Stevens-Johnson Syndrome",
+      "Anaphylaxis",
+      "Severe electrolyte imbalance"
+    ],
+    "overdose_effects": "Overdose may lead to drowsiness, mental confusion, maculopapular or erythematous rash, nausea, vomiting, dizziness, or diarrhea. Severe hyperkalemia may result in cardiac arrest.",
+    "contraindications": [
+      "Hyperkalemia",
+      "Addison's disease",
+      "Acute renal insufficiency",
+      "Anuria",
+      "Hypersensitivity to Spironolactone"
+    ],
+    "drug_interactions": [
+      "ACE Inhibitors (e.g., Enalapril)",
+      "Angiotensin II Receptor Blockers (ARBs)",
+      "Potassium Supplements",
+      "NSAIDs (e.g., Ibuprofen)",
+      "Digoxin",
+      "Lithium",
+      "Cyclosporine"
+    ],
+    "pregnancy_safety": "Category C: Use only if the potential benefit justifies the potential risk to the fetus. It has anti-androgenic effects that may affect male fetus development.",
+    "kidney_liver_warning": "Use with extreme caution in patients with hepatic dysfunction to avoid hepatic coma. In renal impairment, the risk of hyperkalemia is significantly increased; regular monitoring of serum potassium and creatinine is mandatory.",
+    "how_it_works_in_body": "In the kidney, aldosterone normally causes the body to hold onto salt and water while losing potassium. By blocking aldosterone, Aldactone makes the kidneys eliminate more water and sodium through urine but keeps potassium in the bloodstream, helping to reduce fluid buildup and lower blood pressure.",
+    "onset_of_action": "24 to 48 hours for diuretic effect; 2 to 3 weeks for maximum antihypertensive effect.",
+    "duration_of_effect": "48 to 72 hours after the last dose.",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H)",
+    "quick_summary": "Aldactone 25mg is a potassium-sparing diuretic used to treat high blood pressure, fluid retention (edema), and conditions involving excess aldosterone production.",
+    "who_should_take": "Patients suffering from edema due to heart, liver, or kidney issues, or those with resistant hypertension requiring a diuretic that does not deplete potassium.",
+    "who_should_not_take": "Individuals with high potassium levels, severe kidney failure, or those who cannot produce urine (anuria).",
+    "food_interactions": [
+      "Potassium-rich foods (e.g., bananas, spinach, oranges)",
+      "Salt substitutes containing potassium chloride"
+    ],
+    "alcohol_warning": "Alcohol may enhance the blood pressure lowering effect of Aldactone, increasing the risk of dizziness, lightheadedness, or fainting.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed dose and resume your normal schedule. Do not double the dose."
+  },
+  {
+    "id": "ALERID-D-CIPLA-001",
+    "category": "Antiallergic and Decongestant",
+    "drug_name": "Alerid D (Cetirizine 5mg + Phenylephrine 10mg)",
+    "brand_names_india": [
+      "Alerid D",
+      "Cetzine-D",
+      "Relent",
+      "Okacet Cold",
+      "Cozid"
+    ],
+    "drug_class": "Antihistamine and Alpha-1 Adrenergic Agonist Combination",
+    "mechanism_of_action": "Cetirizine is a potent and selective peripheral H1-receptor antagonist that reduces allergic responses. Phenylephrine is a sympathomimetic amine that acts as a decongestant by stimulating alpha-adrenergic receptors, leading to vasoconstriction of nasal mucosa blood vessels.",
+    "uses": [
+      "Allergic rhinitis",
+      "Nasal congestion",
+      "Common cold symptoms",
+      "Hay fever",
+      "Sinusitis relief",
+      "Sneezing and watery eyes"
+    ],
+    "dosage_common": "Usually one tablet twice daily for adults and children over 12 years, or as directed by a physician.",
+    "side_effects_common": [
+      "Drowsiness",
+      "Dry mouth",
+      "Dizziness",
+      "Headache",
+      "Nausea",
+      "Insomnia"
+    ],
+    "side_effects_serious": [
+      "Palpitations",
+      "Tachycardia (Rapid heartbeat)",
+      "Severe hypertension",
+      "Urinary retention",
+      "Skin rash or hives"
+    ],
+    "overdose_effects": "Symptoms may include extreme restlessness, severe drowsiness, palpitations, chest pain, and significantly elevated blood pressure.",
+    "contraindications": [
+      "Hypersensitivity to Cetirizine or Phenylephrine",
+      "Severe Hypertension",
+      "Severe Coronary Artery Disease",
+      "Patients taking MAO inhibitors within the last 14 days",
+      "Narrow-angle glaucoma"
+    ],
+    "drug_interactions": [
+      "MAO Inhibitors (Phenelzine, Selegiline)",
+      "Alcohol",
+      "Beta-blockers",
+      "Digoxin",
+      "CNS depressants"
+    ],
+    "pregnancy_safety": "Category C: Use only if prescribed by a doctor. Phenylephrine should be avoided during the first trimester as it may affect fetal blood flow.",
+    "kidney_liver_warning": "Dose reduction is necessary for patients with moderate to severe renal impairment. Use with caution in patients with hepatic dysfunction.",
+    "how_it_works_in_body": "Cetirizine prevents histamine from binding to its receptors, stopping the allergic cascade. Simultaneously, Phenylephrine reduces the swelling of blood vessels in the nasal passages, allowing for easier breathing and drainage of mucus.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "12 to 24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved; Schedule H Drug",
+    "quick_summary": "Alerid D is a combination medication primarily used to treat allergy symptoms accompanied by nasal congestion, combining an antihistamine with a decongestant.",
+    "who_should_take": "Individuals experiencing allergic rhinitis along with blocked nose or sinus pressure.",
+    "who_should_not_take": "Individuals with heart disease, uncontrolled high blood pressure, or those taking antidepressants belonging to the MAOI class.",
+    "food_interactions": [
+      "Avoid excessive caffeine intake",
+      "Avoid alcohol"
+    ],
+    "alcohol_warning": "Avoid consumption as it may significantly increase the sedative effect and impair motor skills.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed dose. Do not double the dose."
+  },
+  {
+    "id": "amitone-10mg-amitriptyline",
+    "category": "Antidepressants",
+    "drug_name": "Amitone 10mg (Amitriptyline Hydrochloride)",
+    "brand_names_india": [
+      "Amitone",
+      "Tryptomer",
+      "Sarotena",
+      "Eliwel",
+      "Amixide"
+    ],
+    "drug_class": "Tricyclic Antidepressants (TCA)",
+    "mechanism_of_action": "Amitriptyline works primarily by inhibiting the reuptake of norepinephrine and serotonin at the nerve endings, which increases the concentration of these neurotransmitters in the synaptic cleft, thereby enhancing mood and modulating pain signals.",
+    "uses": [
+      "Major Depressive Disorder",
+      "Neuropathic Pain",
+      "Migraine Prophylaxis",
+      "Nocturnal Enuresis (Bedwetting in children)"
+    ],
+    "dosage_common": "Usually starts at 10mg to 25mg once daily at bedtime; dosage may be increased gradually based on clinical response and tolerability.",
+    "side_effects_common": [
+      "Dry mouth",
+      "Drowsiness",
+      "Constipation",
+      "Blurred vision",
+      "Weight gain",
+      "Orthostatic hypotension"
+    ],
+    "side_effects_serious": [
+      "Cardiac arrhythmias",
+      "Suicidal ideation",
+      "Seizures",
+      "Urinary retention",
+      "Serotonin syndrome"
+    ],
+    "overdose_effects": "Overdose can be fatal and includes symptoms such as severe cardiac arrhythmias, extreme hypotension, convulsions, hallucinations, and CNS depression leading to coma.",
+    "contraindications": [
+      "Recent myocardial infarction",
+      "Concurrent use of Monoamine Oxidase Inhibitors (MAOIs)",
+      "Angle-closure glaucoma",
+      "Severe liver disease"
+    ],
+    "drug_interactions": [
+      "MAO Inhibitors",
+      "SSRIs",
+      "Cimetidine",
+      "Anticholinergic drugs",
+      "Adrenaline",
+      "Tramadol"
+    ],
+    "pregnancy_safety": "Category C: Use only if potential benefits outweigh risks; can cause withdrawal symptoms in neonates if used in the third trimester.",
+    "kidney_liver_warning": "Use with caution in patients with hepatic impairment due to reduced metabolism. Use with care in patients with severe renal impairment.",
+    "how_it_works_in_body": "After oral administration, it is rapidly absorbed and metabolized in the liver to its active metabolite, nortriptyline. It acts on the central nervous system to increase levels of serotonin and norepinephrine while also exerting anticholinergic and sedative effects.",
+    "onset_of_action": "2 to 4 weeks for antidepressant effect; 1 week for chronic pain relief.",
+    "duration_of_effect": "12 to 24 hours.",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved - Schedule H",
+    "quick_summary": "Amitone 10mg is a tricyclic antidepressant used for treating clinical depression, chronic nerve pain, and preventing migraine attacks.",
+    "who_should_take": "Individuals diagnosed with depression or chronic neuropathic pain conditions under the supervision of a psychiatrist or neurologist.",
+    "who_should_not_take": "Those with heart block, a history of recent heart attack, acute glaucoma, or those hypersensitive to tricyclic antidepressants.",
+    "food_interactions": [
+      "Grapefruit juice (may increase blood levels)"
+    ],
+    "alcohol_warning": "Strictly avoid alcohol as it significantly increases drowsiness, dizziness, and central nervous system depression.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed dose. Do not take two doses at once."
+  },
+  {
+    "id": "AMOX-CLAV-625-IND",
+    "category": "Antibiotics",
+    "drug_name": "Amoxyclav 625 (Amoxicillin 500mg + Potassium Clavulanate 125mg)",
+    "brand_names_india": [
+      "Amoxyclav 625",
+      "Augmentin 625 Duo",
+      "Clavam 625",
+      "Moxikind-CV 625",
+      "Advent 625",
+      "Polyclav 625"
+    ],
+    "drug_class": "Penicillin-like antibiotic with Beta-lactamase inhibitor",
+    "mechanism_of_action": "Amoxicillin works by inhibiting the synthesis of bacterial cell walls. Potassium Clavulanate is a beta-lactamase inhibitor that prevents bacteria from destroying amoxicillin, thereby extending its spectrum of activity against resistant strains.",
+    "uses": [
+      "Otitis Media (Middle Ear Infection)",
+      "Sinusitis",
+      "Lower Respiratory Tract Infections",
+      "Urinary Tract Infections (UTI)",
+      "Skin and Soft Tissue Infections",
+      "Dental Infections"
+    ],
+    "dosage_common": "Adults: Usually one tablet of 625 mg twice or thrice daily depending on the severity of the infection, taken for 5 to 10 days.",
+    "side_effects_common": [
+      "Nausea",
+      "Diarrhea",
+      "Vomiting",
+      "Indigestion",
+      "Skin rashes"
+    ],
+    "side_effects_serious": [
+      "Anaphylactic shock",
+      "Stevens-Johnson syndrome",
+      "Cholestatic jaundice",
+      "Clostridium difficile-associated diarrhea",
+      "Hepatitis"
+    ],
+    "overdose_effects": "Symptoms may include stomach pain, diarrhea, vomiting, skin rash, drowsiness, and hyperactivity. In some cases, interstitial nephritis leading to oliguric renal failure has been reported.",
+    "contraindications": [
+      "Hypersensitivity to Penicillins or Cephalosporins",
+      "History of cholestatic jaundice or liver dysfunction associated with Amoxyclav",
+      "Infectious mononucleosis"
+    ],
+    "drug_interactions": [
+      "Warfarin (increases risk of bleeding)",
+      "Probenecid (increases amoxicillin levels)",
+      "Methotrexate (increases toxicity)",
+      "Oral contraceptives (may reduce efficacy)",
+      "Allopurinol (increases risk of skin rash)"
+    ],
+    "pregnancy_safety": "Category B; Generally considered safe if prescribed by a physician, but should only be used if clearly needed.",
+    "kidney_liver_warning": "Dose adjustment is necessary for patients with severe renal impairment (CrCl < 30 ml/min). Use with caution in patients with hepatic dysfunction; monitoring of liver function is recommended.",
+    "how_it_works_in_body": "After oral administration, both components are rapidly absorbed. Amoxicillin binds to penicillin-binding proteins inside the bacterial cell wall, causing cell lysis. Clavulanic acid binds to and inactivates beta-lactamase enzymes produced by bacteria that would otherwise deactivate the amoxicillin.",
+    "onset_of_action": "1 to 2 hours",
+    "duration_of_effect": "6 to 12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H)",
+    "quick_summary": "Amoxyclav 625 is a potent combination antibiotic used to treat various bacterial infections, including those resistant to simple penicillin, by combining a cell-wall inhibitor with a protective enzyme inhibitor.",
+    "who_should_take": "Patients diagnosed with bacterial infections of the lungs, ears, sinuses, urinary tract, or skin caused by organisms susceptible to this combination.",
+    "who_should_not_take": "Individuals with a known allergy to penicillin or cephalosporin antibiotics, or those with a history of liver problems caused by this medication.",
+    "food_interactions": [
+      "Take with food to minimize gastrointestinal intolerance and enhance absorption of Potassium Clavulanate."
+    ],
+    "alcohol_warning": "While no direct interaction exists, alcohol should be avoided as it can worsen side effects like dizziness and stomach upset, and can dehydrate the body during infection recovery.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next dose, skip the missed dose. Do not take a double dose to make up for the missed one."
+  },
+  {
+    "id": "CERVIPRIME_GEL_DIN_05",
+    "category": "Obstetrics and Gynecology",
+    "drug_name": "Dinoprostone 0.5 mg Cervical Gel",
+    "brand_names_india": [
+      "CERVIPRIME GEL",
+      "PRIMIGYN",
+      "DINORIPE",
+      "CERVIPRIME E2"
+    ],
+    "drug_class": "Prostaglandin E2 (PGE2) Analogue",
+    "mechanism_of_action": "It acts by promoting cervical ripening (softening and dilation) through the breakdown of collagen and stimulation of uterine smooth muscle contractions.",
+    "uses": [
+      "Cervical ripening in pregnant women at or near term",
+      "Induction of labor when there is a medical or obstetrical indication"
+    ],
+    "dosage_common": "0.5 mg administered endocervically; a repeat dose may be given after 6 to 12 hours if cervical ripening is not achieved, with a maximum of 1.5 mg within a 24-hour period.",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Diarrhea",
+      "Abdominal pain",
+      "Fever",
+      "Back pain",
+      "Warming sensation in the vagina"
+    ],
+    "side_effects_serious": [
+      "Uterine hyperstimulation",
+      "Uterine rupture",
+      "Fetal distress (Bradycardia)",
+      "Amniotic fluid embolism",
+      "Severe hypotension"
+    ],
+    "overdose_effects": "Can cause uterine hypercontractility and uterine hypertonus, leading to fetal distress or uterine rupture. Management involves immediate removal of residual gel and possible administration of tocolytic drugs.",
+    "contraindications": [
+      "History of Cesarean section or major uterine surgery",
+      "Cephalopelvic disproportion",
+      "Placenta previa",
+      "Unexplained vaginal bleeding",
+      "Non-reassuring fetal heart rate",
+      "Grand multiparity (6 or more previous term pregnancies)"
+    ],
+    "drug_interactions": [
+      "Oxytocin (increases risk of uterine rupture; sequential use requires careful monitoring)",
+      "Other Prostaglandins"
+    ],
+    "pregnancy_safety": "Category C/X. Indicated specifically for use in term pregnancy for labor induction; contraindicated in earlier stages unless for therapeutic abortion.",
+    "kidney_liver_warning": "Use with caution in patients with hepatic or renal impairment as the drug is metabolized in these organs.",
+    "how_it_works_in_body": "Dinoprostone stimulates the enzyme collagenase in the cervix, which breaks down the collagen network. This changes the physical properties of the cervix from firm to soft. Simultaneously, it increases the level of intracellular calcium in myometrial cells, triggering uterine contractions necessary for labor.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "12 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Cerviprime Gel is a prostaglandin medication used in hospital settings to soften the cervix and induce labor in pregnant women at term.",
+    "who_should_take": "Pregnant women at term who require labor induction and have an unfavorable (unripe) cervix.",
+    "who_should_not_take": "Women with prior C-sections, those with active pelvic inflammatory disease, or patients where vaginal delivery is medically unsafe.",
+    "food_interactions": [
+      "None (administered endocervically)"
+    ],
+    "alcohol_warning": "Not applicable as it is administered during labor in a clinical setting.",
+    "missed_dose": "Not applicable; this is a procedure-based medication administered by healthcare professionals."
+  },
+  {
+    "id": "cetiriz-10mg-ind",
+    "category": "Antihistamine",
+    "drug_name": "Cetirizine Hydrochloride 10mg",
+    "brand_names_india": [
+      "CETIRIZ",
+      "Cetzine",
+      "Okacet",
+      "Alerid",
+      "Zyrtec",
+      "Incid-L"
+    ],
+    "drug_class": "Second-generation H1-receptor Antagonist",
+    "mechanism_of_action": "Cetirizine works by selectively inhibiting peripheral H1 receptors, thereby blocking the effects of histamine in the body which is responsible for allergic reactions.",
+    "uses": [
+      "Allergic rhinitis",
+      "Chronic idiopathic urticaria",
+      "Hay fever",
+      "Allergic conjunctivitis",
+      "Insect bite reactions"
+    ],
+    "dosage_common": "Usually 5 mg to 10 mg once daily depending on the severity of symptoms and patient response.",
+    "side_effects_common": [
+      "Drowsiness",
+      "Dry mouth",
+      "Fatigue",
+      "Headache",
+      "Pharyngitis"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (Anaphylaxis)",
+      "Difficulty breathing",
+      "Swelling of the face or throat",
+      "Palpitations",
+      "Blurred vision"
+    ],
+    "overdose_effects": "Symptoms of overdose may include extreme somnolence, confusion, restlessness, and in children, initial agitation followed by drowsiness.",
+    "contraindications": [
+      "Hypersensitivity to Cetirizine or Hydroxyzine",
+      "Severe renal impairment (Creatinine Clearance less than 10 ml/min)",
+      "Patients undergoing hemodialysis"
+    ],
+    "drug_interactions": [
+      "Alcohol",
+      "Theophylline",
+      "CNS Depressants",
+      "Ritonavir",
+      "Sedatives"
+    ],
+    "pregnancy_safety": "Category B: Generally considered safe, but should only be used if clearly needed and prescribed by a physician.",
+    "kidney_liver_warning": "Dose adjustment is necessary for patients with moderate to severe renal impairment. Caution is advised in patients with hepatic impairment.",
+    "how_it_works_in_body": "After oral administration, it is rapidly absorbed. It competes with histamine for H1-receptor sites on effector cells in the gastrointestinal tract, blood vessels, and respiratory tract, preventing the histamine-mediated responses like itching, swelling, and mucus secretion.",
+    "onset_of_action": "20 to 60 minutes",
+    "duration_of_effect": "Approximately 24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "CETIRIZ (Cetirizine) is a widely used antihistamine that provides relief from allergy symptoms such as sneezing, itching, watery eyes, and runny nose with a lower incidence of sedation compared to first-generation antihistamines.",
+    "who_should_take": "Individuals suffering from seasonal or perennial allergic rhinitis or chronic skin allergies like hives.",
+    "who_should_not_take": "Patients with end-stage renal disease, those allergic to piperazine derivatives, and infants under 6 months of age without specialist advice.",
+    "food_interactions": [
+      "Can be taken with or without food",
+      "Grapefruit juice may slightly delay absorption"
+    ],
+    "alcohol_warning": "Consumption of alcohol while taking this medication can increase the risk of drowsiness and impaired mental alertness.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next dose, skip the missed dose and continue with your regular schedule. Do not double the dose."
+  },
+  {
+    "id": "cheston-cold-combination-tablet",
+    "category": "Cough and Cold Preparations",
+    "drug_name": "Cheston Cold (Cetirizine 5mg + Paracetamol 325mg + Phenylephrine 5mg)",
+    "brand_names_india": [
+      "Cheston Cold",
+      "Wikoryl",
+      "Solvin Cold",
+      "Alex Cold",
+      "Febrex Plus"
+    ],
+    "drug_class": "Combination of Antihistamine, Analgesic/Antipyretic, and Nasal Decongestant",
+    "mechanism_of_action": "Cetirizine is an H1-receptor antagonist that blocks histamine. Paracetamol inhibits prostaglandin synthesis in the central nervous system to reduce pain and fever. Phenylephrine is an alpha-1 adrenergic agonist that causes vasoconstriction in the nasal mucosa to reduce congestion.",
+    "uses": [
+      "Common cold symptoms",
+      "Allergic rhinitis",
+      "Nasal congestion",
+      "Fever and body ache",
+      "Sneezing and runny nose",
+      "Watery eyes"
+    ],
+    "dosage_common": "Usually one tablet twice daily or as directed by a physician. Not to exceed 4 grams of Paracetamol in 24 hours.",
+    "side_effects_common": [
+      "Drowsiness",
+      "Nausea",
+      "Dry mouth",
+      "Dizziness",
+      "Fatigue",
+      "Headache"
+    ],
+    "side_effects_serious": [
+      "Severe allergic reactions (angioedema)",
+      "Hepatotoxicity (liver damage)",
+      "Severe skin reactions (Stevens-Johnson syndrome)",
+      "Palpitations",
+      "Difficulty in urinating"
+    ],
+    "overdose_effects": "Overdose can lead to severe liver damage due to Paracetamol, extreme restlessness or high blood pressure due to Phenylephrine, and severe sedation due to Cetirizine.",
+    "contraindications": [
+      "Hypersensitivity to any component",
+      "Severe hypertension",
+      "Severe coronary artery disease",
+      "Patients taking MAO inhibitors",
+      "Severe hepatic impairment"
+    ],
+    "drug_interactions": [
+      "Monoamine oxidase inhibitors (MAOIs)",
+      "Alcohol",
+      "Warfarin",
+      "Other CNS depressants",
+      "Other Paracetamol-containing medicines"
+    ],
+    "pregnancy_safety": "Category C: Use only if clearly needed and under strict medical supervision. Consult a doctor before use.",
+    "kidney_liver_warning": "Use with extreme caution in patients with liver or kidney disease; dosage adjustment may be necessary to avoid toxicity.",
+    "how_it_works_in_body": "The combination provides multi-symptom relief: Cetirizine blocks allergy triggers; Paracetamol acts on the brain's heat-regulating center and blocks pain signals; Phenylephrine shrinks swollen blood vessels in the nasal passages.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "6 to 8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Cheston Cold is a widely used combination medicine in India for relieving symptoms of the common cold, allergies, and fever.",
+    "who_should_take": "Individuals suffering from a combination of nasal congestion, sneezing, and fever or body ache associated with the cold or flu.",
+    "who_should_not_take": "People with chronic liver disease, severe heart conditions, uncontrolled high blood pressure, or known allergies to antihistamines.",
+    "food_interactions": [
+      "Can be taken with or without food",
+      "Avoid excessive caffeine intake",
+      "Avoid alcohol"
+    ],
+    "alcohol_warning": "Avoid alcohol consumption as it significantly increases the risk of liver damage and enhances the sedative effect of the medicine.",
+    "missed_dose": "Take it as soon as you remember. If it is close to the time for the next dose, skip the missed dose. Do not take a double dose."
+  },
+  {
+    "id": "ciplactin-4-001",
+    "category": "Antihistamines",
+    "drug_name": "Ciplactin 4mg Tablet",
+    "brand_names_india": [
+      "Ciplactin",
+      "Cypon",
+      "Practin",
+      "Apetamin",
+      "Peritol"
+    ],
+    "drug_class": "First-generation Antihistamine and Serotonin Antagonist",
+    "mechanism_of_action": "It acts as a competitive antagonist of histamine H1-receptors and serotonin receptors. By blocking H1 receptors, it reduces allergic reactions; by blocking serotonin receptors in the hypothalamus, it helps stimulate the appetite center.",
+    "uses": [
+      "Allergic rhinitis",
+      "Urticaria",
+      "Pruritus (itching)",
+      "Appetite stimulation",
+      "Allergic conjunctivitis"
+    ],
+    "dosage_common": "Adults: 4 mg three times a day, adjusted based on response. Children (7-14 years): 4 mg two to three times a day. Maximum adult dose is 32 mg per day.",
+    "side_effects_common": [
+      "Drowsiness",
+      "Sedation",
+      "Dry mouth",
+      "Dizziness",
+      "Blurred vision",
+      "Weight gain"
+    ],
+    "side_effects_serious": [
+      "Confusion",
+      "Hallucinations",
+      "Seizures",
+      "Difficulty urinating",
+      "Tachycardia (fast heartbeat)"
+    ],
+    "overdose_effects": "Overdose may lead to CNS depression followed by stimulation, dry mouth, fixed dilated pupils, flushing, and gastrointestinal symptoms. In severe cases, it can cause respiratory failure.",
+    "contraindications": [
+      "Narrow-angle glaucoma",
+      "Stenosing peptic ulcer",
+      "Symptomatic prostatic hypertrophy",
+      "Bladder neck obstruction",
+      "Concomitant MAO inhibitor therapy",
+      "Newborns or premature infants"
+    ],
+    "drug_interactions": [
+      "MAO Inhibitors (prolongs anticholinergic effects)",
+      "Alcohol (increases CNS depression)",
+      "CNS depressants",
+      "Anticholinergic drugs"
+    ],
+    "pregnancy_safety": "Category B: Animal studies have not shown risk to the fetus, but there are no adequate and well-controlled studies in pregnant women. Use only if clearly needed.",
+    "kidney_liver_warning": "Use with caution in patients with hepatic impairment or renal failure; dosage adjustments may be necessary due to altered drug metabolism.",
+    "how_it_works_in_body": "The drug is well absorbed after oral administration. It works by competing with free histamine for binding at H1-receptor sites on effector cells. Its appetite-stimulating properties are attributed to its activity as a serotonin antagonist in the hypothalamus, which regulates hunger.",
+    "onset_of_action": "15 to 60 minutes",
+    "duration_of_effect": "4 to 6 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule G)",
+    "quick_summary": "Ciplactin is a versatile antihistamine primarily used for treating allergies and as an appetite stimulant for those struggling with weight gain.",
+    "who_should_take": "Individuals experiencing allergic reactions such as hay fever or itching, and patients requiring medical assistance with appetite stimulation.",
+    "who_should_not_take": "Elderly patients with dementia, individuals with glaucoma, prostate enlargement, or those taking MAO inhibitors within the last 14 days.",
+    "food_interactions": [
+      "Can be taken with or without food. Taking it with food may reduce stomach upset."
+    ],
+    "alcohol_warning": "Strictly avoid alcohol as it significantly increases the sedative effects and risk of impaired motor functions.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next dose, skip the missed dose. Do not take a double dose to catch up."
+  },
+  {
+    "id": "clopivas-75-clopidogrel-india",
+    "category": "Antiplatelet",
+    "drug_name": "CLOPIVAS 75 (Clopidogrel 75mg)",
+    "brand_names_india": [
+      "CLOPIVAS 75",
+      "Plavix",
+      "Deplatt",
+      "Clopilet",
+      "Clopitab",
+      "Preva"
+    ],
+    "drug_class": "Thienopyridine P2Y12 Inhibitor",
+    "mechanism_of_action": "Clopidogrel is a prodrug that requires metabolism to its active form, which then irreversibly inhibits the P2Y12 subtype of ADP receptors on the platelet surface, preventing subsequent activation of the GPIIb/IIIa receptor complex and platelet aggregation.",
+    "uses": [
+      "Prevention of myocardial infarction (Heart Attack)",
+      "Prevention of ischemic stroke",
+      "Management of acute coronary syndrome",
+      "Post-stent placement in coronary arteries",
+      "Peripheral arterial disease"
+    ],
+    "dosage_common": "75 mg once daily, taken orally with or without food.",
+    "side_effects_common": [
+      "Diarrhea",
+      "Abdominal pain",
+      "Indigestion",
+      "Bruising",
+      "Nosebleeds"
+    ],
+    "side_effects_serious": [
+      "Severe internal bleeding",
+      "Thrombotic Thrombocytopenic Purpura (TTP)",
+      "Gastrointestinal hemorrhage",
+      "Intracranial hemorrhage",
+      "Neutropenia"
+    ],
+    "overdose_effects": "Overdose may lead to prolonged bleeding time and subsequent bleeding complications. There is no known antidote; platelet transfusion may reverse effects if immediate action is required.",
+    "contraindications": [
+      "Hypersensitivity to Clopidogrel",
+      "Active pathological bleeding (e.g., peptic ulcer)",
+      "Intracranial hemorrhage",
+      "Severe liver impairment"
+    ],
+    "drug_interactions": [
+      "Omeprazole",
+      "Esomeprazole",
+      "Warfarin",
+      "NSAIDs (like Ibuprofen/Naproxen)",
+      "Fluoxetine",
+      "Ketoconazole"
+    ],
+    "pregnancy_safety": "Category B: Generally considered safe as animal studies show no fetal harm, but should be used only if clearly needed under a doctor's supervision.",
+    "kidney_liver_warning": "Use with caution in patients with moderate to severe renal or hepatic impairment due to increased risk of bleeding complications.",
+    "how_it_works_in_body": "After oral administration, it is rapidly absorbed and metabolized by the liver (primarily via CYP2C19). The active metabolite binds permanently to platelet receptors for the remainder of the platelet's lifespan (7-10 days), preventing them from sticking together to form clots.",
+    "onset_of_action": "2 hours for initial effect; 3 to 7 days for steady-state platelet inhibition.",
+    "duration_of_effect": "7 to 10 days (life of the platelet).",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved / Schedule H Drug",
+    "quick_summary": "CLOPIVAS 75 is a blood thinner (antiplatelet) used to reduce the risk of heart attacks and strokes in patients with heart disease or recent vascular procedures.",
+    "who_should_take": "Individuals with a history of heart attack, stroke, or those who have recently undergone heart stent procedures to prevent future thrombotic events.",
+    "who_should_not_take": "Patients with active ulcers, those scheduled for surgery within 5-7 days, or those with known bleeding disorders.",
+    "food_interactions": [
+      "Avoid Grapefruit juice as it may inhibit the enzyme required to activate the drug."
+    ],
+    "alcohol_warning": "Limit alcohol consumption as it can increase the risk of gastrointestinal bleeding while on this medication.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next dose, skip the missed one. Do not take two doses at once."
+  },
+  {
+    "id": "COMB-TAB-400325",
+    "category": "Analgesic and Antipyretic",
+    "drug_name": "Combiflam Tablet (Ibuprofen 400mg + Paracetamol 325mg)",
+    "brand_names_india": [
+      "Combiflam",
+      "Flexon",
+      "Ibugesic Plus",
+      "Zupar",
+      "Brufamol"
+    ],
+    "drug_class": "NSAID (Non-steroidal anti-inflammatory drug) and Analgesic combination",
+    "mechanism_of_action": "Ibuprofen acts by inhibiting cyclooxygenase (COX) enzymes to reduce the synthesis of prostaglandins that cause pain and inflammation; Paracetamol acts on the central nervous system to increase the pain threshold and regulate body temperature via the hypothalamus.",
+    "uses": [
+      "Headache",
+      "Muscle pain",
+      "Menstrual cramps",
+      "Dental pain",
+      "Fever",
+      "Joint pain/Arthritis"
+    ],
+    "dosage_common": "Usually one tablet every 4 to 6 hours as needed, not exceeding 3 tablets in 24 hours, preferably taken after meals.",
+    "side_effects_common": [
+      "Nausea",
+      "Vomiting",
+      "Heartburn",
+      "Stomach pain",
+      "Diarrhea",
+      "Dizziness"
+    ],
+    "side_effects_serious": [
+      "Gastrointestinal bleeding",
+      "Stevens-Johnson Syndrome",
+      "Liver dysfunction",
+      "Acute kidney injury",
+      "Anaphylactic reaction"
+    ],
+    "overdose_effects": "Can lead to severe liver damage (hepatotoxicity), renal failure, gastrointestinal hemorrhage, metabolic acidosis, and in extreme cases, coma.",
+    "contraindications": [
+      "Active peptic ulcers",
+      "History of NSAID-induced asthma",
+      "Severe heart failure",
+      "Severe liver or kidney disease",
+      "Third trimester of pregnancy"
+    ],
+    "drug_interactions": [
+      "Warfarin",
+      "Methotrexate",
+      "Lithium",
+      "Aspirin",
+      "Antihypertensives",
+      "Corticosteroids"
+    ],
+    "pregnancy_safety": "Category D - Not recommended, especially in the third trimester as it may cause premature closure of the fetal ductus arteriosus.",
+    "kidney_liver_warning": "Use with extreme caution; dose reduction may be necessary. Prolonged use increases the risk of analgesic nephropathy and hepatotoxicity.",
+    "how_it_works_in_body": "The medicine combines the peripheral anti-inflammatory action of Ibuprofen with the central analgesic and antipyretic action of Paracetamol, providing synergistic relief for both pain and fever.",
+    "onset_of_action": "30 to 60 minutes",
+    "duration_of_effect": "4 to 8 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Combiflam is a widely used combination medicine for treating mild to moderate pain and reducing fever, belonging to the NSAID class.",
+    "who_should_take": "Adults and adolescents over 12 years of age suffering from acute pain, inflammatory conditions, or high fever.",
+    "who_should_not_take": "Individuals with a history of stomach ulcers, those allergic to aspirin or other NSAIDs, and patients with severe organ failure.",
+    "food_interactions": [
+      "Should be taken with food or milk to minimize gastric irritation."
+    ],
+    "alcohol_warning": "Avoid alcohol as it significantly increases the risk of stomach bleeding and liver toxicity.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for the next scheduled dose, skip the missed dose. Do not double the dose."
+  },
+  {
+    "id": "cresar-ct-40-12-5",
+    "category": "Antihypertensive",
+    "drug_name": "Cresar CT (Telmisartan 40mg + Chlorthalidone 12.5mg)",
+    "brand_names_india": [
+      "Cresar CT",
+      "Telvas CT",
+      "Telma CT",
+      "Tazloc CT",
+      "Inditel CH",
+      "Telmikind CT"
+    ],
+    "drug_class": "Angiotensin II Receptor Blocker (ARB) and Thiazide-like Diuretic Combination",
+    "mechanism_of_action": "Telmisartan is an angiotensin II receptor blocker (ARB) that prevents vasoconstriction by blocking AT1 receptors. Chlorthalidone is a long-acting diuretic that inhibits sodium and chloride reabsorption in the distal convoluted tubule, leading to increased excretion of water and salt.",
+    "uses": [
+      "Management of Hypertension (High Blood Pressure)",
+      "Reduction of risk of cardiovascular events in patients with hypertension"
+    ],
+    "dosage_common": "Usually one tablet once daily, preferably in the morning to avoid nocturnal urination, or as prescribed by a physician.",
+    "side_effects_common": [
+      "Dizziness",
+      "Fatigue",
+      "Nausea",
+      "Diarrhea",
+      "Headache",
+      "Upper respiratory tract infection"
+    ],
+    "side_effects_serious": [
+      "Electrolyte imbalance (Hypokalemia)",
+      "Hypotension (Low blood pressure)",
+      "Renal impairment",
+      "Angioedema (swelling of face/throat)",
+      "Hyperuricemia (Increased uric acid levels)"
+    ],
+    "overdose_effects": "Signs include severe hypotension, tachycardia or bradycardia, dizziness, electrolyte depletion, and dehydration.",
+    "contraindications": [
+      "Hypersensitivity to Telmisartan or Chlorthalidone",
+      "Pregnancy",
+      "Severe hepatic impairment",
+      "Biliary obstructive disorders",
+      "Anuria (Severe kidney failure)",
+      "Hypokalemia or Hypercalcemia"
+    ],
+    "drug_interactions": [
+      "Lithium",
+      "Potassium-sparing diuretics",
+      "NSAIDs (Ibuprofen, Naproxen)",
+      "Digoxin",
+      "Other blood pressure medications",
+      "Aliskiren"
+    ],
+    "pregnancy_safety": "Category D. High risk. Use during the second and third trimesters can cause injury and death to the developing fetus. Must be discontinued immediately upon pregnancy detection.",
+    "kidney_liver_warning": "Use with extreme caution in patients with moderate to severe renal or hepatic diseases. Periodic monitoring of serum electrolytes and creatinine is mandatory.",
+    "how_it_works_in_body": "The combination exerts a synergistic effect. Telmisartan relaxes the blood vessels by blocking a hormone that causes them to narrow, while Chlorthalidone reduces the volume of fluid circulating in the blood vessels by increasing urine output. Together, they lower blood pressure more effectively than either drug alone.",
+    "onset_of_action": "1 to 3 hours",
+    "duration_of_effect": "24 hours",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved",
+    "quick_summary": "Cresar CT is a combination medication used to treat hypertension when a single drug is not sufficient, helping to prevent heart attacks, strokes, and kidney failure.",
+    "who_should_take": "Adult patients with primary hypertension whose blood pressure is not adequately controlled on monotherapy.",
+    "who_should_not_take": "Pregnant women, patients with severe liver or kidney failure, and those with a known allergy to sulfonamide-derived drugs.",
+    "food_interactions": [
+      "Can be taken with or without food",
+      "Avoid excessive potassium-rich foods or salt substitutes containing potassium"
+    ],
+    "alcohol_warning": "Alcohol consumption should be avoided as it can enhance the blood pressure lowering effect, potentially causing fainting or severe dizziness.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is almost time for your next dose, skip the missed dose. Never take two doses at once."
+  },
+  {
+    "id": "HIM-CYST-001",
+    "category": "Urology / Herbal Supplements",
+    "drug_name": "Cystone Tablets",
+    "brand_names_india": [
+      "Cystone",
+      "Cystone Forte",
+      "Cystone Syrup"
+    ],
+    "drug_class": "Antiurolithic and Lithotriptic",
+    "mechanism_of_action": "It works by inhibiting the formation of calculogenic substances like oxalic acid and calcium hydroxyproline, and by causing the disintegration of calculi through its lithotriptic action on the mucin binding particles together.",
+    "uses": [
+      "Urolithiasis (Kidney Stones)",
+      "Crystalluria",
+      "Prevention of post-lithotripsy stone recurrence",
+      "Chronic Urinary Tract Infections",
+      "Burning Micturition"
+    ],
+    "dosage_common": "2 tablets twice or thrice daily for 3-6 months for stone removal, or as directed by a physician.",
+    "side_effects_common": [
+      "Mild gastrointestinal upset",
+      "Nausea"
+    ],
+    "side_effects_serious": [
+      "Hypersensitivity reactions",
+      "Acute abdominal pain if large stones cause obstruction"
+    ],
+    "overdose_effects": "No significant toxicity reported; however, excessive ingestion may lead to electrolyte imbalance due to mild diuretic properties.",
+    "contraindications": [
+      "Known hypersensitivity to herbal components",
+      "Severe renal impairment (Acute)",
+      "Large stones causing complete urinary tract obstruction"
+    ],
+    "drug_interactions": [
+      "May enhance the effect of other diuretic medications",
+      "No significant clinical drug interactions reported"
+    ],
+    "pregnancy_safety": "Category: Generally safe; however, it should only be used under medical supervision during pregnancy and lactation.",
+    "kidney_liver_warning": "Beneficial for kidney health; no specific liver warnings. Patients with end-stage renal disease should consult a specialist.",
+    "how_it_works_in_body": "It normalizes urinary pH and prevents the supersaturation of stone-forming salts. It possesses antimicrobial, anti-inflammatory, and spasmolytic properties that help flush out bacteria and reduce pain during stone passage.",
+    "onset_of_action": "Gradual; clinical benefits are typically observed within 2 to 4 weeks of consistent use.",
+    "duration_of_effect": "Approximately 8 to 12 hours.",
+    "prescription_required": false,
+    "ayurvedic_or_allopathic": "Ayurvedic",
+    "india_regulatory_status": "Licensed as an Ayurvedic Proprietary Medicine under the Drugs and Cosmetics Act",
+    "quick_summary": "An Ayurvedic formulation widely used for the management of kidney stones and urinary tract infections by breaking down stones and providing relief from burning urination.",
+    "who_should_take": "Patients with small renal calculi, recurring urinary tract infections, or those prone to crystal formation in urine.",
+    "who_should_not_take": "Patients with extremely large kidney stones requiring surgical intervention or those allergic to its botanical ingredients.",
+    "food_interactions": [
+      "Avoid high-oxalate foods like spinach, beetroots, and excessive chocolate",
+      "Increase water intake for better efficacy"
+    ],
+    "alcohol_warning": "No direct interaction, but alcohol can cause dehydration which may aggravate kidney stone conditions.",
+    "missed_dose": "Take the missed dose as soon as you remember. If it is time for the next dose, skip the missed one. Do not double the dose."
   }
 ]

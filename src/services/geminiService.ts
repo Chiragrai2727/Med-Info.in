@@ -662,7 +662,10 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
       { feature: 'Category', val1: data1.category, val2: data2.category, difference: 'Therapeutic class' },
       { feature: 'Mechanism', val1: data1.mechanism_of_action, val2: data2.mechanism_of_action, difference: 'How they work' },
       { feature: 'Common Uses', val1: Array.isArray(data1.uses) ? data1.uses.join(', ') : data1.uses, val2: Array.isArray(data2.uses) ? data2.uses.join(', ') : data2.uses, difference: 'Medical applications' },
-      { feature: 'Side Effects', val1: data1.side_effects_common.slice(0, 2).join(', '), val2: data2.side_effects_common.slice(0, 2).join(', '), difference: 'Common reactions' },
+      { feature: 'Dosage', val1: data1.dosage_common, val2: data2.dosage_common, difference: 'Typical intake' },
+      { feature: 'Side Effects', val1: data1.side_effects_common.join(', '), val2: data2.side_effects_common.join(', '), difference: 'Common reactions' },
+      { feature: 'Serious Risks', val1: data1.side_effects_serious?.join(', ') || 'N/A', val2: data2.side_effects_serious?.join(', ') || 'N/A', difference: 'Serious side effects' },
+      { feature: 'Contraindications', val1: Array.isArray(data1.contraindications) ? data1.contraindications.join(', ') : data1.contraindications || 'N/A', val2: Array.isArray(data2.contraindications) ? data2.contraindications.join(', ') : data2.contraindications || 'N/A', difference: 'When NOT to take' },
       { feature: 'Safety', val1: data1.pregnancy_safety, val2: data2.pregnancy_safety, difference: 'Pregnancy/Nursing safety' },
     ];
 
@@ -675,7 +678,8 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
       const response = await getAIClient().models.generateContent({
         model: DEFAULT_MODEL,
         contents: `Compare these two medicines: "${med1}" and "${med2}".
-        Provide a side-by-side comparison focusing on Uses, Side Effects, Dosage, and Safety.
+        Provide a side-by-side comparison including Generic Name, Category, Mechanism of Action, Common Uses, Dosage, Side Effects (Common & Serious), Contraindications, and Safety.
+        Focus on providing accurate information based on CDSCO guidelines for India.
         The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.`,
         config: {
           responseMimeType: "application/json",

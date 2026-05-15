@@ -1,2072 +1,2918 @@
 {
-  "metformin_500": [
-    "Metformin 500mg",
-    "Glycomet",
-    "Okamet",
-    "Zomet",
-    "Cetapin",
-    "Riomet"
+  "metformin 500mg": [
+    "metformin_500"
   ],
-  "atorvastatin_10": [
-    "Atorvastatin 10mg",
-    "Atorva",
-    "Lipikind",
-    "Aztor",
-    "Storvas",
-    "Tonact"
+  "glycomet": [
+    "metformin_500",
+    "metformin"
   ],
-  "levothyroxine_50": [
-    "Levothyroxine 50mcg",
-    "Thyronorm",
-    "Eltroxin",
-    "Thyrox",
-    "Lethrox"
+  "okamet": [
+    "metformin_500"
   ],
-  "montelukast_levocetirizine": [
-    "Montelukast + Levocetirizine",
-    "Montair LC",
-    "Montelekast LC",
-    "Telekast L",
-    "Levomac M",
-    "Romilast L"
+  "zomet": [
+    "metformin_500"
   ],
-  "diclofenac_sodium": [
-    "Diclofenac Sodium",
-    "Voveran",
-    "Reactin",
-    "Dicloran",
-    "Diclotal"
+  "cetapin": [
+    "metformin_500",
+    "metformin"
   ],
-  "pantoprazole_domperidone": [
-    "Pantoprazole + Domperidone",
-    "Pantocid DSR",
-    "Pan-D",
-    "Pantop-D",
-    "Pensec DSR"
+  "riomet": [
+    "metformin_500"
   ],
-  "paracetamol_650": [
-    "Paracetamol 650mg",
-    "Dolo 650",
-    "Calpol 650",
-    "Crocin 650",
-    "P-650",
-    "Macfast 650"
-  ],
-  "cetirizine_paracetamol_phenylephrine": [
-    "Cetirizine + Paracetamol + Phenylephrine",
-    "Cheston Cold",
-    "Okacet Cold",
-    "Sinarest",
-    "Wikoryl",
-    "Solvin Cold"
-  ],
-  "azithromycin": [
-    "Azithromycin",
-    "Azithral",
-    "Azee",
-    "Zady"
-  ],
-  "telmisartan": [
-    "Telmisartan",
-    "Telma",
-    "Telmikind",
-    "Telsar"
-  ],
-  "drotaverine_mefenamic_acid": [
-    "Drotaverine + Mefenamic Acid",
-    "Drotin M",
-    "Drotin-M",
-    "Drotikind-M",
-    "Euvarin-M"
-  ],
-  "dicyclomine": [
-    "Dicyclomine",
-    "Spasmonil",
-    "Cyclopam",
-    "Meftal Spas",
-    "Colimex"
-  ],
-  "paracetamol_mefenamic_acid": [
-    "Mefenamic Acid + Paracetamol",
-    "Meftal Forte",
-    "Meftal-P",
-    "Mefkind-P",
-    "Ponstan"
-  ],
-  "levocetirizine_montelukast": [
-    "Levocetirizine + Montelukast",
-    "Montair LC",
-    "Montek LC",
-    "Telekast L",
-    "Levocet M"
-  ],
-  "ofloxacin_ornidazole": [
-    "Ofloxacin + Ornidazole",
-    "O2",
-    "Zenflox-OZ",
-    "Oflox OZ",
-    "Ornof"
-  ],
-  "amoxicillin_clavulanic_acid": [
-    "Amoxicillin + Clavulanic Acid",
-    "Augmentin",
-    "Moxikind-CV",
-    "Clavam",
-    "Advent"
-  ],
-  "aceclofenac_paracetamol_serratiopeptidase": [
-    "Aceclofenac + Paracetamol + Serratiopeptidase",
-    "Zerodol-SP",
-    "Signoflam",
-    "Flozen-AA",
-    "Hifenac-D"
-  ],
-  "imatinib": [
-    "Imatinib",
-    "Gleevec",
-    "Veenat",
-    "Imatib"
-  ],
-  "pantoprazole": [
-    "Pantoprazole",
-    "Pan 40",
-    "Pantocid",
-    "Pantodac"
-  ],
-  "amoxicillin_clavulanic": [
-    "Amoxicillin + Clavulanic Acid",
-    "Augmentin",
-    "Moxikind-CV",
-    "Advent"
-  ],
-  "atorvastatin": [
-    "Atorvastatin",
-    "Lipivas",
-    "Atorva",
-    "Storvas"
-  ],
-  "levocetirizine": [
-    "Levocetirizine",
-    "Levocet",
-    "1-AL",
-    "Teczine"
-  ],
-  "montelukast": [
-    "Montelukast",
-    "Montair",
-    "Telekast",
-    "Romilast"
-  ],
-  "diclofenac": [
-    "Diclofenac",
-    "Voveran",
-    "Reactin",
-    "Diclowin"
-  ],
-  "domperidone": [
-    "Domperidone",
-    "Domstal",
-    "Motinorm",
-    "Vomitop"
-  ],
-  "albendazole": [
-    "Albendazole",
-    "Zentel",
-    "Bandy",
-    "Noworm"
-  ],
-  "ondansetron": [
-    "Ondansetron",
-    "Ondem",
-    "Zofran",
-    "Emset"
-  ],
-  "ivermectin": [
-    "Ivermectin",
-    "Ivermectol",
-    "Vermact",
-    "Ivecop"
-  ],
-  "doxycycline": [
-    "Doxycycline",
-    "Doxicip",
-    "Tetradox",
-    "Minicycline"
-  ],
-  "rabeprazole": [
-    "Rabeprazole",
-    "Rablet",
-    "Rabicip",
-    "Veloz"
-  ],
-  "glimepiride": [
-    "Glimepiride",
-    "Amaryl",
-    "Glimy",
-    "Glimer"
-  ],
-  "ranitidine": [
-    "Ranitidine",
-    "Rantac",
-    "Zinetac",
-    "Aciloc"
-  ],
-  "amlodipine": [
-    "Amlodipine",
-    "Amlokind",
-    "Stamlo",
-    "Amlopres"
-  ],
-  "metformin": [
-    "Metformin",
-    "Glycomet",
-    "Metsmall",
-    "Cetapin"
-  ],
-  "methotrexate": [
-    "Methotrexate",
-    "Folitrax",
-    "Mexate",
-    "Imutrex"
-  ],
-  "oseltamivir": [
-    "Oseltamivir",
-    "Antiflu",
-    "Tamiflu",
-    "Fluvir"
-  ],
-  "bisacodyl": [
-    "Bisacodyl",
-    "Dulcolax",
-    "Gerbisa",
-    "Laxidyl"
-  ],
-  "magnesium_citrate": [
-    "Magnesium Citrate",
-    "Citroma",
-    "Mag-Citrate"
-  ],
-  "ashwagandha": [
-    "Ashwagandha",
-    "Himalaya Ashwagandha",
-    "Dabur Ashwagandha",
-    "Patanjali Ashwagandha"
-  ],
-  "pregabalin": [
-    "Pregabalin",
-    "Lyrica",
-    "Pregalin",
-    "Maxgalin"
-  ],
-  "cetirizine": [
-    "Cetirizine",
-    "Okacet",
-    "Cetzine",
-    "Zyrtec"
-  ],
-  "ibuprofen": [
-    "Ibuprofen",
-    "Brufen",
-    "Ibugesic",
-    "Combiflam (with Paracetamol)"
-  ],
-  "fluconazole": [
-    "Fluconazole",
-    "Forcan",
-    "Syscan",
-    "Zocon"
-  ],
-  "vitamin_d3": [
-    "Vitamin D3 (Cholecalciferol)",
-    "Uprise-D3",
-    "Calcirol",
-    "D3-Must"
-  ],
-  "omega_3": [
-    "Omega-3 Fatty Acids (Fish Oil)",
-    "Seven Seas",
-    "Maxepa",
-    "Sea-Cod"
-  ],
-  "furosemide": [
-    "Furosemide",
-    "Lasix",
-    "Fruselac (with Spironolactone)"
-  ],
-  "rosuvastatin": [
-    "Rosuvastatin",
-    "Rosuvas",
-    "Razel",
-    "Crestor"
-  ],
-  "sitagliptin": [
-    "Sitagliptin",
-    "Januvia",
-    "Istavel",
-    "Zita"
-  ],
-  "amoxicillin_clavulanate": [
-    "Amoxicillin + Clavulanic Acid",
-    "Augmentin",
-    "Moxikind-CV",
-    "Advent"
-  ],
-  "famotidine": [
-    "Famotidine",
-    "Famocid",
-    "Facid",
-    "Famotin"
-  ],
-  "paclitaxel": [
-    "Paclitaxel",
-    "Taxol",
-    "Paclitax",
-    "Cytotax"
-  ],
-  "losartan": [
-    "Losartan",
-    "Losakind",
-    "Repace",
-    "Cosart"
-  ],
-  "cyclosporine": [
-    "Cyclosporine",
-    "Panimun Bioral",
-    "Sandimmun",
-    "Arpimune"
-  ],
-  "acyclovir": [
-    "Acyclovir",
-    "Zovirax",
-    "Herperax",
-    "Acivir"
-  ],
-  "ciprofloxacin": [
-    "Ciprofloxacin",
-    "Cifran",
-    "Ciplox",
-    "Ciprobid"
-  ],
-  "lactulose": [
-    "Lactulose",
-    "Duphalac",
-    "Looz",
-    "Cremaffin Fresh"
-  ],
-  "brahmi": [
-    "Brahmi (Bacopa monnieri)",
-    "Himalaya Brahmi",
-    "Baidyanath Brahmi",
-    "Patanjali Brahmi"
-  ],
-  "gabapentin": [
-    "Gabapentin",
-    "Neurontin",
-    "Gabapin",
-    "Gabaforce"
-  ],
-  "clotrimazole": [
-    "Clotrimazole",
-    "Candid",
-    "Abzorb",
-    "Surfaz"
-  ],
-  "vitamin_b12": [
-    "Vitamin B12 (Methylcobalamin)",
-    "Me-12",
-    "Nurokind",
-    "Methycobal"
-  ],
-  "spironolactone": [
-    "Spironolactone",
-    "Aldactone",
-    "Spiroctan"
-  ],
-  "simvastatin": [
-    "Simvastatin",
-    "Simvotin",
-    "Simcard",
-    "Zocor"
-  ],
-  "loperamide": [
-    "Loperamide",
-    "Imodium",
-    "Lopamide",
-    "Roko"
-  ],
-  "paracetamol": [
-    "Paracetamol (Acetaminophen)",
-    "Dolo 650",
-    "Calpol",
-    "Crocin",
-    "P-650"
-  ],
-  "omeprazole": [
-    "Omeprazole",
-    "Omez",
-    "Omee",
-    "Ocid"
-  ],
-  "triphala": [
-    "Triphala",
-    "Himalaya Triphala",
-    "Dabur Triphala",
-    "Baidyanath Triphala"
-  ],
-  "mefenamic_acid": [
-    "Mefenamic Acid",
-    "Meftal",
-    "Ponstan"
-  ],
-  "dextromethorphan": [
-    "Dextromethorphan",
-    "Benadryl DR",
-    "Alex",
-    "Ascoril D"
-  ],
-  "naproxen": [
-    "Naproxen",
-    "Naprosyn",
-    "Xenobid",
-    "Naxdom"
-  ],
-  "enalapril": [
-    "Enalapril",
-    "Envas",
-    "Nuril",
-    "BQL"
-  ],
-  "metoprolol": [
-    "Metoprolol",
-    "Metolar",
-    "Seloken",
-    "Starpress"
-  ],
-  "pioglitazone": [
-    "Pioglitazone",
-    "Pioz",
-    "Piomed",
-    "Pioglit"
-  ],
-  "gliclazide": [
-    "Gliclazide",
-    "Diamicron",
-    "Glycigon",
-    "Reclimet"
-  ],
-  "levothyroxine": [
-    "Levothyroxine",
-    "Thyronorm",
-    "Eltroxin",
-    "Thyrox"
-  ],
-  "salbutamol_inhaler": [
-    "Salbutamol (Albuterol)",
-    "Asthalin",
-    "Ventorlin",
-    "Salbair"
-  ],
-  "diclofenac_gel": [
-    "Diclofenac Sodium Gel",
-    "Volini",
-    "Omnigel",
-    "Voveran Gel",
-    "Diclowin"
-  ],
-  "calcirol_60k": [
-    "Calcirol 60K",
-    "Calcirol",
-    "D3-Must",
-    "Uprise-D3",
-    "Lumia"
-  ],
-  "candiforce_200": [
-    "Candiforce 200mg",
-    "Candiforce",
-    "Itaspor",
-    "Itracoe",
-    "Canditral"
-  ],
-  "cardace_5": [
-    "Cardace 5mg",
-    "Cardace",
-    "Ramace",
-    "Hopace",
-    "Corace"
-  ],
-  "ceftum_500": [
-    "Ceftum 500mg",
-    "Ceftum",
-    "Cefakind",
-    "Pulmocef",
-    "Oracef"
-  ],
-  "cilacar_10": [
-    "Cilacar 10mg",
-    "Cilacar",
-    "Cilny",
-    "Cilamet",
-    "Nexovas"
-  ],
-  "clopitab_75": [
-    "Clopitab 75mg",
-    "Clopitab",
-    "Clopilet",
-    "Plavix",
-    "Deplatt"
-  ],
-  "creon_25000": [
-    "Creon 25000",
-    "Creon",
-    "Pangrol",
-    "Encreatin",
-    "Agna"
-  ],
-  "crestor_10": [
-    "Crestor 10mg",
-    "Crestor",
-    "Rosuvas",
-    "Razel",
-    "Novostat"
-  ],
-  "cyba_d": [
-    "Cyra D",
-    "Cyra D",
-    "Razo D",
-    "Rabesec D",
-    "Pepo D"
-  ],
-  "a_to_z_woman": [
-    "A TO Z WOMAN",
-    "A TO Z WOMAN"
-  ],
-  "ab_phylline": [
-    "AB PHYLLINE",
-    "AB PHYLLINE"
-  ],
-  "ab_phylline_sr": [
-    "AB PHYLLINE SR",
-    "AB PHYLLINE SR"
-  ],
-  "absolut_woman": [
-    "ABSOLUT WOMAN",
-    "ABSOLUT WOMAN"
-  ],
-  "absolut_3g": [
-    "ABSOLUT 3G",
-    "ABSOLUT 3G"
-  ],
-  "acitrom": [
-    "Acitrom",
-    "Acitrom"
-  ],
-  "actrapid_flexpen": [
-    "ACTRAPID FLEXPEN",
-    "ACTRAPID FLEXPEN"
-  ],
-  "actrapid_hm_penfill": [
-    "ACTRAPID HM PENFILL",
-    "ACTRAPID HM PENFILL"
-  ],
-  "advanced_kojivit_ultra": [
-    "ADVANCED KOJIVIT ULTRA",
-    "ADVANCED KOJIVIT ULTRA"
-  ],
-  "afogatran": [
-    "AFOGATRAN",
-    "AFOGATRAN"
-  ],
-  "afoglip_m": [
-    "AFOGLIP M",
-    "AFOGLIP M"
-  ],
-  "afoglip": [
-    "AFOGLIP",
-    "AFOGLIP"
-  ],
-  "agna_25000": [
-    "AGNA 25000",
-    "AGNA 25000"
-  ],
-  "ajaduo_25_5mg": [
-    "AJADUO 25/5MG",
-    "AJADUO 25/5MG"
-  ],
-  "ajaduo": [
-    "AJADUO",
-    "AJADUO"
-  ],
-  "alfoo": [
-    "ALFOO",
-    "ALFOO"
-  ],
-  "alfusin_d": [
-    "Alfusin D",
-    "Alfusin D"
-  ],
-  "allegra_m": [
-    "ALLEGRA M",
-    "ALLEGRA M"
-  ],
-  "allegra": [
-    "ALLEGRA",
-    "ALLEGRA"
-  ],
-  "alphagan_z": [
-    "ALPHAGAN Z",
-    "ALPHAGAN Z"
-  ],
-  "altraz": [
-    "ALTRAZ",
-    "ALTRAZ"
-  ],
-  "amantrel": [
-    "AMANTREL",
-    "AMANTREL"
-  ],
-  "amaryl": [
-    "AMARYL",
-    "AMARYL"
-  ],
-  "amaryl_mv": [
-    "Amaryl Mv",
-    "Amaryl Mv"
-  ],
-  "amaryl_m": [
-    "AMARYL M",
-    "AMARYL M"
-  ],
-  "amaryl_m_forte": [
-    "AMARYL M FORTE",
-    "AMARYL M FORTE"
-  ],
-  "ambrican": [
-    "AMBRICAN",
-    "AMBRICAN"
-  ],
-  "amlodac": [
-    "Amlodac",
-    "Amlodac"
-  ],
-  "amlokind_at": [
-    "AMLOKIND AT",
-    "AMLOKIND AT"
-  ],
-  "amlong": [
-    "AMLONG",
-    "AMLONG"
-  ],
-  "amlopin_m": [
-    "AMLOPIN M",
-    "AMLOPIN M"
-  ],
-  "amlopin": [
-    "Amlopin",
-    "Amlopin"
-  ],
-  "amlopres_at": [
-    "Amlopres At",
-    "Amlopres At"
-  ],
-  "androanagen": [
-    "ANDROANAGEN",
-    "ANDROANAGEN"
-  ],
-  "anfoe": [
-    "ANFOE",
-    "ANFOE"
-  ],
-  "angispan_tr_2_5mg_bottle_of_25_capsules": [
-    "ANGISPAN TR 2.5MG BOTTLE OF 25 CAPSULES",
-    "ANGISPAN TR 2.5MG BOTTLE OF 25 CAPSULES"
-  ],
-  "antoxid_hc": [
-    "ANTOXID HC",
-    "ANTOXID HC"
-  ],
-  "antoxipan": [
-    "Antoxipan",
-    "Antoxipan"
-  ],
-  "apcod_obis": [
-    "APCOD OBIS",
-    "APCOD OBIS"
-  ],
-  "apidra_solostar": [
-    "Apidra Solostar",
-    "Apidra Solostar"
-  ],
-  "apidra": [
-    "Apidra",
-    "Apidra"
-  ],
-  "aplazar": [
-    "Aplazar",
-    "Aplazar"
-  ],
-  "apresol": [
-    "APRESOL",
-    "APRESOL"
-  ],
-  "aprezo": [
-    "Aprezo",
-    "Aprezo"
-  ],
-  "arg_9": [
-    "ARG 9",
-    "ARG 9"
-  ],
-  "argipreg_sf_sach_6_5gm": [
-    "Argipreg Sf Sach 6.5gm",
-    "Argipreg Sf Sach 6.5gm"
-  ],
-  "arimidex": [
-    "ARIMIDEX",
-    "ARIMIDEX"
-  ],
-  "arkamin": [
-    "Arkamin",
-    "Arkamin"
-  ],
-  "arvast": [
-    "Arvast",
-    "Arvast"
-  ],
-  "asomex": [
-    "Asomex",
-    "Asomex"
-  ],
-  "asomex_2_5mg": [
-    "Asomex 2.5mg",
-    "Asomex 2.5mg"
-  ],
-  "asthalin": [
-    "ASTHALIN",
-    "ASTHALIN"
-  ],
-  "atocor": [
-    "ATOCOR",
-    "ATOCOR"
-  ],
-  "atorfit_cv": [
-    "ATORFIT CV",
-    "ATORFIT CV"
-  ],
-  "atorlip_f": [
-    "Atorlip F",
-    "Atorlip F"
-  ],
-  "atorlip": [
-    "Atorlip",
-    "Atorlip"
+  "atorvastatin 10mg": [
+    "atorvastatin_10"
   ],
   "atorva": [
-    "ATORVA",
-    "ATORVA"
+    "atorvastatin_10",
+    "atorvastatin",
+    "atorva"
   ],
-  "augmentin_duo": [
-    "Augmentin Duo",
-    "Augmentin Duo"
-  ],
-  "autrin": [
-    "Autrin",
-    "Autrin"
-  ],
-  "axcer": [
-    "AXCER",
-    "AXCER"
-  ],
-  "azopt": [
-    "AZOPT",
-    "AZOPT"
-  ],
-  "azoran": [
-    "AZORAN",
-    "AZORAN"
-  ],
-  "aztolet": [
-    "AZTOLET",
-    "AZTOLET"
+  "lipikind": [
+    "atorvastatin_10"
   ],
   "aztor": [
-    "Aztor",
-    "Aztor"
+    "atorvastatin_10",
+    "aztor"
   ],
-  "azulix_mf": [
-    "AZULIX MF",
-    "AZULIX MF"
+  "storvas": [
+    "atorvastatin_10",
+    "atorvastatin"
   ],
-  "azulix_mf_forte": [
-    "AZULIX MF FORTE",
-    "AZULIX MF FORTE"
+  "tonact": [
+    "atorvastatin_10"
   ],
-  "ebernet-1-tube-of-30gm-cream": [
-    "EBERNET 1% TUBE OF 30GM CREAM"
+  "levothyroxine 50mcg": [
+    "levothyroxine_50"
   ],
-  "ebernet-1-tube-of-60gm-cream": [
-    "EBERNET 1% TUBE OF 60GM CREAM"
+  "thyronorm": [
+    "levothyroxine_50",
+    "levothyroxine"
   ],
-  "ecoflora-bottle-of-30-capsules": [
-    "Ecoflora Bottle Of 30 Capsules"
+  "eltroxin": [
+    "levothyroxine_50",
+    "levothyroxine"
   ],
-  "econorm-250mg-strip-of-5-capsules": [
-    "ECONORM 250MG STRIP OF 5 CAPSULES"
+  "thyrox": [
+    "levothyroxine_50",
+    "levothyroxine"
   ],
-  "ecosprin-150mg-strip-of-14-tablets": [
-    "Ecosprin 150mg Strip Of 14 Tablets"
+  "lethrox": [
+    "levothyroxine_50"
   ],
-  "ecosprin-av-150-20mg-strip-of-10-capsules": [
-    "ECOSPRIN AV 150/20MG STRIP OF 10 CAPSULES"
+  "montelukast + levocetirizine": [
+    "montelukast_levocetirizine"
   ],
-  "ecosprin-av-75-20mg-strip-of-10-capsules": [
-    "ECOSPRIN AV 75/20MG STRIP OF 10 CAPSULES"
+  "montair lc": [
+    "montelukast_levocetirizine",
+    "levocetirizine_montelukast"
   ],
-  "ecosprin-gold-20mg-strip-of-15-capsules": [
-    "Ecosprin Gold 20mg Strip Of 15 Capsules"
+  "montelekast lc": [
+    "montelukast_levocetirizine"
   ],
-  "ecosprin-75mg-strip-of-14-tablets": [
-    "ECOSPRIN 75MG STRIP OF 14 TABLETS"
+  "telekast l": [
+    "montelukast_levocetirizine",
+    "levocetirizine_montelukast"
   ],
-  "efnocar-40mg-strip-of-10-tablets": [
-    "Efnocar 40mg Strip Of 10 Tablets"
+  "levomac m": [
+    "montelukast_levocetirizine"
   ],
-  "eglucent-mix-25-cartridges-3ml": [
-    "Eglucent Mix 25 Cartridges 3ml"
+  "romilast l": [
+    "montelukast_levocetirizine"
   ],
-  "eglucent-rapid-100iu-cartridge-3ml": [
-    "Eglucent Rapid 100iu Cartridge 3ml"
+  "diclofenac sodium": [
+    "diclofenac_sodium"
   ],
-  "eido-fe-strip-of-10-capsules": [
-    "EIDO FE STRIP OF 10 CAPSULES"
+  "voveran": [
+    "diclofenac_sodium",
+    "diclofenac"
   ],
-  "eltroxin-100mcg-bottle-of-100-tablets": [
-    "ELTROXIN 100MCG BOTTLE OF 100 TABLETS"
+  "reactin": [
+    "diclofenac_sodium",
+    "diclofenac"
   ],
-  "eltroxin-25mcg-bottle-of-60-tablets": [
-    "ELTROXIN 25MCG BOTTLE OF 60 TABLETS"
+  "dicloran": [
+    "diclofenac_sodium"
   ],
-  "embeta-xr-25mg-strip-of-30-tablets": [
-    "Embeta Xr 25mg Strip Of 30 Tablets"
+  "diclotal": [
+    "diclofenac_sodium"
   ],
-  "emolene-tube-of-100gm-cream": [
-    "EMOLENE TUBE OF 100GM CREAM"
+  "pantoprazole + domperidone": [
+    "pantoprazole_domperidone"
   ],
-  "encicarb-500mg-vial-of-10ml-injection": [
-    "ENCICARB 500MG VIAL OF 10ML INJECTION"
+  "pantocid dsr": [
+    "pantoprazole_domperidone"
   ],
-  "encorate-chrono-300mg-strip-of-10-tablets": [
-    "ENCORATE CHRONO 300MG STRIP OF 10 TABLETS"
+  "pan-d": [
+    "pantoprazole_domperidone"
   ],
-  "endeavours-furic-40mg-strip-of-15-tablets": [
-    "ENDEAVOURS FURIC 40MG STRIP OF 15 TABLETS"
+  "pantop-d": [
+    "pantoprazole_domperidone"
   ],
-  "endobloc-5mg-strip-of-10-tablets": [
-    "ENDOBLOC 5MG STRIP OF 10 TABLETS"
+  "pensec dsr": [
+    "pantoprazole_domperidone"
   ],
-  "entaliv-0-5mg-bottle-of-30-tablets": [
-    "Entaliv 0.5mg Bottle Of 30 Tablets"
+  "paracetamol 650mg": [
+    "paracetamol_650"
   ],
-  "envas-5mg-strip-of-15-tablets": [
-    "ENVAS 5MG STRIP OF 15 TABLETS"
+  "dolo 650": [
+    "paracetamol_650",
+    "paracetamol"
   ],
-  "enzar-hs-strip-of-10-capsules": [
-    "Enzar Hs Strip Of 10 Capsules"
+  "calpol 650": [
+    "paracetamol_650"
   ],
-  "enzoflam-strip-of-10-tablets": [
-    "ENZOFLAM STRIP OF 10 TABLETS"
+  "crocin 650": [
+    "paracetamol_650"
   ],
-  "epilive-500mg-strip-of-15-tablets": [
-    "EPILIVE 500MG STRIP OF 15 TABLETS"
+  "p-650": [
+    "paracetamol_650",
+    "paracetamol"
   ],
-  "epilyno-bottle-of-50ml-lotion": [
-    "EPILYNO BOTTLE OF 50ML LOTION"
+  "macfast 650": [
+    "paracetamol_650"
   ],
-  "eptus-25mg-strip-of-10-tablets": [
-    "EPTUS 25MG STRIP OF 10 TABLETS"
+  "cetirizine + paracetamol + phenylephrine": [
+    "cetirizine_paracetamol_phenylephrine"
   ],
-  "eritel-ch-80mg-strip-of-15-tablets": [
-    "Eritel Ch 80mg Strip Of 15 Tablets"
+  "cheston cold": [
+    "cetirizine_paracetamol_phenylephrine",
+    "cheston-cold-combination-tablet"
   ],
-  "eritel-am-40-strip-of-15-tablets": [
-    "ERITEL AM 40 STRIP OF 15 TABLETS"
+  "okacet cold": [
+    "cetirizine_paracetamol_phenylephrine",
+    "ALERID-D-CIPLA-001"
   ],
-  "esiflo-250mcg-box-of-30-transcaps": [
-    "ESIFLO 250MCG BOX OF 30 TRANSCAPS"
+  "sinarest": [
+    "cetirizine_paracetamol_phenylephrine"
   ],
-  "eslo-2-5mg-strip-of-15-tablets": [
-    "ESLO 2.5MG STRIP OF 15 TABLETS"
+  "wikoryl": [
+    "cetirizine_paracetamol_phenylephrine",
+    "cheston-cold-combination-tablet"
   ],
-  "esoga-rd-strip-of-10-capsules": [
-    "ESOGA RD STRIP OF 10 CAPSULES"
+  "solvin cold": [
+    "cetirizine_paracetamol_phenylephrine",
+    "cheston-cold-combination-tablet"
   ],
-  "esogress-d-40mg-strip-of-10-capsules": [
-    "ESOGRESS D 40MG STRIP OF 10 CAPSULES"
+  "azithromycin": [
+    "azithromycin"
   ],
-  "estrabet-2mg-strip-of-28-tablets": [
-    "Estrabet 2mg Strip Of 28 Tablets"
+  "azithral": [
+    "azithromycin"
   ],
-  "eternex-t-20mg-strip-of-10-tablets": [
-    "ETERNEX T 20MG STRIP OF 10 TABLETS"
+  "azee": [
+    "azithromycin"
   ],
-  "etoshine-90mg-strip-of-10-tablets": [
-    "ETOSHINE 90MG STRIP OF 10 TABLETS"
+  "zithrox": [
+    "azithromycin"
   ],
-  "eubri-eye-drops-10ml": [
-    "EUBRI EYE DROPS 10ML"
+  "azax": [
+    "azithromycin"
   ],
-  "eucalmin-strip-of-10-softgel-capsules": [
-    "EUCALMIN STRIP OF 10 SOFTGEL CAPSULES"
+  "atm": [
+    "azithromycin"
   ],
-  "eurepa-2mg-strip-of-15-tablets": [
-    "EUREPA 2MG STRIP OF 15 TABLETS"
+  "telmisartan": [
+    "telmisartan"
   ],
-  "evaparin-40mg-pre-filled-syringe-of-0-4ml-injection": [
-    "EVAPARIN 40MG PRE FILLED SYRINGE OF 0.4ML INJECTION"
+  "telma": [
+    "telmisartan"
   ],
-  "evaserve-strip-of-10-tablets": [
-    "EVASERVE STRIP OF 10 TABLETS"
+  "telmikind": [
+    "telmisartan"
   ],
-  "exhep-40mg-pre-filled-syringe-of-0-4ml-injection": [
-    "EXHEP 40MG PRE FILLED SYRINGE OF 0.4ML INJECTION"
+  "tazloc": [
+    "telmisartan"
   ],
-  "ezedoc-10mg-strip-of-10-tablets": [
-    "EZEDOC 10MG STRIP OF 10 TABLETS"
+  "cresar": [
+    "telmisartan"
   ],
-  "ezorb-forte-strip-of-15-tablets": [
-    "Ezorb Forte Strip Of 15 Tablets"
+  "tsart": [
+    "telmisartan"
   ],
-  "eraflex-strip-of-10-tablets": [
-    "Eraflex Strip Of 10 Tablets"
+  "drotaverine + mefenamic acid": [
+    "drotaverine_mefenamic_acid"
   ],
-  "eritel-ch-40mg-strip-of-15-tablets": [
-    "Eritel Ch 40mg Strip Of 15 Tablets"
+  "drotin m": [
+    "drotaverine_mefenamic_acid"
   ],
-  "eritel-h-40mg-15-s-strip-of-15-tablets": [
-    "ERITEL H 40MG 15'S STRIP OF 15 TABLETS"
+  "drotin-m": [
+    "drotaverine_mefenamic_acid"
   ],
-  "esiflo-250mcg-packet-of-120md-transhaler": [
-    "ESIFLO 250MCG PACKET OF 120MD TRANSHALER"
+  "drotikind-m": [
+    "drotaverine_mefenamic_acid"
   ],
-  "eslo-5mg-strip-of-15-tablets": [
-    "ESLO 5MG STRIP OF 15 TABLETS"
+  "euvarin-m": [
+    "drotaverine_mefenamic_acid"
   ],
-  "etf-pee-strip-of-10-tablets": [
-    "ETF PEE STRIP OF 10 TABLETS"
+  "dicyclomine": [
+    "dicyclomine"
   ],
-  "efacaine-500-50-10-mg-suspension-200-ml": [
-    "EFACAINE 500/50/10 MG SUSPENSION 200 ML"
+  "spasmonil": [
+    "dicyclomine"
   ],
-  "efacid-suspension": [
-    "EFACID SUSPENSION"
+  "cyclopam": [
+    "dicyclomine"
   ],
-  "efaderm-tube-of-60gm-cream": [
-    "EFADERM TUBE OF 60GM CREAM"
+  "meftal spas": [
+    "dicyclomine"
   ],
-  "efalife-cap": [
-    "Efalife Cap"
+  "colimex": [
+    "dicyclomine"
   ],
-  "efamat-bottle-of-30-tablets": [
-    "EFAMAT BOTTLE OF 30 TABLETS"
+  "mefenamic acid + paracetamol": [
+    "paracetamol_mefenamic_acid"
   ],
-  "efaprim-1gm-softgel": [
-    "Efaprim 1gm Softgel"
+  "meftal forte": [
+    "paracetamol_mefenamic_acid"
   ],
-  "efaprim-500mg-softgel": [
-    "Efaprim 500mg Softgel"
+  "meftal-p": [
+    "paracetamol_mefenamic_acid"
   ],
-  "efarelle-cap": [
-    "Efarelle Cap"
+  "mefkind-p": [
+    "paracetamol_mefenamic_acid"
   ],
-  "efaruth-plus-capsule-10": [
-    "EFARUTH PLUS CAPSULE 10"
+  "ponstan": [
+    "paracetamol_mefenamic_acid",
+    "mefenamic_acid"
   ],
-  "efastenol-cap": [
-    "Efastenol Cap"
+  "levocetirizine + montelukast": [
+    "levocetirizine_montelukast"
   ],
-  "efat-cap": [
-    "Efat Cap"
+  "montek lc": [
+    "levocetirizine_montelukast"
   ],
-  "efatop-c-lotion-75ml": [
-    "Efatop C Lotion 75ml"
+  "levocet m": [
+    "levocetirizine_montelukast"
   ],
-  "efatum-1-5gm-inj": [
-    "Efatum 1.5gm Inj"
+  "ofloxacin + ornidazole": [
+    "ofloxacin_ornidazole"
   ],
-  "efavir-200mg-capsule": [
-    "EFAVIR 200MG CAPSULE"
+  "o2": [
+    "ofloxacin_ornidazole"
   ],
-  "efavir-600mg-bottle-of-30-tablets": [
-    "EFAVIR 600MG BOTTLE OF 30 TABLETS"
+  "zenflox-oz": [
+    "ofloxacin_ornidazole"
   ],
-  "efavit-l-syrup-200ml": [
-    "EFAVIT L SYRUP 200ML"
+  "oflox oz": [
+    "ofloxacin_ornidazole"
   ],
-  "efavir-100-mg-capsule-30": [
-    "Efavir 100 Mg Capsule 30"
+  "ornof": [
+    "ofloxacin_ornidazole"
   ],
-  "efavir-300-mg-tablet-30": [
-    "Efavir 300 Mg Tablet 30"
+  "amoxicillin + clavulanic acid": [
+    "amoxicillin_clavulanic_acid",
+    "amoxicillin_clavulanic",
+    "amoxicillin_clavulanate"
   ],
-  "efavir-200-mg-tablet-60": [
-    "Efavir 200 Mg Tablet 60"
+  "augmentin": [
+    "amoxicillin_clavulanic_acid",
+    "amoxicillin_clavulanic",
+    "amoxicillin_clavulanate"
   ],
-  "efcan-150-mg-tablet-1": [
-    "EFCAN 150 MG TABLET 1"
+  "moxikind-cv": [
+    "amoxicillin_clavulanic_acid",
+    "amoxicillin_clavulanic",
+    "amoxicillin_clavulanate"
   ],
-  "efcinol-plus-cream-10gm": [
-    "Efcinol Plus Cream 10gm"
+  "clavam": [
+    "amoxicillin_clavulanic_acid"
   ],
-  "efcoba-500mg-inj-1ml": [
-    "Efcoba 500mg Inj 1ml"
+  "advent": [
+    "amoxicillin_clavulanic_acid",
+    "amoxicillin_clavulanic",
+    "amoxicillin_clavulanate"
   ],
-  "efcoba-500mg-tablet": [
-    "Efcoba 500mg Tablet"
+  "aceclofenac + paracetamol + serratiopeptidase": [
+    "aceclofenac_paracetamol_serratiopeptidase"
   ],
-  "efcoba-forte-strip-of-10-tablets": [
-    "EFCOBA FORTE STRIP OF 10 TABLETS"
+  "zerodol-sp": [
+    "aceclofenac_paracetamol_serratiopeptidase",
+    "ACCECLOWOC-SP-001"
   ],
-  "efcoba-od-tab": [
-    "Efcoba Od Tab"
+  "signoflam": [
+    "aceclofenac_paracetamol_serratiopeptidase",
+    "ACCECLOWOC-SP-001"
   ],
-  "efcoba-plus-tablet": [
-    "Efcoba Plus Tablet"
+  "flozen-aa": [
+    "aceclofenac_paracetamol_serratiopeptidase"
   ],
-  "efcoba-f-tab": [
-    "Efcoba F Tab"
+  "hifenac-d": [
+    "aceclofenac_paracetamol_serratiopeptidase"
   ],
-  "efcoben-strip-of-10-capsules": [
-    "EFCOBEN STRIP OF 10 CAPSULES"
+  "imatinib": [
+    "imatinib"
   ],
-  "efcol-suspension": [
-    "EFCOL SUSPENSION"
+  "gleevec": [
+    "imatinib"
   ],
-  "efcolt-tab": [
-    "Efcolt Tab"
+  "veenat": [
+    "imatinib"
   ],
-  "efcon-150mg-tab": [
-    "Efcon 150mg Tab"
+  "imatib": [
+    "imatinib"
   ],
-  "efcon-400mg-strip-of-1-tablets": [
-    "Efcon 400mg Strip Of 1 Tablets"
+  "pantoprazole": [
+    "pantoprazole"
   ],
-  "efcorlin-bottle-of-10ml-nasal-drops": [
-    "EFCORLIN BOTTLE OF 10ML NASAL DROPS"
+  "pan": [
+    "pantoprazole"
   ],
-  "efcorlin-100mg-dry-vial-of-1-powder-for-injection": [
-    "EFCORLIN 100MG DRY VIAL OF 1 POWDER FOR INJECTION"
+  "pantocid": [
+    "pantoprazole"
   ],
-  "efcorlin-2-5gm-pellets": [
-    "EFCORLIN 2.5GM PELLETS"
+  "pantodac": [
+    "pantoprazole"
   ],
-  "efcorlin-100-mg-injection-2-5-ml": [
-    "Efcorlin 100 Mg Injection 2.5 Ml"
+  "telvas": [
+    "telmisartan"
   ],
-  "efcorlin-0-02-0-025-nasal-drops-15-ml": [
-    "EFCORLIN 0.02/0.025 % NASAL DROPS 15 ML"
+  "atorvastatin": [
+    "atorvastatin"
   ],
-  "efcure-200mg-bottle-of-30-tablets": [
-    "EFCURE 200MG BOTTLE OF 30 TABLETS"
+  "lipvas": [
+    "atorvastatin"
   ],
-  "efcure-600mg-bottle-of-30-tablets": [
-    "EFCURE 600MG BOTTLE OF 30 TABLETS"
+  "levocetirizine": [
+    "levocetirizine"
   ],
-  "efcure-30mg-solu-60ml": [
-    "EFCURE 30MG SOLU 60ML"
+  "levocet": [
+    "levocetirizine"
   ],
-  "efdim-250mg-inj": [
-    "Efdim 250mg Inj"
+  "vozet": [
+    "levocetirizine"
   ],
-  "efdinir-300mg-strip-of-8-capsules": [
-    "EFDINIR 300MG STRIP OF 8 CAPSULES"
+  "tyzine": [
+    "levocetirizine"
   ],
-  "efeb-40-mg-tablet-10": [
-    "EFEB 40 MG TABLET 10"
+  "montelukast": [
+    "montelukast"
   ],
-  "efecient-inj-5ml": [
-    "Efecient Inj 5ml"
+  "montair": [
+    "montelukast"
   ],
-  "efecip-250mg-tab": [
-    "Efecip 250mg Tab"
+  "romilast": [
+    "montelukast"
   ],
-  "efecip-500mg-tab": [
-    "Efecip 500mg Tab"
+  "telekast": [
+    "montelukast"
   ],
-  "efecip-125mg-suspension": [
-    "EFECIP 125MG SUSPENSION"
+  "diclofenac": [
+    "diclofenac"
   ],
-  "efecip-250mg-suspension": [
-    "EFECIP 250MG SUSPENSION"
+  "diclowin": [
+    "diclofenac",
+    "diclofenac_gel"
   ],
-  "efecip-infusion": [
-    "EFECIP INFUSION"
+  "domperidone": [
+    "domperidone"
   ],
-  "efecol-tab": [
-    "Efecol Tab"
+  "domstal": [
+    "domperidone"
   ],
-  "efectal-om-syrup-50-ml": [
-    "EFECTAL OM SYRUP 50 ML"
+  "motinorm": [
+    "domperidone"
   ],
-  "efectal-1gm-dry-vial-of-1-powder-for-injection": [
-    "EFECTAL 1GM DRY VIAL OF 1 POWDER FOR INJECTION"
+  "domperi": [
+    "domperidone"
   ],
-  "efectal-250mg-inj": [
-    "Efectal 250mg Inj"
+  "albendazole": [
+    "albendazole"
   ],
-  "efectal-tz-1000-125-mg-injection-1-ml": [
-    "Efectal-Tz 1000/125 Mg Injection 1 Ml"
+  "zentel": [
+    "albendazole"
   ],
-  "efectal-s-1000-500-mg-injection-1": [
-    "Efectal S 1000/500 Mg Injection 1"
+  "bandy": [
+    "albendazole"
   ],
-  "efefzy-250mg-tab": [
-    "Efefzy 250mg Tab"
+  "noworm": [
+    "albendazole"
   ],
-  "efefzy-500mg-tab": [
-    "Efefzy 500mg Tab"
+  "ondansetron": [
+    "ondansetron"
   ],
-  "efegut-strip-of-10-capsules": [
-    "EFEGUT STRIP OF 10 CAPSULES"
+  "ondem": [
+    "ondansetron"
   ],
-  "efekart-strip-of-10-tablets": [
-    "EFEKART STRIP OF 10 TABLETS"
+  "zofran": [
+    "ondansetron"
   ],
-  "efelac-dt-100mg-strip-of-10-tablets": [
-    "EFELAC DT 100MG STRIP OF 10 TABLETS"
+  "emset": [
+    "ondansetron"
   ],
-  "efelac-dt-200mg-strip-of-10-tablets": [
-    "EFELAC DT 200MG STRIP OF 10 TABLETS"
+  "ivermectin": [
+    "ivermectin"
   ],
-  "efelac-100-40-mg-tablet-10": [
-    "Efelac 100/40 Mg Tablet 10"
+  "ivermectol": [
+    "ivermectin"
   ],
-  "efelac-200-60-mg-tablet-10": [
-    "Efelac 200/60 Mg Tablet 10"
+  "vermact": [
+    "ivermectin"
   ],
-  "efelin-tablets": [
-    "EFELIN TABLETS"
+  "ivecop": [
+    "ivermectin"
   ],
-  "efelin-pd-syrup-100ml": [
-    "EFELIN PD SYRUP 100ML"
+  "doxycycline": [
+    "doxycycline"
   ],
-  "efelin-x-pd-syrup-100ml": [
-    "EFELIN X PD SYRUP 100ML"
+  "doxiv-s": [
+    "doxycycline"
   ],
-  "efelin-x-strip-of-10-tablets": [
-    "EFELIN X STRIP OF 10 TABLETS"
+  "microdox": [
+    "doxycycline"
   ],
-  "efelobe-tablet-10": [
-    "EFELOBE TABLET 10"
+  "doxy-1 l-dr": [
+    "doxycycline"
   ],
-  "efelobe-tab-30-s": [
-    "EFELOBE TAB 30'S"
+  "zady": [
+    "azithromycin"
   ],
-  "efem-strip-of-10-capsules": [
-    "EFEM STRIP OF 10 CAPSULES"
+  "rabeprazole": [
+    "rabeprazole"
   ],
-  "efem-1000mg-strip-of-10-capsules": [
-    "EFEM 1000MG STRIP OF 10 CAPSULES"
+  "rabeloc": [
+    "rabeprazole"
   ],
-  "efem-meno-strip-of-10-tablets": [
-    "EFEM MENO STRIP OF 10 TABLETS"
+  "cyra": [
+    "rabeprazole"
   ],
-  "efem-activ-tablet-30s": [
-    "EFEM ACTIV TABLET 30S"
+  "happi": [
+    "rabeprazole"
   ],
-  "efem-activ-strip-of-10-tablets": [
-    "EFEM ACTIV STRIP OF 10 TABLETS"
+  "glimepiride": [
+    "glimepiride"
   ],
-  "efepime-500mg-inj": [
-    "Efepime 500mg Inj"
+  "amaryl": [
+    "glimepiride",
+    "amaryl"
   ],
-  "eferem-tablet": [
-    "Eferem Tablet"
+  "glimy": [
+    "glimepiride"
   ],
-  "eferem-p-100-325-10-mg-tablet-10": [
-    "EFEREM P 100/325/10 MG TABLET 10"
+  "euglim": [
+    "glimepiride"
   ],
-  "efespas-10mg-strip-of-10-tablets": [
-    "EFESPAS 10MG STRIP OF 10 TABLETS"
+  "ranitidine": [
+    "ranitidine"
   ],
-  "efespas-10-250-mg-tablet-10": [
-    "Efespas 10/250 Mg Tablet 10"
+  "rantac": [
+    "ranitidine"
   ],
-  "efetil-600mg-strip-of-10-effervescent-tablets": [
-    "EFETIL 600MG STRIP OF 10 EFFERVESCENT TABLETS"
+  "zinetac": [
+    "ranitidine"
   ],
-  "efetil-600mg-orange-flavour-sugar-free-strip-of-10-effervescent-tablets": [
-    "EFETIL 600MG ORANGE FLAVOUR SUGAR FREE STRIP OF 10 EFFERVESCENT TABLETS"
+  "aciloc": [
+    "ranitidine"
   ],
-  "efetran-75mg-capsule": [
-    "Efetran 75mg Capsule"
+  "amlodipine": [
+    "amlodipine"
   ],
-  "efex-plus-tablet-10": [
-    "EFEX PLUS TABLET 10"
+  "amlokind": [
+    "amlodipine"
   ],
-  "efex-20-mg-capsule-10": [
-    "EFEX 20 MG CAPSULE 10"
+  "stamlo": [
+    "amlodipine"
   ],
-  "effaclar-foaming-gel-50-ml": [
-    "EFFACLAR FOAMING GEL 50 ML"
+  "amlopres": [
+    "amlodipine"
   ],
-  "effahope-600mg-tab": [
-    "Effahope 600mg Tab"
+  "metformin": [
+    "metformin"
   ],
-  "effcal-lemon-strip-of-2-tablets": [
-    "EFFCAL LEMON STRIP OF 2 TABLETS"
+  "metsmall": [
+    "metformin"
   ],
-  "effcal-mango-tab": [
-    "Effcal Mango Tab"
+  "methotrexate": [
+    "methotrexate"
   ],
-  "effcal-orange-strip-of-2-tablets": [
-    "EFFCAL ORANGE STRIP OF 2 TABLETS"
+  "folitrax": [
+    "methotrexate"
   ],
-  "effcal-ct-1000-mg-200iu-tablet-6": [
-    "Effcal Ct 1000 Mg/200iu Tablet 6"
+  "mexate": [
+    "methotrexate"
   ],
-  "effective-500-mg-tablet-10": [
-    "EFFECTIVE 500 MG TABLET 10"
+  "imutrex": [
+    "methotrexate"
   ],
-  "effectto-cap": [
-    "EFFECTTO CAP"
+  "oseltamivir": [
+    "oseltamivir"
   ],
-  "effectum-powder-30-gm": [
-    "EFFECTUM POWDER 30 GM"
+  "antiflu": [
+    "oseltamivir"
   ],
-  "effect-plus-tab": [
-    "Effect Plus Tab"
+  "tamiflu": [
+    "oseltamivir"
   ],
-  "effect-tab": [
-    "Effect Tab"
+  "fluvir": [
+    "oseltamivir"
   ],
-  "effectum-active-strip-of-10-capsules": [
-    "EFFECTUM ACTIVE STRIP OF 10 CAPSULES"
+  "bisacodyl": [
+    "bisacodyl"
   ],
-  "effective-250-mg-tablet-10": [
-    "EFFECTIVE 250 MG TABLET 10"
+  "dulcolax": [
+    "bisacodyl"
   ],
-  "effectum-vanilla-powder-200-gm": [
-    "EFFECTUM VANILLA POWDER 200 GM"
+  "gerbisa": [
+    "bisacodyl"
   ],
-  "effelyte-orange-flavour-efferevescent-bottle-of-10-tablets": [
-    "EFFELYTE ORANGE FLAVOUR EFFEREVESCENT BOTTLE OF 10 TABLETS"
+  "laxidyl": [
+    "bisacodyl"
   ],
-  "effelin-50-mg-injection-1-ml": [
-    "EFFELIN 50 MG INJECTION 1 ML"
+  "magnesium citrate": [
+    "magnesium_citrate"
   ],
-  "effenac-600mg-orange-flavour-bottle-of-10-effervescent-tablets": [
-    "EFFENAC 600MG ORANGE FLAVOUR BOTTLE OF 10 EFFERVESCENT TABLETS"
+  "citroma": [
+    "magnesium_citrate"
   ],
-  "effenac-ab-strip-of-10-tablets": [
-    "EFFENAC AB STRIP OF 10 TABLETS"
+  "mag-citrate": [
+    "magnesium_citrate"
   ],
-  "effenerv-strip-of-10-capsules": [
-    "EFFENERV STRIP OF 10 CAPSULES"
+  "ashwagandha": [
+    "ashwagandha"
   ],
-  "effenerv-inj": [
-    "Effenerv Inj"
+  "himalaya ashwagandha": [
+    "ashwagandha"
   ],
-  "effenerv-pg-strip-of-10-capsules": [
-    "EFFENERV PG STRIP OF 10 CAPSULES"
+  "dabur ashwagandha": [
+    "ashwagandha"
   ],
-  "efferven-200mg-strip-of-10-tablets": [
-    "EFFERVEN 200MG STRIP OF 10 TABLETS"
+  "patanjali ashwagandha": [
+    "ashwagandha"
   ],
-  "efferven-600mg-tablet": [
-    "Efferven 600mg Tablet"
+  "pregabalin": [
+    "pregabalin"
   ],
-  "effexone-1gm-inj": [
-    "Effexone 1gm Inj"
+  "lyrica": [
+    "pregabalin"
   ],
-  "effibol-50mg-inj": [
-    "Effibol 50mg Inj"
+  "pregalin": [
+    "pregabalin"
   ],
-  "effibol-25mg-inj": [
-    "Effibol 25mg Inj"
+  "maxgalin": [
+    "pregabalin"
   ],
-  "efficort-0-127-cream-10gm": [
-    "EFFICORT 0.127% CREAM 10GM"
+  "cetirizine": [
+    "cetirizine"
   ],
-  "efficin-1gm-inj": [
-    "Efficin 1gm Inj"
+  "okacet": [
+    "cetirizine",
+    "cetiriz-10mg-ind"
   ],
-  "efficin-1gm-tablets": [
-    "EFFICIN 1GM TABLETS"
+  "cetzine": [
+    "cetirizine",
+    "cetiriz-10mg-ind"
   ],
-  "efficin-500mg-inj": [
-    "Efficin 500mg Inj"
+  "zyrtec": [
+    "cetirizine",
+    "cetiriz-10mg-ind"
   ],
-  "efficin-750mg-inj": [
-    "Efficin 750mg Inj"
+  "ibuprofen": [
+    "ibuprofen"
   ],
-  "efficium-o-tab": [
-    "Efficium O Tab"
+  "brufen": [
+    "ibuprofen"
   ],
-  "efficacio-pt-inj": [
-    "Efficacio Pt Inj"
+  "ibugesic": [
+    "ibuprofen"
   ],
-  "effidox-100mg-strip-of-10-capsules": [
-    "EFFIDOX 100MG STRIP OF 10 CAPSULES"
+  "combiflam (with paracetamol)": [
+    "ibuprofen"
   ],
-  "effient-10mg-strip-of-14-tablets": [
-    "EFFIENT 10MG STRIP OF 14 TABLETS"
+  "fluconazole": [
+    "fluconazole"
   ],
-  "effie-100mg-tab": [
-    "Effie 100mg Tab"
+  "forcan": [
+    "fluconazole"
   ],
-  "effie-200mg-tab": [
-    "Effie 200mg Tab"
+  "syscan": [
+    "fluconazole"
   ],
-  "effient-5mg-tab": [
-    "Effient 5mg Tab"
+  "zocon": [
+    "fluconazole"
   ],
-  "effilin-25mg-inj": [
-    "Effilin 25mg Inj"
+  "vitamin d3 (cholecalciferol)": [
+    "vitamin_d3"
   ],
-  "effilin-50mg-inj": [
-    "Effilin 50mg Inj"
+  "uprise-d3": [
+    "vitamin_d3",
+    "calcirol_60k"
   ],
-  "effimax-s-1-5g-dry-vial-of-1-powder-for-injection": [
-    "EFFIMAX S 1.5G DRY VIAL OF 1 POWDER FOR INJECTION"
+  "calcirol": [
+    "vitamin_d3",
+    "calcirol_60k"
   ],
-  "effimax-plus-750mg-inj": [
-    "Effimax Plus 750mg Inj"
+  "d3-must": [
+    "vitamin_d3",
+    "calcirol_60k"
   ],
-  "effimax-s-375mg-inj": [
-    "Effimax S 375mg Inj"
+  "omega-3 fatty acids (fish oil)": [
+    "omega_3"
   ],
-  "effimax-1gm-inj": [
-    "Effimax 1gm Inj"
+  "seven seas": [
+    "omega_3"
   ],
-  "effimax-250-125-mg-injection-1-ml": [
-    "Effimax 250/125 Mg Injection 1 Ml"
+  "maxepa": [
+    "omega_3"
   ],
-  "effimax-s-500-250-mg-injection-1": [
-    "Effimax S 500/250 Mg Injection 1"
+  "sea-cod": [
+    "omega_3"
   ],
-  "effimax-plus-1000-500-mg-injection-1": [
-    "Effimax Plus 1000/500 Mg Injection 1"
+  "furosemide": [
+    "furosemide"
   ],
-  "effimax-tz-dry-vial-of-1-powder-for-injection": [
-    "EFFIMAX TZ DRY VIAL OF 1 POWDER FOR INJECTION"
+  "lasix": [
+    "furosemide"
   ],
-  "effitor-tab": [
-    "Effitor Tab"
+  "fruselac (with spironolactone)": [
+    "furosemide"
   ],
-  "effoday-tab": [
-    "Effoday Tab"
+  "lipivas": [
+    "atorvastatin"
   ],
-  "effort-capsule-10": [
-    "EFFORT CAPSULE 10"
+  "rosuvastatin": [
+    "rosuvastatin"
   ],
-  "effort-syrup-200ml": [
-    "EFFORT SYRUP 200ML"
+  "rosuvas": [
+    "rosuvastatin",
+    "crestor_10"
   ],
-  "effort-drops": [
-    "Effort Drops"
+  "razel": [
+    "rosuvastatin",
+    "crestor_10"
   ],
-  "effros-strip-of-10-capsules": [
-    "EFFROS STRIP OF 10 CAPSULES"
+  "crestor": [
+    "rosuvastatin",
+    "crestor_10"
   ],
-  "effros-strip-of-10-tablets": [
-    "EFFROS STRIP OF 10 TABLETS"
+  "telsar": [
+    "telmisartan"
   ],
-  "efibact-200mg-tab": [
-    "Efibact 200mg Tab"
+  "sitagliptin": [
+    "sitagliptin"
   ],
-  "efibact-dt-100mg-tablets": [
-    "EFIBACT DT 100MG TABLETS"
+  "januvia": [
+    "sitagliptin"
   ],
-  "efibact-100mg-dry-syrup-30ml": [
-    "EFIBACT 100MG DRY SYRUP 30ML"
+  "istavel": [
+    "sitagliptin"
   ],
-  "efibact-dt-50mg-tab": [
-    "Efibact Dt 50mg Tab"
+  "zita": [
+    "sitagliptin"
   ],
-  "efibact-50mg-dry-syrup-30ml": [
-    "EFIBACT 50MG DRY SYRUP 30ML"
+  "pan 40": [
+    "pantoprazole"
   ],
-  "efical-strip-of-10-capsules": [
-    "EFICAL STRIP OF 10 CAPSULES"
+  "famotidine": [
+    "famotidine"
   ],
-  "eficef-cv-200mg-tablet": [
-    "Eficef Cv 200mg Tablet"
+  "famocid": [
+    "famotidine"
   ],
-  "eficef-200mg-tab": [
-    "EFICEF 200MG TAB"
+  "facid": [
+    "famotidine"
   ],
-  "eficef-dt-100mg-tab": [
-    "EFICEF DT 100MG TAB"
+  "famotin": [
+    "famotidine"
   ],
-  "eficef-dt-50mg-tab": [
-    "EFICEF DT 50MG TAB"
+  "paclitaxel": [
+    "paclitaxel"
   ],
-  "eficef-dry-syrup-30ml": [
-    "EFICEF DRY SYRUP 30ML"
+  "taxol": [
+    "paclitaxel"
   ],
-  "eficef-cv-dt-100mg-tab": [
-    "EFICEF CV DT 100MG TAB"
+  "paclitax": [
+    "paclitaxel"
   ],
-  "eficef-cv-dt-50mg-tab": [
-    "EFICEF CV DT 50MG TAB"
+  "cytotax": [
+    "paclitaxel"
   ],
-  "eficent-plus-strip-of-10-tablets": [
-    "EFICENT PLUS STRIP OF 10 TABLETS"
+  "losartan": [
+    "losartan"
   ],
-  "eficin-dt-200-mg-tablet-10": [
-    "EFICIN DT 200 MG TABLET 10"
+  "losakind": [
+    "losartan"
   ],
-  "eficino-200-100-mg-tablet-10": [
-    "EFICINO 200/100 MG TABLET 10"
+  "repace": [
+    "losartan"
   ],
-  "efiglin-m-strip-of-10-tablets": [
-    "EFIGLIN M STRIP OF 10 TABLETS"
+  "cosart": [
+    "losartan"
   ],
-  "efiglin-20mg-strip-of-10-tablets": [
-    "EFIGLIN 20MG STRIP OF 10 TABLETS"
+  "glimer": [
+    "glimepiride"
   ],
-  "efiglin-m-500mg-strip-of-15-tablets": [
-    "EFIGLIN M 500MG STRIP OF 15 TABLETS"
+  "cyclosporine": [
+    "cyclosporine"
   ],
-  "efiglin-m-1000mg-tablet-15-s": [
-    "Efiglin M 1000mg Tablet 15'S"
+  "panimun bioral": [
+    "cyclosporine"
   ],
-  "efiglin-20mg-strip-of-15-tablets": [
-    "EFIGLIN 20MG STRIP OF 15 TABLETS"
+  "sandimmun": [
+    "cyclosporine"
   ],
-  "efigraine-neo-10mg-strip-of-10-tablets": [
-    "EFIGRAINE NEO 10MG STRIP OF 10 TABLETS"
+  "arpimune": [
+    "cyclosporine"
   ],
-  "efigraine-10mg-tablet": [
-    "Efigraine 10mg Tablet"
+  "acyclovir": [
+    "acyclovir"
   ],
-  "efigraine-5mg-tablet": [
-    "Efigraine 5mg Tablet"
+  "zovirax": [
+    "acyclovir",
+    "acivir-200-dt-in-001",
+    "acivir-400mg-dt-001",
+    "ACIVIR-800DT-A01",
+    "ACIVIR_CRM_001"
   ],
-  "efil-10mg-strip-of-10-tablets": [
-    "EFIL 10MG STRIP OF 10 TABLETS"
+  "herperax": [
+    "acyclovir",
+    "acivir-200-dt-in-001",
+    "acivir-400mg-dt-001",
+    "ACIVIR_CRM_001"
   ],
-  "efil-2-5mg-strip-of-10-tablets": [
-    "EFIL 2.5MG STRIP OF 10 TABLETS"
+  "acivir": [
+    "acyclovir"
   ],
-  "efil-5mg-strip-of-10-tablets": [
-    "EFIL 5MG STRIP OF 10 TABLETS"
+  "ciprofloxacin": [
+    "ciprofloxacin"
   ],
-  "efilor-er-400mg-tab": [
-    "Efilor Er 400mg Tab"
+  "cifran": [
+    "ciprofloxacin"
   ],
-  "efilor-mr-tab": [
-    "Efilor Mr Tab"
+  "ciplox": [
+    "ciprofloxacin"
   ],
-  "efilor-p-tab": [
-    "EFILOR P TAB"
+  "ciprobid": [
+    "ciprofloxacin"
   ],
-  "efimeran-kid-250mg-inj": [
-    "Efimeran Kid 250mg Inj"
+  "lactulose": [
+    "lactulose"
   ],
-  "efimox-er-tablet": [
-    "Efimox Er Tablet"
+  "duphalac": [
+    "lactulose"
   ],
-  "efimylin-inj": [
-    "Efimylin Inj"
+  "looz": [
+    "lactulose"
   ],
-  "efin-cr-tab": [
-    "Efin Cr Tab"
+  "cremaffin fresh": [
+    "lactulose"
   ],
-  "efiplat-5mg-tablet": [
-    "Efiplat 5mg Tablet"
+  "brahmi (bacopa monnieri)": [
+    "brahmi"
   ],
-  "efiplus-capsule-10": [
-    "EFIPLUS CAPSULE 10"
+  "himalaya brahmi": [
+    "brahmi"
   ],
-  "efipress-injection": [
-    "EFIPRESS INJECTION"
+  "baidyanath brahmi": [
+    "brahmi"
   ],
-  "efipress-inj-1ml": [
-    "Efipress Inj 1ml"
+  "patanjali brahmi": [
+    "brahmi"
   ],
-  "efizyme-bottle-of-200ml-syrup": [
-    "EFIZYME BOTTLE OF 200ML SYRUP"
+  "gabapentin": [
+    "gabapentin"
   ],
-  "efizyme-drops-30-ml": [
-    "EFIZYME DROPS 30 ML"
+  "neurontin": [
+    "gabapentin"
   ],
-  "eflaza-6mg-strip-of-10-tablets": [
-    "Eflaza 6mg Strip Of 10 Tablets"
+  "gabapin": [
+    "gabapentin"
   ],
-  "eflin-m-75mg-strip-of-10-tablets": [
-    "EFLIN M 75MG STRIP OF 10 TABLETS"
+  "gabaforce": [
+    "gabapentin"
   ],
-  "eflo-entod-pharma-bottle-of-5ml-eye-drops": [
-    "EFLO (ENTOD PHARMA) BOTTLE OF 5ML EYE DROPS"
+  "clotrimazole": [
+    "clotrimazole"
   ],
-  "eflo-500mg-strip-of-10-capsules": [
-    "Eflo 500mg Strip Of 10 Capsules"
+  "candid": [
+    "clotrimazole"
   ],
-  "eflobid-200mg-strip-of-10-tablets": [
-    "EFLOBID 200MG STRIP OF 10 TABLETS"
+  "abzorb": [
+    "clotrimazole"
   ],
-  "eflocare-cream-10gm": [
-    "Eflocare Cream 10gm"
+  "surfaz": [
+    "clotrimazole"
   ],
-  "eflora-tube-of-15gm-cream": [
-    "EFLORA TUBE OF 15GM CREAM"
+  "vitamin b12 (methylcobalamin)": [
+    "vitamin_b12"
   ],
-  "eflox-oz-strip-of-10-tablets": [
-    "EFLOX OZ STRIP OF 10 TABLETS"
+  "me-12": [
+    "vitamin_b12"
   ],
-  "eflox-200mg-tablet": [
-    "Eflox 200mg Tablet"
+  "nurokind": [
+    "vitamin_b12"
   ],
-  "eflox-400mg-tablet": [
-    "Eflox 400mg Tablet"
+  "methycobal": [
+    "vitamin_b12"
   ],
-  "efnase-nasal-spray": [
-    "Efnase Nasal Spray"
+  "spironolactone": [
+    "spironolactone"
   ],
-  "efnithin-tube-of-10gm-cream": [
-    "EFNITHIN TUBE OF 10GM CREAM"
+  "aldactone": [
+    "spironolactone"
   ],
-  "efnocar-t-40-40mg-strip-of-10-tablets": [
-    "EFNOCAR T 40/40MG STRIP OF 10 TABLETS"
+  "spiroctan": [
+    "spironolactone"
   ],
-  "efnocar-ct-40-12-5mg-strip-of-10-tablets": [
-    "EFNOCAR CT 40/12.5MG STRIP OF 10 TABLETS"
+  "simvastatin": [
+    "simvastatin"
   ],
-  "efnocar-t-20-40mg-strip-of-10-tablets": [
-    "EFNOCAR T 20/40MG STRIP OF 10 TABLETS"
+  "simvotin": [
+    "simvastatin"
   ],
-  "efnocar-mx-40-25mg-strip-of-10-tablets": [
-    "EFNOCAR MX 40/25MG STRIP OF 10 TABLETS"
+  "simcard": [
+    "simvastatin"
   ],
-  "efnocar-20mg-strip-of-10-tablets": [
-    "Efnocar 20mg Strip Of 10 Tablets"
+  "zocor": [
+    "simvastatin"
   ],
-  "efnocar-10mg-strip-of-10-tablets": [
-    "EFNOCAR 10MG STRIP OF 10 TABLETS"
+  "loperamide": [
+    "loperamide"
   ],
-  "efoceft-1gm-inj": [
-    "Efoceft 1gm Inj"
+  "imodium": [
+    "loperamide"
   ],
-  "efoceft-250mg-inj": [
-    "Efoceft 250mg Inj"
+  "lopamide": [
+    "loperamide"
   ],
-  "efoceft-500mg-inj": [
-    "Efoceft 500mg Inj"
+  "roko": [
+    "loperamide"
   ],
-  "efoceft-s-375mg-inj": [
-    "Efoceft S 375mg Inj"
+  "vomitop": [
+    "domperidone"
   ],
-  "efoceft-s-750mg-inj": [
-    "Efoceft S 750mg Inj"
+  "paracetamol (acetaminophen)": [
+    "paracetamol"
   ],
-  "efoceft-s-1-5gm-inj": [
-    "Efoceft S 1.5gm Inj"
+  "calpol": [
+    "paracetamol"
   ],
-  "efoglim-m-sr-3-500mg-strip-of-10-tablets": [
-    "EFOGLIM M SR 3/500MG STRIP OF 10 TABLETS"
+  "crocin": [
+    "paracetamol"
   ],
-  "efoglim-m-3-500mg-strip-of-15-tablets": [
-    "EFOGLIM M 3/500MG STRIP OF 15 TABLETS"
+  "omeprazole": [
+    "omeprazole"
   ],
-  "efomp-1-5-vial-of-1-injection": [
-    "EFOMP 1.5 VIAL OF 1 INJECTION"
+  "omez": [
+    "omeprazole"
   ],
-  "efonta-t-40-40mg-strip-of-10-tablets": [
-    "EFONTA T 40/40MG STRIP OF 10 TABLETS"
+  "omee": [
+    "omeprazole"
   ],
-  "efonta-20mg-strip-of-10-tablets": [
-    "EFONTA 20MG STRIP OF 10 TABLETS"
+  "ocid": [
+    "omeprazole"
   ],
-  "efonta-10-mg-tablet-10": [
-    "EFONTA 10 MG TABLET 10"
+  "triphala": [
+    "triphala"
   ],
-  "efonta-40mg-strip-of-10-tablets": [
-    "EFONTA 40MG STRIP OF 10 TABLETS"
+  "himalaya triphala": [
+    "triphala"
   ],
-  "efonta-40mg-strip-of-15-tablets": [
-    "EFONTA 40MG STRIP OF 15 TABLETS"
+  "dabur triphala": [
+    "triphala"
   ],
-  "efonta-20mg-strip-of-15-tablets": [
-    "Efonta 20mg Strip Of 15 Tablets"
+  "baidyanath triphala": [
+    "triphala"
   ],
-  "efonta-t-40mg-strip-of-10-tablets": [
-    "EFONTA T 40MG STRIP OF 10 TABLETS"
+  "1-al": [
+    "levocetirizine"
   ],
-  "eforce-20-mg-tablet-30": [
-    "EFORCE 20 MG TABLET 30"
+  "teczine": [
+    "levocetirizine"
   ],
-  "efort-400mg-strip-of-10-capsules": [
-    "EFORT 400MG STRIP OF 10 CAPSULES"
+  "mefenamic acid": [
+    "mefenamic_acid"
   ],
-  "efospar-200mg-strip-of-6-tablets": [
-    "EFOSPAR 200MG STRIP OF 6 TABLETS"
+  "meftal": [
+    "mefenamic_acid"
   ],
-  "efotax-250mg-inj": [
-    "Efotax 250mg Inj"
+  "rablet": [
+    "rabeprazole"
   ],
-  "efotax-500mg-inj": [
-    "Efotax 500mg Inj"
+  "rabicip": [
+    "rabeprazole"
   ],
-  "efotax-1gm-inj": [
-    "Efotax 1gm Inj"
+  "veloz": [
+    "rabeprazole"
   ],
-  "efotax-125mg-inj": [
-    "Efotax 125mg Inj"
+  "dextromethorphan": [
+    "dextromethorphan"
   ],
-  "efotel-40mg-strip-of-10-tablets": [
-    "EFOTEL 40MG STRIP OF 10 TABLETS"
+  "benadryl dr": [
+    "dextromethorphan"
   ],
-  "efox-200mg-strip-of-10-tablets": [
-    "EFOX 200MG STRIP OF 10 TABLETS"
+  "alex": [
+    "dextromethorphan"
   ],
-  "efoxim-100-mg-tablet-10": [
-    "EFOXIM 100 MG TABLET 10"
+  "ascoril d": [
+    "dextromethorphan"
   ],
-  "efoxiren-50mg-strip-of-10-capsules": [
-    "EFOXIREN 50MG STRIP OF 10 CAPSULES"
+  "naproxen": [
+    "naproxen"
   ],
-  "efoxim-200mg-tablets": [
-    "EFOXIM 200MG TABLETS"
+  "naprosyn": [
+    "naproxen"
   ],
-  "efoxim-o-tab": [
-    "Efoxim O Tab"
+  "xenobid": [
+    "naproxen"
   ],
-  "efoxim-200mg-strip-of-10-tablets": [
-    "EFOXIM 200MG STRIP OF 10 TABLETS"
+  "naxdom": [
+    "naproxen"
   ],
-  "efoxim-200-mg-dry-syrup-30-ml": [
-    "EFOXIM 200 MG DRY SYRUP 30 ML"
+  "enalapril": [
+    "enalapril"
   ],
-  "efpodox-100mg-tab": [
-    "Efpodox 100mg Tab"
+  "envas": [
+    "enalapril"
   ],
-  "efpodox-200mg-tab": [
-    "Efpodox 200mg Tab"
+  "nuril": [
+    "enalapril"
   ],
-  "efpod-100mg-tab": [
-    "Efpod 100mg Tab"
+  "bql": [
+    "enalapril"
   ],
-  "efpod-200mg-tab": [
-    "Efpod 200mg Tab"
+  "metoprolol": [
+    "metoprolol"
   ],
-  "efpod-cv-tab": [
-    "Efpod Cv Tab"
+  "metolar": [
+    "metoprolol"
   ],
-  "efpod-o-tab": [
-    "Efpod O Tab"
+  "seloken": [
+    "metoprolol"
   ],
-  "efpod-dry-syrup-30ml": [
-    "EFPOD DRY SYRUP 30ML"
+  "starpress": [
+    "metoprolol"
   ],
-  "efpod-cv-dry-syrup-30ml": [
-    "EFPOD CV DRY SYRUP 30ML"
+  "pioglitazone": [
+    "pioglitazone"
   ],
-  "eftanu-250mg-inj": [
-    "Eftanu 250mg Inj"
+  "pioz": [
+    "pioglitazone"
   ],
-  "eftanu-500mg-inj": [
-    "Eftanu 500mg Inj"
+  "piomed": [
+    "pioglitazone"
   ],
-  "eftanu-1gm-inj": [
-    "Eftanu 1gm Inj"
+  "pioglit": [
+    "pioglitazone"
   ],
-  "eftanu-s-1-5gm-inj": [
-    "Eftanu S 1.5gm Inj"
+  "gliclazide": [
+    "gliclazide"
   ],
-  "efti-1g-vial-of-1-injection": [
-    "EFTI 1G VIAL OF 1 INJECTION"
+  "diamicron": [
+    "gliclazide"
   ],
-  "eftritax-1g-dry-vial-of-1-powder-for-injection": [
-    "EFTRITAX 1G DRY VIAL OF 1 POWDER FOR INJECTION"
+  "glycigon": [
+    "gliclazide"
   ],
-  "eftritax-sb-1500mg-dry-vial-of-1-powder-for-injection": [
-    "EFTRITAX SB 1500MG DRY VIAL OF 1 POWDER FOR INJECTION"
+  "reclimet": [
+    "gliclazide"
   ],
-  "eftrimac-o-dry-syrup-30ml": [
-    "EFTRIMAC O DRY SYRUP 30ML"
+  "doxicip": [
+    "doxycycline"
   ],
-  "eftricin-250mg-inj": [
-    "Eftricin 250mg Inj"
+  "tetradox": [
+    "doxycycline"
   ],
-  "eftricin-500mg-inj": [
-    "Eftricin 500mg Inj"
+  "minicycline": [
+    "doxycycline"
   ],
-  "eftricin-1gm-inj": [
-    "Eftricin 1gm Inj"
+  "levothyroxine": [
+    "levothyroxine"
   ],
-  "eftimax-1gm-inj": [
-    "Eftimax 1gm Inj"
+  "salbutamol (albuterol)": [
+    "salbutamol_inhaler"
   ],
-  "eftimax-sb-1000-500-mg-injection-1": [
-    "Eftimax Sb 1000/500 Mg Injection 1"
+  "asthalin": [
+    "salbutamol_inhaler",
+    "asthalin"
   ],
-  "efticure-tz-1g-dry-vial-of-1-powder-for-injection": [
-    "EFTICURE TZ 1G DRY VIAL OF 1 POWDER FOR INJECTION"
+  "ventorlin": [
+    "salbutamol_inhaler"
   ],
-  "eftione-1gm-inj": [
-    "Eftione 1gm Inj"
+  "salbair": [
+    "salbutamol_inhaler"
   ],
-  "eftione-tz-1-125gm-inj": [
-    "Eftione Tz 1.125gm Inj"
+  "diclofenac sodium gel": [
+    "diclofenac_gel"
   ],
-  "efudex-250mg-tab": [
-    "Efudex 250mg Tab"
+  "volini": [
+    "diclofenac_gel"
   ],
-  "efudex-500mg-tablets": [
-    "EFUDEX 500MG TABLETS"
+  "omnigel": [
+    "diclofenac_gel"
   ],
-  "efuvo-250mg-tab": [
-    "Efuvo 250mg Tab"
+  "voveran gel": [
+    "diclofenac_gel"
   ],
-  "efuvo-500mg-tab": [
-    "Efuvo 500mg Tab"
+  "calcirol 60k": [
+    "calcirol_60k"
   ],
-  "efutal-500mg-strip-of-10-tablets": [
-    "EFUTAL 500MG STRIP OF 10 TABLETS"
+  "lumia": [
+    "calcirol_60k"
   ],
-  "efv-200mg-tab": [
-    "Efv 200mg Tab"
+  "candiforce 200mg": [
+    "candiforce_200"
   ],
-  "efv-600mg-tab": [
-    "Efv 600mg Tab"
+  "candiforce": [
+    "candiforce_200"
   ],
-  "efzon-cv-tablets": [
-    "EFZON CV TABLETS"
+  "itaspor": [
+    "candiforce_200"
   ],
-  "ega-d-30mg-40mg-capsule": [
-    "Ega D 30mg/40mg Capsule"
+  "itracoe": [
+    "candiforce_200"
   ],
-  "eg-c-gel-20gm": [
-    "Eg C Gel 20gm"
+  "canditral": [
+    "candiforce_200"
   ],
-  "egac-do-strip-of-10-capsules": [
-    "EGAC DO STRIP OF 10 CAPSULES"
+  "cardace 5mg": [
+    "cardace_5"
   ],
-  "egac-40mg-strip-of-10-tablets": [
-    "EGAC 40MG STRIP OF 10 TABLETS"
+  "cardace": [
+    "cardace_5"
   ],
-  "egac-d-40-10mg-strip-of-10-tablets": [
-    "EGAC D 40/10MG STRIP OF 10 TABLETS"
+  "ramace": [
+    "cardace_5"
   ],
-  "egagerm-solution-50-ml": [
-    "EGAGERM SOLUTION 50 ML"
+  "hopace": [
+    "cardace_5"
   ],
-  "egalyt-pds-syrup-60ml": [
-    "EGALYT PDS SYRUP 60ML"
+  "corace": [
+    "cardace_5"
   ],
-  "egarile-strip-of-10-capsules": [
-    "EGARILE STRIP OF 10 CAPSULES"
+  "ceftum 500mg": [
+    "ceftum_500"
   ],
-  "egbid-d-40-30mg-capsule-10": [
-    "EGBID D 40/30MG CAPSULE 10"
+  "ceftum": [
+    "ceftum_500"
   ],
-  "egd-ls-capsule": [
-    "Egd Ls Capsule"
+  "cefakind": [
+    "ceftum_500"
   ],
-  "egd-forte-capsule-10": [
-    "EGD FORTE CAPSULE 10"
+  "pulmocef": [
+    "ceftum_500"
   ],
-  "egd-40-30-mg-capsule-10": [
-    "Egd 40/30 Mg Capsule 10"
+  "oracef": [
+    "ceftum_500"
   ],
-  "egel-susp-170ml": [
-    "Egel Susp 170ml"
+  "cilacar 10mg": [
+    "cilacar_10"
   ],
-  "egetem-2-5mg-tab": [
-    "Egetem 2.5mg Tab"
+  "cilacar": [
+    "cilacar_10"
   ],
-  "eggoz-100mg-capsule": [
-    "Eggoz 100mg Capsule"
+  "cilny": [
+    "cilacar_10"
   ],
-  "eggoz-50-mg-tablet-10": [
-    "eggoZ 50 Mg Tablet 10"
+  "cilamet": [
+    "cilacar_10"
   ],
-  "egical-500mg-strip-of-15-tablets": [
-    "Egical 500mg Strip Of 15 Tablets"
+  "nexovas": [
+    "cilacar_10"
   ],
-  "egift-capsule-10": [
-    "EGIFT CAPSULE 10"
+  "clopitab 75mg": [
+    "clopitab_75"
   ],
-  "egistat-40-mg-tablet-10": [
-    "EGISTAT 40 MG TABLET 10"
+  "clopitab": [
+    "clopitab_75",
+    "clopivas-75-clopidogrel-india"
   ],
-  "egiva-cap": [
-    "Egiva Cap"
+  "clopilet": [
+    "clopitab_75",
+    "clopivas-75-clopidogrel-india"
   ],
-  "egiver-gel-30-gm": [
-    "EGIVER GEL 30 GM"
+  "plavix": [
+    "clopitab_75",
+    "clopivas-75-clopidogrel-india"
   ],
-  "eglev-m-500-mg-tablet-10": [
-    "Eglev M 500 Mg Tablet 10"
+  "deplatt": [
+    "clopitab_75",
+    "clopivas-75-clopidogrel-india"
   ],
-  "egley-500-mg-tablet-10": [
-    "EGLEY 500 MG TABLET 10"
+  "creon 25000": [
+    "creon_25000"
   ],
-  "ego-m-tablet-10": [
-    "EGO M TABLET 10"
+  "creon": [
+    "creon_25000"
   ],
-  "ego-p-tablet-10": [
-    "EGO P TABLET 10"
+  "pangrol": [
+    "creon_25000"
   ],
-  "egogest-200mg-strip-of-10-capsules": [
-    "Egogest 200mg Strip Of 10 Capsules"
+  "encreatin": [
+    "creon_25000"
   ],
-  "egostin-m-strip-of-10-tablets": [
-    "EGOSTIN M STRIP OF 10 TABLETS"
+  "agna": [
+    "creon_25000"
   ],
-  "egostin-20-mg-tablet-10": [
-    "Egostin 20 mg Tablet 10"
+  "crestor 10mg": [
+    "crestor_10"
   ],
-  "egostin-10-mg-tablet-10": [
-    "Egostin 10 Mg Tablet 10"
+  "novostat": [
+    "crestor_10"
   ],
-  "egrest-250-mg-tablet-10": [
-    "EGREST 250 MG TABLET 10"
+  "cyra d": [
+    "cyba_d"
   ],
-  "egspas-tablet-10": [
-    "EGSPAS TABLET 10"
+  "razo d": [
+    "cyba_d"
   ],
-  "egulent-10-mg-tablet-10": [
-    "EGULENT 10 MG TABLET 10"
+  "rabesec d": [
+    "cyba_d"
   ],
-  "egwell-soft-gelatin-capsule-15": [
-    "EGWELL SOFT GELATIN CAPSULE 15"
+  "pepo d": [
+    "cyba_d"
   ],
-  "egystal-100-mg-tablet-15": [
-    "Egystal 100 Mg Tablet 15"
+  "a to z woman": [
+    "a_to_z_woman"
   ],
-  "eh-40mg-tab": [
-    "Eh 40mg Tab"
+  "ab phylline": [
+    "ab_phylline"
   ],
-  "ehcoli-bottle-of-60-capsules": [
-    "EHCOLI BOTTLE OF 60 CAPSULES"
+  "ab phylline sr": [
+    "ab_phylline_sr"
   ],
-  "ehclav-tablets": [
-    "EHCLAV TABLETS"
+  "absolut woman": [
+    "absolut_woman",
+    "ABSOLUT-3G-NUTRA-001"
   ],
-  "ehclav-dry-syrpup": [
-    "Ehclav Dry Syrpup"
+  "absolut 3g": [
+    "absolut_3g",
+    "ABSOLUT-3G-NUTRA-001"
   ],
-  "ehclav-625-mg-tablet-10": [
-    "EHCLAV 625 MG TABLET 10"
+  "acitrom": [
+    "acitrom"
   ],
-  "ehpod-capsule-10": [
-    "EHPOD CAPSULE 10"
+  "actrapid flexpen": [
+    "actrapid_flexpen"
   ],
-  "ehtab-tab": [
-    "Ehtab Tab"
+  "actrapid hm penfill": [
+    "actrapid_hm_penfill"
   ],
-  "ei-vaccine-0-5ml-injection-0-5": [
-    "EI VACCINE 0.5ML INJECTION 0.5"
+  "advanced kojivit ultra": [
+    "advanced_kojivit_ultra"
   ],
-  "eicos-strip-of-10-tablets": [
-    "EICOS STRIP OF 10 TABLETS"
+  "afogatran": [
+    "afogatran"
   ],
-  "eid-f-capsule-10": [
-    "EID F CAPSULE 10"
+  "afoglip m": [
+    "afoglip_m"
   ],
-  "eido-m-strip-of-15-capsules": [
-    "EIDO M STRIP OF 15 CAPSULES"
+  "afoglip": [
+    "afoglip"
   ],
-  "eido-fe-dry-syp": [
-    "Eido Fe Dry Syp"
+  "agna 25000": [
+    "agna_25000"
   ],
-  "eighteen-bp-soap-75gm": [
-    "Eighteen Bp Soap 75gm"
+  "ajaduo 25/5mg": [
+    "ajaduo_25_5mg"
   ],
-  "eilex-32gm-granules": [
-    "EILEX 32GM GRANULES"
+  "ajaduo": [
+    "ajaduo"
   ],
-  "eilex-100gm-granules": [
-    "EILEX 100GM GRANULES"
+  "alfoo": [
+    "alfoo"
   ],
-  "eisep-bottle-of-50ml-mouthwash": [
-    "EISEP BOTTLE OF 50ML MOUTHWASH"
+  "alfusin d": [
+    "alfusin_d"
   ],
-  "eisen-150mg-tab": [
-    "Eisen 150mg Tab"
+  "allegra m": [
+    "allegra_m"
   ],
-  "ej-max-capsule": [
-    "Ej Max Capsule"
+  "allegra": [
+    "allegra"
   ],
-  "ej-min-e-capsule-10": [
-    "EJ MIN E CAPSULE 10"
+  "alphagan z": [
+    "alphagan_z"
   ],
-  "eject-30mg-tablet": [
-    "Eject 30mg Tablet"
+  "altraz": [
+    "altraz"
   ],
-  "ejeg-m-500-0-2mg-tablet-15": [
-    "EJEG M 500/0.2MG TABLET 15"
+  "amantrel": [
+    "amantrel"
   ],
-  "ejoint-capsule-10": [
-    "EJOINT CAPSULE 10"
+  "amaryl mv": [
+    "amaryl_mv"
   ],
-  "ekalon-strip-of-10-tablets": [
-    "EKALON STRIP OF 10 TABLETS"
+  "amaryl m": [
+    "amaryl_m"
   ],
-  "ekan-150-mg-tablet-1": [
-    "EKAN 150 MG TABLET 1"
+  "amaryl m forte": [
+    "amaryl_m_forte"
   ],
-  "ekal-bottle-of-250ml-solution": [
-    "EKAL BOTTLE OF 250ML SOLUTION"
+  "ambrican": [
+    "ambrican"
   ],
-  "ekal-200-ml-solution": [
-    "EKAL 200 ML SOLUTION"
+  "amlodac": [
+    "amlodac"
   ],
-  "ekal-susp-100ml": [
-    "Ekal Susp 100ml"
+  "amlokind at": [
+    "amlokind_at"
   ],
-  "ekamil-500mg-inj": [
-    "Ekamil 500mg Inj"
+  "amlong": [
+    "amlong"
   ],
-  "eke-plus-0-05-6-cream-15-gm": [
-    "EKE PLUS 0.05/6 % CREAM 15 GM"
+  "amlopin m": [
+    "amlopin_m"
   ],
-  "ekef-kit-6-s": [
-    "Ekef Kit 6'S"
+  "amlopin": [
+    "amlopin"
   ],
-  "ekfer-xt-susp-150ml": [
-    "Ekfer Xt Susp 150ml"
+  "amlopres at": [
+    "amlopres_at"
   ],
-  "ekinate-60mg-inj": [
-    "Ekinate 60mg Inj"
+  "androanagen": [
+    "androanagen"
   ],
-  "ekinate-ab-inj": [
-    "Ekinate Ab Inj"
+  "anfoe": [
+    "anfoe"
   ],
-  "eklib-sr-400-mg-tablet-10": [
-    "EKLIB SR 400 MG TABLET 10"
+  "angispan tr 2.5mg bottle of 25 capsules": [
+    "angispan_tr_2_5mg_bottle_of_25_capsules"
   ],
-  "ekomax-capsule": [
-    "Ekomax Capsule"
+  "antoxid hc": [
+    "antoxid_hc"
   ],
-  "ekomax-d-strip-of-10-capsules": [
-    "EKOMAX D STRIP OF 10 CAPSULES"
+  "antoxipan": [
+    "antoxipan"
   ],
-  "ekomax-tablet": [
-    "Ekomax Tablet"
+  "apcod obis": [
+    "apcod_obis"
   ],
-  "ekomax-200mg-tab": [
-    "Ekomax 200mg Tab"
+  "apidra solostar": [
+    "apidra_solostar"
   ],
-  "ekomax-forte-capsule-10": [
-    "EKOMAX FORTE CAPSULE 10"
+  "apidra": [
+    "apidra"
   ],
-  "ektam-1gb-dry-vial-of-1-powder-for-injection": [
-    "EKTAM 1GB DRY VIAL OF 1 POWDER FOR INJECTION"
+  "aplazar": [
+    "aplazar"
   ],
-  "ektam-500-mg-injection-1": [
-    "EKTAM 500 MG INJECTION 1"
+  "apresol": [
+    "apresol"
   ],
-  "ela-b-cream-10gm": [
-    "Ela B Cream 10gm"
+  "aprezo": [
+    "aprezo"
   ],
-  "elac-tab": [
-    "Elac Tab"
+  "arg 9": [
+    "arg_9"
   ],
-  "elact-l-oral-susp-15ml": [
-    "Elact L Oral Susp 15ml"
+  "argipreg sf sach 6.5gm": [
+    "argipreg_sf_sach_6_5gm"
   ],
-  "elah-20mg-strip-of-10-tablets": [
-    "ELAH 20MG STRIP OF 10 TABLETS"
+  "arimidex": [
+    "arimidex"
   ],
-  "elah-10-mg-tablet-10": [
-    "ELAH 10 MG TABLET 10"
+  "arkamin": [
+    "arkamin"
   ],
-  "elampa-tab": [
-    "Elampa Tab"
+  "arvast": [
+    "arvast"
   ],
-  "elando-ointment-15gm": [
-    "ELANDO OINTMENT 15GM"
+  "asomex": [
+    "asomex"
   ],
-  "elarist-10-120-mg-tablet-10": [
-    "ELARIST 10/120 MG TABLET 10"
+  "asomex 2.5mg": [
+    "asomex_2_5mg"
   ],
-  "elarist-m-10-120-tablet-10": [
-    "ELARIST M 10/120 TABLET 10"
+  "atocor": [
+    "atocor"
   ],
-  "elarist-l-10-mg-tablet-10": [
-    "Elarist L 10 Mg Tablet 10"
+  "atorfit cv": [
+    "atorfit_cv"
   ],
-  "elate-25-mg-tablet-10": [
-    "Elate 25 Mg Tablet 10"
+  "atorlip f": [
+    "atorlip_f"
   ],
-  "elaton-1mg-tablet": [
-    "Elaton 1mg Tablet"
+  "atorlip": [
+    "atorlip"
   ],
-  "elatorv-10-mg-tablet-10": [
-    "ELATORV 10 MG TABLET 10"
+  "augmentin duo": [
+    "augmentin_duo"
   ],
-  "elatorv-40-mg-tablet-10": [
-    "Elatorv 40 Mg Tablet 10"
+  "autrin": [
+    "autrin"
   ],
-  "elatorv-20-mg-tablet-10": [
-    "Elatorv 20 Mg Tablet 10"
+  "axcer": [
+    "axcer"
   ],
-  "eldcef-250mg-injection": [
-    "Eldcef 250mg Injection"
+  "azopt": [
+    "azopt"
   ],
-  "elba-cream-15-gm": [
-    "ELBA CREAM 15 GM"
+  "azoran": [
+    "azoran"
   ],
-  "elbed-strip-of-10-tablets": [
-    "ELBED STRIP OF 10 TABLETS"
+  "aztolet": [
+    "aztolet"
   ],
-  "elbed-m-strip-of-10-tablets": [
-    "ELBED M STRIP OF 10 TABLETS"
+  "azulix mf": [
+    "azulix_mf"
   ],
-  "elcair-forte-infusion": [
-    "ELCAIR FORTE INFUSION"
+  "azulix mf forte": [
+    "azulix_mf_forte"
   ],
-  "elcet-m-strip-of-10-tablets": [
-    "ELCET M STRIP OF 10 TABLETS"
+  "ebernet 1% tube of 30gm cream": [
+    "ebernet-1-tube-of-30gm-cream"
   ],
-  "elcet-5mg-strip-of-10-tablets": [
-    "ELCET 5MG STRIP OF 10 TABLETS"
+  "ebernet 1% tube of 60gm cream": [
+    "ebernet-1-tube-of-60gm-cream"
   ],
-  "elcet-cold-strip-of-10-tablets": [
-    "ELCET COLD STRIP OF 10 TABLETS"
+  "ecoflora bottle of 30 capsules": [
+    "ecoflora-bottle-of-30-capsules"
   ],
-  "elcet-l-5-mg-tablet-10": [
-    "Elcet L 5 Mg Tablet 10"
+  "econorm 250mg strip of 5 capsules": [
+    "econorm-250mg-strip-of-5-capsules"
   ],
-  "elclav-625mg-strip-of-10-tablets": [
-    "ELCLAV 625MG STRIP OF 10 TABLETS"
+  "ecosprin 150mg strip of 14 tablets": [
+    "ecosprin-150mg-strip-of-14-tablets"
   ],
-  "elclav-bid-228-5mg-bottle-of-30ml-dry-syrup": [
-    "ELCLAV BID 228.5MG BOTTLE OF 30ML DRY SYRUP"
+  "ecosprin av 150/20mg strip of 10 capsules": [
+    "ecosprin-av-150-20mg-strip-of-10-capsules"
   ],
-  "elcon-150-tablets": [
-    "ELCON 150 TABLETS"
+  "ecosprin av 75/20mg strip of 10 capsules": [
+    "ecosprin-av-75-20mg-strip-of-10-capsules"
   ],
-  "elcon-o-200-200-mg-tablet-10": [
-    "Elcon O 200/200 Mg Tablet 10"
+  "ecosprin gold 20mg strip of 15 capsules": [
+    "ecosprin-gold-20mg-strip-of-15-capsules"
   ],
-  "elcopia-bottle-of-200ml-syrup": [
-    "ELCOPIA BOTTLE OF 200ML SYRUP"
+  "ecosprin 75mg strip of 14 tablets": [
+    "ecosprin-75mg-strip-of-14-tablets"
   ],
-  "elcort-4mg-strip-of-10-tablets": [
-    "ELCORT 4MG STRIP OF 10 TABLETS"
+  "efnocar 40mg strip of 10 tablets": [
+    "efnocar-40mg-strip-of-10-tablets"
   ],
-  "elcort-8mg-strip-of-10-tablets": [
-    "ELCORT 8MG STRIP OF 10 TABLETS"
+  "eglucent mix 25 cartridges 3ml": [
+    "eglucent-mix-25-cartridges-3ml"
   ],
-  "elcort-16mg-strip-of-10-tablets": [
-    "ELCORT 16MG STRIP OF 10 TABLETS"
+  "eglucent rapid 100iu cartridge 3ml": [
+    "eglucent-rapid-100iu-cartridge-3ml"
   ],
-  "elcure-ozd-tab": [
-    "Elcure Ozd Tab"
+  "eido fe strip of 10 capsules": [
+    "eido-fe-strip-of-10-capsules"
   ],
-  "eldebe-cold-strip-of-10-tablets": [
-    "ELDEBE COLD STRIP OF 10 TABLETS"
+  "eltroxin 100mcg bottle of 100 tablets": [
+    "eltroxin-100mcg-bottle-of-100-tablets"
   ],
-  "eldenerv-1500mcg-strip-of-10-capsules": [
-    "ELDENERV 1500MCG STRIP OF 10 CAPSULES"
+  "eltroxin 25mcg bottle of 60 tablets": [
+    "eltroxin-25mcg-bottle-of-60-tablets"
   ],
-  "elderam-10-mg-tablet-10": [
-    "Elderam 10 Mg Tablet 10"
+  "embeta xr 25mg strip of 30 tablets": [
+    "embeta-xr-25mg-strip-of-30-tablets"
   ],
-  "eldervit-drop-15ml": [
-    "Eldervit Drop 15ml"
+  "emolene tube of 100gm cream": [
+    "emolene-tube-of-100gm-cream"
+  ],
+  "encicarb 500mg vial of 10ml injection": [
+    "encicarb-500mg-vial-of-10ml-injection"
+  ],
+  "encorate chrono 300mg strip of 10 tablets": [
+    "encorate-chrono-300mg-strip-of-10-tablets"
+  ],
+  "endeavours furic 40mg strip of 15 tablets": [
+    "endeavours-furic-40mg-strip-of-15-tablets"
+  ],
+  "endobloc 5mg strip of 10 tablets": [
+    "endobloc-5mg-strip-of-10-tablets"
+  ],
+  "entaliv 0.5mg bottle of 30 tablets": [
+    "entaliv-0-5mg-bottle-of-30-tablets"
+  ],
+  "envas 5mg strip of 15 tablets": [
+    "envas-5mg-strip-of-15-tablets"
+  ],
+  "enzar hs strip of 10 capsules": [
+    "enzar-hs-strip-of-10-capsules"
+  ],
+  "enzoflam strip of 10 tablets": [
+    "enzoflam-strip-of-10-tablets"
+  ],
+  "epilive 500mg strip of 15 tablets": [
+    "epilive-500mg-strip-of-15-tablets"
+  ],
+  "epilyno bottle of 50ml lotion": [
+    "epilyno-bottle-of-50ml-lotion"
+  ],
+  "eptus 25mg strip of 10 tablets": [
+    "eptus-25mg-strip-of-10-tablets"
+  ],
+  "eritel ch 80mg strip of 15 tablets": [
+    "eritel-ch-80mg-strip-of-15-tablets"
+  ],
+  "eritel am 40 strip of 15 tablets": [
+    "eritel-am-40-strip-of-15-tablets"
+  ],
+  "esiflo 250mcg box of 30 transcaps": [
+    "esiflo-250mcg-box-of-30-transcaps"
+  ],
+  "eslo 2.5mg strip of 15 tablets": [
+    "eslo-2-5mg-strip-of-15-tablets"
+  ],
+  "esoga rd strip of 10 capsules": [
+    "esoga-rd-strip-of-10-capsules"
+  ],
+  "esogress d 40mg strip of 10 capsules": [
+    "esogress-d-40mg-strip-of-10-capsules"
+  ],
+  "estrabet 2mg strip of 28 tablets": [
+    "estrabet-2mg-strip-of-28-tablets"
+  ],
+  "eternex t 20mg strip of 10 tablets": [
+    "eternex-t-20mg-strip-of-10-tablets"
+  ],
+  "etoshine 90mg strip of 10 tablets": [
+    "etoshine-90mg-strip-of-10-tablets"
+  ],
+  "eubri eye drops 10ml": [
+    "eubri-eye-drops-10ml"
+  ],
+  "eucalmin strip of 10 softgel capsules": [
+    "eucalmin-strip-of-10-softgel-capsules"
+  ],
+  "eurepa 2mg strip of 15 tablets": [
+    "eurepa-2mg-strip-of-15-tablets"
+  ],
+  "evaparin 40mg pre filled syringe of 0.4ml injection": [
+    "evaparin-40mg-pre-filled-syringe-of-0-4ml-injection"
+  ],
+  "evaserve strip of 10 tablets": [
+    "evaserve-strip-of-10-tablets"
+  ],
+  "exhep 40mg pre filled syringe of 0.4ml injection": [
+    "exhep-40mg-pre-filled-syringe-of-0-4ml-injection"
+  ],
+  "ezedoc 10mg strip of 10 tablets": [
+    "ezedoc-10mg-strip-of-10-tablets"
+  ],
+  "ezorb forte strip of 15 tablets": [
+    "ezorb-forte-strip-of-15-tablets"
+  ],
+  "eraflex strip of 10 tablets": [
+    "eraflex-strip-of-10-tablets"
+  ],
+  "eritel ch 40mg strip of 15 tablets": [
+    "eritel-ch-40mg-strip-of-15-tablets"
+  ],
+  "eritel h 40mg 15's strip of 15 tablets": [
+    "eritel-h-40mg-15-s-strip-of-15-tablets"
+  ],
+  "esiflo 250mcg packet of 120md transhaler": [
+    "esiflo-250mcg-packet-of-120md-transhaler"
+  ],
+  "eslo 5mg strip of 15 tablets": [
+    "eslo-5mg-strip-of-15-tablets"
+  ],
+  "etf pee strip of 10 tablets": [
+    "etf-pee-strip-of-10-tablets"
+  ],
+  "efacaine 500/50/10 mg suspension 200 ml": [
+    "efacaine-500-50-10-mg-suspension-200-ml"
+  ],
+  "efacid suspension": [
+    "efacid-suspension"
+  ],
+  "efaderm tube of 60gm cream": [
+    "efaderm-tube-of-60gm-cream"
+  ],
+  "efalife cap": [
+    "efalife-cap"
+  ],
+  "efamat bottle of 30 tablets": [
+    "efamat-bottle-of-30-tablets"
+  ],
+  "efaprim 1gm softgel": [
+    "efaprim-1gm-softgel"
+  ],
+  "efaprim 500mg softgel": [
+    "efaprim-500mg-softgel"
+  ],
+  "efarelle cap": [
+    "efarelle-cap"
+  ],
+  "efaruth plus capsule 10": [
+    "efaruth-plus-capsule-10"
+  ],
+  "efastenol cap": [
+    "efastenol-cap"
+  ],
+  "efat cap": [
+    "efat-cap"
+  ],
+  "efatop c lotion 75ml": [
+    "efatop-c-lotion-75ml"
+  ],
+  "efatum 1.5gm inj": [
+    "efatum-1-5gm-inj"
+  ],
+  "efavir 200mg capsule": [
+    "efavir-200mg-capsule"
+  ],
+  "efavir 600mg bottle of 30 tablets": [
+    "efavir-600mg-bottle-of-30-tablets"
+  ],
+  "efavit l syrup 200ml": [
+    "efavit-l-syrup-200ml"
+  ],
+  "efavir 100 mg capsule 30": [
+    "efavir-100-mg-capsule-30"
+  ],
+  "efavir 300 mg tablet 30": [
+    "efavir-300-mg-tablet-30"
+  ],
+  "efavir 200 mg tablet 60": [
+    "efavir-200-mg-tablet-60"
+  ],
+  "efcan 150 mg tablet 1": [
+    "efcan-150-mg-tablet-1"
+  ],
+  "efcinol plus cream 10gm": [
+    "efcinol-plus-cream-10gm"
+  ],
+  "efcoba 500mg inj 1ml": [
+    "efcoba-500mg-inj-1ml"
+  ],
+  "efcoba 500mg tablet": [
+    "efcoba-500mg-tablet"
+  ],
+  "efcoba forte strip of 10 tablets": [
+    "efcoba-forte-strip-of-10-tablets"
+  ],
+  "efcoba od tab": [
+    "efcoba-od-tab"
+  ],
+  "efcoba plus tablet": [
+    "efcoba-plus-tablet"
+  ],
+  "efcoba f tab": [
+    "efcoba-f-tab"
+  ],
+  "efcoben strip of 10 capsules": [
+    "efcoben-strip-of-10-capsules"
+  ],
+  "efcol suspension": [
+    "efcol-suspension"
+  ],
+  "efcolt tab": [
+    "efcolt-tab"
+  ],
+  "efcon 150mg tab": [
+    "efcon-150mg-tab"
+  ],
+  "efcon 400mg strip of 1 tablets": [
+    "efcon-400mg-strip-of-1-tablets"
+  ],
+  "efcorlin bottle of 10ml nasal drops": [
+    "efcorlin-bottle-of-10ml-nasal-drops"
+  ],
+  "efcorlin 100mg dry vial of 1 powder for injection": [
+    "efcorlin-100mg-dry-vial-of-1-powder-for-injection"
+  ],
+  "efcorlin 2.5gm pellets": [
+    "efcorlin-2-5gm-pellets"
+  ],
+  "efcorlin 100 mg injection 2.5 ml": [
+    "efcorlin-100-mg-injection-2-5-ml"
+  ],
+  "efcorlin 0.02/0.025 % nasal drops 15 ml": [
+    "efcorlin-0-02-0-025-nasal-drops-15-ml"
+  ],
+  "efcure 200mg bottle of 30 tablets": [
+    "efcure-200mg-bottle-of-30-tablets"
+  ],
+  "efcure 600mg bottle of 30 tablets": [
+    "efcure-600mg-bottle-of-30-tablets"
+  ],
+  "efcure 30mg solu 60ml": [
+    "efcure-30mg-solu-60ml"
+  ],
+  "efdim 250mg inj": [
+    "efdim-250mg-inj"
+  ],
+  "efdinir 300mg strip of 8 capsules": [
+    "efdinir-300mg-strip-of-8-capsules"
+  ],
+  "efeb 40 mg tablet 10": [
+    "efeb-40-mg-tablet-10"
+  ],
+  "efecient inj 5ml": [
+    "efecient-inj-5ml"
+  ],
+  "efecip 250mg tab": [
+    "efecip-250mg-tab"
+  ],
+  "efecip 500mg tab": [
+    "efecip-500mg-tab"
+  ],
+  "efecip 125mg suspension": [
+    "efecip-125mg-suspension"
+  ],
+  "efecip 250mg suspension": [
+    "efecip-250mg-suspension"
+  ],
+  "efecip infusion": [
+    "efecip-infusion"
+  ],
+  "efecol tab": [
+    "efecol-tab"
+  ],
+  "efectal om syrup 50 ml": [
+    "efectal-om-syrup-50-ml"
+  ],
+  "efectal 1gm dry vial of 1 powder for injection": [
+    "efectal-1gm-dry-vial-of-1-powder-for-injection"
+  ],
+  "efectal 250mg inj": [
+    "efectal-250mg-inj"
+  ],
+  "efectal-tz 1000/125 mg injection 1 ml": [
+    "efectal-tz-1000-125-mg-injection-1-ml"
+  ],
+  "efectal s 1000/500 mg injection 1": [
+    "efectal-s-1000-500-mg-injection-1"
+  ],
+  "efefzy 250mg tab": [
+    "efefzy-250mg-tab"
+  ],
+  "efefzy 500mg tab": [
+    "efefzy-500mg-tab"
+  ],
+  "efegut strip of 10 capsules": [
+    "efegut-strip-of-10-capsules"
+  ],
+  "efekart strip of 10 tablets": [
+    "efekart-strip-of-10-tablets"
+  ],
+  "efelac dt 100mg strip of 10 tablets": [
+    "efelac-dt-100mg-strip-of-10-tablets"
+  ],
+  "efelac dt 200mg strip of 10 tablets": [
+    "efelac-dt-200mg-strip-of-10-tablets"
+  ],
+  "efelac 100/40 mg tablet 10": [
+    "efelac-100-40-mg-tablet-10"
+  ],
+  "efelac 200/60 mg tablet 10": [
+    "efelac-200-60-mg-tablet-10"
+  ],
+  "efelin tablets": [
+    "efelin-tablets"
+  ],
+  "efelin pd syrup 100ml": [
+    "efelin-pd-syrup-100ml"
+  ],
+  "efelin x pd syrup 100ml": [
+    "efelin-x-pd-syrup-100ml"
+  ],
+  "efelin x strip of 10 tablets": [
+    "efelin-x-strip-of-10-tablets"
+  ],
+  "efelobe tablet 10": [
+    "efelobe-tablet-10"
+  ],
+  "efelobe tab 30's": [
+    "efelobe-tab-30-s"
+  ],
+  "efem strip of 10 capsules": [
+    "efem-strip-of-10-capsules"
+  ],
+  "efem 1000mg strip of 10 capsules": [
+    "efem-1000mg-strip-of-10-capsules"
+  ],
+  "efem meno strip of 10 tablets": [
+    "efem-meno-strip-of-10-tablets"
+  ],
+  "efem activ tablet 30s": [
+    "efem-activ-tablet-30s"
+  ],
+  "efem activ strip of 10 tablets": [
+    "efem-activ-strip-of-10-tablets"
+  ],
+  "efepime 500mg inj": [
+    "efepime-500mg-inj"
+  ],
+  "eferem tablet": [
+    "eferem-tablet"
+  ],
+  "eferem p 100/325/10 mg tablet 10": [
+    "eferem-p-100-325-10-mg-tablet-10"
+  ],
+  "efespas 10mg strip of 10 tablets": [
+    "efespas-10mg-strip-of-10-tablets"
+  ],
+  "efespas 10/250 mg tablet 10": [
+    "efespas-10-250-mg-tablet-10"
+  ],
+  "efetil 600mg strip of 10 effervescent tablets": [
+    "efetil-600mg-strip-of-10-effervescent-tablets"
+  ],
+  "efetil 600mg orange flavour sugar free strip of 10 effervescent tablets": [
+    "efetil-600mg-orange-flavour-sugar-free-strip-of-10-effervescent-tablets"
+  ],
+  "efetran 75mg capsule": [
+    "efetran-75mg-capsule"
+  ],
+  "efex plus tablet 10": [
+    "efex-plus-tablet-10"
+  ],
+  "efex 20 mg capsule 10": [
+    "efex-20-mg-capsule-10"
+  ],
+  "effaclar foaming gel 50 ml": [
+    "effaclar-foaming-gel-50-ml"
+  ],
+  "effahope 600mg tab": [
+    "effahope-600mg-tab"
+  ],
+  "effcal lemon strip of 2 tablets": [
+    "effcal-lemon-strip-of-2-tablets"
+  ],
+  "effcal mango tab": [
+    "effcal-mango-tab"
+  ],
+  "effcal orange strip of 2 tablets": [
+    "effcal-orange-strip-of-2-tablets"
+  ],
+  "effcal ct 1000 mg/200iu tablet 6": [
+    "effcal-ct-1000-mg-200iu-tablet-6"
+  ],
+  "effective 500 mg tablet 10": [
+    "effective-500-mg-tablet-10"
+  ],
+  "effectto cap": [
+    "effectto-cap"
+  ],
+  "effectum powder 30 gm": [
+    "effectum-powder-30-gm"
+  ],
+  "effect plus tab": [
+    "effect-plus-tab"
+  ],
+  "effect tab": [
+    "effect-tab"
+  ],
+  "effectum active strip of 10 capsules": [
+    "effectum-active-strip-of-10-capsules"
+  ],
+  "effective 250 mg tablet 10": [
+    "effective-250-mg-tablet-10"
+  ],
+  "effectum vanilla powder 200 gm": [
+    "effectum-vanilla-powder-200-gm"
+  ],
+  "effelyte orange flavour efferevescent bottle of 10 tablets": [
+    "effelyte-orange-flavour-efferevescent-bottle-of-10-tablets"
+  ],
+  "effelin 50 mg injection 1 ml": [
+    "effelin-50-mg-injection-1-ml"
+  ],
+  "effenac 600mg orange flavour bottle of 10 effervescent tablets": [
+    "effenac-600mg-orange-flavour-bottle-of-10-effervescent-tablets"
+  ],
+  "effenac ab strip of 10 tablets": [
+    "effenac-ab-strip-of-10-tablets"
+  ],
+  "effenerv strip of 10 capsules": [
+    "effenerv-strip-of-10-capsules"
+  ],
+  "effenerv inj": [
+    "effenerv-inj"
+  ],
+  "effenerv pg strip of 10 capsules": [
+    "effenerv-pg-strip-of-10-capsules"
+  ],
+  "efferven 200mg strip of 10 tablets": [
+    "efferven-200mg-strip-of-10-tablets"
+  ],
+  "efferven 600mg tablet": [
+    "efferven-600mg-tablet"
+  ],
+  "effexone 1gm inj": [
+    "effexone-1gm-inj"
+  ],
+  "effibol 50mg inj": [
+    "effibol-50mg-inj"
+  ],
+  "effibol 25mg inj": [
+    "effibol-25mg-inj"
+  ],
+  "efficort 0.127% cream 10gm": [
+    "efficort-0-127-cream-10gm"
+  ],
+  "efficin 1gm inj": [
+    "efficin-1gm-inj"
+  ],
+  "efficin 1gm tablets": [
+    "efficin-1gm-tablets"
+  ],
+  "efficin 500mg inj": [
+    "efficin-500mg-inj"
+  ],
+  "efficin 750mg inj": [
+    "efficin-750mg-inj"
+  ],
+  "efficium o tab": [
+    "efficium-o-tab"
+  ],
+  "efficacio pt inj": [
+    "efficacio-pt-inj"
+  ],
+  "effidox 100mg strip of 10 capsules": [
+    "effidox-100mg-strip-of-10-capsules"
+  ],
+  "effient 10mg strip of 14 tablets": [
+    "effient-10mg-strip-of-14-tablets"
+  ],
+  "effie 100mg tab": [
+    "effie-100mg-tab"
+  ],
+  "effie 200mg tab": [
+    "effie-200mg-tab"
+  ],
+  "effient 5mg tab": [
+    "effient-5mg-tab"
+  ],
+  "effilin 25mg inj": [
+    "effilin-25mg-inj"
+  ],
+  "effilin 50mg inj": [
+    "effilin-50mg-inj"
+  ],
+  "effimax s 1.5g dry vial of 1 powder for injection": [
+    "effimax-s-1-5g-dry-vial-of-1-powder-for-injection"
+  ],
+  "effimax plus 750mg inj": [
+    "effimax-plus-750mg-inj"
+  ],
+  "effimax s 375mg inj": [
+    "effimax-s-375mg-inj"
+  ],
+  "effimax 1gm inj": [
+    "effimax-1gm-inj"
+  ],
+  "effimax 250/125 mg injection 1 ml": [
+    "effimax-250-125-mg-injection-1-ml"
+  ],
+  "effimax s 500/250 mg injection 1": [
+    "effimax-s-500-250-mg-injection-1"
+  ],
+  "effimax plus 1000/500 mg injection 1": [
+    "effimax-plus-1000-500-mg-injection-1"
+  ],
+  "effimax tz dry vial of 1 powder for injection": [
+    "effimax-tz-dry-vial-of-1-powder-for-injection"
+  ],
+  "effitor tab": [
+    "effitor-tab"
+  ],
+  "effoday tab": [
+    "effoday-tab"
+  ],
+  "effort capsule 10": [
+    "effort-capsule-10"
+  ],
+  "effort syrup 200ml": [
+    "effort-syrup-200ml"
+  ],
+  "effort drops": [
+    "effort-drops"
+  ],
+  "effros strip of 10 capsules": [
+    "effros-strip-of-10-capsules"
+  ],
+  "effros strip of 10 tablets": [
+    "effros-strip-of-10-tablets"
+  ],
+  "efibact 200mg tab": [
+    "efibact-200mg-tab"
+  ],
+  "efibact dt 100mg tablets": [
+    "efibact-dt-100mg-tablets"
+  ],
+  "efibact 100mg dry syrup 30ml": [
+    "efibact-100mg-dry-syrup-30ml"
+  ],
+  "efibact dt 50mg tab": [
+    "efibact-dt-50mg-tab"
+  ],
+  "efibact 50mg dry syrup 30ml": [
+    "efibact-50mg-dry-syrup-30ml"
+  ],
+  "efical strip of 10 capsules": [
+    "efical-strip-of-10-capsules"
+  ],
+  "eficef cv 200mg tablet": [
+    "eficef-cv-200mg-tablet"
+  ],
+  "eficef 200mg tab": [
+    "eficef-200mg-tab"
+  ],
+  "eficef dt 100mg tab": [
+    "eficef-dt-100mg-tab"
+  ],
+  "eficef dt 50mg tab": [
+    "eficef-dt-50mg-tab"
+  ],
+  "eficef dry syrup 30ml": [
+    "eficef-dry-syrup-30ml"
+  ],
+  "eficef cv dt 100mg tab": [
+    "eficef-cv-dt-100mg-tab"
+  ],
+  "eficef cv dt 50mg tab": [
+    "eficef-cv-dt-50mg-tab"
+  ],
+  "eficent plus strip of 10 tablets": [
+    "eficent-plus-strip-of-10-tablets"
+  ],
+  "eficin dt 200 mg tablet 10": [
+    "eficin-dt-200-mg-tablet-10"
+  ],
+  "eficino 200/100 mg tablet 10": [
+    "eficino-200-100-mg-tablet-10"
+  ],
+  "efiglin m strip of 10 tablets": [
+    "efiglin-m-strip-of-10-tablets"
+  ],
+  "efiglin 20mg strip of 10 tablets": [
+    "efiglin-20mg-strip-of-10-tablets"
+  ],
+  "efiglin m 500mg strip of 15 tablets": [
+    "efiglin-m-500mg-strip-of-15-tablets"
+  ],
+  "efiglin m 1000mg tablet 15's": [
+    "efiglin-m-1000mg-tablet-15-s"
+  ],
+  "efiglin 20mg strip of 15 tablets": [
+    "efiglin-20mg-strip-of-15-tablets"
+  ],
+  "efigraine neo 10mg strip of 10 tablets": [
+    "efigraine-neo-10mg-strip-of-10-tablets"
+  ],
+  "efigraine 10mg tablet": [
+    "efigraine-10mg-tablet"
+  ],
+  "efigraine 5mg tablet": [
+    "efigraine-5mg-tablet"
+  ],
+  "efil 10mg strip of 10 tablets": [
+    "efil-10mg-strip-of-10-tablets"
+  ],
+  "efil 2.5mg strip of 10 tablets": [
+    "efil-2-5mg-strip-of-10-tablets"
+  ],
+  "efil 5mg strip of 10 tablets": [
+    "efil-5mg-strip-of-10-tablets"
+  ],
+  "efilor er 400mg tab": [
+    "efilor-er-400mg-tab"
+  ],
+  "efilor mr tab": [
+    "efilor-mr-tab"
+  ],
+  "efilor p tab": [
+    "efilor-p-tab"
+  ],
+  "efimeran kid 250mg inj": [
+    "efimeran-kid-250mg-inj"
+  ],
+  "efimox er tablet": [
+    "efimox-er-tablet"
+  ],
+  "efimylin inj": [
+    "efimylin-inj"
+  ],
+  "efin cr tab": [
+    "efin-cr-tab"
+  ],
+  "efiplat 5mg tablet": [
+    "efiplat-5mg-tablet"
+  ],
+  "efiplus capsule 10": [
+    "efiplus-capsule-10"
+  ],
+  "efipress injection": [
+    "efipress-injection"
+  ],
+  "efipress inj 1ml": [
+    "efipress-inj-1ml"
+  ],
+  "efizyme bottle of 200ml syrup": [
+    "efizyme-bottle-of-200ml-syrup"
+  ],
+  "efizyme drops 30 ml": [
+    "efizyme-drops-30-ml"
+  ],
+  "eflaza 6mg strip of 10 tablets": [
+    "eflaza-6mg-strip-of-10-tablets"
+  ],
+  "eflin m 75mg strip of 10 tablets": [
+    "eflin-m-75mg-strip-of-10-tablets"
+  ],
+  "eflo (entod pharma) bottle of 5ml eye drops": [
+    "eflo-entod-pharma-bottle-of-5ml-eye-drops"
+  ],
+  "eflo 500mg strip of 10 capsules": [
+    "eflo-500mg-strip-of-10-capsules"
+  ],
+  "eflobid 200mg strip of 10 tablets": [
+    "eflobid-200mg-strip-of-10-tablets"
+  ],
+  "eflocare cream 10gm": [
+    "eflocare-cream-10gm"
+  ],
+  "eflora tube of 15gm cream": [
+    "eflora-tube-of-15gm-cream"
+  ],
+  "eflox oz strip of 10 tablets": [
+    "eflox-oz-strip-of-10-tablets"
+  ],
+  "eflox 200mg tablet": [
+    "eflox-200mg-tablet"
+  ],
+  "eflox 400mg tablet": [
+    "eflox-400mg-tablet"
+  ],
+  "efnase nasal spray": [
+    "efnase-nasal-spray"
+  ],
+  "efnithin tube of 10gm cream": [
+    "efnithin-tube-of-10gm-cream"
+  ],
+  "efnocar t 40/40mg strip of 10 tablets": [
+    "efnocar-t-40-40mg-strip-of-10-tablets"
+  ],
+  "efnocar ct 40/12.5mg strip of 10 tablets": [
+    "efnocar-ct-40-12-5mg-strip-of-10-tablets"
+  ],
+  "efnocar t 20/40mg strip of 10 tablets": [
+    "efnocar-t-20-40mg-strip-of-10-tablets"
+  ],
+  "efnocar mx 40/25mg strip of 10 tablets": [
+    "efnocar-mx-40-25mg-strip-of-10-tablets"
+  ],
+  "efnocar 20mg strip of 10 tablets": [
+    "efnocar-20mg-strip-of-10-tablets"
+  ],
+  "efnocar 10mg strip of 10 tablets": [
+    "efnocar-10mg-strip-of-10-tablets"
+  ],
+  "efoceft 1gm inj": [
+    "efoceft-1gm-inj"
+  ],
+  "efoceft 250mg inj": [
+    "efoceft-250mg-inj"
+  ],
+  "efoceft 500mg inj": [
+    "efoceft-500mg-inj"
+  ],
+  "efoceft s 375mg inj": [
+    "efoceft-s-375mg-inj"
+  ],
+  "efoceft s 750mg inj": [
+    "efoceft-s-750mg-inj"
+  ],
+  "efoceft s 1.5gm inj": [
+    "efoceft-s-1-5gm-inj"
+  ],
+  "efoglim m sr 3/500mg strip of 10 tablets": [
+    "efoglim-m-sr-3-500mg-strip-of-10-tablets"
+  ],
+  "efoglim m 3/500mg strip of 15 tablets": [
+    "efoglim-m-3-500mg-strip-of-15-tablets"
+  ],
+  "efomp 1.5 vial of 1 injection": [
+    "efomp-1-5-vial-of-1-injection"
+  ],
+  "efonta t 40/40mg strip of 10 tablets": [
+    "efonta-t-40-40mg-strip-of-10-tablets"
+  ],
+  "efonta 20mg strip of 10 tablets": [
+    "efonta-20mg-strip-of-10-tablets"
+  ],
+  "efonta 10 mg tablet 10": [
+    "efonta-10-mg-tablet-10"
+  ],
+  "efonta 40mg strip of 10 tablets": [
+    "efonta-40mg-strip-of-10-tablets"
+  ],
+  "efonta 40mg strip of 15 tablets": [
+    "efonta-40mg-strip-of-15-tablets"
+  ],
+  "efonta 20mg strip of 15 tablets": [
+    "efonta-20mg-strip-of-15-tablets"
+  ],
+  "efonta t 40mg strip of 10 tablets": [
+    "efonta-t-40mg-strip-of-10-tablets"
+  ],
+  "eforce 20 mg tablet 30": [
+    "eforce-20-mg-tablet-30"
+  ],
+  "efort 400mg strip of 10 capsules": [
+    "efort-400mg-strip-of-10-capsules"
+  ],
+  "efospar 200mg strip of 6 tablets": [
+    "efospar-200mg-strip-of-6-tablets"
+  ],
+  "efotax 250mg inj": [
+    "efotax-250mg-inj"
+  ],
+  "efotax 500mg inj": [
+    "efotax-500mg-inj"
+  ],
+  "efotax 1gm inj": [
+    "efotax-1gm-inj"
+  ],
+  "efotax 125mg inj": [
+    "efotax-125mg-inj"
+  ],
+  "efotel 40mg strip of 10 tablets": [
+    "efotel-40mg-strip-of-10-tablets"
+  ],
+  "efox 200mg strip of 10 tablets": [
+    "efox-200mg-strip-of-10-tablets"
+  ],
+  "efoxim 100 mg tablet 10": [
+    "efoxim-100-mg-tablet-10"
+  ],
+  "efoxiren 50mg strip of 10 capsules": [
+    "efoxiren-50mg-strip-of-10-capsules"
+  ],
+  "efoxim 200mg tablets": [
+    "efoxim-200mg-tablets"
+  ],
+  "efoxim o tab": [
+    "efoxim-o-tab"
+  ],
+  "efoxim 200mg strip of 10 tablets": [
+    "efoxim-200mg-strip-of-10-tablets"
+  ],
+  "efoxim 200 mg dry syrup 30 ml": [
+    "efoxim-200-mg-dry-syrup-30-ml"
+  ],
+  "efpodox 100mg tab": [
+    "efpodox-100mg-tab"
+  ],
+  "efpodox 200mg tab": [
+    "efpodox-200mg-tab"
+  ],
+  "efpod 100mg tab": [
+    "efpod-100mg-tab"
+  ],
+  "efpod 200mg tab": [
+    "efpod-200mg-tab"
+  ],
+  "efpod cv tab": [
+    "efpod-cv-tab"
+  ],
+  "efpod o tab": [
+    "efpod-o-tab"
+  ],
+  "efpod dry syrup 30ml": [
+    "efpod-dry-syrup-30ml"
+  ],
+  "efpod cv dry syrup 30ml": [
+    "efpod-cv-dry-syrup-30ml"
+  ],
+  "eftanu 250mg inj": [
+    "eftanu-250mg-inj"
+  ],
+  "eftanu 500mg inj": [
+    "eftanu-500mg-inj"
+  ],
+  "eftanu 1gm inj": [
+    "eftanu-1gm-inj"
+  ],
+  "eftanu s 1.5gm inj": [
+    "eftanu-s-1-5gm-inj"
+  ],
+  "efti 1g vial of 1 injection": [
+    "efti-1g-vial-of-1-injection"
+  ],
+  "eftritax 1g dry vial of 1 powder for injection": [
+    "eftritax-1g-dry-vial-of-1-powder-for-injection"
+  ],
+  "eftritax sb 1500mg dry vial of 1 powder for injection": [
+    "eftritax-sb-1500mg-dry-vial-of-1-powder-for-injection"
+  ],
+  "eftrimac o dry syrup 30ml": [
+    "eftrimac-o-dry-syrup-30ml"
+  ],
+  "eftricin 250mg inj": [
+    "eftricin-250mg-inj"
+  ],
+  "eftricin 500mg inj": [
+    "eftricin-500mg-inj"
+  ],
+  "eftricin 1gm inj": [
+    "eftricin-1gm-inj"
+  ],
+  "eftimax 1gm inj": [
+    "eftimax-1gm-inj"
+  ],
+  "eftimax sb 1000/500 mg injection 1": [
+    "eftimax-sb-1000-500-mg-injection-1"
+  ],
+  "efticure tz 1g dry vial of 1 powder for injection": [
+    "efticure-tz-1g-dry-vial-of-1-powder-for-injection"
+  ],
+  "eftione 1gm inj": [
+    "eftione-1gm-inj"
+  ],
+  "eftione tz 1.125gm inj": [
+    "eftione-tz-1-125gm-inj"
+  ],
+  "efudex 250mg tab": [
+    "efudex-250mg-tab"
+  ],
+  "efudex 500mg tablets": [
+    "efudex-500mg-tablets"
+  ],
+  "efuvo 250mg tab": [
+    "efuvo-250mg-tab"
+  ],
+  "efuvo 500mg tab": [
+    "efuvo-500mg-tab"
+  ],
+  "efutal 500mg strip of 10 tablets": [
+    "efutal-500mg-strip-of-10-tablets"
+  ],
+  "efv 200mg tab": [
+    "efv-200mg-tab"
+  ],
+  "efv 600mg tab": [
+    "efv-600mg-tab"
+  ],
+  "efzon cv tablets": [
+    "efzon-cv-tablets"
+  ],
+  "ega d 30mg/40mg capsule": [
+    "ega-d-30mg-40mg-capsule"
+  ],
+  "eg c gel 20gm": [
+    "eg-c-gel-20gm"
+  ],
+  "egac do strip of 10 capsules": [
+    "egac-do-strip-of-10-capsules"
+  ],
+  "egac 40mg strip of 10 tablets": [
+    "egac-40mg-strip-of-10-tablets"
+  ],
+  "egac d 40/10mg strip of 10 tablets": [
+    "egac-d-40-10mg-strip-of-10-tablets"
+  ],
+  "egagerm solution 50 ml": [
+    "egagerm-solution-50-ml"
+  ],
+  "egalyt pds syrup 60ml": [
+    "egalyt-pds-syrup-60ml"
+  ],
+  "egarile strip of 10 capsules": [
+    "egarile-strip-of-10-capsules"
+  ],
+  "egbid d 40/30mg capsule 10": [
+    "egbid-d-40-30mg-capsule-10"
+  ],
+  "egd ls capsule": [
+    "egd-ls-capsule"
+  ],
+  "egd forte capsule 10": [
+    "egd-forte-capsule-10"
+  ],
+  "egd 40/30 mg capsule 10": [
+    "egd-40-30-mg-capsule-10"
+  ],
+  "egel susp 170ml": [
+    "egel-susp-170ml"
+  ],
+  "egetem 2.5mg tab": [
+    "egetem-2-5mg-tab"
+  ],
+  "eggoz 100mg capsule": [
+    "eggoz-100mg-capsule"
+  ],
+  "eggoz 50 mg tablet 10": [
+    "eggoz-50-mg-tablet-10"
+  ],
+  "egical 500mg strip of 15 tablets": [
+    "egical-500mg-strip-of-15-tablets"
+  ],
+  "egift capsule 10": [
+    "egift-capsule-10"
+  ],
+  "egistat 40 mg tablet 10": [
+    "egistat-40-mg-tablet-10"
+  ],
+  "egiva cap": [
+    "egiva-cap"
+  ],
+  "egiver gel 30 gm": [
+    "egiver-gel-30-gm"
+  ],
+  "eglev m 500 mg tablet 10": [
+    "eglev-m-500-mg-tablet-10"
+  ],
+  "egley 500 mg tablet 10": [
+    "egley-500-mg-tablet-10"
+  ],
+  "ego m tablet 10": [
+    "ego-m-tablet-10"
+  ],
+  "ego p tablet 10": [
+    "ego-p-tablet-10"
+  ],
+  "egogest 200mg strip of 10 capsules": [
+    "egogest-200mg-strip-of-10-capsules"
+  ],
+  "egostin m strip of 10 tablets": [
+    "egostin-m-strip-of-10-tablets"
+  ],
+  "egostin 20 mg tablet 10": [
+    "egostin-20-mg-tablet-10"
+  ],
+  "egostin 10 mg tablet 10": [
+    "egostin-10-mg-tablet-10"
+  ],
+  "egrest 250 mg tablet 10": [
+    "egrest-250-mg-tablet-10"
+  ],
+  "egspas tablet 10": [
+    "egspas-tablet-10"
+  ],
+  "egulent 10 mg tablet 10": [
+    "egulent-10-mg-tablet-10"
+  ],
+  "egwell soft gelatin capsule 15": [
+    "egwell-soft-gelatin-capsule-15"
+  ],
+  "egystal 100 mg tablet 15": [
+    "egystal-100-mg-tablet-15"
+  ],
+  "eh 40mg tab": [
+    "eh-40mg-tab"
+  ],
+  "ehcoli bottle of 60 capsules": [
+    "ehcoli-bottle-of-60-capsules"
+  ],
+  "ehclav tablets": [
+    "ehclav-tablets"
+  ],
+  "ehclav dry syrpup": [
+    "ehclav-dry-syrpup"
+  ],
+  "ehclav 625 mg tablet 10": [
+    "ehclav-625-mg-tablet-10"
+  ],
+  "ehpod capsule 10": [
+    "ehpod-capsule-10"
+  ],
+  "ehtab tab": [
+    "ehtab-tab"
+  ],
+  "ei vaccine 0.5ml injection 0.5": [
+    "ei-vaccine-0-5ml-injection-0-5"
+  ],
+  "eicos strip of 10 tablets": [
+    "eicos-strip-of-10-tablets"
+  ],
+  "eid f capsule 10": [
+    "eid-f-capsule-10"
+  ],
+  "eido m strip of 15 capsules": [
+    "eido-m-strip-of-15-capsules"
+  ],
+  "eido fe dry syp": [
+    "eido-fe-dry-syp"
+  ],
+  "eighteen bp soap 75gm": [
+    "eighteen-bp-soap-75gm"
+  ],
+  "eilex 32gm granules": [
+    "eilex-32gm-granules"
+  ],
+  "eilex 100gm granules": [
+    "eilex-100gm-granules"
+  ],
+  "eisep bottle of 50ml mouthwash": [
+    "eisep-bottle-of-50ml-mouthwash"
+  ],
+  "eisen 150mg tab": [
+    "eisen-150mg-tab"
+  ],
+  "ej max capsule": [
+    "ej-max-capsule"
+  ],
+  "ej min e capsule 10": [
+    "ej-min-e-capsule-10"
+  ],
+  "eject 30mg tablet": [
+    "eject-30mg-tablet"
+  ],
+  "ejeg m 500/0.2mg tablet 15": [
+    "ejeg-m-500-0-2mg-tablet-15"
+  ],
+  "ejoint capsule 10": [
+    "ejoint-capsule-10"
+  ],
+  "ekalon strip of 10 tablets": [
+    "ekalon-strip-of-10-tablets"
+  ],
+  "ekan 150 mg tablet 1": [
+    "ekan-150-mg-tablet-1"
+  ],
+  "ekal bottle of 250ml solution": [
+    "ekal-bottle-of-250ml-solution"
+  ],
+  "ekal 200 ml solution": [
+    "ekal-200-ml-solution"
+  ],
+  "ekal susp 100ml": [
+    "ekal-susp-100ml"
+  ],
+  "ekamil 500mg inj": [
+    "ekamil-500mg-inj"
+  ],
+  "eke plus 0.05/6 % cream 15 gm": [
+    "eke-plus-0-05-6-cream-15-gm"
+  ],
+  "ekef kit 6's": [
+    "ekef-kit-6-s"
+  ],
+  "ekfer xt susp 150ml": [
+    "ekfer-xt-susp-150ml"
+  ],
+  "ekinate 60mg inj": [
+    "ekinate-60mg-inj"
+  ],
+  "ekinate ab inj": [
+    "ekinate-ab-inj"
+  ],
+  "eklib sr 400 mg tablet 10": [
+    "eklib-sr-400-mg-tablet-10"
+  ],
+  "ekomax capsule": [
+    "ekomax-capsule"
+  ],
+  "ekomax d strip of 10 capsules": [
+    "ekomax-d-strip-of-10-capsules"
+  ],
+  "ekomax tablet": [
+    "ekomax-tablet"
+  ],
+  "ekomax 200mg tab": [
+    "ekomax-200mg-tab"
+  ],
+  "ekomax forte capsule 10": [
+    "ekomax-forte-capsule-10"
+  ],
+  "ektam 1gb dry vial of 1 powder for injection": [
+    "ektam-1gb-dry-vial-of-1-powder-for-injection"
+  ],
+  "ektam 500 mg injection 1": [
+    "ektam-500-mg-injection-1"
+  ],
+  "ela b cream 10gm": [
+    "ela-b-cream-10gm"
+  ],
+  "elac tab": [
+    "elac-tab"
+  ],
+  "elact l oral susp 15ml": [
+    "elact-l-oral-susp-15ml"
+  ],
+  "elah 20mg strip of 10 tablets": [
+    "elah-20mg-strip-of-10-tablets"
+  ],
+  "elah 10 mg tablet 10": [
+    "elah-10-mg-tablet-10"
+  ],
+  "elampa tab": [
+    "elampa-tab"
+  ],
+  "elando ointment 15gm": [
+    "elando-ointment-15gm"
+  ],
+  "elarist 10/120 mg tablet 10": [
+    "elarist-10-120-mg-tablet-10"
+  ],
+  "elarist m 10/120 tablet 10": [
+    "elarist-m-10-120-tablet-10"
+  ],
+  "elarist l 10 mg tablet 10": [
+    "elarist-l-10-mg-tablet-10"
+  ],
+  "elate 25 mg tablet 10": [
+    "elate-25-mg-tablet-10"
+  ],
+  "elaton 1mg tablet": [
+    "elaton-1mg-tablet"
+  ],
+  "elatorv 10 mg tablet 10": [
+    "elatorv-10-mg-tablet-10"
+  ],
+  "elatorv 40 mg tablet 10": [
+    "elatorv-40-mg-tablet-10"
+  ],
+  "elatorv 20 mg tablet 10": [
+    "elatorv-20-mg-tablet-10"
+  ],
+  "eldcef 250mg injection": [
+    "eldcef-250mg-injection"
+  ],
+  "elba cream 15 gm": [
+    "elba-cream-15-gm"
+  ],
+  "elbed strip of 10 tablets": [
+    "elbed-strip-of-10-tablets"
+  ],
+  "elbed m strip of 10 tablets": [
+    "elbed-m-strip-of-10-tablets"
+  ],
+  "elcair forte infusion": [
+    "elcair-forte-infusion"
+  ],
+  "elcet m strip of 10 tablets": [
+    "elcet-m-strip-of-10-tablets"
+  ],
+  "elcet 5mg strip of 10 tablets": [
+    "elcet-5mg-strip-of-10-tablets"
+  ],
+  "elcet cold strip of 10 tablets": [
+    "elcet-cold-strip-of-10-tablets"
+  ],
+  "elcet l 5 mg tablet 10": [
+    "elcet-l-5-mg-tablet-10"
+  ],
+  "elclav 625mg strip of 10 tablets": [
+    "elclav-625mg-strip-of-10-tablets"
+  ],
+  "elclav bid 228.5mg bottle of 30ml dry syrup": [
+    "elclav-bid-228-5mg-bottle-of-30ml-dry-syrup"
+  ],
+  "elcon 150 tablets": [
+    "elcon-150-tablets"
+  ],
+  "elcon o 200/200 mg tablet 10": [
+    "elcon-o-200-200-mg-tablet-10"
+  ],
+  "elcopia bottle of 200ml syrup": [
+    "elcopia-bottle-of-200ml-syrup"
+  ],
+  "elcort 4mg strip of 10 tablets": [
+    "elcort-4mg-strip-of-10-tablets"
+  ],
+  "elcort 8mg strip of 10 tablets": [
+    "elcort-8mg-strip-of-10-tablets"
+  ],
+  "elcort 16mg strip of 10 tablets": [
+    "elcort-16mg-strip-of-10-tablets"
+  ],
+  "elcure ozd tab": [
+    "elcure-ozd-tab"
+  ],
+  "eldebe cold strip of 10 tablets": [
+    "eldebe-cold-strip-of-10-tablets"
+  ],
+  "eldenerv 1500mcg strip of 10 capsules": [
+    "eldenerv-1500mcg-strip-of-10-capsules"
+  ],
+  "elderam 10 mg tablet 10": [
+    "elderam-10-mg-tablet-10"
+  ],
+  "eldervit drop 15ml": [
+    "eldervit-drop-15ml"
+  ],
+  "a to z multivitamin with minerals and pine bark extract tablet": [
+    "ALK-ATOZ-001"
+  ],
+  "a to z tab": [
+    "ALK-ATOZ-001"
+  ],
+  "a to z gold": [
+    "ALK-ATOZ-001"
+  ],
+  "a to z ns": [
+    "ALK-ATOZ-001"
+  ],
+  "a to z women": [
+    "ALK-ATOZ-001"
+  ],
+  "cefixime 200 mg": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "abixim-200tab": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "taxim-o 200": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "zifi 200": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "maha-cef 200": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "cefix 200": [
+    "ABIXIM-200-CEF-001"
+  ],
+  "absolut 3g capsule": [
+    "ABSOLUT-3G-NUTRA-001"
+  ],
+  "absolut silver": [
+    "ABSOLUT-3G-NUTRA-001"
+  ],
+  "aceclofenac (100mg) + paracetamol (325mg) + serratiopeptidase (15mg) tablet": [
+    "ACCECLOWOC-SP-001"
+  ],
+  "acceclowoc sp tab": [
+    "ACCECLOWOC-SP-001"
+  ],
+  "aceclo-sp": [
+    "ACCECLOWOC-SP-001"
+  ],
+  "ibugesic asp": [
+    "ACCECLOWOC-SP-001"
+  ],
+  "aceclofenac (100mg) + paracetamol (325mg)": [
+    "aceclo-plus-100-325"
+  ],
+  "aceclo plus": [
+    "aceclo-plus-100-325"
+  ],
+  "zerodol-p": [
+    "aceclo-plus-100-325"
+  ],
+  "ibugesic ap": [
+    "aceclo-plus-100-325"
+  ],
+  "dolokind plus": [
+    "aceclo-plus-100-325"
+  ],
+  "hifenac p": [
+    "aceclo-plus-100-325"
+  ],
+  "aclopen plus": [
+    "aceclo-plus-100-325"
+  ],
+  "acenocoumarol 4mg": [
+    "ACITROM4MG-001"
+  ],
+  "acitrom 4mg": [
+    "ACITROM4MG-001"
+  ],
+  "noclot 4mg": [
+    "ACITROM4MG-001"
+  ],
+  "artiflo 4mg": [
+    "ACITROM4MG-001"
+  ],
+  "acivir 200mg dt (acyclovir 200mg)": [
+    "acivir-200-dt-in-001"
+  ],
+  "acivir 200mg dt": [
+    "acivir-200-dt-in-001"
+  ],
+  "ocuvir": [
+    "acivir-200-dt-in-001",
+    "acivir-400mg-dt-001"
+  ],
+  "lovir": [
+    "acivir-200-dt-in-001",
+    "acivir-400mg-dt-001"
+  ],
+  "acyclovir cipla": [
+    "acivir-200-dt-in-001"
+  ],
+  "acivir 400mg dt (acyclovir 400mg dispersible tablet)": [
+    "acivir-400mg-dt-001"
+  ],
+  "acivir 400mg dt": [
+    "acivir-400mg-dt-001"
+  ],
+  "acyclovir 800mg dispersible tablet": [
+    "ACIVIR-800DT-A01"
+  ],
+  "acivir 800mg dt": [
+    "ACIVIR-800DT-A01"
+  ],
+  "herperax 800": [
+    "ACIVIR-800DT-A01"
+  ],
+  "ocurax 800": [
+    "ACIVIR-800DT-A01"
+  ],
+  "lovir 800": [
+    "ACIVIR-800DT-A01"
+  ],
+  "acyclovir 5% w/w cream": [
+    "ACIVIR_CRM_001"
+  ],
+  "acivir cream": [
+    "ACIVIR_CRM_001"
+  ],
+  "ocuvir cream": [
+    "ACIVIR_CRM_001"
+  ],
+  "acyclo": [
+    "ACIVIR_CRM_001"
+  ],
+  "racecadotril 100mg": [
+    "racecadotril-100mg-ad"
+  ],
+  "ad 100": [
+    "racecadotril-100mg-ad"
+  ],
+  "zedott 100": [
+    "racecadotril-100mg-ad"
+  ],
+  "redotil": [
+    "racecadotril-100mg-ad"
+  ],
+  "enuff": [
+    "racecadotril-100mg-ad"
+  ],
+  "racedot": [
+    "racecadotril-100mg-ad"
+  ],
+  "racigyl": [
+    "racecadotril-100mg-ad"
+  ],
+  "aldactone 25mg": [
+    "aldactone-25-rpg"
+  ],
+  "spiron": [
+    "aldactone-25-rpg"
+  ],
+  "sprilactone": [
+    "aldactone-25-rpg"
+  ],
+  "aldosone": [
+    "aldactone-25-rpg"
+  ],
+  "spiractin": [
+    "aldactone-25-rpg"
+  ],
+  "alerid d (cetirizine 5mg + phenylephrine 10mg)": [
+    "ALERID-D-CIPLA-001"
+  ],
+  "alerid d": [
+    "ALERID-D-CIPLA-001"
+  ],
+  "cetzine-d": [
+    "ALERID-D-CIPLA-001"
+  ],
+  "relent": [
+    "ALERID-D-CIPLA-001"
+  ],
+  "cozid": [
+    "ALERID-D-CIPLA-001"
+  ],
+  "amitone 10mg (amitriptyline hydrochloride)": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "amitone": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "tryptomer": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "sarotena": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "eliwel": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "amixide": [
+    "amitone-10mg-amitriptyline"
+  ],
+  "amoxyclav 625 (amoxicillin 500mg + potassium clavulanate 125mg)": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "amoxyclav 625": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "augmentin 625 duo": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "clavam 625": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "moxikind-cv 625": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "advent 625": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "polyclav 625": [
+    "AMOX-CLAV-625-IND"
+  ],
+  "dinoprostone 0.5 mg cervical gel": [
+    "CERVIPRIME_GEL_DIN_05"
+  ],
+  "cerviprime gel": [
+    "CERVIPRIME_GEL_DIN_05"
+  ],
+  "primigyn": [
+    "CERVIPRIME_GEL_DIN_05"
+  ],
+  "dinoripe": [
+    "CERVIPRIME_GEL_DIN_05"
+  ],
+  "cerviprime e2": [
+    "CERVIPRIME_GEL_DIN_05"
+  ],
+  "cetirizine hydrochloride 10mg": [
+    "cetiriz-10mg-ind"
+  ],
+  "cetiriz": [
+    "cetiriz-10mg-ind"
+  ],
+  "alerid": [
+    "cetiriz-10mg-ind"
+  ],
+  "incid-l": [
+    "cetiriz-10mg-ind"
+  ],
+  "cheston cold (cetirizine 5mg + paracetamol 325mg + phenylephrine 5mg)": [
+    "cheston-cold-combination-tablet"
+  ],
+  "alex cold": [
+    "cheston-cold-combination-tablet"
+  ],
+  "febrex plus": [
+    "cheston-cold-combination-tablet"
+  ],
+  "ciplactin 4mg tablet": [
+    "ciplactin-4-001"
+  ],
+  "ciplactin": [
+    "ciplactin-4-001"
+  ],
+  "cypon": [
+    "ciplactin-4-001"
+  ],
+  "practin": [
+    "ciplactin-4-001"
+  ],
+  "apetamin": [
+    "ciplactin-4-001"
+  ],
+  "peritol": [
+    "ciplactin-4-001"
+  ],
+  "clopivas 75 (clopidogrel 75mg)": [
+    "clopivas-75-clopidogrel-india"
+  ],
+  "clopivas 75": [
+    "clopivas-75-clopidogrel-india"
+  ],
+  "preva": [
+    "clopivas-75-clopidogrel-india"
+  ],
+  "combiflam tablet (ibuprofen 400mg + paracetamol 325mg)": [
+    "COMB-TAB-400325"
+  ],
+  "combiflam": [
+    "COMB-TAB-400325"
+  ],
+  "flexon": [
+    "COMB-TAB-400325"
+  ],
+  "ibugesic plus": [
+    "COMB-TAB-400325"
+  ],
+  "zupar": [
+    "COMB-TAB-400325"
+  ],
+  "brufamol": [
+    "COMB-TAB-400325"
+  ],
+  "cresar ct (telmisartan 40mg + chlorthalidone 12.5mg)": [
+    "cresar-ct-40-12-5"
+  ],
+  "cresar ct": [
+    "cresar-ct-40-12-5"
+  ],
+  "telvas ct": [
+    "cresar-ct-40-12-5"
+  ],
+  "telma ct": [
+    "cresar-ct-40-12-5"
+  ],
+  "tazloc ct": [
+    "cresar-ct-40-12-5"
+  ],
+  "inditel ch": [
+    "cresar-ct-40-12-5"
+  ],
+  "telmikind ct": [
+    "cresar-ct-40-12-5"
+  ],
+  "cystone tablets": [
+    "HIM-CYST-001"
+  ],
+  "cystone": [
+    "HIM-CYST-001"
+  ],
+  "cystone forte": [
+    "HIM-CYST-001"
+  ],
+  "cystone syrup": [
+    "HIM-CYST-001"
   ]
 }

@@ -10,35 +10,26 @@ if (!apiKey) {
 const genAI = new GoogleGenAI({ apiKey: apiKey.trim() });
 
 const medicineNames = [
-  "CERVIPRIME GEL",
-  "CETCIP L",
-  "CETCOF SYP",
-  "CETIRIZ",
-  "CETZINE",
-  "C-FURO CV 625MG",
-  "CHESTON COLD",
-  "CHYMORAL FORTE",
-  "CILACAR 10MG",
-  "CIPCAL 500MG",
-  "CIPLACTIN",
-  "CIPLOX 500MG",
-  "CITAL SY",
-  "CITIMAC TAB",
-  "CITISTAR 500MG",
-  "CLAVAM 625MG",
-  "CLOPITAB 75MG",
-  "CLOPIVAS 75",
-  "COMBIFLAM TAB",
-  "COMBIMIST-L RESPICAPS",
-  "COMBUTOL 800MG",
-  "CORDARONE",
-  "COTRIMAXAZOLE",
-  "CREMAFFIN MIXED FRUIT",
-  "CREON 10,000",
-  "CRESAR CT",
-  "CTD 6.25 TAB",
-  "CYCLOPAM TAB",
-  "CYSTONE"
+  "A TO Z TAB",
+  "ABIXIM-200TAB",
+  "ABSOLUT 3G",
+  "ACCECLOWOC SP TAB",
+  "ACECLO PLUS",
+  "ACITROM 4MG",
+  "ACIVIR 200MG DT",
+  "ACIVIR 400MG DT",
+  "ACIVIR 800MG DT",
+  "ACIVIR CREAM",
+  "AD 100MG",
+  "ADNEON 6MG",
+  "ADRENALINE INJ",
+  "ALDACTONE 25MG",
+  "ALERID D",
+  "AMITONE 10MG",
+  "AMLIP 5",
+  "AMOXYCLAV 625 TAB",
+  "ASCORIL D SYP",
+  "ASTHALIN INHALER"
 ];
 
 async function generateMedicineData(name: string) {
@@ -79,7 +70,7 @@ async function generateMedicineData(name: string) {
 
   try {
     const result = await genAI.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3.1-pro-preview",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
