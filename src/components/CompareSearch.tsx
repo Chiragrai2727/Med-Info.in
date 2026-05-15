@@ -13,7 +13,7 @@ export const CompareSearch: React.FC = () => {
   const [listening1, setListening1] = useState(false);
   const [listening2, setListening2] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const { showToast } = useToast();
   const navigate = useNavigate();
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);

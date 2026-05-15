@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
@@ -22,7 +22,6 @@ import {
   Scale,
   Zap,
   ShieldCheck,
-  Leaf,
   Baby,
   Heart,
   Timer,
@@ -32,8 +31,7 @@ import {
   Utensils,
   Beer,
   Volume2,
-  Square,
-  MessageSquareWarning
+  Square
 } from 'lucide-react';
 
 import { useCompare } from '../CompareContext';
@@ -41,7 +39,6 @@ import { FeedbackModal } from '../components/FeedbackModal';
 
 export const MedicineDetail: React.FC = () => {
   const { name } = useParams<{ name: string }>();
-  const navigate = useNavigate();
   const { t, language } = useLanguage();
   const { showToast } = useToast();
   const { addToCompare, removeFromCompare, compareList } = useCompare();

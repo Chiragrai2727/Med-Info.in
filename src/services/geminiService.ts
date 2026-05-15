@@ -675,7 +675,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
       const response = await getAIClient().models.generateContent({
         model: DEFAULT_MODEL,
         contents: `Compare these two medicines: "${med1}" and "${med2}".
-        Provide a side-by-side comparison of their key features.
+        Provide a side-by-side comparison focusing on Uses, Side Effects, Dosage, and Safety.
         The response must be in ${PROMPT_LANGUAGE_MAP[lang] || 'English'}.`,
         config: {
           responseMimeType: "application/json",

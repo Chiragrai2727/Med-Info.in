@@ -30,7 +30,7 @@ try {
   dbInstance = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)"
     ? initializeFirestore(app, firestoreSettings, firebaseConfig.firestoreDatabaseId)
     : initializeFirestore(app, firestoreSettings);
-} catch (e) {
+} catch {
   dbInstance = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== "(default)"
     ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
     : getFirestore(app);

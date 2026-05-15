@@ -52,14 +52,39 @@ export default defineConfig(({mode}) => {
       }),
       sitemap({
         hostname: 'https://aethelcare.xyz',
-        dynamicRoutes: ['/', '/scanner', '/drug-info', '/about', '/compare', '/banned-drugs', '/pricing', '/contact'],
+        dynamicRoutes: [
+          '/', 
+          '/scan', 
+          '/about', 
+          '/banned-drugs', 
+          '/pricing', 
+          '/contact', 
+          '/conditions',
+          '/privacy',
+          '/dashboard',
+          '/medicine/Dolo 650',
+          '/medicine/Calpol 650',
+          '/medicine/Pan-D',
+          '/medicine/Combiflam',
+          '/medicine/Azithral 500'
+        ],
         exclude: ['/google20f926fe5b04d78e']
       }),
       prerender({
         // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
         // Required - Routes to render.
-        routes: ['/', '/scanner', '/drug-info', '/about', '/compare', '/banned-drugs', '/pricing', '/contact'],
+        routes: [
+          '/', 
+          '/scan', 
+          '/about', 
+          '/banned-drugs', 
+          '/pricing', 
+          '/contact', 
+          '/conditions',
+          '/privacy',
+          '/dashboard'
+        ],
         renderer: new JSDOMRenderer({
           renderAfterDocumentEvent: 'render-event', // or just use fallback
         })

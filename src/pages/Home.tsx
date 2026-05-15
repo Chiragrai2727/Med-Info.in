@@ -3,13 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
+import { CompareSearch } from '../components/CompareSearch';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, ArrowRight, Sparkles, Shield, ShieldCheck, HelpCircle, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useCompare } from '../CompareContext';
 import { FAQ } from '../components/FAQ';
-import bannedDrugsData from '../data/banned_medicines.json';
-import { useAuth } from '../AuthContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -305,6 +303,13 @@ export const Home: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Medicine Comparison Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="max-w-5xl mx-auto">
+          <CompareSearch />
         </div>
       </section>
  

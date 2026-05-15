@@ -40,6 +40,9 @@ export const Navbar: React.FC = () => {
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
               About
             </Link>
+            <Link to="/compare" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
+              Compare
+            </Link>
             <Link to="/contact" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
               Contact
             </Link>

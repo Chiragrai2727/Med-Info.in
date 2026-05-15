@@ -4,7 +4,8 @@ import { useLanguage } from '../LanguageContext';
 import { compareMedicines } from '../services/geminiService';
 import { Medicine } from '../types';
 import { motion } from 'motion/react';
-import { ChevronLeft, Scale, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, Scale, AlertTriangle, ShieldCheck, Info } from 'lucide-react';
+import { CompareSearch } from '../components/CompareSearch';
 
 import { Helmet } from 'react-helmet-async';
 
@@ -30,11 +31,49 @@ export const Compare: React.FC = () => {
         const result = await compareMedicines(med1, med2, language);
         setData(result);
         setLoading(false);
+      } else {
+        setLoading(false);
       }
     };
     loadData();
     window.scrollTo(0, 0);
   }, [med1, med2, language]);
+
+  if (!med1 || !med2) {
+    return (
+      <div className="min-h-screen bg-transparent pt-40 sm:pt-48 pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <CompareSearch />
+            
+            <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { icon: Info, title: t('uses'), desc: 'Compare why these medicines are prescribed and their primary indications.' },
+                { icon: AlertTriangle, title: t('sideEffects'), desc: 'See side-by-side risks, common reactions, and serious warnings.' },
+                { icon: ShieldCheck, title: t('safety'), desc: 'Review pregnancy safety, CDSCO status, and regulatory approvals.' }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * i }}
+                  className="p-8 backdrop-blur-xl bg-surface/40 border border-surface rounded-[2.5rem] shadow-sm"
+                >
+                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                    <item.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-black text-text-primary mb-3 tracking-tight uppercase">{item.title}</h3>
+                  <p className="text-sm text-text-secondary font-medium leading-relaxed opacity-70">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -183,6 +183,7 @@ export default function App() {
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/banned-drugs" element={<BannedDrugs />} />
+                      <Route path="/compare" element={<Compare />} />
                       <Route path="/compare/:med1/:med2" element={<Compare />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route 
@@ -211,19 +212,8 @@ export default function App() {
                       />
                       <Route path="/privacy" element={<PrivacyPolicy />} />
                       
-                      <Route path="/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                      <Route path="/robots.txt" element={<Navigate to="/robots.txt" replace />} />
-                      <Route path="/manifest.json" element={<Navigate to="/manifest.json" replace />} />
-                      
-                      {/* Catch static files in subdirectories and redirect to root */}
-                      <Route path="*/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                      <Route path="*/robots.txt" element={<Navigate to="/robots.txt" replace />} />
-                      <Route path="*/manifest.json" element={<Navigate to="/manifest.json" replace />} />
-                      
-                      {/* Specific nested cases common in logs */}
-                      <Route path="/timetable/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                      <Route path="/medicine/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
-                      <Route path="/dashboard/sitemap.xml" element={<Navigate to="/sitemap.xml" replace />} />
+                      {/* Catch all other routes with a 404 or redirect - handled by server usually, but for SPA safety: */}
+                      <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                   </Suspense>
                 </main>
