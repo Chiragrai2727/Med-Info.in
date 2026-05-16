@@ -117,6 +117,23 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
               }
               
               await updateSubscription(planId, expiryDate.toISOString());
+
+              // 5. Record payment history
+              try {
+                const { collection, addDoc } = await import('firebase/firestore');
+                const { db } = await import('../firebase');
+                await addDoc(collection(db, 'users', user.uid, 'payments'), {
+                  amount: order.amount / 100,
+                  tier: planId,
+                  date: new Date().toISOString(),
+                  status: 'success',
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  billingCycle: billingCycle
+                });
+              } catch (e) {
+                console.error('Failed to record payment history', e);
+              }
               
               showToast("Payment successful! You are now a Premium member.", "success");
               onClose();

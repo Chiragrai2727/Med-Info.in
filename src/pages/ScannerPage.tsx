@@ -913,7 +913,8 @@ export const ScannerPage: React.FC = () => {
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
             </motion.div>
           )}
- 
+        </div>
+
           {/* Upgrade Nudge Banner */}
           {!isPremium && !nudgeDismissed && !scanResult && !loading && (
             <motion.div 
@@ -1233,7 +1234,6 @@ export const ScannerPage: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
       </div>
  
       {/* Footer Disclaimer */}

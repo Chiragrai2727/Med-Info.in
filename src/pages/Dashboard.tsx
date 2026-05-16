@@ -3,7 +3,7 @@ import { useAuth } from '../AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { Clock, CreditCard, ShieldCheck, Zap, AlertCircle, History, Trash2, Database, ChevronRight, Download, User as UserIcon } from 'lucide-react';
-import { SubscriptionModal } from '../components/SubscriptionModal';
+import { PricingModal } from '../components/PricingModal';
 import { AvatarSelection } from '../components/AvatarSelection';
 import { useLanguage } from '../LanguageContext';
 import { PhoneTrialSetup } from '../components/PhoneTrialSetup';
@@ -408,7 +408,7 @@ export const Dashboard: React.FC = () => {
  
       </div>
  
-      <SubscriptionModal 
+      <PricingModal 
         isOpen={showSubscriptionModal} 
         onClose={() => setShowSubscriptionModal(false)} 
       />
