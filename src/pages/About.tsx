@@ -136,6 +136,7 @@ export const About: React.FC = () => {
                     alt="Chirag Rai" 
                     className="w-full h-full object-cover transition-all duration-1000 scale-105 group-hover:scale-100" 
                     referrerPolicy="no-referrer" 
+                    loading="lazy"
                     onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'; }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -196,6 +197,7 @@ export const About: React.FC = () => {
                     alt="Dr. Sagar Rai" 
                     className="w-full h-full object-cover transition-all duration-1000 scale-105 group-hover:scale-100" 
                     referrerPolicy="no-referrer" 
+                    loading="lazy"
                     onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800'; }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />

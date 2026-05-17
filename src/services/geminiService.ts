@@ -1,4 +1,5 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import type { GoogleGenAI } from "@google/genai";
+import { Type } from "@google/genai";
 import { Medicine, Language } from "../types";
 import { offlineService } from "./offlineService";
 
@@ -28,7 +29,7 @@ const PROMPT_LANGUAGE_MAP: Record<Language, string> = {
   brx: 'Bodo',
   sat: 'Santali'
 };
-import Fuse from 'fuse.js';
+import type Fuse from 'fuse.js';
 
 // Large datasets will be loaded lazily to improve startup performance
 let localMedicines: Medicine[] = [];
@@ -46,7 +47,8 @@ export async function ensureDataLoaded() {
   if (isDataLoaded) return;
   
   try {
-    const [medsData, bannedData, idxData, catsData, dissData] = await Promise.all([
+    const [{ default: FuseClass }, medsData, bannedData, idxData, catsData, dissData] = await Promise.all([
+      import('fuse.js'),
       import("../data/medicines.json"),
       import("../data/banned_medicines.json"),
       import("../data/index.json"),
@@ -61,7 +63,7 @@ export async function ensureDataLoaded() {
     categoriesIndex = catsData.default as Record<string, string[]>;
     diseasesIndex = dissData.default as Record<string, string[]>;
 
-    fuse = new Fuse(allLocalMedicines, fuseOptions);
+    fuse = new FuseClass(allLocalMedicines, fuseOptions);
     medicinesMap = allLocalMedicines.reduce((acc, med) => {
       acc[med.id.toLowerCase()] = med;
       acc[med.drug_name.toLowerCase()] = med;
@@ -80,7 +82,8 @@ export async function ensureDataLoaded() {
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
-const getAIClient = (): GoogleGenAI => {
+const getAIClient = async (): Promise<GoogleGenAI> => {
+  const { GoogleGenAI } = await import("@google/genai");
   const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
   const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
   const apiKey = keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : "";
@@ -228,7 +231,7 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
   }
 
   try {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: DEFAULT_MODEL,
       contents: `Generate detailed medical information for the medicine: "${searchQuery}". 
       The medicine must be a legally approved medication in India.
@@ -532,7 +535,7 @@ export async function getMedicinesForCondition(condition: string, lang: Language
   }
 
   try {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `List 12 common medicines used for "${condition}" in India. 
       For each medicine, provide the name, category, and a 1-line summary.
@@ -602,7 +605,7 @@ export async function interpretQuery(searchQuery: string, lang: Language = 'en')
   }
 
   try {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Analyze the following search query for a medical information app: "${searchQuery}".
       Identify if the user is looking for a specific medicine, a disease/symptom, or comparing two medicines.
@@ -675,7 +678,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
     }
 
     try {
-      const response = await getAIClient().models.generateContent({
+      const response = await (await getAIClient()).models.generateContent({
         model: DEFAULT_MODEL,
         contents: `Compare these two medicines: "${med1}" and "${med2}".
         Provide a side-by-side comparison including Generic Name, Category, Mechanism of Action, Common Uses, Dosage, Side Effects (Common & Serious), Contraindications, and Safety.
@@ -713,7 +716,7 @@ export async function compareMedicines(med1: string, med2: string, lang: Languag
 
 export async function scanMedication(base64Image: string, lang: Language = 'en'): Promise<{ name: string; category: string; description: string; confidence: number } | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -820,7 +823,7 @@ export interface LabReportResult {
 // Prescription scan helper
 export async function scanPrescription(base64Image: string, lang: Language = 'en'): Promise<PrescriptionResult | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -906,7 +909,7 @@ export async function scanPrescription(base64Image: string, lang: Language = 'en
 // Lab report scan helper
 export async function scanLabReport(base64Image: string, lang: Language = 'en'): Promise<LabReportResult | null> {
   const attemptScan = async (modelName: string) => {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: modelName,
       contents: {
         parts: [
@@ -997,7 +1000,7 @@ export async function generateTTS(text: string): Promise<string | null> {
 
 export async function transcribeAudio(base64Audio: string, lang: Language = 'en'): Promise<string | null> {
   try {
-    const response = await getAIClient().models.generateContent({
+    const response = await (await getAIClient()).models.generateContent({
       model: DEFAULT_MODEL,
       contents: {
         parts: [
