@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
+import logoLight from '../assets/logo.png';
+import logoDark from '../assets/logo-white.png';
 
 interface LogoProps {
   className?: string;
@@ -20,7 +22,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       <img 
-        src={theme === 'dark' ? '/logo-white.png?v=7' : '/logo.png?v=7'} 
+        src={theme === 'dark' ? logoDark : logoLight} 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         fetchPriority="high"
