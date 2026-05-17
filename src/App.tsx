@@ -160,8 +160,8 @@ export default function App() {
                 <CompareBar />
                 <main>
                   <Suspense fallback={
-                    <div className="min-h-screen pt-40 flex items-start justify-center">
-                      <div className="flex flex-col items-center gap-4 mt-20">
+                    <div className="min-h-[60vh] flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-4">
                         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                         <p className="text-sm font-black uppercase tracking-widest text-text-secondary animate-pulse">Loading Aethelcare...</p>
                       </div>

@@ -29,8 +29,8 @@ import { DEFAULT_MODEL } from '../services/geminiService';
 import { useUser } from '../hooks/useUser';
 import { scheduleRefillReminder } from '../utils/refillReminder';
 
-const lazyMedicinesData = async () => (await import('../data/medicines.json')).default;
-const lazyBannedDrugsData = async () => (await import('../data/banned_medicines.json')).default;
+import medicinesData from '../data/medicines.json';
+import bannedDrugsData from '../data/banned_medicines.json';
 
 type ScanTab = 'medicine' | 'prescription' | 'lab';
 
@@ -213,12 +213,11 @@ export const ScannerPage: React.FC = () => {
       
       const parsed = JSON.parse(match[0]);
       
-      const bannedData = await lazyBannedDrugsData();
       const rawMedsList = parsed.medicines || parsed.meds || parsed.medicine_list || [];
       const processedMeds = Array.isArray(rawMedsList)
         ? rawMedsList.map((m: any) => ({
             ...m,
-            is_banned: m.name ? (bannedData as any).some((b: any) => b.drug_name && b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
+            is_banned: m.name ? (bannedDrugsData as any).some((b: any) => b.drug_name && b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
           }))
         : [];
 
@@ -268,11 +267,8 @@ export const ScannerPage: React.FC = () => {
       const detectedLab: LabResult[] = [];
       let notes = "";
 
-      const medsData = await lazyMedicinesData();
-      const bannedData = await lazyBannedDrugsData();
-      
       // Look for matches in medicines data
-      const medsArray = medsData as any[];
+      const medsArray = medicinesData as any[];
       medsArray.slice(0, 1000).forEach((med: any) => {
         if (!med.drug_name || !med.brand_names_india) return;
         
@@ -283,7 +279,7 @@ export const ScannerPage: React.FC = () => {
 
         if (isMatch) {
           if (!detectedMeds.find(m => m.name === med.drug_name)) {
-            const bannedArray = bannedData as any[];
+            const bannedArray = bannedDrugsData as any[];
             const isBanned = bannedArray.some((b: any) => b.drug_name && b.drug_name.toLowerCase() === med.drug_name.toLowerCase());
             
             // Attempt to find dosage in surrounding text
@@ -508,11 +504,10 @@ export const ScannerPage: React.FC = () => {
       }
       
       const rawMedsList = parsed.medicines || parsed.meds || parsed.medicine_list || [];
-      const bannedData = await lazyBannedDrugsData();
       const processedMeds = Array.isArray(rawMedsList)
         ? rawMedsList.map((m: ParsedMedicine) => ({
             ...m,
-            is_banned: m.name ? (bannedData as any[]).some(b => b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
+            is_banned: m.name ? bannedDrugsData.some(b => b.drug_name.toLowerCase() === m.name.toLowerCase()) : false
           }))
         : [];
 

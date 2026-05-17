@@ -52,7 +52,6 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         onError={() => setImageError(true)}
         referrerPolicy="no-referrer"
-        fetchPriority="high"
       />
     </div>
   );

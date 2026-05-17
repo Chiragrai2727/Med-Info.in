@@ -168,7 +168,7 @@ export const Home: React.FC = () => {
           className="relative z-10"
         >
           {/* Hero Badges */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10 min-h-[44px] items-center">
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
             {(!isStandalone && (deferredPrompt || isIOS || showPWAHint)) && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
