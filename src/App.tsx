@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 import { Navbar } from './components/Navbar';
 
 // Lazy load pages for better performance
-const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+import { Home } from './pages/Home';
 const MedicineDetail = lazy(() => import('./pages/MedicineDetail').then(m => ({ default: m.MedicineDetail })));
 const ConditionPage = lazy(() => import('./pages/ConditionPage').then(m => ({ default: m.ConditionPage })));
 const Compare = lazy(() => import('./pages/Compare').then(m => ({ default: m.Compare })));
@@ -53,8 +53,14 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
-    // Start loading medical data in background eagerly
-    ensureDataLoaded();
+    // Start loading medical data in background eagerly, but delay slightly to not block initial render
+    setTimeout(() => {
+      if (window.requestIdleCallback) {
+        requestIdleCallback(() => ensureDataLoaded());
+      } else {
+        ensureDataLoaded();
+      }
+    }, 3000);
 
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
@@ -160,8 +166,8 @@ export default function App() {
                 <CompareBar />
                 <main>
                   <Suspense fallback={
-                    <div className="min-h-[60vh] flex items-center justify-center">
-                      <div className="flex flex-col items-center gap-4">
+                    <div className="min-h-screen pt-40 flex items-start justify-center">
+                      <div className="flex flex-col items-center gap-4 mt-20">
                         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                         <p className="text-sm font-black uppercase tracking-widest text-text-secondary animate-pulse">Loading Aethelcare...</p>
                       </div>

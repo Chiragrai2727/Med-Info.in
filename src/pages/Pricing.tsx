@@ -61,6 +61,20 @@ export const Pricing: React.FC = () => {
          throw new Error(data.details || data.error || 'Order creation failed');
       }
 
+      if (typeof window === 'undefined') {
+        throw new Error('Razorpay SDK cannot be executed because window is undefined.');
+      }
+
+      let retries = 0;
+      while (typeof (window as any).Razorpay !== 'function' && retries < 20) {
+        await new Promise(r => setTimeout(r, 100)); // sleep 100ms
+        retries++;
+      }
+
+      if (typeof (window as any).Razorpay !== 'function') {
+        throw new Error('Razorpay SDK failed to initialize correctly. Please check your connection or disable ad-blocker.');
+      }
+
       const options = {
         key: data.key_id || "rzp_test_dummy",
         amount: data.order.amount,

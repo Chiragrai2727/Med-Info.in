@@ -84,6 +84,19 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
       const { order, key_id } = data;
 
       // 2. Open Razorpay Checkout
+      if (typeof window === 'undefined') {
+        throw new Error('Razorpay SDK cannot be executed because window is undefined.');
+      }
+
+      let retries = 0;
+      while (typeof (window as any).Razorpay !== 'function' && retries < 20) {
+        await new Promise(r => setTimeout(r, 100)); // sleep 100ms
+        retries++;
+      }
+
+      if (typeof (window as any).Razorpay !== 'function') {
+        throw new Error('Razorpay SDK failed to initialize correctly. Please check your connection or disable ad-blocker.');
+      }
       const options = {
         key: data.key_id || "rzp_test_dummy", // Enter the Key ID generated from the Dashboard
         amount: order.amount,
@@ -157,7 +170,10 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         }
       };
 
-      const rzp = new window.Razorpay(options);
+      if (typeof window === 'undefined' || !(window as any).Razorpay) {
+        throw new Error('Razorpay SDK failed to load. Please check your connection.');
+      }
+      const rzp = new (window as any).Razorpay(options);
       rzp.on('payment.failed', function (response: any) {
         setIsProcessing(null);
         console.error(response.error);
@@ -180,7 +196,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         data-lenis-prevent
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/80 backdrop-blur-md overflow-y-auto"
+        className="fixed inset-0 z-[100] flex items-start justify-center p-4 py-12 md:p-8 bg-white/80 backdrop-blur-md overflow-y-auto"
         onClick={onClose}
       >
         <motion.div
