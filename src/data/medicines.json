@@ -25543,76 +25543,74 @@
     "alcohol_warning": "No direct interaction, but alcohol should be avoided during diarrhea as it can worsen dehydration and gastrointestinal irritation.",
     "missed_dose": "Take the missed dose as soon as you remember. If it is nearly time for the next dose, skip the missed dose and continue with the regular schedule. Do not double the dose."
   },
-  [
-    {
-      "id": "ADR-INJ-INDIA-001",
-      "category": "Emergency & Critical Care",
-      "drug_name": "Adrenaline Injection IP 1mg/ml",
-      "brand_names_india": [
-        "ADRENALINE INJ",
-        "Adrenor",
-        "Vasocon",
-        "Epin",
-        "Adrenaline (Neon Labs)",
-        "Adrenaline (Troikaa)"
-      ],
-      "drug_class": "Adrenergic Agonist (Sympathomimetic)",
-      "mechanism_of_action": "Acts directly on both alpha and beta-adrenergic receptors of the sympathetic nervous system to produce rapid systemic effects including vasoconstriction and bronchodilation.",
-      "uses": [
-        "Anaphylaxis (Severe allergic reactions)",
-        "Cardiac arrest",
-        "Acute severe asthma exacerbation",
-        "Croup in children",
-        "Control of superficial mucosal bleeding"
-      ],
-      "dosage_common": "Anaphylaxis: 0.3mg to 0.5mg (1:1000) IM in the mid-outer thigh. Cardiac Arrest: 1mg (1:10,000) IV/IO every 3 to 5 minutes.",
-      "side_effects_common": [
-        "Palpitations",
-        "Tachycardia (Fast heart rate)",
-        "Anxiety",
-        "Tremors",
-        "Headache",
-        "Dizziness",
-        "Sweating"
-      ],
-      "side_effects_serious": [
-        "Ventricular arrhythmias",
-        "Severe hypertension",
-        "Cerebral hemorrhage",
-        "Pulmonary edema",
-        "Myocardial ischemia"
-      ],
-      "overdose_effects": "Extreme elevation in blood pressure which may lead to cerebrovascular hemorrhage, cardiac arrhythmias, and acute pulmonary edema due to peripheral vasoconstriction.",
-      "contraindications": [
-        "Known hypersensitivity to adrenaline",
-        "Narrow-angle glaucoma (except in life-threatening situations)",
-        "Severe coronary artery disease (unless emergency)",
-        "Use with local anesthetics in distal appendages (fingers, toes, nose)"
-      ],
-      "drug_interactions": [
-        "Beta-blockers (may lead to severe hypertension)",
-        "MAO Inhibitors (potentiates effects)",
-        "Tricyclic Antidepressants",
-        "Digoxin (increases risk of arrhythmias)"
-      ],
-      "pregnancy_safety": "Category C: Potential benefits may warrant use in pregnant women despite potential risks in life-threatening emergencies.",
-      "kidney_liver_warning": "Use with caution; adrenaline can cause renal artery constriction and transiently decrease renal blood flow.",
-      "how_it_works_in_body": "By stimulating Alpha-1 receptors, it causes vasoconstriction to increase blood pressure. Stimulating Beta-1 receptors increases heart rate and contractility. Stimulating Beta-2 receptors leads to bronchodilation and decreased release of inflammatory mediators from mast cells.",
-      "onset_of_action": "IV: Immediate; IM: 5-10 minutes; Subcutaneous: 10-15 minutes",
-      "duration_of_effect": "20 to 30 minutes",
-      "prescription_required": true,
-      "ayurvedic_or_allopathic": "Allopathic",
-      "india_regulatory_status": "CDSCO Approved (Schedule H)",
-      "quick_summary": "Adrenaline is a life-saving injection used primarily for emergency treatment of severe allergic reactions (anaphylaxis) and for restoring heart function during cardiac arrest.",
-      "who_should_take": "Patients experiencing life-threatening allergic reactions, severe asthma attacks not responding to other treatments, or cardiac arrest.",
-      "who_should_not_take": "Individuals with hypersensitivity (in non-emergency cases); use with extreme caution in patients with hyperthyroidism, hypertension, or heart disease.",
-      "food_interactions": [
-        "Not applicable as it is administered parenterally in emergencies."
-      ],
-      "alcohol_warning": "Avoid alcohol as it can exacerbate the cardiovascular side effects like increased heart rate and blood pressure fluctuations.",
-      "missed_dose": "Not applicable as this is an emergency medication administered by healthcare professionals or via auto-injector when needed."
-    }
-  ],
+  {
+    "id": "ADR-INJ-INDIA-001",
+    "category": "Emergency & Critical Care",
+    "drug_name": "Adrenaline Injection IP 1mg/ml",
+    "brand_names_india": [
+      "ADRENALINE INJ",
+      "Adrenor",
+      "Vasocon",
+      "Epin",
+      "Adrenaline (Neon Labs)",
+      "Adrenaline (Troikaa)"
+    ],
+    "drug_class": "Adrenergic Agonist (Sympathomimetic)",
+    "mechanism_of_action": "Acts directly on both alpha and beta-adrenergic receptors of the sympathetic nervous system to produce rapid systemic effects including vasoconstriction and bronchodilation.",
+    "uses": [
+      "Anaphylaxis (Severe allergic reactions)",
+      "Cardiac arrest",
+      "Acute severe asthma exacerbation",
+      "Croup in children",
+      "Control of superficial mucosal bleeding"
+    ],
+    "dosage_common": "Anaphylaxis: 0.3mg to 0.5mg (1:1000) IM in the mid-outer thigh. Cardiac Arrest: 1mg (1:10,000) IV/IO every 3 to 5 minutes.",
+    "side_effects_common": [
+      "Palpitations",
+      "Tachycardia (Fast heart rate)",
+      "Anxiety",
+      "Tremors",
+      "Headache",
+      "Dizziness",
+      "Sweating"
+    ],
+    "side_effects_serious": [
+      "Ventricular arrhythmias",
+      "Severe hypertension",
+      "Cerebral hemorrhage",
+      "Pulmonary edema",
+      "Myocardial ischemia"
+    ],
+    "overdose_effects": "Extreme elevation in blood pressure which may lead to cerebrovascular hemorrhage, cardiac arrhythmias, and acute pulmonary edema due to peripheral vasoconstriction.",
+    "contraindications": [
+      "Known hypersensitivity to adrenaline",
+      "Narrow-angle glaucoma (except in life-threatening situations)",
+      "Severe coronary artery disease (unless emergency)",
+      "Use with local anesthetics in distal appendages (fingers, toes, nose)"
+    ],
+    "drug_interactions": [
+      "Beta-blockers (may lead to severe hypertension)",
+      "MAO Inhibitors (potentiates effects)",
+      "Tricyclic Antidepressants",
+      "Digoxin (increases risk of arrhythmias)"
+    ],
+    "pregnancy_safety": "Category C: Potential benefits may warrant use in pregnant women despite potential risks in life-threatening emergencies.",
+    "kidney_liver_warning": "Use with caution; adrenaline can cause renal artery constriction and transiently decrease renal blood flow.",
+    "how_it_works_in_body": "By stimulating Alpha-1 receptors, it causes vasoconstriction to increase blood pressure. Stimulating Beta-1 receptors increases heart rate and contractility. Stimulating Beta-2 receptors leads to bronchodilation and decreased release of inflammatory mediators from mast cells.",
+    "onset_of_action": "IV: Immediate; IM: 5-10 minutes; Subcutaneous: 10-15 minutes",
+    "duration_of_effect": "20 to 30 minutes",
+    "prescription_required": true,
+    "ayurvedic_or_allopathic": "Allopathic",
+    "india_regulatory_status": "CDSCO Approved (Schedule H)",
+    "quick_summary": "Adrenaline is a life-saving injection used primarily for emergency treatment of severe allergic reactions (anaphylaxis) and for restoring heart function during cardiac arrest.",
+    "who_should_take": "Patients experiencing life-threatening allergic reactions, severe asthma attacks not responding to other treatments, or cardiac arrest.",
+    "who_should_not_take": "Individuals with hypersensitivity (in non-emergency cases); use with extreme caution in patients with hyperthyroidism, hypertension, or heart disease.",
+    "food_interactions": [
+      "Not applicable as it is administered parenterally in emergencies."
+    ],
+    "alcohol_warning": "Avoid alcohol as it can exacerbate the cardiovascular side effects like increased heart rate and blood pressure fluctuations.",
+    "missed_dose": "Not applicable as this is an emergency medication administered by healthcare professionals or via auto-injector when needed."
+  },
   {
     "id": "aldactone-25-rpg",
     "category": "Diuretics / Cardiovascular Drugs",
