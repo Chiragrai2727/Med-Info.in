@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 import { Navbar } from './components/Navbar';
 
 // Lazy load pages for better performance
-import { Home } from './pages/Home';
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
 const MedicineDetail = lazy(() => import('./pages/MedicineDetail').then(m => ({ default: m.MedicineDetail })));
 const ConditionPage = lazy(() => import('./pages/ConditionPage').then(m => ({ default: m.ConditionPage })));
 const Compare = lazy(() => import('./pages/Compare').then(m => ({ default: m.Compare })));
@@ -53,14 +53,8 @@ export default function App() {
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   useEffect(() => {
-    // Start loading medical data in background eagerly, but delay slightly to not block initial render
-    setTimeout(() => {
-      if (window.requestIdleCallback) {
-        requestIdleCallback(() => ensureDataLoaded());
-      } else {
-        ensureDataLoaded();
-      }
-    }, 3000);
+    // Start loading medical data in background eagerly
+    ensureDataLoaded();
 
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({

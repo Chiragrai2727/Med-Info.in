@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
 import { Search } from '../components/Search';
+import { CompareSearch } from '../components/CompareSearch';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, ArrowRight, Sparkles, Shield, ShieldCheck, HelpCircle, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { FAQ } from '../components/FAQ';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const CompareSearch = lazy(() => import('../components/CompareSearch').then(module => ({ default: module.CompareSearch })));
-const FAQ = lazy(() => import('../components/FAQ').then(module => ({ default: module.FAQ })));
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -318,9 +317,7 @@ export const Home: React.FC = () => {
       {/* Medicine Comparison Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="max-w-5xl mx-auto">
-          <Suspense fallback={<div className="h-40 flex justify-center items-center">Loading Comparison...</div>}>
-            <CompareSearch />
-          </Suspense>
+          <CompareSearch />
         </div>
       </section>
  
@@ -439,9 +436,7 @@ export const Home: React.FC = () => {
       </section>
  
       {/* FAQ Section */}
-      <Suspense fallback={<div className="h-40 flex justify-center items-center">Loading FAQ...</div>}>
-        <FAQ />
-      </Suspense>
+      <FAQ />
   
       {/* Disclaimer Section */}
       <section ref={disclaimerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-24">
