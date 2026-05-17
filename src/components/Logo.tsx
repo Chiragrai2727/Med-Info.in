@@ -20,7 +20,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       <img 
-        src={theme === 'dark' ? '/logo-white.png?v=5' : '/logo.png?v=5'} 
+        src={theme === 'dark' ? '/logo-white.png?v=6' : '/logo.png?v=6'} 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         fetchPriority="high"
