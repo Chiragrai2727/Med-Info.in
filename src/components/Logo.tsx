@@ -47,7 +47,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       <img 
-        src={theme === 'dark' ? '/logo-white.png' : '/logo.png'} 
+        src={theme === 'dark' ? '/logo-white.png?v=3' : '/logo.png?v=3'} 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         onError={() => setImageError(true)}
