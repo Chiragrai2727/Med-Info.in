@@ -65,11 +65,13 @@ export async function ensureDataLoaded() {
 
     fuse = new FuseClass(allLocalMedicines, fuseOptions);
     medicinesMap = allLocalMedicines.reduce((acc, med) => {
-      acc[med.id.toLowerCase()] = med;
-      acc[med.drug_name.toLowerCase()] = med;
-      med.brand_names_india.forEach(brand => {
-        acc[brand.toLowerCase()] = med;
-      });
+      if (med.id) acc[String(med.id).toLowerCase()] = med;
+      if (med.drug_name) acc[String(med.drug_name).toLowerCase()] = med;
+      if (Array.isArray(med.brand_names_india)) {
+        med.brand_names_india.forEach(brand => {
+          if (brand) acc[String(brand).toLowerCase()] = med;
+        });
+      }
       return acc;
     }, {} as Record<string, Medicine>);
 
