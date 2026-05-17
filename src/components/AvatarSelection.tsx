@@ -5,75 +5,23 @@ import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 
 const AVATARS = [
-  // Diverse Characters (Avataaars) - 20 options
+  // Diverse Characters
   { id: 'b1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&mouth=smile' },
   { id: 'b2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aiden&mouth=smile' },
   { id: 'b3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jack&mouth=smile' },
-  { id: 'b4', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Caleb&mouth=smile' },
-  { id: 'b5', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Liam&mouth=smile' },
-  { id: 'b6', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver&mouth=smile' },
-  { id: 'b7', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Arjun&mouth=smile' },
-  { id: 'b8', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jose&mouth=smile' },
-  { id: 'b9', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kenji&mouth=smile' },
-  { id: 'b10', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Hiroshi&mouth=smile' },
-  { id: 'b11', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Malik&mouth=smile' },
-  { id: 'b12', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Omar&mouth=smile' },
   { id: 'g1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&mouth=smile' },
   { id: 'g2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mimi&mouth=smile' },
   { id: 'g3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ginger&mouth=smile' },
-  { id: 'g4', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe&mouth=smile' },
-  { id: 'g5', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sara&mouth=smile' },
-  { id: 'g6', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kim&mouth=smile' },
-  { id: 'g7', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zainab&mouth=smile' },
-  { id: 'g8', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&mouth=smile' },
-  { id: 'g9', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Destiny&mouth=smile' },
-  { id: 'g10', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sasha&mouth=smile' },
-  { id: 'g11', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Yuki&mouth=smile' },
-  { id: 'g12', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Amara&mouth=smile' },
 
-  // Aesthetic & Modern (Lorelei) - 10 options
+  // Aesthetic & Modern
   { id: 'f1', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aria' },
   { id: 'f2', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Luna' },
   { id: 'f3', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Nova' },
-  { id: 'f4', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Leo' },
-  { id: 'f5', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Milo' },
-  { id: 'f6', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Jade' },
-  { id: 'f7', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Jasper' },
-  { id: 'f8', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Ruby' },
-  { id: 'f9', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Sage' },
-  { id: 'f10', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Atlas' },
 
-  // Artistic & Clean (Notionists) - 10 options
+  // Artistic & Clean
   { id: 'n1', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Coco' },
   { id: 'n2', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Bear' },
   { id: 'n3', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Toby' },
-  { id: 'n4', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Mia' },
-  { id: 'n5', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Leo' },
-  { id: 'n6', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Zoe' },
-  { id: 'n7', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Max' },
-  { id: 'n8', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Sasha' },
-  { id: 'n9', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Kiki' },
-  { id: 'n10', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Finn' },
-
-  // Adventurous (Adventurer) - 10 options
-  { id: 'a1', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Sky' },
-  { id: 'a2', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Forest' },
-  { id: 'a3', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Rain' },
-  { id: 'a4', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Ocean' },
-  { id: 'a5', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Breeze' },
-  { id: 'a6', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Dawn' },
-  { id: 'a7', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Dusk' },
-  { id: 'a8', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Stone' },
-  { id: 'a9', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Clay' },
-  { id: 'a10', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Spark' },
-
-  // Fun & Playful (Big Smile) - 6 options
-  { id: 's1', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Sunny' },
-  { id: 's2', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Joy' },
-  { id: 's3', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Happy' },
-  { id: 's4', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Smile' },
-  { id: 's5', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Beam' },
-  { id: 's6', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Grin' },
 ];
 
 interface AvatarSelectionProps {

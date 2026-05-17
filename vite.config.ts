@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import {defineConfig, loadEnv} from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
 import sitemap from 'vite-plugin-sitemap';
 
 const require = createRequire(import.meta.url);
@@ -18,38 +17,6 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-      VitePWA({
-        registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'robots.txt', 'sitemap.xml'],
-        workbox: {
-          maximumFileSizeToCacheInBytes: 5000000,
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
-          // Skip caching non-http requests (like chrome-extension://)
-          runtimeCaching: [
-            {
-              urlPattern: ({ url }) => url.protocol === 'http:' || url.protocol === 'https:',
-              handler: 'NetworkFirst',
-              options: {
-                cacheName: 'http-cache',
-              },
-            },
-          ],
-        },
-        manifest: {
-          name: 'Aethelcare India',
-          short_name: 'Aethelcare',
-          description: 'Search any medicine. Understand it instantly.',
-          theme_color: '#ffffff',
-          icons: [
-            {
-              src: 'favicon.svg',
-              sizes: 'any',
-              type: 'image/svg+xml',
-              purpose: 'any hmaskable'
-            }
-          ]
-        }
-      }),
       sitemap({
         hostname: 'https://aethelcare.xyz',
         dynamicRoutes: [
