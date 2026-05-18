@@ -32,7 +32,7 @@ export function useUser() {
     const unsubscribe = onSnapshot(userRef, async (snapshot) => {
       if (snapshot.exists()) {
         let currentData = snapshot.data() as any;
-        const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
+        const isAdmin = ['aethelcare.help@gmail.com', 'hello@aethelcare.xyz', 'raisahab2727@gmail.com'].includes(currentData.email || '');
         
         let shouldUpdate = false;
         
@@ -97,7 +97,7 @@ export function useUser() {
   }, [authUser]);
 
   // Derived state
-  const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
+  const isAdmin = ['aethelcare.help@gmail.com', 'hello@aethelcare.xyz', 'raisahab2727@gmail.com'].includes(userData?.email || '');
   const isPremium = isAdmin || userData?.plan === 'premium' || (userData as any)?.isPremium === true;
   
   let scansRemaining = 3;

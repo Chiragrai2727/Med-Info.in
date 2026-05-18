@@ -39,7 +39,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, m
       // Delay mailto slightly so the user sees the success message
       const text = `Type: ${feedbackType}\nMedicine: ${medicineName || 'General'}\n\nMessage: ${message.trim()}`;
       setTimeout(() => {
-        window.location.href = `mailto:aethelcare.help@gmail.com?subject=Report/Feedback: ${medicineName || 'Platform'}&body=${encodeURIComponent(text)}`;
+        window.location.href = `mailto:hello@aethelcare.xyz?subject=Report/Feedback: ${medicineName || 'Platform'}&body=${encodeURIComponent(text)}`;
       }, 1000);
 
       setMessage('');
