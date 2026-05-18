@@ -17,10 +17,11 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
 
   const { theme } = useTheme();
   
-  // Use absolute public paths. We'll rely on the filename the user wants.
+  // Use absolute public paths with a long-lived version tag to bypass CDN cache
+  const v = "v_20260518_final";
   const logoSrc = theme === 'dark' 
-    ? '/logo-white-final-v100.png' 
-    : '/logo-final-v100.png';
+    ? `/logo-white-final-v100.png?v=${v}` 
+    : `/logo-final-v100.png?v=${v}`;
 
   const heights = {
     sm: '32px',
@@ -30,7 +31,10 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
   };
 
   return (
-    <div className={`flex items-center flex-shrink-0 ${className}`} style={{ minWidth: '120px' }}>
+    <div 
+      className={`flex items-center flex-shrink-0 ${className}`} 
+      style={{ minWidth: '120px', minHeight: heights[size] }}
+    >
       <img 
         src={logoSrc} 
         alt="Aethelcare India"
@@ -43,6 +47,13 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
         fetchPriority="high"
         loading="eager"
         decoding="async"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          // If versioned path fails, try clean path once
+          if (target.src.includes('?v=')) {
+            target.src = theme === 'dark' ? '/logo-white-final-v100.png' : '/logo-final-v100.png';
+          }
+        }}
       />
     </div>
   );
