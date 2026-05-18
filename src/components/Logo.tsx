@@ -17,21 +17,32 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
 
   const { theme } = useTheme();
   
-  // Use public paths with a cache buster to bypass CDN/Browser cache
-  const v = "110"; 
+  // Use absolute public paths. We'll rely on the filename the user wants.
   const logoSrc = theme === 'dark' 
-    ? `/logo-white-final-v100.png?v=${v}` 
-    : `/logo-final-v100.png?v=${v}`;
+    ? '/logo-white-final-v100.png' 
+    : '/logo-final-v100.png';
+
+  const heights = {
+    sm: '32px',
+    md: '40px',
+    lg: '64px',
+    xl: '96px'
+  };
 
   return (
-    <div className={`flex items-center flex-shrink-0 ${className}`}>
+    <div className={`flex items-center flex-shrink-0 ${className}`} style={{ minWidth: '120px' }}>
       <img 
         src={logoSrc} 
-        alt="Aethelcare India" 
-        className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
-        style={{ display: 'block', minWidth: '40px' }}
+        alt="Aethelcare India"
+        className="w-auto h-full object-contain"
+        style={{ 
+          height: heights[size],
+          display: 'block',
+          aspectRatio: 'auto'
+        }}
         fetchPriority="high"
         loading="eager"
+        decoding="async"
       />
     </div>
   );

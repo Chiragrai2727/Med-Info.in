@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 import { Navbar } from './components/Navbar';
+import { Logo } from './components/Logo';
 
 // Lazy load pages for better performance
 import { Home } from './pages/Home';
@@ -231,7 +232,9 @@ export default function App() {
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
                       <div>
-                        <h3 className="font-black text-lg mb-4 text-text-primary">{t('appName')}</h3>
+                        <div className="mb-4 flex justify-center md:justify-start">
+                          <Logo size="md" />
+                        </div>
                         <p className="text-sm font-medium text-text-secondary mb-4">
                           {t('heroDescription')}
                         </p>
