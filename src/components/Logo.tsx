@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
+import logoLight from '../assets/logo.png';
+import logoDark from '../assets/logo-white.png';
 
 interface LogoProps {
   className?: string;
@@ -16,10 +18,6 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
   };
 
   const { theme } = useTheme();
-  
-  // Use absolute paths with cache buster to ensure the latest versions are loaded
-  const logoLight = "/logo.png?v=3";
-  const logoDark = "/logo-white.png?v=3";
 
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
