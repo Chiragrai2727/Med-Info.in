@@ -86,7 +86,13 @@ export const CompareSearch: React.FC = () => {
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50/50 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-50/50 rounded-full -ml-32 -mb-32 blur-3xl pointer-events-none" />
       
-      <div className="flex items-center gap-5 mb-10 relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="flex items-center gap-5 mb-10 relative z-10"
+      >
         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 shadow-inner border border-blue-100/50">
           <Scale className="w-8 h-8" />
         </div>
@@ -94,11 +100,17 @@ export const CompareSearch: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Compare Medicines</h2>
           <p className="text-slate-500 font-medium mt-1 text-lg">Compare side-effects, dosage, and usage</p>
         </div>
-      </div>
+      </motion.div>
 
       <form onSubmit={handleCompare} className="relative z-10 flex flex-col xl:flex-row items-center gap-4 w-full">
         <div className="flex flex-col md:flex-row items-center gap-4 w-full xl:w-auto xl:flex-1">
-          <div className="relative group w-full flex-1">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative group w-full flex-1"
+          >
             <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
             </div>
@@ -117,15 +129,27 @@ export const CompareSearch: React.FC = () => {
             >
               {isTranscribing && listening1 ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mic className="h-5 w-5" />}
             </button>
-          </div>
+          </motion.div>
 
-          <div className="flex justify-center shrink-0 my-2 md:my-0">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="flex justify-center shrink-0 my-2 md:my-0"
+          >
             <div className="w-12 h-12 rounded-full glass-dark bg-slate-900 flex items-center justify-center text-white font-black uppercase text-xs tracking-widest shadow-xl border-4 border-white z-10 relative">
               VS
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative group w-full flex-1">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="relative group w-full flex-1"
+          >
             <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
             </div>
@@ -144,10 +168,14 @@ export const CompareSearch: React.FC = () => {
             >
               {isTranscribing && listening2 ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mic className="h-5 w-5" />}
             </button>
-          </div>
+          </motion.div>
         </div>
 
         <motion.button
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           type="submit"

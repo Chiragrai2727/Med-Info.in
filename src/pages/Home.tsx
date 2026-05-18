@@ -92,6 +92,7 @@ export const Home: React.FC = () => {
   ];
 
   const popularMedsRef = useRef<HTMLElement>(null);
+  const compareRef = useRef<HTMLElement>(null);
   const bannedPromoRef = useRef<HTMLElement>(null);
   const trendingRef = useRef<HTMLElement>(null);
   const disclaimerRef = useRef<HTMLElement>(null);
@@ -100,9 +101,10 @@ export const Home: React.FC = () => {
     // GSAP Scroll Animations
     const sections = [
       { ref: popularMedsRef, y: 100 },
+      { ref: compareRef, y: 120 },
       { ref: bannedPromoRef, y: 150 },
       { ref: trendingRef, y: 100 },
-      { ref: disclaimerRef, y: 50 },
+      { ref: disclaimerRef, y: 0 }, // Disclaimer uses its own transition
     ];
 
     const ctx = gsap.context(() => {
@@ -331,7 +333,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Medicine Comparison Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section ref={compareRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="max-w-5xl mx-auto">
           <Suspense fallback={<div className="h-40 flex justify-center items-center">Loading Comparison...</div>}>
             <CompareSearch />
