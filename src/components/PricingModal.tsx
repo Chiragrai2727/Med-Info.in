@@ -5,6 +5,8 @@ import { X, Check, Loader2, Star } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 import { loadScript } from '../lib/scripts';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -133,8 +135,6 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose }) =
 
               // 5. Record payment history
               try {
-                const { collection, addDoc } = await import('firebase/firestore');
-                const { db } = await import('../firebase');
                 await addDoc(collection(db, 'users', user.uid, 'payments'), {
                   amount: order.amount / 100,
                   tier: planId,

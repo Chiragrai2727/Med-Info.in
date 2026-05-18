@@ -157,7 +157,22 @@ export const Home: React.FC = () => {
       <Helmet>
         <title>Aethelcare India - Smart AI Medicine Scanner & Drug Safety Platform</title>
         <meta name="description" content="Check if your medicines are banned in India by CDSCO instantly. Use our pharmaceutical AI scanner to understand Calpol 650 uses, Paracetamol baby dosage, and drug interactions." />
+        <meta name="keywords" content="medicine scanner india, banned drugs list cdsco, calorie 650 uses, paracetamol dosage india, aethelcare, medicine checker" />
         <link rel="canonical" href="https://aethelcare.xyz" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aethelcare.xyz/" />
+        <meta property="og:title" content="Aethelcare India - Smart AI Medicine Scanner" />
+        <meta property="og:description" content="Check if your medicines are banned in India instantly. Smart AI guide for drug safety." />
+        <meta property="og:image" content="https://aethelcare.xyz/logo.png?v=default" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://aethelcare.xyz/" />
+        <meta property="twitter:title" content="Aethelcare India - Smart AI Medicine Scanner" />
+        <meta property="twitter:description" content="Check if your medicines are banned in India instantly. Smart AI guide for drug safety." />
+        <meta property="twitter:image" content="https://aethelcare.xyz/logo.png?v=default" />
       </Helmet>
  
       {/* Hero Section */}

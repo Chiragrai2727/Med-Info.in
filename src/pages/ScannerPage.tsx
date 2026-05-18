@@ -149,6 +149,37 @@ export const ScannerPage: React.FC = () => {
     }
   };
 
+  const promptText = `Analyze this medical document (Prescription, Medicine Strip, or Lab Report) from an Indian context. 
+  Identify the document type and extract details.
+  
+  For MEDICINE STRIPS:
+  - Extract the exact drug name and main brands.
+  - Identify generic constituents.
+  - Look for dosage (e.g., 500mg).
+  - Find the MRP if visible.
+  
+  For PRESCRIPTIONS:
+  - List all medicines with dosage, timing (1-0-1), and duration.
+  - Extract patient name, age, and doctor notes.
+  
+  For LAB REPORTS:
+  - List all test names, results, units, and reference ranges.
+  - Provide a brief interpretation for each marker.
+  
+  RESPONSE MUST BE VALID JSON.
+  Schema:
+  {
+    "document_type": "medicine" | "prescription" | "lab",
+    "medicines": [{ "name": string, "generic_name": string, "dosage": string, "timing": string, "duration": string, "purpose": string, "mrp": string, "is_banned": boolean }],
+    "lab_results": [{ "test_name": string, "result": string, "unit": string, "reference_range": string, "interpretation": string }],
+    "patient_name": string,
+    "age": string,
+    "gender": string,
+    "date": string,
+    "notes": string,
+    "accuracy": "99%"
+  }`;
+
   const handleOcrWithSlightAi = async (file: File) => {
     setLoadingMsg("Scanning with OCR and Basic AI...");
     
@@ -187,17 +218,7 @@ export const ScannerPage: React.FC = () => {
         throw new Error("AI Service configuration missing.");
       }
       const ai = new GoogleGenAI({ apiKey });
-
-      let promptText = `Parse the following raw OCR text from a ${activeTab} document for an Indian healthcare context. Fix typos and reconstruct the data. \nRaw OCR Text:\n${text}\n\n`;
-      if (activeTab === 'medicine') {
-        promptText += `Return JSON: { "document_type": "medicine", "medicines": [{ "name": "string", "generic_name": "string", "dosage": "string", "mrp": "₹...", "is_banned": boolean, "generic_alternative": { "name": "string", "price": "₹..." }, "purpose": "string" }], "notes": "string" }`;
-      } else if (activeTab === 'prescription') {
-        promptText += `Return JSON: { "document_type": "prescription", "patient_name": "string", "age": "string", "gender": "string", "date": "string", "medicines": [{ "name": "string", "generic_name": "string", "dosage": "string", "timing": "string", "duration": "string", "purpose": "string" }], "notes": "string" }`;
-      } else {
-        promptText += `Return JSON: { "document_type": "lab", "patient_name": "string", "age": "string", "gender": "string", "date": "string", "lab_results": [{ "test_name": "string", "result": "string", "unit": "string", "reference_range": "string", "interpretation": "string" }], "notes": "string" }`;
-      }
-
-      const response = await ai.models.generateContent({
+      const response = await ai.models.generateContent({ 
         model: DEFAULT_MODEL,
         contents: promptText,
         config: {
@@ -428,62 +449,17 @@ export const ScannerPage: React.FC = () => {
         throw new Error("AI Service configuration missing. Please report this to support.");
       }
       const ai = new GoogleGenAI({ apiKey });
-
-      let promptText = "";
-      if (activeTab === 'medicine') {
-        promptText = `Parse this medicine strip/packaging for an Indian healthcare context.
-        Return JSON:
-        {
-          "document_type": "medicine",
-          "medicines": [
-            { "name": "string", "generic_name": "string", "dosage": "string", "mrp": "₹...", "is_banned": boolean, "generic_alternative": { "name": "string", "price": "₹..." }, "purpose": "string" }
-          ],
-          "notes": "string"
-        }`;
-      } else if (activeTab === 'prescription') {
-        promptText = `Parse this doctor's prescription for an Indian healthcare context.
-        Return JSON:
-        {
-          "document_type": "prescription",
-          "patient_name": "string",
-          "age": "string",
-          "gender": "string",
-          "date": "string",
-          "medicines": [
-            { "name": "string", "generic_name": "string", "dosage": "string", "timing": "string", "duration": "string", "purpose": "string" }
-          ],
-          "notes": "string"
-        }`;
-      } else {
-        promptText = `Parse this lab/diagnostic report (blood test, urine, etc.) for an Indian healthcare context. 
-        Extract any abnormal findings carefully.
-        Return JSON:
-        {
-          "document_type": "lab",
-          "patient_name": "string",
-          "age": "string",
-          "gender": "string",
-          "date": "string",
-          "lab_results": [
-            { "test_name": "string", "result": "string", "unit": "string", "reference_range": "string", "interpretation": "string" }
-          ],
-          "notes": "string"
-        }`;
-      }
-
-      const response = await ai.models.generateContent({
+      const response = await ai.models.generateContent({ 
         model: DEFAULT_MODEL,
-        contents: {
-          parts: [
-            { text: promptText },
-            {
-              inlineData: {
-                data: base64Data,
-                mimeType: file.type
-              }
+        contents: [
+          { text: promptText },
+          {
+            inlineData: {
+              data: base64Data,
+              mimeType: file.type
             }
-          ]
-        },
+          }
+        ],
         config: {
           responseMimeType: "application/json"
         }

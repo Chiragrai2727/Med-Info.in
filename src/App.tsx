@@ -241,8 +241,8 @@ export default function App() {
                         <p className="text-sm font-medium text-text-secondary mb-2">
                           Got questions or need help?
                         </p>
-                        <a href="mailto:aethelcare.help@gmail.com" className="text-sm font-bold text-primary hover:underline block mb-4">
-                          aethelcare.help@gmail.com
+                        <a href="mailto:hello@aethelcare.xyz" className="text-sm font-bold text-primary hover:underline block mb-4">
+                          hello@aethelcare.xyz
                         </a>
                       </div>
                       <div className="pr-12 md:pr-0">
@@ -274,14 +274,14 @@ export default function App() {
                               
                               // 2. Open email client as requested
                               setTimeout(() => {
-                                window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
+                                window.location.href = `mailto:hello@aethelcare.xyz?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
                               }, 1000);
                               
                               form.reset();
                             } catch (err) {
                               handleFirestoreError(err, OperationType.CREATE, 'feedback');
                               showToast('Error saving feedback, but opening email client anyway.', 'info');
-                              window.location.href = `mailto:aethelcare.help@gmail.com?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
+                              window.location.href = `mailto:hello@aethelcare.xyz?subject=Platform Feedback&body=${encodeURIComponent(text)}`;
                             } finally {
                               setIsSubmittingFeedback(false);
                             }

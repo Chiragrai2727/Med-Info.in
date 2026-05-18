@@ -7,6 +7,8 @@ import { useToast } from '../ToastContext';
 import { PLANS } from '../config/plans';
 import { Check, X, ShieldCheck, Zap, Star, Phone, ArrowRight, Calculator, IndianRupee, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 import { loadScript } from '../lib/scripts';
 
@@ -108,8 +110,6 @@ export const Pricing: React.FC = () => {
 
               // Record payment history
               try {
-                const { collection, addDoc } = await import('firebase/firestore');
-                const { db } = await import('../firebase');
                 await addDoc(collection(db, 'users', user.uid, 'payments'), {
                   amount: data.order.amount / 100,
                   tier: planId,

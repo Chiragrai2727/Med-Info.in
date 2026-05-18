@@ -20,7 +20,6 @@ export default defineConfig(({mode}) => {
       sitemap({
         hostname: 'https://aethelcare.xyz',
         dynamicRoutes: [
-          '/', 
           '/scan', 
           '/about', 
           '/banned-drugs', 
