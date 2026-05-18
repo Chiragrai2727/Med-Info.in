@@ -1,5 +1,6 @@
 import { db } from '../firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { isAdminEmail } from '../constants';
 
 /**
  * Validates if the user is allowed to perform a scan and increments their usage counter if applicable.
@@ -21,7 +22,7 @@ export async function checkAndIncrementScan(userId: string): Promise<{
     }
 
     const userData = userSnap.data();
-    const isAdmin = ['aethelcare.help@gmail.com', 'hello@aethelcare.xyz', 'raisahab2727@gmail.com'].includes(userData.email || '');
+    const isAdmin = isAdminEmail(userData.email);
 
     const currentDay = new Date().toISOString().slice(0, 10);
     let currentCount = userData.scan_count || 0;
