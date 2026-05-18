@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
+import logoLight from '../assets/logo-v2.png';
+import logoDark from '../assets/logo-white-v2.png';
 
 interface LogoProps {
   className?: string;
@@ -16,9 +18,6 @@ export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, siz
   };
 
   const { theme } = useTheme();
-
-  const logoLight = 'https://cdn.jsdelivr.net/gh/Chiragrai2727/Med-Info.in@e9502c3eb45f8816c5dd67073d95c7be7a8ac6d4/public/logo.png';
-  const logoDark = 'https://cdn.jsdelivr.net/gh/Chiragrai2727/Med-Info.in@e9502c3eb45f8816c5dd67073d95c7be7a8ac6d4/public/logo-white.png';
 
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
