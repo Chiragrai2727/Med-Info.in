@@ -18,15 +18,26 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
   };
 
   const { theme } = useTheme();
+  
+  // Use public paths with versioning to ensure cache busting on CDN
+  const v = "105"; 
+  const logoSrc = theme === 'dark' ? `/logo-white.png?v=${v}` : `/logo.png?v=${v}`;
 
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
       <img 
-        src={theme === 'dark' ? logoDark : logoLight} 
+        src={logoSrc} 
         alt="Aethelcare India" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
-        style={{ display: 'block' }}
+        style={{ display: 'block', minWidth: '40px' }}
         fetchPriority="high"
+        onError={(e) => {
+          // Fallback if public path fails
+          const target = e.target as HTMLImageElement;
+          if (!target.src.includes('logo-final')) {
+            target.src = theme === 'dark' ? '/logo-white-final-v100.png' : '/logo-final-v100.png';
+          }
+        }}
       />
     </div>
   );
