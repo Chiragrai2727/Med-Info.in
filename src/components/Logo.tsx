@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
-import logoLight from '../assets/logo.png';
-import logoDark from '../assets/logo-white.png';
+import logoLight from '../assets/aethelcare-brand-logo.png';
+import logoDark from '../assets/aethelcare-brand-logo-white.png';
 
 interface LogoProps {
   className?: string;

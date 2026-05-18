@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medinfo-v8';
+const CACHE_NAME = 'medinfo-v10';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
