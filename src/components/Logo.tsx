@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
-import logoLight from '../assets/logo.png';
-import logoDark from '../assets/logo-white.png';
+import logoLight from '../assets/logo-final-v100.png';
+import logoDark from '../assets/logo-white-final-v100.png';
 
 interface LogoProps {
   className?: string;
@@ -19,9 +19,8 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
 
   const { theme } = useTheme();
   
-  // Use public paths with versioning to ensure cache busting on CDN
-  const v = "105"; 
-  const logoSrc = theme === 'dark' ? `/logo-white.png?v=${v}` : `/logo.png?v=${v}`;
+  // Use imported assets which Vite will hash and handle correctly
+  const logoSrc = theme === 'dark' ? logoDark : logoLight;
 
   return (
     <div className={`flex items-center flex-shrink-0 ${className}`}>
@@ -31,13 +30,6 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
         style={{ display: 'block', minWidth: '40px' }}
         fetchPriority="high"
-        onError={(e) => {
-          // Fallback if public path fails
-          const target = e.target as HTMLImageElement;
-          if (!target.src.includes('logo-final')) {
-            target.src = theme === 'dark' ? '/logo-white-final-v100.png' : '/logo-final-v100.png';
-          }
-        }}
       />
     </div>
   );
