@@ -841,3 +841,29 @@ export async function transcribeAudio(base64Audio: string, lang: Language = 'en'
     return null;
   }
 }
+
+export interface AISearchResult {
+  answer: string;
+  sources: { title: string; url: string }[];
+}
+
+export async function askAI(prompt: string, language: Language = 'en'): Promise<AISearchResult | null> {
+  try {
+    const response = await fetch('/api/ai/ask', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt, language }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Server search failed');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error calling AI Search API:", error);
+    return null;
+  }
+}

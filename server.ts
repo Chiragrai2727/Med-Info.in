@@ -557,6 +557,55 @@ async function startServer() {
 
   app.post("/api/verify-payment", handleVerifyPayment);
 
+  // AI Search Grounding Endpoint
+  app.post("/api/ai/ask", async (req, res) => {
+    try {
+      const { prompt, language = "en" } = req.body;
+      const apiKey = process.env.GEMINI_API_KEY;
+      
+      if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+        return res.status(500).json({ 
+          error: "API Key Missing", 
+          message: "Gemini API key is not configured on the server." 
+        });
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
+      
+      const result = await (ai as any).models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        tools: [{ googleSearch: {} }],
+      });
+
+      const response = result;
+      const text = response.text;
+      const groundingMetadata = response.groundingMetadata;
+
+      // Extract links from grounding metadata if available
+      const sources = [];
+      if (groundingMetadata?.groundingChunks) {
+        for (const chunk of groundingMetadata.groundingChunks) {
+          if (chunk.web) {
+            sources.push({
+              title: chunk.web.title,
+              url: chunk.web.uri
+            });
+          }
+        }
+      }
+
+      res.json({
+        answer: text,
+        sources: sources.slice(0, 5) // Limit to top 5 sources
+      });
+
+    } catch (error: any) {
+      console.error("AI Search Error:", error);
+      res.status(500).json({ error: "AI search failed", details: error.message });
+    }
+  });
+
   // Keep Netlify redirects if needed
   app.post("/.netlify/functions/create-order", handleCreateOrder);
   app.post("/.netlify/functions/verify-payment", handleVerifyPayment);

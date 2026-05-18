@@ -3,11 +3,13 @@ import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkle
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
-import { searchMedicines, interpretQuery, transcribeAudio, getAutocompleteSuggestion } from '../services/geminiService';
+import { searchMedicines, interpretQuery, transcribeAudio, getAutocompleteSuggestion, askAI, AISearchResult } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
 import { doc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
 import { offlineService } from '../services/offlineService';
+import { ExternalLink } from 'lucide-react';
 
 interface SearchProps {
   autoFocus?: boolean;
@@ -31,6 +33,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
   const [isListening, setIsListening] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [aiResult, setAiResult] = useState<AISearchResult | null>(null);
+  const [isAISearching, setIsAISearching] = useState(false);
   const { t, language } = useLanguage();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -92,6 +96,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
       } else {
         setSuggestions([]);
         setShowSuggestions(false);
+        setAiResult(null);
       }
     }, 150);
 
@@ -109,11 +114,32 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleAISearch = async (explicitQuery?: string) => {
+    const finalQuery = (explicitQuery || query).trim();
+    if (!finalQuery) return;
+
+    setIsAISearching(true);
+    setAiResult(null);
+    setNoResults({show: false, query: ''});
+    saveRecentSearch(finalQuery);
+
+    try {
+      const result = await askAI(finalQuery, language);
+      setAiResult(result);
+    } catch (error) {
+      console.error("AI Search Error:", error);
+      showToast("Advanced search failed. Please try again.", "error");
+    } finally {
+      setIsAISearching(false);
+    }
+  };
+
   const handleSearch = async (e?: React.FormEvent, explicitQuery?: string) => {
     if (e) e.preventDefault();
     const finalQuery = (explicitQuery || query).trim();
     if (!finalQuery) return;
     setNoResults({show: false, query: ''});
+    setAiResult(null);
 
     // Track search analytics
     try {
@@ -133,6 +159,22 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
     setIsLoading(true);
     saveRecentSearch(finalQuery);
     
+    // Check if it's a general question instead of a medicine name
+    const commonMedicineWords = ['tablet', 'syrup', 'dosage', 'capsule', 'mg', 'ml'];
+    const isGeneralQuestion = !commonMedicineWords.some(word => finalQuery.toLowerCase().includes(word)) && 
+                             (finalQuery.includes('?') || 
+                              finalQuery.toLowerCase().startsWith('what') || 
+                              finalQuery.toLowerCase().startsWith('how') || 
+                              finalQuery.toLowerCase().startsWith('why') || 
+                              finalQuery.toLowerCase().startsWith('can') ||
+                              finalQuery.length > 20);
+
+    if (isGeneralQuestion) {
+      setIsLoading(false);
+      handleAISearch(finalQuery);
+      return;
+    }
+
     const interpretation = await interpretQuery(finalQuery, language);
     setIsLoading(false);
 
@@ -156,8 +198,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
       navigate(`/medicine/${encodeURIComponent(interpretation.medicines[0])}`);
       setShowSuggestions(false);
     } else {
-      setShowSuggestions(false);
-      setNoResults({show: true, query: finalQuery});
+      // If we interpreted it but found nothing, or if it was unclear, try the AI search
+      handleAISearch(finalQuery);
     }
   };
 
@@ -434,14 +476,81 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
       </form>
 
       <AnimatePresence>
-        {(showSuggestions || (query.length === 0 && isFocused)) && (
+        {(showSuggestions || (query.length === 0 && isFocused) || isAISearching || aiResult) && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            className="absolute mt-4 w-full bg-surface/95 backdrop-blur-2xl border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden"
+            className="absolute mt-4 w-full bg-surface/95 backdrop-blur-2xl border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden max-h-[80vh] overflow-y-auto"
           >
-            {query.length === 0 ? (
+            {isAISearching ? (
+              <div className="p-20 text-center flex flex-col items-center gap-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
+                  <Loader2 className="w-16 h-16 animate-spin text-primary relative z-10" />
+                </div>
+                <div>
+                  <p className="text-2xl font-black text-text-primary tracking-tight mb-2">Aethelcare AI is searching...</p>
+                  <p className="text-text-secondary font-medium uppercase tracking-[0.2em] text-[10px]">Analyzing global medical research & CDSCO datasets</p>
+                </div>
+              </div>
+            ) : aiResult ? (
+              <div className="p-10 md:p-14">
+                <div className="flex items-center justify-between mb-10 pb-6 border-b border-border">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-primary/10 rounded-2xl text-primary">
+                      <Sparkles className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-text-primary tracking-tight">AI Generated Answer</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">Grounded in Google Search</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setAiResult(null)}
+                    className="p-2 hover:bg-border/30 rounded-xl transition-all"
+                  >
+                    <X className="w-5 h-5 text-text-secondary" />
+                  </button>
+                </div>
+
+                <div className="prose prose-neutral dark:prose-invert max-w-none mb-12">
+                  <div className="text-xl text-text-primary leading-relaxed font-medium markdown-body">
+                    <ReactMarkdown>{aiResult.answer}</ReactMarkdown>
+                  </div>
+                </div>
+
+                {aiResult.sources.length > 0 && (
+                  <div className="bg-bg/50 rounded-[2.5rem] p-8 border border-border">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-6">Verified Sources</h4>
+                    <div className="flex flex-wrap gap-3">
+                      {aiResult.sources.map((source, idx) => (
+                        <a 
+                          key={idx}
+                          href={source.url}
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-surface border border-border rounded-xl text-xs font-bold text-text-primary hover:border-primary hover:text-primary transition-all shadow-sm group"
+                        >
+                          <span className="truncate max-w-[200px]">{source.title}</span>
+                          <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="mt-10 pt-8 border-t border-border flex justify-between items-center">
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40">AI-generated content should not replace professional medical advice.</p>
+                  <button 
+                    onClick={() => { setAiResult(null); handleSearch(); }}
+                    className="text-xs font-black uppercase tracking-widest text-primary hover:underline"
+                  >
+                    Back to Medicines
+                  </button>
+                </div>
+              </div>
+            ) : query.length === 0 ? (
               <div className="py-6">
                 {recentSearches.length > 0 ? (
                   <>
@@ -557,7 +666,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 
                 {/* Global Search Option */}
                 <button
-                  onClick={() => handleSearch()}
+                  onClick={() => handleAISearch()}
                   className="w-full text-left px-8 py-6 bg-primary/5 hover:bg-primary/10 transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-4">
@@ -589,7 +698,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 </p>
                 
                 <button
-                  onClick={() => handleSearch()}
+                  onClick={() => handleAISearch()}
                   className="inline-flex items-center gap-4 px-10 py-5 bg-dark-bg text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
                 >
                   <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
