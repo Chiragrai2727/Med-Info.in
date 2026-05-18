@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db, googleProvider } from './firebase';
 import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { doc, setDoc, updateDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
-import { isAdminEmail } from './constants';
 
 interface UserProfile {
   uid: string;
@@ -40,6 +39,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const ADMIN_EMAILS = ['aethelcare.help@gmail.com'];
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -73,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         unsubscribeProfile = onSnapshot(userRef, async (docSnap) => {
           if (docSnap.exists()) {
             const data = docSnap.data();
-            const isAdmin = isAdminEmail(user.email);
+            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
             let isPremium = isAdmin || data.isPremium || false;
 
             // Check if subscription has expired
@@ -106,7 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             } as UserProfile);
           } else {
             // Create profile if missing
-            const isAdmin = isAdminEmail(user.email);
+            const isAdmin = ADMIN_EMAILS.includes(user.email || '');
             const newProfileData = {
               uid: user.uid,
               email: user.email || '',

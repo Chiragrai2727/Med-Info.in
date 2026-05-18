@@ -46,7 +46,7 @@ export const Contact: React.FC = () => {
       // 2. Open Email Client
       const body = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\n\nMessage:\n${formData.message}`;
       setTimeout(() => {
-        window.location.href = `mailto:hello@aethelcare.xyz?subject=Contact Request from ${formData.name}&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:aethelcare.help@gmail.com?subject=Contact Request from ${formData.name}&body=${encodeURIComponent(body)}`;
         navigate('/');
       }, 1500);
 
@@ -54,7 +54,7 @@ export const Contact: React.FC = () => {
       handleFirestoreError(error, OperationType.CREATE, 'contactRequests');
       showToast('Submission failed, but redirecting to email...', 'info');
       // Still allow email fallback
-      window.location.href = `mailto:hello@aethelcare.xyz?subject=Contact Request&body=${encodeURIComponent(formData.message)}`;
+      window.location.href = `mailto:aethelcare.help@gmail.com?subject=Contact Request&body=${encodeURIComponent(formData.message)}`;
     } finally {
       setIsSubmitting(false);
     }

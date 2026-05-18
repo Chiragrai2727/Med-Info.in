@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
-import logoLight from '../assets/aethelcare-logo-final-v1.png';
-import logoDark from '../assets/aethelcare-logo-white-final-v1.png';
+import logoLight from '../assets/logo-v2.png';
+import logoDark from '../assets/logo-white-v2.png';
 
 interface LogoProps {
   className?: string;
@@ -9,7 +9,7 @@ interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
+export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, size = 'md' }) => {
   const sizeClasses = {
     sm: 'h-8 text-xl',
     md: 'h-10 text-2xl',
@@ -25,7 +25,6 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
         src={theme === 'dark' ? logoDark : logoLight} 
         alt="Aethelcare Logo" 
         className={`${sizeClasses[size].split(' ')[0]} w-auto max-w-full object-contain`}
-        style={{ display: 'block' }}
         fetchPriority="high"
       />
     </div>

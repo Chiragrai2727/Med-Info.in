@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, onSnapshot, getDoc, updateDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../AuthContext';
-import { isAdminEmail } from '../constants';
 
 export interface UserData {
   id: string;
@@ -33,7 +32,7 @@ export function useUser() {
     const unsubscribe = onSnapshot(userRef, async (snapshot) => {
       if (snapshot.exists()) {
         let currentData = snapshot.data() as any;
-        const isAdmin = isAdminEmail(currentData.email);
+        const isAdmin = ['aethelcare.help@gmail.com'].includes(currentData.email || '');
         
         let shouldUpdate = false;
         
@@ -98,7 +97,7 @@ export function useUser() {
   }, [authUser]);
 
   // Derived state
-  const isAdmin = isAdminEmail(userData?.email);
+  const isAdmin = ['aethelcare.help@gmail.com'].includes(userData?.email || '');
   const isPremium = isAdmin || userData?.plan === 'premium' || (userData as any)?.isPremium === true;
   
   let scansRemaining = 3;
