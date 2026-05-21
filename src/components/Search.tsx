@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
+import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
