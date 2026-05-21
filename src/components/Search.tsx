@@ -394,10 +394,10 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </div>
           <div>
             <p className="font-medium text-text-primary">
-              We couldn't find "{noResults.query}"
+              {t('couldNotFind').replace('{query}', noResults.query)}
             </p>
             <p className="text-sm text-text-secondary mt-1">
-              We don't have that medication in our records right now, but we are constantly updating our database. Try checking the spelling or use a generic name.
+              {t('noMedFormatDesc')}
             </p>
           </div>
           <button 
@@ -490,8 +490,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   <Loader2 className="w-16 h-16 animate-spin text-primary relative z-10" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-text-primary tracking-tight mb-2">Aethelcare AI is searching...</p>
-                  <p className="text-text-secondary font-medium uppercase tracking-[0.2em] text-[10px]">Analyzing global medical research & CDSCO datasets</p>
+                  <p className="text-2xl font-black text-text-primary tracking-tight mb-2">{t('aiIsSearching')}</p>
+                  <p className="text-text-secondary font-medium uppercase tracking-[0.2em] text-[10px]">{t('analyzingGlobalMedical')}</p>
                 </div>
               </div>
             ) : aiResult ? (
@@ -502,8 +502,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <Sparkles className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-text-primary tracking-tight">AI Generated Answer</h3>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">Grounded in Google Search</p>
+                      <h3 className="text-xl font-black text-text-primary tracking-tight">{t('aiGeneratedAnswer')}</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">{t('groundedInSearch')}</p>
                     </div>
                   </div>
                   <button 
@@ -522,7 +522,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
 
                 {aiResult.sources.length > 0 && (
                   <div className="bg-bg/50 rounded-[2.5rem] p-8 border border-border">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-6">Verified Sources</h4>
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-6">{t('verifiedSources')}</h4>
                     <div className="flex flex-wrap gap-3">
                       {aiResult.sources.map((source, idx) => (
                         <a 
@@ -541,12 +541,12 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 )}
                 
                 <div className="mt-10 pt-8 border-t border-border flex justify-between items-center">
-                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40">AI-generated content should not replace professional medical advice.</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40">{t('aiDisclaimerLong')}</p>
                   <button 
                     onClick={() => { setAiResult(null); handleSearch(); }}
                     className="text-xs font-black uppercase tracking-widest text-primary hover:underline"
                   >
-                    Back to Medicines
+                    {t('backToMedicines')}
                   </button>
                 </div>
               </div>
@@ -555,12 +555,12 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 {recentSearches.length > 0 ? (
                   <>
                     <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Recent Searches</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">{t('recentSearches')}</span>
                       <button 
                         onClick={clearRecentSearches}
                         className="text-[10px] font-black uppercase tracking-[0.2em] text-danger/70 hover:text-danger transition-colors"
                       >
-                        Clear All
+                        {t('clearAll')}
                       </button>
                     </div>
                     {recentSearches.map((term, i) => (
@@ -582,7 +582,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 ) : (
                   <>
                     <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Popular Searches</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">{t('popularSearches')}</span>
                     </div>
                     {POPULAR_SEARCHES.map((term, i) => (
                       <button
@@ -611,7 +611,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 {!navigator.onLine && (
                   <div className="mx-6 mb-4 px-4 py-2 bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
-                    Offline Mode
+                    {t('offlineMode')}
                   </div>
                 )}
                 {suggestions.map((item, index) => (
@@ -637,7 +637,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                               ) : (
                                 <span className={`w-1.5 h-1.5 rounded-full bg-text-secondary/50`} />
                               )}
-                              {item.source}
+                              {item.source === 'Verified Database' ? t('cdscoVerified') : item.source === 'AI Analysis' ? t('aiAnalysis') : item.source}
                             </span>
                             {item.confidence !== undefined && (
                               <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border ${
@@ -645,7 +645,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                                 item.confidence >= 70 ? 'bg-amber-50 text-amber-700 border-amber-100' :
                                 'bg-danger/5 text-danger border-danger/10'
                               }`}>
-                                {item.confidence}% match
+                                {item.confidence}% {t('match')}
                               </span>
                             )}
                           </div>
@@ -675,14 +675,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                     </div>
                     <div>
                       <div className="text-lg font-black text-primary group-hover:translate-x-1 transition-transform flex items-center gap-2">
-                        Full Search: "{query}"
-                        <span className="px-2 py-0.5 bg-primary text-[9px] text-white rounded-md uppercase tracking-widest font-black">AI Powered</span>
+                        {t('fullSearch')}: "{query}"
+                        <span className="px-2 py-0.5 bg-primary text-[9px] text-white rounded-md uppercase tracking-widest font-black">{t('aiPowered')}</span>
                       </div>
-                      <p className="text-sm text-primary/60 font-medium italic">Deep search in global medical datasets & research</p>
+                      <p className="text-sm text-primary/60 font-medium italic">{t('deepSearchDesc')}</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-primary font-bold">Press Enter</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary font-bold">{t('pressEnter')}</span>
                     <TrendingUp className="w-4 h-4 text-primary" />
                   </div>
                 </button>
@@ -694,7 +694,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 </div>
                 <p className="text-2xl font-black text-text-primary mb-2">{t('noResults')}</p>
                 <p className="text-text-secondary font-medium mb-8">
-                  Couldn't find any direct matches in our quick database.
+                  {t('noDirectMatchesDesc')}
                 </p>
                 
                 <button
@@ -702,14 +702,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   className="inline-flex items-center gap-4 px-10 py-5 bg-dark-bg text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
                 >
                   <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
-                  Search with AI Assistant
+                  {t('searchWithAIAssistant')}
                   <div className="ml-4 px-2 py-1 bg-white/20 rounded-md text-[10px] border border-white/10 group-hover:bg-primary transition-colors">
-                    Enter
+                    {t('pressEnter')}
                   </div>
                 </button>
                 
                 <div className="mt-12 text-text-secondary opacity-40">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">Or try searching for</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">{t('orTrySearchingFor')}</p>
                   <div className="flex flex-wrap justify-center gap-3">
                     <button onClick={() => setQuery('fever')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">fever</button>
                     <button onClick={() => setQuery('paracetamol')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">paracetamol</button>

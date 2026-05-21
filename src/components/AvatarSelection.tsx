@@ -5,23 +5,66 @@ import { useAuth } from '../AuthContext';
 import { useToast } from '../ToastContext';
 
 const AVATARS = [
-  // Diverse Characters
-  { id: 'b1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&mouth=smile' },
-  { id: 'b2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aiden&mouth=smile' },
-  { id: 'b3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jack&mouth=smile' },
-  { id: 'g1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&mouth=smile' },
-  { id: 'g2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mimi&mouth=smile' },
-  { id: 'g3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ginger&mouth=smile' },
+  // Diverse Characters (Avataaars)
+  { id: 'b1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix' },
+  { id: 'b2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aiden' },
+  { id: 'b3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jack' },
+  { id: 'g1', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka' },
+  { id: 'g2', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mimi' },
+  { id: 'g3', url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ginger' },
 
-  // Aesthetic & Modern
+  // Aesthetic & Modern (Lorelei)
   { id: 'f1', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aria' },
   { id: 'f2', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Luna' },
   { id: 'f3', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Nova' },
+  { id: 'f4', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Maya' },
+  { id: 'f5', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Elena' },
 
-  // Artistic & Clean
+  // Artistic & Clean (Notionists)
   { id: 'n1', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Coco' },
   { id: 'n2', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Bear' },
   { id: 'n3', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Toby' },
+  { id: 'n4', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Milo' },
+  { id: 'n5', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Lola' },
+
+  // Adventure Theme
+  { id: 'adv1', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Alexander' },
+  { id: 'adv2', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Sawyer' },
+  { id: 'adv3', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Leo' },
+
+  // Friendly Faces (Big Smiles)
+  { id: 'bs1', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Jasper' },
+  { id: 'bs2', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Caleb' },
+  { id: 'bs3', url: 'https://api.dicebear.com/7.x/big-smile/svg?seed=Skyler' },
+
+  // Robots (Bottts)
+  { id: 'bot1', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Wall-E' },
+  { id: 'bot2', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Eve' },
+
+  // Pixel Art
+  { id: 'pix1', url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=Mario' },
+  { id: 'pix2', url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=Link' },
+
+  // People (Open Peeps)
+  { id: 'peep1', url: 'https://api.dicebear.com/7.x/open-peeps/svg?seed=Sam' },
+  { id: 'peep2', url: 'https://api.dicebear.com/7.x/open-peeps/svg?seed=Alex' },
+  { id: 'peep3', url: 'https://api.dicebear.com/7.x/open-peeps/svg?seed=Jordan' },
+
+  // Personas
+  { id: 'per1', url: 'https://api.dicebear.com/7.x/personas/svg?seed=Charlie' },
+  { id: 'per2', url: 'https://api.dicebear.com/7.x/personas/svg?seed=Casey' },
+  { id: 'per3', url: 'https://api.dicebear.com/7.x/personas/svg?seed=Riley' },
+  { id: 'per4', url: 'https://api.dicebear.com/7.x/personas/svg?seed=Sasha' },
+
+  // Diverse Faces (Miniavs)
+  { id: 'min1', url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=A' },
+  { id: 'min2', url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=B' },
+  { id: 'min3', url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=C' },
+  { id: 'min4', url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=D' },
+
+  // Shapes
+  { id: 'sh1', url: 'https://api.dicebear.com/7.x/shapes/svg?seed=1' },
+  { id: 'sh2', url: 'https://api.dicebear.com/7.x/shapes/svg?seed=2' },
 ];
 
 interface AvatarSelectionProps {
@@ -63,7 +106,7 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-[3rem] shadow-[0_32px_64px_rgba(0,0,0,0.2)] z-[201] overflow-hidden border border-white/20"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-2xl bg-white rounded-[3rem] shadow-[0_32px_64px_rgba(0,0,0,0.2)] z-[201] overflow-hidden border border-white/20"
           >
             <div className="p-8 sm:p-12 border-b border-black/5 flex items-center justify-between bg-white/50 backdrop-blur-xl">
               <div>
@@ -92,9 +135,9 @@ export const AvatarSelection: React.FC<AvatarSelectionProps> = ({ isOpen, onClos
               <div 
                 data-lenis-prevent="true" 
                 onWheel={(e) => e.stopPropagation()}
-                className="max-h-[420px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent"
+                className="max-h-[500px] overflow-y-auto px-4 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent"
               >
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 sm:gap-6 pb-4">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 sm:gap-6 pb-4">
                   {AVATARS.map((avatar) => (
                     <button
                       key={avatar.id}

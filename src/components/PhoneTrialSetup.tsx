@@ -7,7 +7,7 @@ import { useAuth } from '../AuthContext';
 import { useLanguage } from '../LanguageContext';
 
 export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { t } = useLanguage();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,12 @@ export const PhoneTrialSetup: React.FC<{ onSuccess: () => void }> = ({ onSuccess
     e.preventDefault();
     if (!phoneNumber || phoneNumber.length < 10 || !user) return;
     
+    // Check if user already claimed trial
+    if (profile?.trialClaimed) {
+      setError("You have already claimed your free trial.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
 

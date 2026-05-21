@@ -130,7 +130,7 @@ export const Dashboard: React.FC = () => {
         <div className="backdrop-blur-xl bg-surface/70 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-surface overflow-hidden group hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] transition-all duration-700">
           <div className="p-8 sm:p-12 flex flex-col sm:flex-row items-center sm:items-start gap-10">
             <div className="relative group/avatar">
-              <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-[3rem] overflow-hidden ring-8 ring-surface shadow-2xl transition-transform group-hover:scale-105 duration-700 relative">
+              <div className="w-32 h-32 sm:w-44 sm:h-44 rounded-[3rem] overflow-hidden ring-8 ring-surface shadow-2xl transition-transform group-hover:scale-105 duration-700 relative">
                 {profile.photoURL ? (
                   <img src={profile.photoURL} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 ) : (

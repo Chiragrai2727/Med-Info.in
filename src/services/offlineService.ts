@@ -46,10 +46,11 @@ export const offlineService = {
   },
 
   // Save medicine details to cache
-  saveMedicine: (medicine: Medicine) => {
+  saveMedicine: (medicine: Medicine, customKey?: string) => {
     try {
       const cache: Record<string, CacheItem> = JSON.parse(localStorage.getItem(MEDICINE_CACHE_KEY) || '{}');
-      cache[medicine.drug_name.toLowerCase()] = {
+      const key = (customKey || medicine.drug_name).toLowerCase();
+      cache[key] = {
         data: medicine,
         timestamp: Date.now()
       };

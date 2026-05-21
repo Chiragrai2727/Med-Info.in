@@ -44,20 +44,20 @@ export const Navbar: React.FC = () => {
             >
               <HelpCircle className="w-4 h-4" />
               <div className="absolute top-full right-0 mt-2 whitespace-nowrap bg-surface border border-border text-text-primary text-[10px] font-black uppercase tracking-widest py-1 px-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                How to use
+                {t('howToUse')}
               </div>
             </button>
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              About
+              {t('about')}
             </Link>
             <Link to="/compare" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              Compare
+              {t('compare')}
             </Link>
             <Link to="/contact" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              Contact
+              {t('contactUs')}
             </Link>
             <Link to="/pricing" className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-primary bg-primary/5 rounded-full hover:bg-primary/10 transition-colors whitespace-nowrap flex-shrink-0">
-              <span className="hidden xs:inline">Plans</span>
+              <span className="hidden xs:inline">{t('plans')}</span>
               <span className="xs:hidden">₹</span>
             </Link>
             {user ? (
@@ -82,7 +82,7 @@ export const Navbar: React.FC = () => {
                   </button>
                   <div className="absolute right-0 mt-3 w-64 bg-surface rounded-[1.25rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-3 overflow-hidden">
                     <div className="p-5 border-b border-border bg-bg/50">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/60 mb-1">Account</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/60 mb-1">{t('account')}</p>
                       <p className="text-base font-black truncate text-text-primary tracking-tight">{profile?.displayName || user.email}</p>
                     </div>
                     <div className="p-2">
@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
                       </Link>
                       <Link to="/contact" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
                         <Mail className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
-                        Contact Us
+                        {t('contactUs')}
                       </Link>
                       {profile?.role === 'admin' && (
                         <Link to="/admin" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">

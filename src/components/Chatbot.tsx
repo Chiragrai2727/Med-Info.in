@@ -11,11 +11,11 @@ interface Message {
 const FAQ_KNOWLEDGE = [
   {
     keywords: ['price', 'cost', 'subscription', 'premium', 'plan', 'pay', 'free'],
-    answer: "Aethelcare offers a Free plan with basic features, and a Premium plan at ₹44/month (or ₹499/year) which includes unlimited AI scans, advanced medicine comparisons, and priority support. You can check the 'Plans' page for more details."
+    answer: "Aethelcare offers a Free plan with basic features, and a Premium plan at ₹99/month (or ₹699/year) which includes unlimited AI scans, advanced medicine comparisons, and priority support. You can check the 'Plans' page for more details."
   },
   {
     keywords: ['contact', 'email', 'support', 'help', 'reach'],
-    answer: "You can reach out to our support team via the 'Contact' page, or email us directly at support@aethelcare.xyz. We're here to help!"
+    answer: "You can reach out to our support team via the 'Contact' page, or email us directly at hello@aethelcare.xyz. We're here to help!"
   },
   {
     keywords: ['ban', 'banned', 'cdsco', 'illegal', 'prohibited'],
@@ -31,7 +31,7 @@ const FAQ_KNOWLEDGE = [
   },
   {
     keywords: ['language', 'translate', 'hindi', 'marathi', 'tamil', 'regional'],
-    answer: "Aethelcare supports 22 scheduled Indian languages! You can change the app language using the globe icon in the navigation bar to read medical information in your preferred language."
+    answer: "Aethelcare supports 23 languages, including all 22 scheduled Indian languages! You can change the app language using the globe icon in the navigation bar to read medical information in your preferred language."
   },
   {
     keywords: ['hi', 'hello', 'hey', 'start', 'greetings'],

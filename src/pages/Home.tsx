@@ -195,7 +195,7 @@ export const Home: React.FC = () => {
                 className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:bg-primary-hover transition-all active:scale-95 animate-pulse-slow"
               >
                 <Download className="w-4 h-4" /> 
-                {isIOS && !deferredPrompt ? 'Install App' : (deferredPrompt ? 'Download App' : 'Get Mobile App')}
+                {isIOS && !deferredPrompt ? t('installApp') : (deferredPrompt ? t('downloadApp') : t('getMobileApp'))}
               </motion.button>
             )}
             {[
@@ -225,18 +225,18 @@ export const Home: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-[52px] font-black text-text-primary mb-6 md:mb-8 tracking-[-0.05em] max-w-6xl mx-auto leading-tight sm:leading-[0.9]">
-            Check if your medicine is banned in India
+            {t('healthDecoded')}
           </h1>
           
           <p className="text-lg md:text-2xl text-text-secondary mb-10 md:mb-14 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight">
-            The simplest way to understand your medicines and safety.
+            {t('heroDescription')}
           </p>
           
           <div className="mb-10 md:mb-14 relative max-w-2xl mx-auto z-40">
             <div className="backdrop-blur-3xl bg-surface/80 p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-surface/40">
               <Search 
                 autoFocus 
-                placeholder="Search any medicine name..."
+                placeholder={t('searchPlaceholder')}
                 onActiveChange={setIsSearchActive}
               />
             </div>
@@ -255,14 +255,14 @@ export const Home: React.FC = () => {
                     onClick={() => navigate('/banned-drugs')}
                     className="w-full sm:w-auto px-8 md:px-10 py-4 bg-danger text-white rounded-[1.5rem] font-bold hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
                   >
-                    Check Banned List
+                    {t('checkBannedList')}
                   </button>
                   <button 
                     id="scan-step"
                     onClick={() => navigate('/scan')}
                     className="w-full sm:w-auto px-8 md:px-10 py-4 bg-primary text-white rounded-[1.5rem] font-bold hover:bg-primary-hover transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
                   >
-                    Scan Free
+                    {t('scanFree')}
                   </button>
                 </motion.div>
               )}
@@ -302,7 +302,7 @@ export const Home: React.FC = () => {
       {/* Popular Medicines Section */}
       <section ref={popularMedsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 md:mb-32">
         <div className="flex items-center justify-between mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tight leading-none">Popular Medicines</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tight leading-none">{t('popularMedicines')}</h2>
           <div className="h-px bg-border flex-1 mx-8 hidden md:block opacity-30" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -326,7 +326,7 @@ export const Home: React.FC = () => {
                 {med.summary}
               </p>
               <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-[0.2em] text-primary border-t border-black/5 pt-6">
-                <span>View Details</span>
+                <span>{t('viewDetails')}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
               </div>
             </div>
@@ -337,7 +337,7 @@ export const Home: React.FC = () => {
       {/* Medicine Comparison Section */}
       <section ref={compareRef} id="compare-step" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="max-w-5xl mx-auto">
-          <Suspense fallback={<div className="h-40 flex justify-center items-center">Loading Comparison...</div>}>
+          <Suspense fallback={<div className="h-40 flex justify-center items-center">{t('loadingComparison')}</div>}>
             <CompareSearch />
           </Suspense>
         </div>
@@ -352,18 +352,18 @@ export const Home: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12 mb-12 md:mb-20">
               <div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 bg-danger/10 text-danger text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full mb-6 md:mb-8 shadow-sm">
-                  <AlertTriangle className="w-3.5 h-3.5 md:w-4 md:h-4" /> CDSCO ALERT
+                  <AlertTriangle className="w-3.5 h-3.5 md:w-4 md:h-4" /> {t('cdscoAlert')}
                 </div>
-                <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-text-primary mb-4 md:mb-6 tracking-[-0.04em] leading-[1] md:leading-[0.9]">Banned Drugs Registry</h2>
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-text-primary mb-4 md:mb-6 tracking-[-0.04em] leading-[1] md:leading-[0.9]">{t('bannedDrugsRegistry')}</h2>
                 <p className="text-lg md:text-xl text-danger/70 font-bold max-w-2xl leading-relaxed tracking-tight">
-                  Search the official database of medications prohibited by CDSCO for manufacture and sale in India.
+                  {t('bannedDrugsDesc')}
                 </p>
               </div>
               <button 
                 onClick={() => navigate('/banned-drugs')}
                 className="w-full md:w-auto bg-danger text-white px-8 md:px-12 py-5 md:py-6 rounded-full md:rounded-[2rem] font-black text-xs md:text-sm uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.25)] active:scale-95 whitespace-nowrap text-center"
               >
-                Full Registry →
+                {t('fullRegistry')} →
               </button>
             </div>
   
@@ -386,7 +386,7 @@ export const Home: React.FC = () => {
                     </div>
                     
                     <div className="mt-6 md:mt-8 flex items-center text-[9px] md:text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-4 md:pt-5">
-                      Read Detailed Report
+                      {t('readDetailedReport')}
                       <ArrowRight className="w-3.5 h-3.5 ml-auto group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -410,8 +410,8 @@ export const Home: React.FC = () => {
                   <Sparkles className="w-6 h-6 md:w-10 md:h-10 text-primary/60" />
                 </div>
                 <div>
-                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.04em] leading-[1] md:leading-[0.9] mb-2 md:mb-4">Trending Scans</h2>
-                  <p className="text-slate-400 font-medium text-lg md:text-xl tracking-tight">Based on real-time health queries</p>
+                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.04em] leading-[1] md:leading-[0.9] mb-2 md:mb-4">{t('trendingScans')}</h2>
+                  <p className="text-slate-400 font-medium text-lg md:text-xl tracking-tight">{t('realTimeTrends')}</p>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2 md:gap-3">
