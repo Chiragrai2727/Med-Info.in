@@ -410,7 +410,7 @@ const translations: Record<Language, Record<string, string>> = {
     overdoseEffects: 'Overdose Effects',
     contraindications: 'Contraindications',
     linkCopied: 'Link copied to clipboard!',
-    linkCopyFailed: 'Failed to copy link.',
+    linkCopyFailed: 'Failed to copy the link.',
     featureComparison: 'Side-by-side comparison of features and effects',
     otc: 'OTC',
     conditionNotFound: 'Condition not found',

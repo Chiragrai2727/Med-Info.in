@@ -567,10 +567,10 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Recent', summary: 'Search history' })}
-                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-neutral-50/80 transition-all flex items-center justify-between group border-b border-black/5 last:border-0"
+                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex items-center justify-between group border-b border-border/40 last:border-0"
                       >
                         <div className="flex items-center gap-5">
-                          <div className="w-10 h-10 md:w-12 md:h-12 bg-neutral-100 rounded-2xl border border-black/5 flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
+                          <div className="w-10 h-10 md:w-12 md:h-12 bg-bg rounded-2xl border border-border/80 flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
                             <SearchIcon className="w-5 h-5" />
                           </div>
                           <span className="text-lg md:text-xl font-bold text-text-primary tracking-tight">{term}</span>
@@ -588,7 +588,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Popular', summary: 'Trending search' })}
-                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-neutral-50/80 transition-all flex items-center justify-between group border-b border-black/5 last:border-0"
+                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex items-center justify-between group border-b border-border/40 last:border-0"
                       >
                         <div className="flex items-center gap-5">
                           <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/5 rounded-2xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
@@ -610,7 +610,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             ) : suggestions.length > 0 ? (
               <div className="py-4">
                 {!navigator.onLine && (
-                  <div className="mx-6 mb-4 px-4 py-2 bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
+                  <div className="mx-6 mb-4 px-4 py-2 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
                     {t('offlineMode')}
                   </div>
@@ -619,7 +619,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   <button
                     key={index}
                     onClick={() => handleSelect(item)}
-                    className="w-full text-left px-8 py-8 md:px-10 md:py-8 hover:bg-neutral-50/80 transition-all flex flex-col gap-2 group border-b border-black/5 last:border-0"
+                    className="w-full text-left px-8 py-8 md:px-10 md:py-8 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex flex-col gap-2 group border-b border-border/40 last:border-0"
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex flex-wrap items-center gap-3">
@@ -643,12 +643,12 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                           </div>
                         )}
                         {item.isOffline && item.source !== 'Verified Database' && (
-                          <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm border border-amber-100">
+                          <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm border border-amber-500/20">
                             Offline
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.25em] px-4 py-1.5 bg-neutral-100/50 border border-black/5 rounded-full text-text-secondary/60 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                      <span className="text-[10px] font-black uppercase tracking-[0.25em] px-4 py-1.5 bg-bg border border-border/60 rounded-full text-text-secondary/60 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                         {item.category}
                       </span>
                     </div>

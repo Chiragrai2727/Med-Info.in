@@ -785,7 +785,7 @@ export const ScannerPage: React.FC = () => {
         )}
  
         {/* Tabs */}
-        <div className="flex p-2 backdrop-blur-xl bg-surface/50 rounded-3xl mb-12 border border-surface shadow-sm overflow-hidden max-w-2xl mx-auto">
+        <div className="flex p-1.5 backdrop-blur-xl bg-surface/60 dark:bg-slate-900/60 rounded-2xl mb-12 border border-border/50 shadow-sm overflow-hidden max-w-2xl mx-auto">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
             const isLocked = false;
             return (
@@ -801,9 +801,9 @@ export const ScannerPage: React.FC = () => {
                     setImage(null);
                   }
                 }}
-                className={`flex-1 py-3 rounded-2xl font-bold text-xs md:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 py-2.5 rounded-xl font-bold text-xs md:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
                   activeTab === tab 
-                    ? 'bg-dark-bg text-white shadow-md' 
+                    ? 'bg-white dark:bg-slate-800 text-text-primary shadow-sm border border-border/20' 
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
                 }`}
               >
@@ -915,11 +915,11 @@ export const ScannerPage: React.FC = () => {
                    <p className="text-white/70 text-xs leading-relaxed">Unlock Premium for AI-Vision handwriting recognition.</p>
                  </div>
                </div>
-               <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10">
-                 <button onClick={() => navigate('/pricing')} className="px-5 py-2.5 bg-white text-dark-bg rounded-xl font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-md">
+               <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto justify-end">
+                 <button onClick={() => navigate('/pricing')} className="w-full sm:w-auto px-5 py-2.5 bg-white text-dark-bg rounded-xl font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-md text-center">
                     Upgrade
                  </button>
-                 <button onClick={() => setNudgeDismissed(true)} className="p-2 text-white/40 hover:text-white transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-white/10">
+                 <button onClick={() => setNudgeDismissed(true)} className="p-2 text-white/40 hover:text-white transition-colors flex items-center justify-center rounded-full hover:bg-white/10">
                     <X className="w-5 h-5" />
                  </button>
                </div>

@@ -190,22 +190,22 @@ export const Pricing: React.FC = () => {
             <h1 className="text-5xl md:text-8xl font-black mb-8 tracking-[-0.05em] leading-[0.8]">
               Try Premium free for 14 days
             </h1>
-            <p className="text-xl md:text-3xl text-text-secondary font-bold mb-14 tracking-tight leading-tight">
+            <p className="text-xl md:text-3xl text-white/70 font-bold mb-14 tracking-tight leading-tight">
               Verify with your phone, no credit card needed. Get instant access to the top-tier 99% accuracy scanner.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-16">
               <button 
                 onClick={handleClaimTrial}
-                className="px-12 py-6 bg-surface text-text-primary rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-bg transition-all shadow-[0_20px_50px_rgba(255,255,255,0.1)] flex items-center gap-3 active:scale-95"
+                className="px-12 py-6 bg-white text-dark-bg rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-slate-100 transition-all shadow-[0_20px_50px_rgba(255,255,255,0.1)] flex items-center gap-3 active:scale-95"
               >
                 Claim Free Trial <ArrowRight className="w-6 h-6" />
               </button>
-              <div className="flex items-center gap-3 text-text-secondary font-black uppercase tracking-[0.2em] text-[10px]">
+              <div className="flex items-center gap-3 text-white/60 font-black uppercase tracking-[0.2em] text-[10px]">
                 <Phone className="w-5 h-5" /> Phone Verified Only
               </div>
             </div>
- 
+
             <div className="flex flex-col items-center gap-6">
               <div className="flex -space-x-4 mb-2">
                 {[11, 25, 33, 48, 52].map(i => (
@@ -218,7 +218,7 @@ export const Pricing: React.FC = () => {
                   />
                 ))}
               </div>
-              <p className="text-xs font-black text-text-secondary uppercase tracking-[0.3em]">
+              <p className="text-xs font-black text-white/50 uppercase tracking-[0.3em]">
                 Join 10,000+ Indian families saving on meds
               </p>
             </div>
@@ -275,13 +275,13 @@ export const Pricing: React.FC = () => {
               whileHover={{ y: -12 }}
               className={`relative flex flex-col p-12 md:p-16 rounded-[4rem] md:rounded-[5rem] backdrop-blur-3xl transition-all duration-700 border-2 ${
                 plan.highlight 
-                  ? 'bg-white/90 border-primary/20 shadow-[0_50px_100px_-20px_rgba(0,122,255,0.15)] z-10' 
-                  : 'bg-white/60 border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] hover:border-border'
+                  ? 'bg-surface/90 dark:bg-slate-900/90 border-primary/20 shadow-[0_50px_100px_-20px_rgba(0,122,255,0.15)] z-10' 
+                  : 'bg-surface/60 dark:bg-slate-950/60 border-border shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] hover:border-primary/20'
               }`}
             >
               {plan.badge && (
                 <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-[0_10px_30px_rgba(0,0,0,0.1)] backdrop-blur-md ${
-                  plan.highlight ? 'bg-primary text-white' : 'bg-white text-text-primary border border-border'
+                  plan.highlight ? 'bg-primary text-white' : 'bg-surface text-text-primary border border-border'
                 }`}>
                   {plan.badge}
                 </div>
@@ -357,7 +357,7 @@ export const Pricing: React.FC = () => {
  
       {/* Savings Calculator Section */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="backdrop-blur-3xl bg-white/70 border border-white rounded-[5rem] p-12 md:p-20 relative overflow-hidden shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] group transition-all hover:shadow-[0_40px_90px_-10px_rgba(0,0,0,0.1)]">
+        <div className="backdrop-blur-3xl bg-surface/70 dark:bg-slate-900/70 border border-border/80 rounded-[5rem] p-12 md:p-20 relative overflow-hidden shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] group transition-all hover:shadow-[0_40px_90px_-10px_rgba(0,0,0,0.1)]">
           <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-1000" />
           
           <div className="flex flex-col md:flex-row items-center gap-16 relative z-10">
@@ -371,22 +371,22 @@ export const Pricing: React.FC = () => {
                 Medicine errors cost the average Indian family ₹15,000 yearly. Avoid them with expert AI scanning.
               </p>
               
-              <div className="p-10 backdrop-blur-md bg-neutral-100/30 border border-white rounded-[3rem] shadow-inner">
+              <div className="p-10 backdrop-blur-md bg-bg/40 border border-border/60 rounded-[3rem] shadow-inner">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-8 mb-8">
                   <span className="font-black text-text-primary text-xl uppercase tracking-widest leading-none">Avoidable Medical Errors</span>
                   <div className="flex items-center gap-6">
                     <button 
                       onClick={() => setSavingsValue(Math.max(1, savingsValue - 1))}
-                      className="w-12 h-12 bg-white border border-black/5 rounded-2xl font-black text-xl flex items-center justify-center hover:border-primary transition-all active:scale-90 shadow-sm"
+                      className="w-12 h-12 bg-surface hover:bg-bg border border-border rounded-2xl font-black text-xl flex items-center justify-center transition-all active:scale-90 shadow-sm"
                     >-</button>
                     <span className="text-4xl font-black text-text-primary w-10 text-center tracking-tighter">{savingsValue}</span>
                     <button 
                       onClick={() => setSavingsValue(savingsValue + 1)}
-                      className="w-12 h-12 bg-white border border-black/5 rounded-2xl font-black text-xl flex items-center justify-center hover:border-primary transition-all active:scale-90 shadow-sm"
+                      className="w-12 h-12 bg-surface hover:bg-bg border border-border rounded-2xl font-black text-xl flex items-center justify-center transition-all active:scale-90 shadow-sm"
                     >+</button>
                   </div>
                 </div>
-                <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="pt-8 border-t border-border/40 flex flex-col md:flex-row items-center justify-between gap-6">
                   <span className="text-text-secondary font-black uppercase tracking-[0.25em] text-[10px]">Estimated Medical Recovery Savings:</span>
                   <span className="text-5xl font-black text-primary tracking-[-0.05em] leading-none">₹{(savingsValue * 10000).toLocaleString()} +</span>
                 </div>
@@ -403,10 +403,10 @@ export const Pricing: React.FC = () => {
           <p className="text-xl text-text-secondary/70 font-bold tracking-tight">Why upgrading to Premium is a safety mandate for your home.</p>
         </div>
  
-        <div className="backdrop-blur-3xl bg-white/70 border border-white rounded-[3.5rem] shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="backdrop-blur-3xl bg-surface/70 dark:bg-slate-900/70 border border-border/80 rounded-[3.5rem] shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
           <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
-              <tr className="bg-neutral-50/50 border-b border-black/5">
+              <tr className="bg-bg/50 border-b border-border/40">
                 <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-secondary/60">Analysis Type</th>
                 <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-secondary/60">Basic Scanner</th>
                 <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-primary">Premium AI-Vision</th>
@@ -414,7 +414,7 @@ export const Pricing: React.FC = () => {
             </thead>
             <tbody className="text-lg">
               {accuracyData.map((row: any, i) => (
-                <tr key={i} className="border-b border-black/5 last:border-0 hover:bg-neutral-50/40 transition-colors">
+                <tr key={i} className="border-b border-border/40 last:border-0 hover:bg-surface/40 transition-colors">
                   <td className="px-12 py-8 font-black text-text-secondary tracking-tight">{row.feature}</td>
                   <td className="px-12 py-8 font-bold text-text-secondary/30 italic tracking-tight">{row.basic}</td>
                   <td className="px-12 py-8">

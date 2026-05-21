@@ -64,6 +64,11 @@ export const Chatbot: React.FC = () => {
     scrollToBottom();
   }, [messages, isOpen, isMinimized]);
 
+  useEffect(() => {
+    const event = new CustomEvent('chatbotStateChange', { detail: { isOpen } });
+    window.dispatchEvent(event);
+  }, [isOpen]);
+
   const generateResponse = (input: string) => {
     const lowerInput = input.toLowerCase();
     
@@ -134,7 +139,7 @@ export const Chatbot: React.FC = () => {
             id="chatbot-trigger-step"
             whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-tr from-[#007AFF] to-[#5AC8FA] text-white rounded-[1.5rem] shadow-[0_15px_40px_-10px_rgba(0,122,255,0.5)] flex items-center justify-center transition-all z-50 border border-white/20 group"
+            className="fixed bottom-24 md:bottom-6 right-4 md:right-6 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-[#007AFF] to-[#5AC8FA] text-white rounded-[1.5rem] shadow-[0_15px_40px_-10px_rgba(0,122,255,0.5)] flex items-center justify-center transition-all z-[92] border border-white/20 group"
             aria-label="Open Chat Assistant"
           >
             <div className="relative">
@@ -158,10 +163,10 @@ export const Chatbot: React.FC = () => {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className={`fixed right-4 sm:right-6 bottom-6 w-[calc(100vw-32px)] sm:w-[400px] bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_30px_90px_-20px_rgba(0,0,0,0.3)] border border-white/20 flex flex-col overflow-hidden z-50 max-h-[calc(100vh-100px)]`}
+            className={`fixed right-4 md:right-6 bottom-24 md:bottom-6 w-[calc(100vw-32px)] md:w-[400px] bg-surface/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_30px_90px_-20px_rgba(0,0,0,0.3)] border border-border/80 flex flex-col overflow-hidden z-[98] max-h-[calc(100vh-140px)]`}
           >
             {/* Header */}
-            <div className="p-6 flex items-center justify-between shrink-0 border-b border-black/5 bg-white/40">
+            <div className="p-6 flex items-center justify-between shrink-0 border-b border-border/40 bg-surface/30">
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="w-12 h-12 bg-gradient-to-tr from-primary to-blue-400 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
@@ -212,7 +217,7 @@ export const Chatbot: React.FC = () => {
                         <div className={`p-4 rounded-[1.5rem] text-sm leading-relaxed ${
                           message.type === 'user' 
                             ? 'bg-primary text-white shadow-xl shadow-primary/20 rounded-tr-sm font-medium' 
-                            : 'bg-white text-text-primary shadow-sm border border-black/5 rounded-tl-sm'
+                            : 'bg-bg dark:bg-slate-800 text-text-primary shadow-sm border border-border/40 rounded-tl-sm'
                         }`}>
                           {message.text}
                         </div>
@@ -232,7 +237,7 @@ export const Chatbot: React.FC = () => {
                           setInputValue(suggestion);
                           setTimeout(() => document.getElementById('chat-send-btn')?.click(), 50);
                         }}
-                        className="px-4 py-2 bg-white/50 border border-black/5 rounded-full text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/50 hover:bg-white shadow-sm transition-all"
+                        className="px-4 py-2 bg-surface/60 border border-border/60 rounded-full text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/55 hover:bg-surface shadow-sm transition-all"
                       >
                         {suggestion}
                       </button>
@@ -241,14 +246,14 @@ export const Chatbot: React.FC = () => {
                 )}
 
                 {/* Input Area */}
-                <div className="p-6 bg-white/40 border-t border-black/5 shrink-0">
+                <div className="p-6 bg-surface/30 border-t border-border/40 shrink-0">
                   <form onSubmit={handleSend} className="relative flex items-center">
                     <input
                       type="text"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder="Ask anything..."
-                      className="w-full bg-white border border-black/5 rounded-2xl pl-5 pr-14 py-4 text-sm focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 shadow-inner transition-all text-text-primary placeholder:text-text-secondary/50 font-medium"
+                      className="w-full bg-bg dark:bg-slate-800 border border-border/80 rounded-2xl pl-5 pr-14 py-4 text-sm focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 shadow-inner transition-all text-text-primary placeholder:text-text-secondary/50 font-medium"
                     />
                     <button
                       id="chat-send-btn"

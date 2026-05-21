@@ -178,7 +178,7 @@ export const Home: React.FC = () => {
       </Helmet>
  
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-50">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ export const Home: React.FC = () => {
             {t('heroDescription')}
           </p>
           
-          <div className="mb-10 md:mb-14 relative max-w-2xl mx-auto z-40">
+          <div className="mb-10 md:mb-14 relative max-w-2xl mx-auto z-20">
             <div className="backdrop-blur-3xl bg-surface/80 p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-surface/40">
               <Search 
                 autoFocus 
@@ -310,7 +310,7 @@ export const Home: React.FC = () => {
             <div
               key={index}
               onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-              className="popular-card p-8 md:p-10 backdrop-blur-3xl bg-white/95 rounded-[2.5rem] md:rounded-[3.2rem] border border-white/50 shadow-[0_15px_45px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(0,0,0,0.1)] transition-all group cursor-pointer relative overflow-hidden active:scale-[0.98]"
+              className="popular-card p-8 md:p-10 backdrop-blur-3xl bg-surface/90 rounded-[2.5rem] md:rounded-[3.2rem] border border-border/50 shadow-[0_15px_45px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(0,0,0,0.1)] transition-all group cursor-pointer relative overflow-hidden active:scale-[0.98]"
             >
               <div className="absolute top-0 right-0 w-28 h-28 bg-primary/5 rounded-full -mr-10 -mt-10 flex items-center justify-center transition-transform group-hover:scale-110">
                 <HelpCircle className="w-6 h-6 text-primary/20 translate-x-[-12px] translate-y-[12px]" />
@@ -371,7 +371,7 @@ export const Home: React.FC = () => {
               {FEATURED_BANNED.map((drug, index) => (
                 <div key={index} 
                   onClick={() => navigate('/banned-drugs')}
-                  className="cursor-pointer relative overflow-hidden bg-white/95 backdrop-blur-3xl group p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] border border-danger/10 shadow-[0_15px_45px_-15px_rgba(220,38,38,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(220,38,38,0.15)] hover:border-danger/30 transition-all duration-500 flex flex-col justify-between h-full active:scale-[0.98]"
+                  className="cursor-pointer relative overflow-hidden bg-surface/90 backdrop-blur-3xl group p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] border border-danger/10 shadow-[0_15px_45px_-15px_rgba(220,38,38,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(220,38,38,0.15)] hover:border-danger/30 transition-all duration-500 flex flex-col justify-between h-full active:scale-[0.98]"
                 >
                   <div className="absolute top-0 right-0 w-32 md:w-48 h-32 md:h-48 bg-danger/5 rounded-full blur-xl md:blur-3xl -mr-8 md:-mr-10 -mt-8 md:-mt-10 group-hover:bg-danger/10 transition-colors pointer-events-none" />
                   <div className="relative z-10 flex flex-col h-full flex-1">
