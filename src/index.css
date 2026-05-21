@@ -98,81 +98,103 @@ html.lenis, html.lenis body {
 
 /* Driver.js Apple-Style Overrides */
 .driver-popover.driverjs-theme {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(25px) !important;
-  -webkit-backdrop-filter: blur(25px) !important;
-  border-radius: 2rem !important;
-  padding: 2rem !important;
-  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.25) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  max-width: 380px !important;
+  background: #FFFFFF !important;
+  border-radius: 2.5rem !important;
+  padding: 2.5rem !important;
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  max-width: 420px !important;
+  color: #0F172A !important;
 }
 
 .driver-popover-title {
-  font-family: "Outfit", sans-serif !important;
+  font-family: inherit !important;
   font-weight: 900 !important;
-  font-size: 24px !important;
+  font-size: 28px !important;
   color: #0F172A !important;
-  letter-spacing: -0.02em !important;
-  margin-bottom: 0.75rem !important;
+  letter-spacing: -0.04em !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.1 !important;
 }
 
 .driver-popover-description {
   font-family: inherit !important;
   font-weight: 500 !important;
-  font-size: 15px !important;
+  font-size: 16px !important;
   line-height: 1.6 !important;
   color: #475569 !important;
+  margin-bottom: 1.5rem !important;
 }
 
 .driver-popover-footer {
-  margin-top: 1.5rem !important;
+  margin-top: 2rem !important;
   display: flex !important;
-  gap: 0.5rem !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
 }
 
 .driver-popover-progress-text {
-  font-size: 10px !important;
+  font-size: 11px !important;
   font-weight: 900 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.2em !important;
+  letter-spacing: 0.3em !important;
   color: #94A3B8 !important;
+  margin-right: auto !important;
 }
 
 .driver-popover-btn {
-  border-radius: 1rem !important;
-  padding: 0.6rem 1.25rem !important;
-  font-size: 12px !important;
+  border-radius: 1.25rem !important;
+  padding: 0.8rem 1.75rem !important;
+  font-size: 13px !important;
   font-weight: 900 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  transition: all 0.2s ease !important;
+  letter-spacing: 0.15em !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   border: none !important;
   text-shadow: none !important;
+  cursor: pointer !important;
 }
 
 .driver-popover-next-btn {
   background: #1D4ED8 !important;
   color: white !important;
-  box-shadow: 0 10px 20px -5px rgba(29, 78, 216, 0.3) !important;
+  box-shadow: 0 10px 25px -5px rgba(29, 78, 216, 0.4) !important;
 }
 
 .driver-popover-next-btn:hover {
   background: #1E40AF !important;
-  transform: translateY(-2px) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 15px 30px -5px rgba(29, 78, 216, 0.5) !important;
+}
+
+.driver-popover-next-btn:active {
+  transform: translateY(0) scale(0.98) !important;
 }
 
 .driver-popover-prev-btn {
   background: #F1F5F9 !important;
   color: #475569 !important;
+  border: 1px solid #E2E8F0 !important;
 }
 
 .driver-popover-prev-btn:hover {
   background: #E2E8F0 !important;
+  color: #1E293B !important;
 }
 
 .driver-popover-close-btn {
   color: #94A3B8 !important;
+  position: absolute !important;
+  top: 1.5rem !important;
+  right: 1.5rem !important;
+  padding: 0.5rem !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: #64748B !important;
+  background: #F8FAFC !important;
+  border-radius: 100% !important;
 }
 
 .driver-popover-arrow {

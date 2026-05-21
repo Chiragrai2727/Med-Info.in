@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-surface/70 border-b border-border/40 pt-safe transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-white border-b border-border/40 pt-safe transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           <Link to="/" className="group flex-shrink-0">

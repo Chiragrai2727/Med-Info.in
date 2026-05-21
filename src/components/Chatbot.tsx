@@ -131,6 +131,7 @@ export const Chatbot: React.FC = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0, opacity: 0, y: 20 }}
             onClick={toggleChat}
+            id="chatbot-trigger-step"
             whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
             className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-tr from-[#007AFF] to-[#5AC8FA] text-white rounded-[1.5rem] shadow-[0_15px_40px_-10px_rgba(0,122,255,0.5)] flex items-center justify-center transition-all z-50 border border-white/20 group"

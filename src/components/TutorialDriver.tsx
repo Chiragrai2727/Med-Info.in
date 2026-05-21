@@ -59,6 +59,15 @@ export const TutorialDriver = () => {
               side: 'bottom',
               align: 'end'
             }
+          },
+          {
+            element: '#chatbot-trigger-step',
+            popover: {
+              title: 'Aethelcare Assistant',
+              description: 'Have a specific question? Our AI assistant is always here to help you navigate the app and understand your medicines.',
+              side: 'top',
+              align: 'end'
+            }
           }
         ]
       });

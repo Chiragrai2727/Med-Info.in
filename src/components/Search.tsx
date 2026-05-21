@@ -481,7 +481,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            className="absolute mt-4 w-full bg-surface/95 backdrop-blur-2xl border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden max-h-[80vh] overflow-y-auto"
+            className="absolute mt-4 w-full bg-white border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden max-h-[80vh] overflow-y-auto"
           >
             {isAISearching ? (
               <div className="p-20 text-center flex flex-col items-center gap-6">
