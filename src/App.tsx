@@ -29,6 +29,7 @@ const BannedDrugs = lazy(() => import('./pages/BannedDrugs').then(m => ({ defaul
 const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
 const Conditions = lazy(() => import('./pages/Conditions').then(m => ({ default: m.Conditions })));
 const Pricing = lazy(() => import('./pages/Pricing').then(m => ({ default: m.Pricing })));
+const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })));
 
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { OfflineBanner } from './components/OfflineBanner';
@@ -266,8 +267,8 @@ export default function App() {
                       />
                       <Route path="/privacy" element={<PrivacyPolicy />} />
                       
-                      {/* Catch all other routes with a 404 or redirect - handled by server usually, but for SPA safety: */}
-                      <Route path="*" element={<Navigate to="/" replace />} />
+                      {/* Catch all other routes with a 404 page */}
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Suspense>
                 </main>

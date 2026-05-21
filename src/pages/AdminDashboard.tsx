@@ -15,6 +15,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion, AnimatePresence } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { 
   Users, 
   ShieldCheck, 
@@ -430,6 +431,10 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg/50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Admin Command Station - Aethelcare</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="max-w-7xl mx-auto">
         
         {/* Banner Area */}
