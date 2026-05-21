@@ -310,7 +310,7 @@ export const Home: React.FC = () => {
             <div
               key={index}
               onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-              className="popular-card p-6 md:p-10 backdrop-blur-xl bg-surface/80 rounded-[2rem] md:rounded-[3rem] border border-surface/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all group cursor-pointer relative overflow-hidden"
+              className="popular-card p-8 md:p-10 backdrop-blur-3xl bg-white/70 rounded-[2.5rem] md:rounded-[3.2rem] border border-white/50 shadow-[0_15px_45px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(0,0,0,0.1)] transition-all group cursor-pointer relative overflow-hidden active:scale-[0.98]"
             >
               <div className="absolute top-0 right-0 w-28 h-28 bg-primary/5 rounded-full -mr-10 -mt-10 flex items-center justify-center transition-transform group-hover:scale-110">
                 <HelpCircle className="w-6 h-6 text-primary/20 translate-x-[-12px] translate-y-[12px]" />
@@ -371,21 +371,21 @@ export const Home: React.FC = () => {
               {FEATURED_BANNED.map((drug, index) => (
                 <div key={index} 
                   onClick={() => navigate('/banned-drugs')}
-                  className="cursor-pointer relative overflow-hidden bg-white/80 dark:bg-surface/60 backdrop-blur-xl group p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-danger/10 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(220,38,38,0.2)] hover:border-danger/30 transition-all duration-300 flex flex-col justify-between h-full"
+                  className="cursor-pointer relative overflow-hidden bg-white/70 backdrop-blur-3xl group p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] border border-danger/10 shadow-[0_15px_45px_-15px_rgba(220,38,38,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(220,38,38,0.15)] hover:border-danger/30 transition-all duration-500 flex flex-col justify-between h-full active:scale-[0.98]"
                 >
                   <div className="absolute top-0 right-0 w-32 md:w-48 h-32 md:h-48 bg-danger/5 rounded-full blur-xl md:blur-3xl -mr-8 md:-mr-10 -mt-8 md:-mt-10 group-hover:bg-danger/10 transition-colors pointer-events-none" />
                   <div className="relative z-10 flex flex-col h-full flex-1">
                     <div className="flex-1">
-                      <div className="w-10 h-10 md:w-12 md:h-12 bg-danger/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 border border-danger/20">
-                        <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 text-danger" />
+                      <div className="w-12 h-12 md:w-14 md:h-14 bg-danger/10 rounded-2xl md:rounded-[1.25rem] flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500 border border-danger/20 shadow-lg shadow-danger/5">
+                        <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 text-danger" />
                       </div>
-                      <h3 className="text-xl md:text-2xl font-black text-text-primary mb-2 md:mb-3 leading-[1.1] tracking-tight">{drug.name}</h3>
+                      <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 md:mb-4 leading-[1.1] tracking-tight">{drug.name}</h3>
                       <p className="text-xs md:text-[13px] text-danger/80 font-bold leading-relaxed">
                         {drug.reason}
                       </p>
                     </div>
                     
-                    <div className="mt-6 md:mt-8 flex items-center text-[9px] md:text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-4 md:pt-5">
+                    <div className="mt-8 md:mt-10 flex items-center text-[9px] md:text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-5 md:pt-6">
                       {t('readDetailedReport')}
                       <ArrowRight className="w-3.5 h-3.5 ml-auto group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -429,15 +429,15 @@ export const Home: React.FC = () => {
                   key={index}
                   whileHover={{ y: -10, scale: 1.01 }}
                   onClick={() => navigate(item.path)}
-                  className="bg-dark-surface/50 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden h-full"
+                  className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden h-full shadow-[0_20px_50px_rgba(0,0,0,0.1)] active:scale-[0.98]"
                 >
-                   <div className={`absolute top-0 right-0 w-32 md:w-40 h-32 md:h-40 blur-[40px] md:blur-[80px] opacity-0 md:group-hover:opacity-30 transition-opacity bg-primary pointer-events-none`} />
+                   <div className="absolute top-0 right-0 w-32 md:w-40 h-32 md:h-40 blur-[40px] md:blur-[80px] opacity-0 md:group-hover:opacity-30 transition-opacity bg-primary pointer-events-none" />
                    
-                  <div className="relative z-10 w-full mb-8 md:mb-10 flex items-start justify-between">
-                    <span className={`px-3 py-1 md:px-4 md:py-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-lg md:rounded-xl border backdrop-blur-md ${item.accent.replace('bg-','bg-white/5 ').replace('border-','border-white/10 ').replace('text-blue-400', 'text-primary')}`}>
+                  <div className="relative z-10 w-full mb-8 md:mb-12 flex items-start justify-between">
+                    <span className={`px-4 py-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-xl border backdrop-blur-md ${item.accent.replace('bg-','bg-white/5 ').replace('border-','border-white/10 ').replace('text-blue-400', 'text-primary')}`}>
                       {item.type}
                     </span>
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-primary transition-all">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-all">
                       <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-slate-500 group-hover:text-white transition-all transform group-hover:translate-x-1.5" />
                     </div>
                   </div>

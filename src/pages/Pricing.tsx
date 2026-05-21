@@ -273,15 +273,15 @@ export const Pricing: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               whileHover={{ y: -12 }}
-              className={`relative flex flex-col p-12 md:p-16 rounded-[4.5rem] backdrop-blur-xl transition-all duration-700 border-2 ${
+              className={`relative flex flex-col p-12 md:p-16 rounded-[4rem] md:rounded-[5rem] backdrop-blur-3xl transition-all duration-700 border-2 ${
                 plan.highlight 
-                  ? 'bg-surface/90 border-dark-bg shadow-[0_40px_100px_rgba(0,0,0,0.1)] z-10' 
-                  : 'bg-surface/60 border-surface hover:border-border shadow-[0_20px_50px_rgba(0,0,0,0.03)]'
+                  ? 'bg-white/90 border-primary/20 shadow-[0_50px_100px_-20px_rgba(0,122,255,0.15)] z-10' 
+                  : 'bg-white/60 border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] hover:border-border'
               }`}
             >
               {plan.badge && (
-                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.3em] shadow-2xl ${
-                  plan.highlight ? 'bg-dark-bg text-white' : 'backdrop-blur-md bg-surface text-text-primary border border-border'
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-[0_10px_30px_rgba(0,0,0,0.1)] backdrop-blur-md ${
+                  plan.highlight ? 'bg-primary text-white' : 'bg-white text-text-primary border border-border'
                 }`}>
                   {plan.badge}
                 </div>
@@ -357,38 +357,38 @@ export const Pricing: React.FC = () => {
  
       {/* Savings Calculator Section */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="backdrop-blur-xl bg-surface/70 border-2 border-surface rounded-[5rem] p-12 md:p-20 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.03)] group">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-success/5 rounded-full -mr-24 -mt-24 blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-1000" />
+        <div className="backdrop-blur-3xl bg-white/70 border border-white rounded-[5rem] p-12 md:p-20 relative overflow-hidden shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] group transition-all hover:shadow-[0_40px_90px_-10px_rgba(0,0,0,0.1)]">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-1000" />
           
           <div className="flex flex-col md:flex-row items-center gap-16 relative z-10">
-            <div className="w-28 h-28 bg-success/10 backdrop-blur-md border border-success/20 rounded-[2.5rem] flex items-center justify-center shrink-0 shadow-lg group-hover:rotate-12 transition-transform duration-700">
-              <Calculator className="w-14 h-14 text-success" />
+            <div className="w-28 h-28 bg-primary/10 backdrop-blur-md border border-primary/20 rounded-[2.5rem] flex items-center justify-center shrink-0 shadow-lg group-hover:rotate-12 transition-transform duration-700">
+              <Calculator className="w-14 h-14 text-primary" />
             </div>
             
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-4xl md:text-5xl font-black text-text-primary mb-6 tracking-[-0.04em] leading-none uppercase">Smart Savings Calculator</h2>
-              <p className="text-xl text-text-secondary font-bold mb-10 tracking-tight leading-relaxed max-w-2xl">
+              <h2 className="text-4xl md:text-5xl font-black text-text-primary mb-6 tracking-[-0.04em] leading-none uppercase">Savings Calculator</h2>
+              <p className="text-xl text-text-secondary/70 font-bold mb-10 tracking-tight leading-relaxed max-w-2xl">
                 Medicine errors cost the average Indian family ₹15,000 yearly. Avoid them with expert AI scanning.
               </p>
               
-              <div className="p-10 backdrop-blur-md bg-dark-bg/5 border border-surface rounded-[3rem] shadow-inner">
+              <div className="p-10 backdrop-blur-md bg-neutral-100/30 border border-white rounded-[3rem] shadow-inner">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-8 mb-8">
                   <span className="font-black text-text-primary text-xl uppercase tracking-widest leading-none">Avoidable Medical Errors</span>
                   <div className="flex items-center gap-6">
                     <button 
                       onClick={() => setSavingsValue(Math.max(1, savingsValue - 1))}
-                      className="w-12 h-12 backdrop-blur-md bg-surface border border-border rounded-2xl font-black text-xl flex items-center justify-center hover:border-dark-bg transition-all active:scale-90"
+                      className="w-12 h-12 bg-white border border-black/5 rounded-2xl font-black text-xl flex items-center justify-center hover:border-primary transition-all active:scale-90 shadow-sm"
                     >-</button>
                     <span className="text-4xl font-black text-text-primary w-10 text-center tracking-tighter">{savingsValue}</span>
                     <button 
                       onClick={() => setSavingsValue(savingsValue + 1)}
-                      className="w-12 h-12 backdrop-blur-md bg-surface border border-border rounded-2xl font-black text-xl flex items-center justify-center hover:border-dark-bg transition-all active:scale-90"
+                      className="w-12 h-12 bg-white border border-black/5 rounded-2xl font-black text-xl flex items-center justify-center hover:border-primary transition-all active:scale-90 shadow-sm"
                     >+</button>
                   </div>
                 </div>
                 <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6">
                   <span className="text-text-secondary font-black uppercase tracking-[0.25em] text-[10px]">Estimated Medical Recovery Savings:</span>
-                  <span className="text-5xl font-black text-success tracking-[-0.05em] leading-none">₹{(savingsValue * 10000).toLocaleString()} +</span>
+                  <span className="text-5xl font-black text-primary tracking-[-0.05em] leading-none">₹{(savingsValue * 10000).toLocaleString()} +</span>
                 </div>
               </div>
             </div>
@@ -400,26 +400,26 @@ export const Pricing: React.FC = () => {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-black text-text-primary mb-6 tracking-[-0.04em] leading-none uppercase">Scanner Benchmarks</h2>
-          <p className="text-xl text-text-secondary font-bold tracking-tight">Why upgrading to Premium is a safety mandate for your home.</p>
+          <p className="text-xl text-text-secondary/70 font-bold tracking-tight">Why upgrading to Premium is a safety mandate for your home.</p>
         </div>
  
-        <div className="backdrop-blur-xl bg-surface/70 border-2 border-surface rounded-[4rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] overflow-hidden">
+        <div className="backdrop-blur-3xl bg-white/70 border border-white rounded-[3.5rem] shadow-[0_30px_70px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
           <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
-              <tr className="bg-bg/50 border-b border-border">
-                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-text-secondary">Analysis Type</th>
-                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-text-secondary">Basic Scanner</th>
-                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-text-primary">Premium AI-Vision</th>
+              <tr className="bg-neutral-50/50 border-b border-black/5">
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-secondary/60">Analysis Type</th>
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-secondary/60">Basic Scanner</th>
+                <th className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] text-text-primary">Premium AI-Vision</th>
               </tr>
             </thead>
             <tbody className="text-lg">
               {accuracyData.map((row: any, i) => (
-                <tr key={i} className="border-b border-border last:border-0 hover:bg-bg/50 transition-colors">
+                <tr key={i} className="border-b border-black/5 last:border-0 hover:bg-neutral-50/40 transition-colors">
                   <td className="px-12 py-8 font-black text-text-secondary tracking-tight">{row.feature}</td>
-                  <td className="px-12 py-8 font-bold text-text-secondary/40 italic tracking-tight">{row.basic}</td>
+                  <td className="px-12 py-8 font-bold text-text-secondary/30 italic tracking-tight">{row.basic}</td>
                   <td className="px-12 py-8">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 backdrop-blur-md bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center text-primary shadow-sm">
+                      <div className="w-10 h-10 backdrop-blur-md bg-primary/5 border border-primary/20 rounded-2xl flex items-center justify-center text-primary shadow-sm">
                         {row.premium === '99%' ? <Star className="w-5 h-5 fill-current" /> : <Check className="w-5 h-5" />}
                       </div>
                       <span className="font-black text-text-primary tracking-tight text-xl">{row.premium}</span>

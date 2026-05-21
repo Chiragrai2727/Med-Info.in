@@ -127,14 +127,19 @@ export const Chatbot: React.FC = () => {
       <AnimatePresence>
         {!isOpen && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
             onClick={toggleChat}
-            className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-primary-hover hover:scale-105 active:scale-95 transition-all z-50 border-2 border-white/20"
+            whileHover={{ scale: 1.05, y: -5 }}
+            whileTap={{ scale: 0.95 }}
+            className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-tr from-[#007AFF] to-[#5AC8FA] text-white rounded-[1.5rem] shadow-[0_15px_40px_-10px_rgba(0,122,255,0.5)] flex items-center justify-center transition-all z-50 border border-white/20 group"
             aria-label="Open Chat Assistant"
           >
-            <MessageSquare className="w-6 h-6" />
+            <div className="relative">
+              <MessageSquare className="w-8 h-8 group-hover:rotate-12 transition-transform duration-300" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 border-2 border-white rounded-full" />
+            </div>
           </motion.button>
         )}
       </AnimatePresence>
@@ -148,33 +153,39 @@ export const Chatbot: React.FC = () => {
               opacity: 1, 
               y: 0, 
               scale: 1,
-              height: isMinimized ? 'auto' : '500px'
+              height: isMinimized ? 'auto' : '580px'
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className={`fixed right-4 sm:right-6 bottom-6 w-[calc(100vw-32px)] sm:w-[380px] bg-surface rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-border flex flex-col overflow-hidden z-50 max-h-[calc(100vh-100px)]`}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className={`fixed right-4 sm:right-6 bottom-6 w-[calc(100vw-32px)] sm:w-[400px] bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_30px_90px_-20px_rgba(0,0,0,0.3)] border border-white/20 flex flex-col overflow-hidden z-50 max-h-[calc(100vh-100px)]`}
           >
             {/* Header */}
-            <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <Bot className="w-5 h-5" />
+            <div className="p-6 flex items-center justify-between shrink-0 border-b border-black/5 bg-white/40">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-tr from-primary to-blue-400 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+                    <Bot className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm tracking-wide">Aethelcare Assistant</h3>
-                  <p className="text-[10px] text-primary-50 font-medium uppercase tracking-wider opacity-80">Always Online</p>
+                  <h3 className="font-bold text-base text-text-primary tracking-tight">AI Assistant</h3>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                    <p className="text-[10px] text-text-secondary font-black uppercase tracking-widest opacity-80">Online & Ready</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <button 
                   onClick={() => setIsMinimized(!isMinimized)}
-                  className="p-1.5 hover:bg-white/20 rounded-md transition-colors"
+                  className="p-2 hover:bg-black/5 rounded-full transition-colors text-text-secondary"
                 >
                   {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                 </button>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 hover:bg-white/20 rounded-md transition-colors"
+                  className="p-2 hover:bg-danger/10 hover:text-danger rounded-full transition-colors text-text-secondary"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -184,24 +195,23 @@ export const Chatbot: React.FC = () => {
             {/* Chat Body */}
             {!isMinimized && (
               <>
-                <div className="flex-1 p-4 overflow-y-auto bg-surface space-y-4">
+                <div className="flex-1 p-6 overflow-y-auto space-y-6 scrollbar-hide">
+                  <div className="text-center py-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/40">Encryption Enabled • HIPAA Compliant</p>
+                  </div>
+                  
                   {messages.map((message) => (
                     <motion.div
                       key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
                       className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      <div className={`flex gap-2 max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-1 ${
-                          message.type === 'user' ? 'bg-primary/20 text-primary' : 'bg-green-100 text-green-600'
-                        }`}>
-                          {message.type === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
-                        </div>
-                        <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                      <div className={`flex gap-3 max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className={`p-4 rounded-[1.5rem] text-sm leading-relaxed ${
                           message.type === 'user' 
-                            ? 'bg-primary text-white rounded-tr-sm' 
-                            : 'bg-bg text-text-primary border border-border rounded-tl-sm'
+                            ? 'bg-primary text-white shadow-xl shadow-primary/20 rounded-tr-sm font-medium' 
+                            : 'bg-white text-text-primary shadow-sm border border-black/5 rounded-tl-sm'
                         }`}>
                           {message.text}
                         </div>
@@ -213,15 +223,15 @@ export const Chatbot: React.FC = () => {
 
                 {/* Suggestions */}
                 {messages.length === 1 && (
-                  <div className="px-4 pb-2 flex flex-wrap gap-2">
-                    {['Pricing plans?', 'How to scan?', 'Contact Support'].map((suggestion, idx) => (
+                  <div className="px-6 pb-4 flex flex-wrap gap-2">
+                    {['Pricing plans?', 'How to scan?', 'Is it safe?'].map((suggestion, idx) => (
                       <button
                         key={idx}
                         onClick={() => {
                           setInputValue(suggestion);
                           setTimeout(() => document.getElementById('chat-send-btn')?.click(), 50);
                         }}
-                        className="px-3 py-1.5 bg-bg border border-border rounded-full text-xs font-semibold text-text-secondary hover:text-primary hover:border-primary/50 transition-colors"
+                        className="px-4 py-2 bg-white/50 border border-black/5 rounded-full text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/50 hover:bg-white shadow-sm transition-all"
                       >
                         {suggestion}
                       </button>
@@ -230,23 +240,26 @@ export const Chatbot: React.FC = () => {
                 )}
 
                 {/* Input Area */}
-                <form onSubmit={handleSend} className="p-3 bg-surface border-t border-border flex items-center gap-2 shrink-0">
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Type your message..."
-                    className="flex-1 bg-bg border border-border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-text-primary"
-                  />
-                  <button
-                    id="chat-send-btn"
-                    type="submit"
-                    disabled={!inputValue.trim()}
-                    className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-hover transition-colors shadow-sm"
-                  >
-                    <Send className="w-4 h-4 ml-0.5" />
-                  </button>
-                </form>
+                <div className="p-6 bg-white/40 border-t border-black/5 shrink-0">
+                  <form onSubmit={handleSend} className="relative flex items-center">
+                    <input
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder="Ask anything..."
+                      className="w-full bg-white border border-black/5 rounded-2xl pl-5 pr-14 py-4 text-sm focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 shadow-inner transition-all text-text-primary placeholder:text-text-secondary/50 font-medium"
+                    />
+                    <button
+                      id="chat-send-btn"
+                      type="submit"
+                      disabled={!inputValue.trim()}
+                      className="absolute right-2 w-10 h-10 bg-primary text-white rounded-[0.8rem] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-hover active:scale-90 transition-all shadow-lg shadow-primary/20"
+                    >
+                      <Send className="w-4 h-4 ml-0.5" />
+                    </button>
+                  </form>
+                  <p className="mt-3 text-[9px] text-center text-text-secondary/40 font-bold uppercase tracking-widest">Powered by Aethelcare AI • v2.4.0</p>
+                </div>
               </>
             )}
           </motion.div>

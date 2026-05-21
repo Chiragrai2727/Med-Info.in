@@ -567,35 +567,36 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Recent', summary: 'Search history' })}
-                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
+                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-neutral-50/80 transition-all flex items-center justify-between group border-b border-black/5 last:border-0"
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 bg-surface rounded-xl border border-border flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-                            <SearchIcon className="w-4 h-4" />
+                        <div className="flex items-center gap-5">
+                          <div className="w-10 h-10 md:w-12 md:h-12 bg-neutral-100 rounded-2xl border border-black/5 flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
+                            <SearchIcon className="w-5 h-5" />
                           </div>
-                          <span className="text-lg font-bold text-text-primary">{term}</span>
+                          <span className="text-lg md:text-xl font-bold text-text-primary tracking-tight">{term}</span>
                         </div>
-                        <X className="w-4 h-4 text-border group-hover:text-text-secondary" />
+                        <X className="w-4 h-4 text-border group-hover:text-text-secondary transition-colors" />
                       </button>
                     ))}
                   </>
                 ) : (
                   <>
-                    <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">{t('popularSearches')}</span>
+                    <div className="px-8 mt-4 mb-6 flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/40">{t('popularSearches')}</span>
                     </div>
                     {POPULAR_SEARCHES.map((term, i) => (
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Popular', summary: 'Trending search' })}
-                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
+                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-neutral-50/80 transition-all flex items-center justify-between group border-b border-black/5 last:border-0"
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-                            <TrendingUp className="w-4 h-4" />
+                        <div className="flex items-center gap-5">
+                          <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/5 rounded-2xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
+                            <TrendingUp className="w-5 h-5" />
                           </div>
-                          <span className="text-lg font-bold text-text-primary">{term}</span>
+                          <span className="text-lg md:text-xl font-bold text-text-primary tracking-tight">{term}</span>
                         </div>
+                        <ArrowRight className="w-4 h-4 text-border opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                       </button>
                     ))}
                   </>
@@ -618,49 +619,40 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   <button
                     key={index}
                     onClick={() => handleSelect(item)}
-                    className="w-full text-left px-8 py-6 hover:bg-primary/5 transition-all flex flex-col gap-1 group"
+                    className="w-full text-left px-8 py-8 md:px-10 md:py-8 hover:bg-neutral-50/80 transition-all flex flex-col gap-2 group border-b border-black/5 last:border-0"
                   >
                     <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl font-bold text-text-primary group-hover:translate-x-1 transition-transform">{highlightMatch(item.name, query)}</span>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="text-xl md:text-2xl font-black text-text-primary group-hover:translate-x-1 transition-transform tracking-tight">{highlightMatch(item.name, query)}</span>
                         {item.source && (
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 ${
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-lg flex items-center gap-1.5 shadow-sm ${
                               item.source === 'Verified Database' ? 'bg-success/5 text-success border border-success/10' : 
                               item.source === 'AI Analysis' ? 'bg-primary/5 text-primary border border-primary/10' : 
-                              'bg-surface text-text-secondary border border-border shadow-sm'
+                              'bg-surface text-text-secondary border border-border'
                             }`}>
                               {item.source === 'Verified Database' ? (
-                                <ShieldCheck className="w-3 h-3" />
+                                <ShieldCheck className="w-3.5 h-3.5" />
                               ) : item.source === 'AI Analysis' ? (
-                                <Sparkles className="w-3 h-3" />
+                                <Sparkles className="w-3.5 h-3.5" />
                               ) : (
                                 <span className={`w-1.5 h-1.5 rounded-full bg-text-secondary/50`} />
                               )}
                               {item.source === 'Verified Database' ? t('cdscoVerified') : item.source === 'AI Analysis' ? t('aiAnalysis') : item.source}
                             </span>
-                            {item.confidence !== undefined && (
-                              <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border ${
-                                item.confidence >= 90 ? 'bg-primary/5 text-primary border-primary/10' :
-                                item.confidence >= 70 ? 'bg-amber-50 text-amber-700 border-amber-100' :
-                                'bg-danger/5 text-danger border-danger/10'
-                              }`}>
-                                {item.confidence}% {t('match')}
-                              </span>
-                            )}
                           </div>
                         )}
                         {item.isOffline && item.source !== 'Verified Database' && (
-                          <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm">
+                          <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm border border-amber-100">
                             Offline
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-surface border border-border rounded-full text-text-secondary/50 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                      <span className="text-[10px] font-black uppercase tracking-[0.25em] px-4 py-1.5 bg-neutral-100/50 border border-black/5 rounded-full text-text-secondary/60 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                         {item.category}
                       </span>
                     </div>
-                    <p className="text-base text-text-secondary font-medium line-clamp-1 group-hover:text-text-primary transition-colors">{item.summary}</p>
+                    <p className="text-base md:text-lg text-text-secondary/70 font-medium line-clamp-1 group-hover:text-text-primary transition-colors tracking-tight">{item.summary}</p>
                   </button>
                 ))}
                 

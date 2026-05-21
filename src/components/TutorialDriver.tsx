@@ -13,6 +13,7 @@ export const TutorialDriver = () => {
         showProgress: true,
         animate: true,
         allowClose: true,
+        popoverClass: 'driverjs-theme',
         steps: [
           {
             element: '#search-bar-step',
