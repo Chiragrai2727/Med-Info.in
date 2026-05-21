@@ -409,7 +409,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </button>
         </motion.div>
       )}
-      <form onSubmit={handleSearch} className="relative group">
+      <form id="search-bar-step" onSubmit={handleSearch} className="relative group">
         <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none z-10">
           <SearchIcon className="h-6 w-6 text-text-secondary/40 group-focus-within:text-text-primary transition-colors" />
         </div>
@@ -427,26 +427,26 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </div>
         )}
 
-        <input
-          ref={inputRef}
-          id="search-input"
-          name="search"
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => {
-            setIsFocused(true);
-            setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
-          }}
-          onBlur={() => {
-            // Delay hiding to allow clicks on suggestions to register
-            setTimeout(() => setIsFocused(false), 200);
-          }}
-          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
-          placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
-          autoComplete="off"
-        />
+          <input
+            ref={inputRef}
+            id="search-input"
+            name="search"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onFocus={() => {
+              setIsFocused(true);
+              setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
+            }}
+            onBlur={() => {
+              // Delay hiding to allow clicks on suggestions to register
+              setTimeout(() => setIsFocused(false), 200);
+            }}
+            className={`block w-full pl-14 pr-24 py-4 md:pl-16 md:pr-28 md:py-6 glass border border-border rounded-[2rem] md:rounded-[2.5rem] text-base md:text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
+            placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
+            autoComplete="off"
+          />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2 z-10">
           {isListening && (
             <div className="flex items-center gap-1 mr-2">

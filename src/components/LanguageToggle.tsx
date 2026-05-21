@@ -29,24 +29,26 @@ export const LanguageToggle: React.FC = () => {
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute right-0 mt-3 w-48 bg-surface border border-border rounded-2xl shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] z-50 overflow-hidden p-2"
+              className="absolute right-0 mt-3 w-48 bg-surface border border-border rounded-2xl shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] z-50 overflow-hidden"
             >
-              {LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => {
-                    setLanguage(lang.code);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all font-bold ${
-                    language === lang.code 
-                      ? 'bg-primary/5 text-primary' 
-                      : 'text-text-secondary hover:bg-bg hover:text-text-primary'
-                  }`}
-                >
-                  {lang.name}
-                </button>
-              ))}
+              <div className="max-h-[60vh] overflow-y-auto p-2 hide-scrollbar">
+                {LANGUAGES.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setLanguage(lang.code);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all font-bold ${
+                      language === lang.code 
+                        ? 'bg-primary/5 text-primary' 
+                        : 'text-text-secondary hover:bg-bg hover:text-text-primary'
+                    }`}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
             </motion.div>
           </>
         )}

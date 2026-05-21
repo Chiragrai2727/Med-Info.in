@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail, Sun, Moon } from 'lucide-react';
+import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail, Sun, Moon, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { useAuth } from '../AuthContext';
@@ -36,6 +36,16 @@ export const Navbar: React.FC = () => {
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+            <button 
+              onClick={() => document.dispatchEvent(new Event('openTutorial'))}
+              className="p-2 text-text-secondary hover:text-primary bg-bg/50 hover:bg-bg rounded-lg border border-border transition-colors flex shrink-0 group relative"
+              aria-label="How to use"
+            >
+              <HelpCircle className="w-4 h-4" />
+              <div className="absolute top-full right-0 mt-2 whitespace-nowrap bg-surface border border-border text-text-primary text-[10px] font-black uppercase tracking-widest py-1 px-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                How to use
+              </div>
             </button>
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
               About
@@ -104,7 +114,9 @@ export const Navbar: React.FC = () => {
                 {t('signIn')}
               </button>
             )}
-            <LanguageToggle />
+            <div id="language-step">
+              <LanguageToggle />
+            </div>
           </div>
         </div>
       </div>

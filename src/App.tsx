@@ -41,8 +41,13 @@ import { CompareProvider } from './CompareContext';
 import { CompareBar } from './components/CompareBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { MedicalDisclaimerModal } from './components/MedicalDisclaimerModal';
+import { TutorialDriver } from './components/TutorialDriver';
+
+import { Chatbot } from './components/Chatbot';
 
 import { checkDueReminders, dismissReminder, RefillReminder } from './utils/refillReminder';
+import { listCalendarEvents } from './services/googleCalendar';
+import { useAuth } from './AuthContext';
 import { Bell, X, Instagram } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ensureDataLoaded } from './services/geminiService';
@@ -50,6 +55,7 @@ import { ensureDataLoaded } from './services/geminiService';
 export default function App() {
   const { t } = useLanguage();
   const { showToast } = useToast();
+  const { accessToken } = useAuth();
   const [reminders, setReminders] = useState<RefillReminder[]>([]);
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
@@ -79,8 +85,47 @@ export default function App() {
     });
 
     gsap.ticker.lagSmoothing(0);
+ 
+    // Internal function to sync and check
+    const check = async () => {
+      // 1. Get local reminders
+      const localReminders = checkDueReminders();
+      
+      // 2. If authenticated, try to get from Google Calendar
+      if (accessToken) {
+        try {
+          const events = await listCalendarEvents(accessToken);
+          const now = new Date();
+          
+          const calendarReminders: RefillReminder[] = events
+            .filter((event: any) => 
+               event.summary?.startsWith('Refill Reminder:') && 
+               new Date(event.start?.dateTime || event.start?.date) <= now
+            )
+            .map((event: any) => ({
+              medicine_name: event.summary.replace('Refill Reminder: ', ''),
+              scan_date: new Date(event.created || now).getTime(),
+              duration_days: 0, // Not stored in calendar easily
+              remind_at: new Date(event.start?.dateTime || event.start?.date).getTime()
+            }));
+            
+          // Merge and avoid duplicates by medicine name
+          const merged = [...localReminders];
+          calendarReminders.forEach(cr => {
+            if (!merged.find(m => m.medicine_name === cr.medicine_name)) {
+              merged.push(cr);
+            }
+          });
+          setReminders(merged);
+        } catch (err) {
+          console.warn("Failed to fetch calendar reminders", err);
+          setReminders(localReminders);
+        }
+      } else {
+        setReminders(localReminders);
+      }
+    };
 
-    const check = () => setReminders(checkDueReminders());
     check();
     const interval = setInterval(check, 60000); // Check for refills every minute
     
@@ -165,6 +210,8 @@ export default function App() {
                 <MedicalDisclaimerModal />
                 <NotificationManager />
                 <CompareBar />
+                <TutorialDriver />
+                <Chatbot />
                 <main>
                   <Suspense fallback={
                     <div className="min-h-screen pt-40 flex items-start justify-center">
@@ -313,6 +360,7 @@ export default function App() {
                       </p>
                     <div className="flex flex-wrap justify-center gap-6 mt-6 relative z-50">
                         <Link to="/about" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">About Us</Link>
+                        <Link to="/conditions" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">Conditions</Link>
                         <Link to="/contact" className="text-xs font-black text-primary hover:scale-105 transition-transform uppercase tracking-widest underline decoration-2 underline-offset-4 pointer-events-auto cursor-pointer">Contact Us</Link>
                         <Link to="/privacy" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">{t('privacyPolicy')}</Link>
                         <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="text-xs text-text-secondary hover:text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">

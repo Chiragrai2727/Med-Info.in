@@ -27,7 +27,9 @@ import { jsPDF } from 'jspdf';
 import { checkAndIncrementScan } from '../lib/scanLogic';
 import { DEFAULT_MODEL } from '../services/geminiService';
 import { useUser } from '../hooks/useUser';
-import { scheduleRefillReminder } from '../utils/refillReminder';
+import { scheduleRefillReminder, calculateReminderDate } from '../utils/refillReminder';
+import { createCalendarEvent } from '../services/googleCalendar';
+import { useToast } from '../ToastContext';
 
 const lazyMedicinesData = async () => (await import('../data/medicines.json')).default;
 const lazyBannedDrugsData = async () => (await import('../data/banned_medicines.json')).default;
@@ -67,9 +69,10 @@ interface ScanResult {
 }
 
 export const ScannerPage: React.FC = () => {
-  const { openAuthModal } = useAuth();
+  const { openAuthModal, accessToken, signInWithGoogle } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   // Tier logic via Supabase
   const isPremium = user?.isPremium === true;
@@ -1133,14 +1136,50 @@ export const ScannerPage: React.FC = () => {
                             </div>
  
                             <button
-                              onClick={() => {
+                              onClick={async () => {
                                 // Default to 7 days if duration is unknown
                                 let days = 7;
                                 if (med.duration) {
                                   const match = med.duration.match(/(\d+)/);
                                   if (match) days = parseInt(match[1]);
                                 }
-                                scheduleRefillReminder(med.name, days);
+
+                                if (accessToken) {
+                                  try {
+                                    const reminderDate = calculateReminderDate(days);
+                                    const endDate = new Date(reminderDate.getTime() + 30 * 60 * 1000); // 30 mins later
+                                    
+                                    await createCalendarEvent(accessToken, {
+                                      summary: `Refill Reminder: ${med.name}`,
+                                      description: `It's time to refill your medicine: ${med.name}. This reminder was set via Aethelcare AI.`,
+                                      start: {
+                                        dateTime: reminderDate.toISOString(),
+                                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                                      },
+                                      end: {
+                                        dateTime: endDate.toISOString(),
+                                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                                      },
+                                      reminders: {
+                                        useDefault: false,
+                                        overrides: [
+                                          { method: 'popup', minutes: 30 },
+                                          { method: 'email', minutes: 1440 } // 1 day before
+                                        ]
+                                      }
+                                    });
+                                    showToast(`Reminder scheduled in your Google Calendar for ${reminderDate.toLocaleDateString()}`, "success");
+                                  } catch (err) {
+                                    console.error("Calendar scheduling failed", err);
+                                    showToast("Failed to schedule in Google Calendar. Falling back to local reminder.", "error");
+                                    scheduleRefillReminder(med.name, days);
+                                  }
+                                } else {
+                                  // Fallback to local reminder and suggest login
+                                  scheduleRefillReminder(med.name, days);
+                                  showToast("Login with Google to sync reminders with your Calendar.", "info");
+                                }
+
                                 const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
                                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                               }}

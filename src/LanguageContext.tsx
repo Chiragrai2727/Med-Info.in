@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Language } from './types';
+import { getDynamicTranslation, queueTranslation, subscribeToTranslations } from './services/dynamicTranslator';
 
 interface LanguageContextType {
   language: Language;
@@ -3536,13 +3537,40 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const saved = localStorage.getItem('medinfo_lang');
     return (saved as Language) || 'en';
   });
+  
+  const [, setLastTranslationUpdate] = useState(0);
 
   useEffect(() => {
     localStorage.setItem('medinfo_lang', language);
   }, [language]);
+  
+  useEffect(() => {
+    const unsub = subscribeToTranslations(() => {
+      setLastTranslationUpdate(Date.now());
+    });
+    return unsub;
+  }, []);
 
   const t = (key: string) => {
-    return translations[language][key] || key;
+    // 1. Check static translations
+    if (translations[language]?.[key]) {
+      return translations[language][key];
+    }
+    
+    // 2. Check dynamic translations
+    const dynamic = getDynamicTranslation(key, language);
+    if (dynamic) {
+      return dynamic;
+    }
+    
+    // 3. Fallback to English and Queue progressive translation
+    const fallback = translations['en'][key] || key;
+    
+    if (language !== 'en') {
+      queueTranslation(key, fallback, language);
+    }
+    
+    return fallback;
   };
 
   return (
