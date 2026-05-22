@@ -131,6 +131,7 @@ export const AdminDashboard: React.FC = () => {
     try {
       // 1. Fetch Users
       const usersSnapshot = await getDocs(collection(db, 'users'));
+      console.log("usersSnapshot empty:", usersSnapshot.empty, "size:", usersSnapshot.size);
       const fetchedUsers: UserData[] = [];
       usersSnapshot.forEach((doc) => {
         const data = doc.data();
