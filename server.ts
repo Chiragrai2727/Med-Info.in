@@ -431,8 +431,13 @@ async function startServer() {
     console.log(`[Manual Trigger] Medical Dataset Update started at ${new Date().toISOString()}`);
     try {
       const batchSize = req.body && req.body.batchSize ? parseInt(req.body.batchSize) : 2;
-      const result = await runMedicineSync(batchSize);
-      res.json(result);
+      
+      // Run the sync process in the background without blocking the HTTP response
+      runMedicineSync(batchSize).catch(error => {
+        console.error("Manual trigger sync failed in background:", error);
+      });
+      
+      res.json({ success: true, message: `Dataset update for batch size ${batchSize} started in the background. It will process in the background and logs will be recorded.` });
     } catch (error: any) {
       console.error("Manual trigger sync failed:", error);
       res.status(500).json({ success: false, message: error.message || "Sync crashed." });
