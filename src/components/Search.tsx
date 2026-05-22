@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
+import { Search as SearchIcon, X, Loader2, Mic, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import { useToast } from '../ToastContext';
@@ -394,10 +394,10 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </div>
           <div>
             <p className="font-medium text-text-primary">
-              {t('couldNotFind').replace('{query}', noResults.query)}
+              We couldn't find "{noResults.query}"
             </p>
             <p className="text-sm text-text-secondary mt-1">
-              {t('noMedFormatDesc')}
+              We don't have that medication in our records right now, but we are constantly updating our database. Try checking the spelling or use a generic name.
             </p>
           </div>
           <button 
@@ -409,7 +409,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </button>
         </motion.div>
       )}
-      <form id="search-bar-step" onSubmit={handleSearch} className="relative group">
+      <form onSubmit={handleSearch} className="relative group">
         <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none z-10">
           <SearchIcon className="h-6 w-6 text-text-secondary/40 group-focus-within:text-text-primary transition-colors" />
         </div>
@@ -427,26 +427,26 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
           </div>
         )}
 
-          <input
-            ref={inputRef}
-            id="search-input"
-            name="search"
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onFocus={() => {
-              setIsFocused(true);
-              setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
-            }}
-            onBlur={() => {
-              // Delay hiding to allow clicks on suggestions to register
-              setTimeout(() => setIsFocused(false), 200);
-            }}
-            className={`block w-full pl-14 pr-24 py-4 md:pl-16 md:pr-28 md:py-6 glass border border-border rounded-[2rem] md:rounded-[2.5rem] text-base md:text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
-            placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
-            autoComplete="off"
-          />
+        <input
+          ref={inputRef}
+          id="search-input"
+          name="search"
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            setIsFocused(true);
+            setShowSuggestions(query.length > 2 || recentSearches.length > 0 || true);
+          }}
+          onBlur={() => {
+            // Delay hiding to allow clicks on suggestions to register
+            setTimeout(() => setIsFocused(false), 200);
+          }}
+          className={`block w-full pl-16 pr-28 py-6 glass border border-border rounded-[2.5rem] text-xl focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all shadow-xl hover:shadow-2xl placeholder:text-text-secondary/50 font-medium ${isListening ? 'ring-4 ring-danger/20 border-danger' : 'bg-transparent relative z-0'}`}
+          placeholder={isListening ? t('listening') : (placeholder || t('searchPlaceholder'))}
+          autoComplete="off"
+        />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2 z-10">
           {isListening && (
             <div className="flex items-center gap-1 mr-2">
@@ -481,7 +481,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            className="absolute mt-4 w-full bg-white border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden max-h-[80vh] overflow-y-auto"
+            className="absolute mt-4 w-full bg-surface/95 backdrop-blur-2xl border border-border rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] z-[100] overflow-hidden max-h-[80vh] overflow-y-auto"
           >
             {isAISearching ? (
               <div className="p-20 text-center flex flex-col items-center gap-6">
@@ -490,8 +490,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   <Loader2 className="w-16 h-16 animate-spin text-primary relative z-10" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-text-primary tracking-tight mb-2">{t('aiIsSearching')}</p>
-                  <p className="text-text-secondary font-medium uppercase tracking-[0.2em] text-[10px]">{t('analyzingGlobalMedical')}</p>
+                  <p className="text-2xl font-black text-text-primary tracking-tight mb-2">Aethelcare AI is searching...</p>
+                  <p className="text-text-secondary font-medium uppercase tracking-[0.2em] text-[10px]">Analyzing global medical research & CDSCO datasets</p>
                 </div>
               </div>
             ) : aiResult ? (
@@ -502,8 +502,8 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                       <Sparkles className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-text-primary tracking-tight">{t('aiGeneratedAnswer')}</h3>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">{t('groundedInSearch')}</p>
+                      <h3 className="text-xl font-black text-text-primary tracking-tight">AI Generated Answer</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">Grounded in Google Search</p>
                     </div>
                   </div>
                   <button 
@@ -522,7 +522,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
 
                 {aiResult.sources.length > 0 && (
                   <div className="bg-bg/50 rounded-[2.5rem] p-8 border border-border">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-6">{t('verifiedSources')}</h4>
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-6">Verified Sources</h4>
                     <div className="flex flex-wrap gap-3">
                       {aiResult.sources.map((source, idx) => (
                         <a 
@@ -541,12 +541,12 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 )}
                 
                 <div className="mt-10 pt-8 border-t border-border flex justify-between items-center">
-                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40">{t('aiDisclaimerLong')}</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40">AI-generated content should not replace professional medical advice.</p>
                   <button 
                     onClick={() => { setAiResult(null); handleSearch(); }}
                     className="text-xs font-black uppercase tracking-widest text-primary hover:underline"
                   >
-                    {t('backToMedicines')}
+                    Back to Medicines
                   </button>
                 </div>
               </div>
@@ -555,48 +555,47 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 {recentSearches.length > 0 ? (
                   <>
                     <div className="px-8 mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">{t('recentSearches')}</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Recent Searches</span>
                       <button 
                         onClick={clearRecentSearches}
                         className="text-[10px] font-black uppercase tracking-[0.2em] text-danger/70 hover:text-danger transition-colors"
                       >
-                        {t('clearAll')}
+                        Clear All
                       </button>
                     </div>
                     {recentSearches.map((term, i) => (
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Recent', summary: 'Search history' })}
-                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex items-center justify-between group border-b border-border/40 last:border-0"
+                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
                       >
-                        <div className="flex items-center gap-5">
-                          <div className="w-10 h-10 md:w-12 md:h-12 bg-bg rounded-2xl border border-border/80 flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
-                            <SearchIcon className="w-5 h-5" />
+                        <div className="flex items-center gap-4">
+                          <div className="w-8 h-8 bg-surface rounded-xl border border-border flex items-center justify-center text-text-secondary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                            <SearchIcon className="w-4 h-4" />
                           </div>
-                          <span className="text-lg md:text-xl font-bold text-text-primary tracking-tight">{term}</span>
+                          <span className="text-lg font-bold text-text-primary">{term}</span>
                         </div>
-                        <X className="w-4 h-4 text-border group-hover:text-text-secondary transition-colors" />
+                        <X className="w-4 h-4 text-border group-hover:text-text-secondary" />
                       </button>
                     ))}
                   </>
                 ) : (
                   <>
-                    <div className="px-8 mt-4 mb-6 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/40">{t('popularSearches')}</span>
+                    <div className="px-8 mb-4 flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary opacity-50">Popular Searches</span>
                     </div>
                     {POPULAR_SEARCHES.map((term, i) => (
                       <button
                         key={i}
                         onClick={() => handleSelect({ name: term, category: 'Popular', summary: 'Trending search' })}
-                        className="w-full text-left px-8 py-5 md:px-10 md:py-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex items-center justify-between group border-b border-border/40 last:border-0"
+                        className="w-full text-left px-8 py-4 hover:bg-primary/5 transition-all flex items-center justify-between group"
                       >
-                        <div className="flex items-center gap-5">
-                          <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/5 rounded-2xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all shadow-sm">
-                            <TrendingUp className="w-5 h-5" />
+                        <div className="flex items-center gap-4">
+                          <div className="w-8 h-8 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                            <TrendingUp className="w-4 h-4" />
                           </div>
-                          <span className="text-lg md:text-xl font-bold text-text-primary tracking-tight">{term}</span>
+                          <span className="text-lg font-bold text-text-primary">{term}</span>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-border opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                       </button>
                     ))}
                   </>
@@ -610,49 +609,58 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
             ) : suggestions.length > 0 ? (
               <div className="py-4">
                 {!navigator.onLine && (
-                  <div className="mx-6 mb-4 px-4 py-2 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
+                  <div className="mx-6 mb-4 px-4 py-2 bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
-                    {t('offlineMode')}
+                    Offline Mode
                   </div>
                 )}
                 {suggestions.map((item, index) => (
                   <button
                     key={index}
                     onClick={() => handleSelect(item)}
-                    className="w-full text-left px-8 py-8 md:px-10 md:py-8 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all flex flex-col gap-2 group border-b border-border/40 last:border-0"
+                    className="w-full text-left px-8 py-6 hover:bg-primary/5 transition-all flex flex-col gap-1 group"
                   >
                     <div className="flex justify-between items-center">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <span className="text-xl md:text-2xl font-black text-text-primary group-hover:translate-x-1 transition-transform tracking-tight">{highlightMatch(item.name, query)}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl font-bold text-text-primary group-hover:translate-x-1 transition-transform">{highlightMatch(item.name, query)}</span>
                         {item.source && (
-                          <div className="flex items-center gap-2">
-                            <span className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-lg flex items-center gap-1.5 shadow-sm ${
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 ${
                               item.source === 'Verified Database' ? 'bg-success/5 text-success border border-success/10' : 
                               item.source === 'AI Analysis' ? 'bg-primary/5 text-primary border border-primary/10' : 
-                              'bg-surface text-text-secondary border border-border'
+                              'bg-surface text-text-secondary border border-border shadow-sm'
                             }`}>
                               {item.source === 'Verified Database' ? (
-                                <ShieldCheck className="w-3.5 h-3.5" />
+                                <ShieldCheck className="w-3 h-3" />
                               ) : item.source === 'AI Analysis' ? (
-                                <Sparkles className="w-3.5 h-3.5" />
+                                <Sparkles className="w-3 h-3" />
                               ) : (
                                 <span className={`w-1.5 h-1.5 rounded-full bg-text-secondary/50`} />
                               )}
-                              {item.source === 'Verified Database' ? t('cdscoVerified') : item.source === 'AI Analysis' ? t('aiAnalysis') : item.source}
+                              {item.source}
                             </span>
+                            {item.confidence !== undefined && (
+                              <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border ${
+                                item.confidence >= 90 ? 'bg-primary/5 text-primary border-primary/10' :
+                                item.confidence >= 70 ? 'bg-amber-50 text-amber-700 border-amber-100' :
+                                'bg-danger/5 text-danger border-danger/10'
+                              }`}>
+                                {item.confidence}% match
+                              </span>
+                            )}
                           </div>
                         )}
                         {item.isOffline && item.source !== 'Verified Database' && (
-                          <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm border border-amber-500/20">
+                          <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase tracking-widest rounded-md shadow-sm">
                             Offline
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.25em] px-4 py-1.5 bg-bg border border-border/60 rounded-full text-text-secondary/60 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-surface border border-border rounded-full text-text-secondary/50 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
                         {item.category}
                       </span>
                     </div>
-                    <p className="text-base md:text-lg text-text-secondary/70 font-medium line-clamp-1 group-hover:text-text-primary transition-colors tracking-tight">{item.summary}</p>
+                    <p className="text-base text-text-secondary font-medium line-clamp-1 group-hover:text-text-primary transition-colors">{item.summary}</p>
                   </button>
                 ))}
                 
@@ -667,14 +675,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                     </div>
                     <div>
                       <div className="text-lg font-black text-primary group-hover:translate-x-1 transition-transform flex items-center gap-2">
-                        {t('fullSearch')}: "{query}"
-                        <span className="px-2 py-0.5 bg-primary text-[9px] text-white rounded-md uppercase tracking-widest font-black">{t('aiPowered')}</span>
+                        Full Search: "{query}"
+                        <span className="px-2 py-0.5 bg-primary text-[9px] text-white rounded-md uppercase tracking-widest font-black">AI Powered</span>
                       </div>
-                      <p className="text-sm text-primary/60 font-medium italic">{t('deepSearchDesc')}</p>
+                      <p className="text-sm text-primary/60 font-medium italic">Deep search in global medical datasets & research</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-primary font-bold">{t('pressEnter')}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary font-bold">Press Enter</span>
                     <TrendingUp className="w-4 h-4 text-primary" />
                   </div>
                 </button>
@@ -686,7 +694,7 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                 </div>
                 <p className="text-2xl font-black text-text-primary mb-2">{t('noResults')}</p>
                 <p className="text-text-secondary font-medium mb-8">
-                  {t('noDirectMatchesDesc')}
+                  Couldn't find any direct matches in our quick database.
                 </p>
                 
                 <button
@@ -694,14 +702,14 @@ export const Search: React.FC<SearchProps> = ({ autoFocus = false, placeholder, 
                   className="inline-flex items-center gap-4 px-10 py-5 bg-dark-bg text-white rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl active:scale-95 group"
                 >
                   <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
-                  {t('searchWithAIAssistant')}
+                  Search with AI Assistant
                   <div className="ml-4 px-2 py-1 bg-white/20 rounded-md text-[10px] border border-white/10 group-hover:bg-primary transition-colors">
-                    {t('pressEnter')}
+                    Enter
                   </div>
                 </button>
                 
                 <div className="mt-12 text-text-secondary opacity-40">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">{t('orTrySearchingFor')}</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4">Or try searching for</p>
                   <div className="flex flex-wrap justify-center gap-3">
                     <button onClick={() => setQuery('fever')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">fever</button>
                     <button onClick={() => setQuery('paracetamol')} className="px-5 py-2 bg-bg rounded-full text-xs font-bold text-text-secondary hover:bg-dark-bg hover:text-white transition-all">paracetamol</button>

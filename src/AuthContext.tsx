@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db, googleProvider } from './firebase';
-import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, GoogleAuthProvider } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { doc, setDoc, updateDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { isAdminEmail } from './constants';
 
@@ -34,7 +34,6 @@ interface AuthContextType {
   updateSubscription: (tier: string, expiry: string) => Promise<void>;
   updateProfileImage: (url: string) => Promise<void>;
   isAuthModalOpen: boolean;
-  accessToken: string | null;
   openAuthModal: () => void;
   closeAuthModal: () => void;
 }
@@ -47,7 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
@@ -118,7 +116,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               createdAt: serverTimestamp(),
               role: isAdmin ? 'admin' : 'user'
             };
-            setDoc(userRef, newProfileData, { merge: true }).catch(console.error);
+            setDoc(userRef, newProfileData).catch(console.error);
           }
           setLoading(false);
         }, (error) => {
@@ -139,12 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     try {
-      googleProvider.addScope('https://www.googleapis.com/auth/calendar.events');
-      const result = await signInWithPopup(auth, googleProvider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      if (credential?.accessToken) {
-        setAccessToken(credential.accessToken);
-      }
+      await signInWithPopup(auth, googleProvider);
       closeAuthModal();
     } catch (error) {
       console.error('Google Sign In Error:', error);
@@ -174,7 +167,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     await signOut(auth);
-    setAccessToken(null);
   };
 
   const upgradeToPremium = async () => {
@@ -213,8 +205,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       user, profile, loading, isOffline,
       signInWithGoogle, signInWithEmail, signUpWithEmail, 
       logout, upgradeToPremium, updateSubscription, updateProfileImage,
-      isAuthModalOpen, openAuthModal, closeAuthModal,
-      accessToken
+      isAuthModalOpen, openAuthModal, closeAuthModal
     }}>
       {children}
     </AuthContext.Provider>

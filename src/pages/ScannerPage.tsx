@@ -27,9 +27,7 @@ import { jsPDF } from 'jspdf';
 import { checkAndIncrementScan } from '../lib/scanLogic';
 import { DEFAULT_MODEL } from '../services/geminiService';
 import { useUser } from '../hooks/useUser';
-import { scheduleRefillReminder, calculateReminderDate } from '../utils/refillReminder';
-import { createCalendarEvent } from '../services/googleCalendar';
-import { useToast } from '../ToastContext';
+import { scheduleRefillReminder } from '../utils/refillReminder';
 
 const lazyMedicinesData = async () => (await import('../data/medicines.json')).default;
 const lazyBannedDrugsData = async () => (await import('../data/banned_medicines.json')).default;
@@ -69,10 +67,9 @@ interface ScanResult {
 }
 
 export const ScannerPage: React.FC = () => {
-  const { openAuthModal, accessToken, signInWithGoogle } = useAuth();
+  const { openAuthModal } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
-  const { showToast } = useToast();
 
   // Tier logic via Supabase
   const isPremium = user?.isPremium === true;
@@ -785,7 +782,7 @@ export const ScannerPage: React.FC = () => {
         )}
  
         {/* Tabs */}
-        <div className="flex p-1.5 backdrop-blur-xl bg-surface/60 dark:bg-slate-900/60 rounded-2xl mb-12 border border-border/50 shadow-sm overflow-hidden max-w-2xl mx-auto">
+        <div className="flex p-2 backdrop-blur-xl bg-surface/50 rounded-3xl mb-12 border border-surface shadow-sm overflow-hidden max-w-2xl mx-auto">
           {(['medicine', 'prescription', 'lab'] as const).map((tab) => {
             const isLocked = false;
             return (
@@ -801,9 +798,9 @@ export const ScannerPage: React.FC = () => {
                     setImage(null);
                   }
                 }}
-                className={`flex-1 py-2.5 rounded-xl font-bold text-xs md:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 py-3 rounded-2xl font-bold text-xs md:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
                   activeTab === tab 
-                    ? 'bg-white dark:bg-slate-800 text-text-primary shadow-sm border border-border/20' 
+                    ? 'bg-dark-bg text-white shadow-md' 
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
                 }`}
               >
@@ -915,11 +912,11 @@ export const ScannerPage: React.FC = () => {
                    <p className="text-white/70 text-xs leading-relaxed">Unlock Premium for AI-Vision handwriting recognition.</p>
                  </div>
                </div>
-               <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto justify-end">
-                 <button onClick={() => navigate('/pricing')} className="w-full sm:w-auto px-5 py-2.5 bg-white text-dark-bg rounded-xl font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-md text-center">
+               <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10">
+                 <button onClick={() => navigate('/pricing')} className="px-5 py-2.5 bg-white text-dark-bg rounded-xl font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-md">
                     Upgrade
                  </button>
-                 <button onClick={() => setNudgeDismissed(true)} className="p-2 text-white/40 hover:text-white transition-colors flex items-center justify-center rounded-full hover:bg-white/10">
+                 <button onClick={() => setNudgeDismissed(true)} className="p-2 text-white/40 hover:text-white transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-white/10">
                     <X className="w-5 h-5" />
                  </button>
                </div>
@@ -1136,50 +1133,14 @@ export const ScannerPage: React.FC = () => {
                             </div>
  
                             <button
-                              onClick={async () => {
+                              onClick={() => {
                                 // Default to 7 days if duration is unknown
                                 let days = 7;
                                 if (med.duration) {
                                   const match = med.duration.match(/(\d+)/);
                                   if (match) days = parseInt(match[1]);
                                 }
-
-                                if (accessToken) {
-                                  try {
-                                    const reminderDate = calculateReminderDate(days);
-                                    const endDate = new Date(reminderDate.getTime() + 30 * 60 * 1000); // 30 mins later
-                                    
-                                    await createCalendarEvent(accessToken, {
-                                      summary: `Refill Reminder: ${med.name}`,
-                                      description: `It's time to refill your medicine: ${med.name}. This reminder was set via Aethelcare AI.`,
-                                      start: {
-                                        dateTime: reminderDate.toISOString(),
-                                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                                      },
-                                      end: {
-                                        dateTime: endDate.toISOString(),
-                                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                                      },
-                                      reminders: {
-                                        useDefault: false,
-                                        overrides: [
-                                          { method: 'popup', minutes: 30 },
-                                          { method: 'email', minutes: 1440 } // 1 day before
-                                        ]
-                                      }
-                                    });
-                                    showToast(`Reminder scheduled in your Google Calendar for ${reminderDate.toLocaleDateString()}`, "success");
-                                  } catch (err) {
-                                    console.error("Calendar scheduling failed", err);
-                                    showToast("Failed to schedule in Google Calendar. Falling back to local reminder.", "error");
-                                    scheduleRefillReminder(med.name, days);
-                                  }
-                                } else {
-                                  // Fallback to local reminder and suggest login
-                                  scheduleRefillReminder(med.name, days);
-                                  showToast("Login with Google to sync reminders with your Calendar.", "info");
-                                }
-
+                                scheduleRefillReminder(med.name, days);
                                 const message = `📦 *Refill Alert* from Aethelcare\n\nI scanned my medicine: *${med.name}*\nRemind me to refill this before I run out!\nScan Details: https://aethelcare.xyz/scan`;
                                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                               }}

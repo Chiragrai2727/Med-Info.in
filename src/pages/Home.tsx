@@ -178,7 +178,7 @@ export const Home: React.FC = () => {
       </Helmet>
  
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 relative z-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -195,7 +195,7 @@ export const Home: React.FC = () => {
                 className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:bg-primary-hover transition-all active:scale-95 animate-pulse-slow"
               >
                 <Download className="w-4 h-4" /> 
-                {isIOS && !deferredPrompt ? t('installApp') : (deferredPrompt ? t('downloadApp') : t('getMobileApp'))}
+                {isIOS && !deferredPrompt ? 'Install App' : (deferredPrompt ? 'Download App' : 'Get Mobile App')}
               </motion.button>
             )}
             {[
@@ -224,19 +224,19 @@ export const Home: React.FC = () => {
             ))}
           </div>
           
-          <h1 className="text-4xl md:text-[52px] font-black text-text-primary mb-6 md:mb-8 tracking-[-0.05em] max-w-6xl mx-auto leading-tight sm:leading-[0.9]">
-            {t('healthDecoded')}
+          <h1 className="text-[42px] md:text-[52px] font-black text-text-primary mb-8 tracking-[-0.05em] max-w-6xl mx-auto leading-[0.85] sm:leading-[0.9]">
+            Check if your medicine is banned in India
           </h1>
           
-          <p className="text-lg md:text-2xl text-text-secondary mb-10 md:mb-14 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight">
-            {t('heroDescription')}
+          <p className="text-xl md:text-2xl text-text-secondary mb-14 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight">
+            The simplest way to understand your medicines and safety.
           </p>
           
-          <div className="mb-10 md:mb-14 relative max-w-2xl mx-auto z-20">
-            <div className="backdrop-blur-3xl bg-surface/80 p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-surface/40">
+          <div className="mb-14 relative max-w-2xl mx-auto z-40">
+            <div className="backdrop-blur-3xl bg-surface/80 p-2 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-surface/40">
               <Search 
                 autoFocus 
-                placeholder={t('searchPlaceholder')}
+                placeholder="Search any medicine name..."
                 onActiveChange={setIsSearchActive}
               />
             </div>
@@ -248,33 +248,31 @@ export const Home: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="mt-8 md:mt-10 flex flex-col sm:flex-row justify-center gap-4 sm:gap-5 w-full max-w-xs sm:max-w-none mx-auto"
+                  className="mt-10 flex flex-wrap justify-center gap-5"
                 >
                   <button 
-                    id="banned-drug-step"
                     onClick={() => navigate('/banned-drugs')}
-                    className="w-full sm:w-auto px-8 md:px-10 py-4 bg-danger text-white rounded-[1.5rem] font-bold hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
+                    className="px-10 py-4 bg-danger text-white rounded-[1.5rem] font-bold hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.3)] active:scale-95 text-sm uppercase tracking-widest"
                   >
-                    {t('checkBannedList')}
+                    Check Banned List
                   </button>
                   <button 
-                    id="scan-step"
                     onClick={() => navigate('/scan')}
-                    className="w-full sm:w-auto px-8 md:px-10 py-4 bg-primary text-white rounded-[1.5rem] font-bold hover:bg-primary-hover transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
+                    className="px-10 py-4 bg-primary text-white rounded-[1.5rem] font-bold hover:bg-primary-hover transition-all shadow-[0_8px_32px_rgba(0,0,0,0.05)] active:scale-95 text-sm uppercase tracking-widest"
                   >
-                    {t('scanFree')}
+                    Scan Free
                   </button>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
  
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 items-center">
+          <div className="flex flex-wrap justify-center gap-3 items-center">
             {['Dolo 650', 'Pan-D', 'Combiflam', 'Azithral 500', 'Calpol'].map((q) => (
               <button
                 key={q}
                 onClick={() => navigate(`/medicine/${encodeURIComponent(q)}`)}
-                className="px-4 py-2 backdrop-blur-md bg-surface/40 border border-surface/60 rounded-full text-xs font-bold text-text-secondary hover:bg-surface hover:border-border transition-all shadow-sm"
+                className="px-5 py-2.5 backdrop-blur-md bg-surface/40 border border-surface/60 rounded-full text-xs font-bold text-text-secondary hover:bg-surface hover:border-border transition-all shadow-sm"
               >
                 {q}
               </button>
@@ -300,17 +298,17 @@ export const Home: React.FC = () => {
       </section>
  
       {/* Popular Medicines Section */}
-      <section ref={popularMedsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 md:mb-32">
-        <div className="flex items-center justify-between mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tight leading-none">{t('popularMedicines')}</h2>
+      <section ref={popularMedsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="text-4xl font-black text-text-primary tracking-tight leading-none">Popular Medicines</h2>
           <div className="h-px bg-border flex-1 mx-8 hidden md:block opacity-30" />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {POPULAR_MEDS.map((med, index) => (
             <div
               key={index}
               onClick={() => navigate(`/medicine/${encodeURIComponent(med.name)}`)}
-              className="popular-card p-8 md:p-10 backdrop-blur-3xl bg-surface/90 rounded-[2.5rem] md:rounded-[3.2rem] border border-border/50 shadow-[0_15px_45px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(0,0,0,0.1)] transition-all group cursor-pointer relative overflow-hidden active:scale-[0.98]"
+              className="popular-card p-10 backdrop-blur-xl bg-surface/80 rounded-[3rem] border border-surface/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all group cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-28 h-28 bg-primary/5 rounded-full -mr-10 -mt-10 flex items-center justify-center transition-transform group-hover:scale-110">
                 <HelpCircle className="w-6 h-6 text-primary/20 translate-x-[-12px] translate-y-[12px]" />
@@ -326,7 +324,7 @@ export const Home: React.FC = () => {
                 {med.summary}
               </p>
               <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-[0.2em] text-primary border-t border-black/5 pt-6">
-                <span>{t('viewDetails')}</span>
+                <span>View Details</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
               </div>
             </div>
@@ -335,58 +333,58 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Medicine Comparison Section */}
-      <section ref={compareRef} id="compare-step" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <section ref={compareRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
         <div className="max-w-5xl mx-auto">
-          <Suspense fallback={<div className="h-40 flex justify-center items-center">{t('loadingComparison')}</div>}>
+          <Suspense fallback={<div className="h-40 flex justify-center items-center">Loading Comparison...</div>}>
             <CompareSearch />
           </Suspense>
         </div>
       </section>
  
       {/* Banned Drugs Promo Section */}
-      <section ref={bannedPromoRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 md:mb-32">
-        <div className="bg-gradient-to-br from-danger/5 to-surface/80 backdrop-blur-3xl p-8 sm:p-12 md:p-24 rounded-[3rem] md:rounded-[5rem] relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-danger/10">
-          <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-danger/5 rounded-full blur-[60px] md:blur-[100px] -mr-32 md:-mr-48 -mt-32 md:-mt-48 pointer-events-none" />
+      <section ref={bannedPromoRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="bg-gradient-to-br from-danger/5 to-surface/80 backdrop-blur-3xl p-12 md:p-24 rounded-[5rem] relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-danger/10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-danger/5 rounded-full blur-[100px] -mr-48 -mt-48" />
           
           <div className="relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12 mb-12 md:mb-20">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-12 mb-20">
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 bg-danger/10 text-danger text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full mb-6 md:mb-8 shadow-sm">
-                  <AlertTriangle className="w-3.5 h-3.5 md:w-4 md:h-4" /> {t('cdscoAlert')}
+                <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-danger/10 text-danger text-[10px] font-black uppercase tracking-widest rounded-full mb-8 shadow-sm">
+                  <AlertTriangle className="w-4 h-4" /> CDSCO ALERT
                 </div>
-                <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-text-primary mb-4 md:mb-6 tracking-[-0.04em] leading-[1] md:leading-[0.9]">{t('bannedDrugsRegistry')}</h2>
-                <p className="text-lg md:text-xl text-danger/70 font-bold max-w-2xl leading-relaxed tracking-tight">
-                  {t('bannedDrugsDesc')}
+                <h2 className="text-5xl md:text-7xl font-black text-text-primary mb-6 tracking-[-0.04em] leading-[0.9]">Banned Drugs Registry</h2>
+                <p className="text-xl text-danger/70 font-bold max-w-2xl leading-relaxed tracking-tight">
+                  Search the official database of medications prohibited by CDSCO for manufacture and sale in India.
                 </p>
               </div>
               <button 
                 onClick={() => navigate('/banned-drugs')}
-                className="w-full md:w-auto bg-danger text-white px-8 md:px-12 py-5 md:py-6 rounded-full md:rounded-[2rem] font-black text-xs md:text-sm uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.25)] active:scale-95 whitespace-nowrap text-center"
+                className="bg-danger text-white px-12 py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_12px_24px_rgba(220,38,38,0.25)] active:scale-95 whitespace-nowrap"
               >
-                {t('fullRegistry')} →
+                Full Registry →
               </button>
             </div>
   
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {FEATURED_BANNED.map((drug, index) => (
                 <div key={index} 
                   onClick={() => navigate('/banned-drugs')}
-                  className="cursor-pointer relative overflow-hidden bg-surface/90 backdrop-blur-3xl group p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] border border-danger/10 shadow-[0_15px_45px_-15px_rgba(220,38,38,0.05)] hover:shadow-[0_25px_65px_-15px_rgba(220,38,38,0.15)] hover:border-danger/30 transition-all duration-500 flex flex-col justify-between h-full active:scale-[0.98]"
+                  className="cursor-pointer relative overflow-hidden bg-white/80 dark:bg-surface/60 backdrop-blur-xl group p-8 md:p-10 rounded-[2.5rem] border border-danger/10 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(220,38,38,0.2)] hover:border-danger/30 transition-all duration-300 flex flex-col justify-between h-full"
                 >
-                  <div className="absolute top-0 right-0 w-32 md:w-48 h-32 md:h-48 bg-danger/5 rounded-full blur-xl md:blur-3xl -mr-8 md:-mr-10 -mt-8 md:-mt-10 group-hover:bg-danger/10 transition-colors pointer-events-none" />
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-danger/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-danger/10 transition-colors" />
                   <div className="relative z-10 flex flex-col h-full flex-1">
                     <div className="flex-1">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-danger/10 rounded-2xl md:rounded-[1.25rem] flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500 border border-danger/20 shadow-lg shadow-danger/5">
-                        <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 text-danger" />
+                      <div className="w-12 h-12 bg-danger/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-danger/20">
+                        <AlertTriangle className="w-5 h-5 text-danger" />
                       </div>
-                      <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 md:mb-4 leading-[1.1] tracking-tight">{drug.name}</h3>
-                      <p className="text-xs md:text-[13px] text-danger/80 font-bold leading-relaxed">
+                      <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 leading-[1.1] tracking-tight">{drug.name}</h3>
+                      <p className="text-[13px] text-danger/80 font-bold leading-relaxed">
                         {drug.reason}
                       </p>
                     </div>
                     
-                    <div className="mt-8 md:mt-10 flex items-center text-[9px] md:text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-5 md:pt-6">
-                      {t('readDetailedReport')}
+                    <div className="mt-8 flex items-center text-[10px] font-black uppercase tracking-widest text-text-secondary group-hover:text-danger transition-colors border-t border-danger/5 pt-5">
+                      Read Detailed Report
                       <ArrowRight className="w-3.5 h-3.5 ml-auto group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -398,55 +396,55 @@ export const Home: React.FC = () => {
       </section>
  
       {/* Discovery Section */}
-      <section ref={trendingRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 md:mb-32">
-        <div className="bg-dark-bg rounded-[3rem] md:rounded-[5rem] p-8 sm:p-12 md:p-24 relative overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
-          <div className="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-primary/20 rounded-full blur-[80px] md:blur-[140px] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-indigo-600/10 rounded-full blur-[60px] md:blur-[120px] pointer-events-none" />
+      <section ref={trendingRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+        <div className="bg-dark-bg rounded-[5rem] p-12 md:p-24 relative overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
           
           <div className="relative z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 mb-12 md:mb-20">
-              <div className="flex items-center gap-4 md:gap-8">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/20 rounded-xl md:rounded-[1.5rem] flex items-center justify-center backdrop-blur-xl border border-white/5 shrink-0">
-                  <Sparkles className="w-6 h-6 md:w-10 md:h-10 text-primary/60" />
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
+              <div className="flex items-center gap-8">
+                <div className="w-16 h-16 bg-primary/20 rounded-[1.5rem] flex items-center justify-center backdrop-blur-xl border border-white/5">
+                  <Sparkles className="w-10 h-10 text-primary/60" />
                 </div>
                 <div>
-                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.04em] leading-[1] md:leading-[0.9] mb-2 md:mb-4">{t('trendingScans')}</h2>
-                  <p className="text-slate-400 font-medium text-lg md:text-xl tracking-tight">{t('realTimeTrends')}</p>
+                  <h2 className="text-5xl md:text-7xl font-black text-white tracking-[-0.04em] leading-[0.9] mb-4">Trending Scans</h2>
+                  <p className="text-slate-400 font-medium text-xl tracking-tight">Based on real-time health queries in India</p>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2 md:gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 {['Symptoms', 'Dosage', 'Safety', 'Alternatives'].map(cat => (
-                  <button key={cat} className="px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10 text-slate-400 text-[10px] md:text-[11px] font-black uppercase tracking-widest hover:border-primary/50 hover:text-white hover:bg-white/10 transition-all bg-white/[0.03] backdrop-blur-md">
+                  <button key={cat} className="px-6 py-3 rounded-full border border-white/10 text-slate-400 text-[11px] font-black uppercase tracking-widest hover:border-primary/50 hover:text-white hover:bg-white/10 transition-all bg-white/[0.03] backdrop-blur-md">
                     {cat}
                   </button>
                 ))}
               </div>
             </div>
   
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {TRENDING_SEARCHES.map((item, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ y: -10, scale: 1.01 }}
                   onClick={() => navigate(item.path)}
-                  className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.2rem] transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden h-full shadow-[0_20px_50px_rgba(0,0,0,0.1)] active:scale-[0.98]"
+                  className="bg-dark-surface/50 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden h-full"
                 >
-                   <div className="absolute top-0 right-0 w-32 md:w-40 h-32 md:h-40 blur-[40px] md:blur-[80px] opacity-0 md:group-hover:opacity-30 transition-opacity bg-primary pointer-events-none" />
+                   <div className={`absolute top-0 right-0 w-40 h-40 blur-[80px] opacity-0 group-hover:opacity-30 transition-opacity bg-primary`} />
                    
-                  <div className="relative z-10 w-full mb-8 md:mb-12 flex items-start justify-between">
-                    <span className={`px-4 py-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-xl border backdrop-blur-md ${item.accent.replace('bg-','bg-white/5 ').replace('border-','border-white/10 ').replace('text-blue-400', 'text-primary')}`}>
+                  <div className="relative z-10 w-full mb-10 flex items-start justify-between">
+                    <span className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl border backdrop-blur-md ${item.accent.replace('bg-','bg-white/5 ').replace('border-','border-white/10 ').replace('text-blue-400', 'text-primary')}`}>
                       {item.type}
                     </span>
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-all">
-                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-slate-500 group-hover:text-white transition-all transform group-hover:translate-x-1.5" />
+                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-primary transition-all">
+                      <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-white transition-all transform group-hover:translate-x-1.5" />
                     </div>
                   </div>
                   
-                  <div className="relative z-10 mt-auto pt-5 md:pt-6 border-t border-white/5">
-                    <h3 className="text-xl md:text-2xl font-black text-white group-hover:text-primary transition-colors mb-2 md:mb-3 tracking-tight">
+                  <div className="relative z-10 mt-auto pt-6 border-t border-white/5">
+                    <h3 className="text-2xl font-black text-white group-hover:text-primary transition-colors mb-3 tracking-tight">
                       {item.title}
                     </h3>
-                    <p className="text-sm md:text-base text-slate-400 font-medium group-hover:text-slate-300 transition-colors tracking-tight leading-relaxed">
+                    <p className="text-base text-slate-400 font-medium group-hover:text-slate-300 transition-colors tracking-tight leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
@@ -463,29 +461,29 @@ export const Home: React.FC = () => {
       </Suspense>
   
       {/* Disclaimer Section */}
-      <section ref={disclaimerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-24 mb-16 md:mb-24">
+      <section ref={disclaimerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-24">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="backdrop-blur-3xl bg-amber-50/60 border border-amber-200/50 p-8 sm:p-16 md:p-28 rounded-[3rem] md:rounded-[6rem] text-center shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden"
+          className="backdrop-blur-3xl bg-amber-50/60 border border-amber-200/50 p-16 md:p-28 rounded-[6rem] text-center shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-amber-200/20 rounded-full -mr-32 md:-mr-48 -mt-32 md:-mt-48 blur-[60px] md:blur-[100px] opacity-50 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-200/20 rounded-full -mr-48 -mt-48 blur-[100px] opacity-50" />
           
-          <div className="w-20 h-20 md:w-28 md:h-28 backdrop-blur-2xl bg-amber-500/10 rounded-[2rem] md:rounded-[3rem] flex items-center justify-center mx-auto mb-8 md:mb-12 relative z-10 border border-amber-200 shadow-sm transition-transform hover:rotate-12">
-            <Shield className="w-10 h-10 md:w-14 md:h-14 text-amber-600" />
+          <div className="w-28 h-28 backdrop-blur-2xl bg-amber-500/10 rounded-[3rem] flex items-center justify-center mx-auto mb-12 relative z-10 border border-amber-200 shadow-sm transition-transform hover:rotate-12">
+            <Shield className="w-14 h-14 text-amber-600" />
           </div>
           
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black mb-8 md:mb-10 tracking-[-0.04em] text-amber-950 relative z-10 uppercase">
+          <h2 className="text-4xl md:text-5xl font-black mb-10 tracking-[-0.04em] text-amber-950 relative z-10 uppercase">
              {t('medicalDisclaimer')}
           </h2>
           
-          <div className="space-y-6 md:space-y-10 relative z-10 max-w-5xl mx-auto">
-            <p className="text-xl md:text-3xl lg:text-4xl text-amber-900/80 font-black leading-[1.2] md:leading-[1.1] tracking-tight">
+          <div className="space-y-10 relative z-10 max-w-5xl mx-auto">
+            <p className="text-3xl md:text-4xl text-amber-900/80 font-black leading-[1.1] tracking-tight">
               "{t('disclaimer')}"
             </p>
-            <div className="w-24 md:w-40 h-1.5 md:h-2 bg-amber-200/50 mx-auto rounded-full" />
-            <p className="text-[10px] md:text-xs lg:text-sm font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-amber-700/60 max-w-3xl mx-auto leading-loose">
+            <div className="w-40 h-2 bg-amber-200/50 mx-auto rounded-full" />
+            <p className="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-amber-700/60 max-w-3xl mx-auto leading-loose">
               {t('educationalDisclaimer')} Data analyzed by Aethelcare AI using <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900 transition-colors">CDSCO</a> & other verified medical sources.
             </p>
           </div>

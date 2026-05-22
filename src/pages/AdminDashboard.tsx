@@ -15,7 +15,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { motion, AnimatePresence } from 'motion/react';
-import { Helmet } from 'react-helmet-async';
 import { 
   Users, 
   ShieldCheck, 
@@ -131,17 +130,10 @@ export const AdminDashboard: React.FC = () => {
     try {
       // 1. Fetch Users
       const usersSnapshot = await getDocs(collection(db, 'users'));
-      console.log("usersSnapshot empty:", usersSnapshot.empty, "size:", usersSnapshot.size);
       const fetchedUsers: UserData[] = [];
       usersSnapshot.forEach((doc) => {
-        const data = doc.data();
-        let createdAt = '';
-        if (data.createdAt?.toDate) {
-          createdAt = data.createdAt.toDate().toISOString();
-        } else if (data.createdAt) {
-          createdAt = data.createdAt;
-        }
-        fetchedUsers.push({ ...data, uid: doc.id, createdAt } as UserData);
+        const data = doc.data() as UserData;
+        fetchedUsers.push({ ...data, uid: doc.id });
       });
       fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
@@ -151,14 +143,7 @@ export const AdminDashboard: React.FC = () => {
       const searchesSnapshot = await getDocs(searchesQuery);
       const fetchedSearches: SearchData[] = [];
       searchesSnapshot.forEach((doc) => {
-        const data = doc.data();
-        let lastSearchedAt = '';
-        if (data.lastSearchedAt?.toDate) {
-          lastSearchedAt = data.lastSearchedAt.toDate().toISOString();
-        } else if (data.lastSearchedAt) {
-          lastSearchedAt = data.lastSearchedAt;
-        }
-        fetchedSearches.push({ ...data, id: doc.id, lastSearchedAt } as SearchData);
+        fetchedSearches.push({ id: doc.id, ...doc.data() } as SearchData);
       });
       setSearches(fetchedSearches);
 
@@ -167,14 +152,7 @@ export const AdminDashboard: React.FC = () => {
       const feedbackSnapshot = await getDocs(feedbackQuery);
       const fetchedFeedbacks: FeedbackData[] = [];
       feedbackSnapshot.forEach((doc) => {
-        const data = doc.data();
-        let createdAt = '';
-        if (data.createdAt?.toDate) {
-          createdAt = data.createdAt.toDate().toISOString();
-        } else if (data.createdAt) {
-          createdAt = data.createdAt;
-        }
-        fetchedFeedbacks.push({ ...data, id: doc.id, createdAt } as FeedbackData);
+        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as FeedbackData);
       });
       setFeedbacks(fetchedFeedbacks);
 
@@ -183,23 +161,15 @@ export const AdminDashboard: React.FC = () => {
       const contactSnapshot = await getDocs(contactQuery);
       const fetchedContacts: ContactRequestData[] = [];
       contactSnapshot.forEach((doc) => {
-        const data = doc.data();
-        let createdAt = '';
-        if (data.createdAt?.toDate) {
-          createdAt = data.createdAt.toDate().toISOString();
-        } else if (data.createdAt) {
-          createdAt = data.createdAt;
-        }
-        fetchedContacts.push({ ...data, id: doc.id, createdAt } as ContactRequestData);
+        fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
       });
       setContactRequests(fetchedContacts);
 
       // 5. Fetch Dataset Stats and Unverified List
       try {
         const statsRes = await fetch("/api/admin/dataset-stats");
-        const statsText = await statsRes.text();
-        if (!statsText.trim().startsWith('<')) {
-          const statsData = JSON.parse(statsText);
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
           if (statsData.success) {
             setDatasetStats(statsData);
           }
@@ -207,21 +177,20 @@ export const AdminDashboard: React.FC = () => {
       } catch (err) {
         console.error("Failed to fetch dataset stats", err);
       }
-      
+
       try {
         setLoadingUnverified(true);
         const unverifiedRes = await fetch("/api/admin/unverified-list");
-        const uvText = await unverifiedRes.text();
-        if (!uvText.trim().startsWith('<')) {
-          const uvData = JSON.parse(uvText);
+        if (unverifiedRes.ok) {
+          const uvData = await unverifiedRes.json();
           if (uvData.success) {
             setUnverifiedList(uvData.list || []);
             setUnverifiedTotal(uvData.totalCount || 0);
           }
         }
-        setLoadingUnverified(false);
-      } catch(err) {
-        console.error("Failed to fetch unverified list", err);
+      } catch (err) {
+        console.error("Failed to fetch unverified lists", err);
+      } finally {
         setLoadingUnverified(false);
       }
 
@@ -399,17 +368,9 @@ export const AdminDashboard: React.FC = () => {
     try {
       showToast("Triggering background AI data fetch...", "success");
       const res = await fetch("/api/admin/trigger-data-update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({})
+        method: "POST"
       });
-      const text = await res.text();
-      let data;
-      if (text.trim().startsWith('<')) {
-        data = { success: false, message: "Dataset synchronization is disabled on serverless edge networks. Run locally." };
-      } else {
-        data = JSON.parse(text);
-      }
+      const data = await res.json();
       if (data.success) {
         showToast(data.message || "Dataset update started successfully.", "success");
         await fetchAdminData(); // Refresh UI stats
@@ -469,10 +430,6 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg/50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-      <Helmet>
-        <title>Admin Command Station - Aethelcare</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
       <div className="max-w-7xl mx-auto">
         
         {/* Banner Area */}
@@ -505,13 +462,19 @@ export const AdminDashboard: React.FC = () => {
               <Download className="w-4 h-4" />
               Export Records
             </button>
-            
             <button 
               onClick={handleTriggerDataUpdate}
               disabled={updatingData}
               className="px-4 py-3 bg-indigo-500/10 border border-indigo-500/25 text-indigo-500 rounded-xl text-xs font-semibold hover:bg-indigo-500 hover:text-white transition-all disabled:opacity-55"
             >
               {updatingData ? 'Syncing...' : 'Sync Datasets'}
+            </button>
+            <button 
+              onClick={handleClearOldUsers}
+              disabled={resetting}
+              className="px-4 py-3 bg-danger/10 border border-danger/25 text-danger rounded-xl text-xs font-semibold hover:bg-danger hover:text-white transition-all disabled:opacity-55"
+            >
+              {resetting ? 'Resetting...' : 'Factory Reset'}
             </button>
           </div>
         </div>
@@ -822,7 +785,7 @@ export const AdminDashboard: React.FC = () => {
 
                   {/* List Database */}
                   <div className="overflow-x-auto">
-                    {finalFilteredUsers.length === 0 ? (
+                    {displayedUsersOfActiveTab().length === 0 ? (
                       <p className="p-16 text-center text-sm text-text-secondary italic">No users found matching query or filters.</p>
                     ) : (
                       <table className="w-full text-left border-collapse font-sans">
@@ -835,7 +798,7 @@ export const AdminDashboard: React.FC = () => {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-border text-sm">
-                          {finalFilteredUsers.map(u => {
+                          {displayedUsersOfActiveTab().map(u => {
                             const isSelf = u.email === profile?.email;
                             const isActionLoadingThis = actionLoading === `premium-${u.uid}` || actionLoading === `delete-user-${u.uid}`;
                             
@@ -1105,19 +1068,17 @@ export const AdminDashboard: React.FC = () => {
                                  body: JSON.stringify({ csvContent: text })
                                });
                                
-                               const resText = await res.text();
-                               let data;
-                               if (resText.trim().startsWith('<')) {
-                                 data = { success: false, message: "File uploads disabled on serverless." };
-                               } else {
-                                 data = JSON.parse(resText);
-                               }
-                               if (data.success) {
+                               if (res.ok) {
+                                 const data = await res.json();
+                                 if (data.success) {
                                   showToast(data.message, "success");
                                   window.location.reload();
                                  } else {
                                   showToast("Upload failed server-side.", "error");
                                  }
+                               } else {
+                                  showToast("Upload endpoint failed.", "error");
+                               }
                              } catch (err) {
                                showToast("Network error during upload.", "error");
                              } finally {

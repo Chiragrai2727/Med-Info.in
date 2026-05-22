@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import {defineConfig, loadEnv} from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
+import sitemap from 'vite-plugin-sitemap';
 
 const require = createRequire(import.meta.url);
 const prerender = require('vite-plugin-prerender');
@@ -17,45 +17,24 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-      VitePWA({
-        registerType: 'autoUpdate',
-        manifest: {
-          name: 'Aethelcare India',
-          short_name: 'Aethelcare',
-          description: 'Search any medicine. Understand it instantly.',
-          theme_color: '#2563EB',
-          icons: [
-            {
-              src: '/favicon.svg',
-              sizes: '192x192',
-              type: 'image/svg+xml'
-            },
-            {
-              src: '/favicon.svg',
-              sizes: '512x512',
-              type: 'image/svg+xml'
-            }
-          ]
-        },
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
-          runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'google-fonts-cache',
-                expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
-                },
-                cacheableResponse: {
-                  statuses: [0, 200]
-                }
-              }
-            }
-          ]
-        }
+      sitemap({
+        hostname: 'https://aethelcare.xyz',
+        dynamicRoutes: [
+          '/scan', 
+          '/about', 
+          '/banned-drugs', 
+          '/pricing', 
+          '/contact', 
+          '/conditions',
+          '/privacy',
+          '/dashboard',
+          '/medicine/Dolo 650',
+          '/medicine/Calpol 650',
+          '/medicine/Pan-D',
+          '/medicine/Combiflam',
+          '/medicine/Azithral 500'
+        ],
+        exclude: ['/google20f926fe5b04d78e']
       }),
       /*prerender({
         // Required - The path to the vite-outputted static site to prerender.

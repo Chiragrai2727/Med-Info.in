@@ -7,14 +7,6 @@ export interface RefillReminder {
 
 const REFILL_KEY = 'aeth_refills_v1';
 
-export function calculateReminderDate(durationDays: number): Date {
-  let remindDays = durationDays - 3;
-  if (remindDays <= 0) remindDays = durationDays; 
-  
-  const now = Date.now();
-  return new Date(now + (remindDays * 24 * 60 * 60 * 1000));
-}
-
 export function scheduleRefillReminder(medicine: string, durationDays: number): void {
   if (typeof window === 'undefined') return;
   try {

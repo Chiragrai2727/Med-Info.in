@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail, Sun, Moon, HelpCircle, CreditCard } from 'lucide-react';
+import { Camera, Calendar, User as UserIcon, LogOut, LayoutDashboard, ShieldCheck, Mail, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { useAuth } from '../AuthContext';
@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-surface/85 border-b border-border/40 pt-safe transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] bg-surface/70 border-b border-border/40 pt-safe transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           <Link to="/" className="group flex-shrink-0">
@@ -29,35 +29,26 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
           
-          <div className="flex items-center gap-2 sm:gap-4 lg:gap-6 flex-shrink-0">
+          <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
             <button 
               onClick={toggleTheme}
-              className="hidden sm:flex p-2 text-text-secondary hover:text-primary bg-bg/50 hover:bg-bg rounded-lg border border-border transition-colors shrink-0"
+              className="p-2 text-text-secondary hover:text-primary bg-bg/50 hover:bg-bg rounded-lg border border-border transition-colors hidden sm:flex shrink-0"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            <button 
-              onClick={() => document.dispatchEvent(new Event('openTutorial'))}
-              className="hidden sm:flex p-2 text-text-secondary hover:text-primary bg-bg/50 hover:bg-bg rounded-lg border border-border transition-colors shrink-0 group relative"
-              aria-label="How to use"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <div className="absolute top-full right-0 mt-2 whitespace-nowrap bg-surface border border-border text-text-primary text-[10px] font-black uppercase tracking-widest py-1 px-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                {t('howToUse')}
-              </div>
-            </button>
             <Link to="/about" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              {t('about')}
+              About
             </Link>
             <Link to="/compare" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              {t('compare')}
+              Compare
             </Link>
             <Link to="/contact" className="hidden lg:block px-3 py-2 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors flex-shrink-0">
-              {t('contactUs')}
+              Contact
             </Link>
-            <Link to="/pricing" className="hidden sm:flex px-4 py-2 text-sm font-bold text-primary bg-primary/5 rounded-full hover:bg-primary/10 transition-colors whitespace-nowrap flex-shrink-0">
-              <span>{t('plans')}</span>
+            <Link to="/pricing" className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-primary bg-primary/5 rounded-full hover:bg-primary/10 transition-colors whitespace-nowrap flex-shrink-0">
+              <span className="hidden xs:inline">Plans</span>
+              <span className="xs:hidden">₹</span>
             </Link>
             {user ? (
               <>
@@ -69,7 +60,7 @@ export const Navbar: React.FC = () => {
                   <Camera className="w-3.5 h-3.5 sm:w-4 h-4 flex-shrink-0" />
                   <span>{t('scan')}</span>
                 </Link>
-                <div className="relative group flex-shrink-0 ml-0.5 sm:ml-2">
+                <div className="relative group flex-shrink-0 ml-1 sm:ml-2">
                   <button className="flex items-center justify-center w-10 h-10 min-w-[40px] min-h-[40px] rounded-full hover:bg-black/5 transition-all flex-shrink-0 aspect-square overflow-hidden border border-border/10">
                     {profile?.photoURL ? (
                       <img src={profile.photoURL} alt="Profile" className="w-full h-full aspect-square rounded-full object-cover flex-shrink-0" referrerPolicy="no-referrer" />
@@ -79,9 +70,9 @@ export const Navbar: React.FC = () => {
                       </div>
                     )}
                   </button>
-                  <div className="absolute right-0 mt-3 w-64 bg-surface dark:bg-slate-900 rounded-[1.25rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-3 overflow-hidden">
+                  <div className="absolute right-0 mt-3 w-64 bg-surface rounded-[1.25rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.2)] border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 translate-y-3 overflow-hidden">
                     <div className="p-5 border-b border-border bg-bg/50">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/60 mb-1">{t('account')}</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/60 mb-1">Account</p>
                       <p className="text-base font-black truncate text-text-primary tracking-tight">{profile?.displayName || user.email}</p>
                     </div>
                     <div className="p-2">
@@ -89,13 +80,9 @@ export const Navbar: React.FC = () => {
                         <LayoutDashboard className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
                         {t('dashboard')}
                       </Link>
-                      <Link to="/pricing" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
-                        <CreditCard className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
-                        {t('plans')}
-                      </Link>
                       <Link to="/contact" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
                         <Mail className="w-4 h-4 text-primary/60 group-hover/item:text-primary transition-colors" />
-                        {t('contactUs')}
+                        Contact Us
                       </Link>
                       {profile?.role === 'admin' && (
                         <Link to="/admin" className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:bg-bg hover:text-primary rounded-xl font-bold flex items-center gap-3 transition-all group/item">
@@ -113,13 +100,11 @@ export const Navbar: React.FC = () => {
                 </div>
               </>
             ) : (
-              <button onClick={openAuthModal} className="text-sm font-black text-text-secondary hover:text-text-primary transition-colors px-2 py-1 flex-shrink-0">
+              <button onClick={openAuthModal} className="text-sm font-bold text-text-secondary hover:text-text-primary transition-colors px-2 py-1">
                 {t('signIn')}
               </button>
             )}
-            <div id="language-step" className="flex shrink-0">
-              <LanguageToggle />
-            </div>
+            <LanguageToggle />
           </div>
         </div>
       </div>

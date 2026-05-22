@@ -16,7 +16,7 @@ if (!admin.apps.length) {
     });
 }
 
-const db = getFirestore((firebaseAppletConfig as any).firestoreDatabaseId);
+const db = getFirestore(firebaseAppletConfig.firestoreDatabaseId);
 
 interface MedicineRecord {
     brand_name: string;

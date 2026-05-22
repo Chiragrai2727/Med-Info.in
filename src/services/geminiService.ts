@@ -179,33 +179,6 @@ export async function fetchMedicineDetails(searchQuery: string, lang: Language =
   
   if (medicinesMap[q]) {
     const med = medicinesMap[q];
-    if (lang !== 'en') {
-        const cached = offlineService.getMedicine(`${med.drug_name}_${lang}`);
-        if (cached) return cached;
-
-        // If online, use AI to specifically translate this local object
-        if (navigator.onLine) {
-            try {
-                const ai = getAIClient();
-                const response = await ai.models.generateContent({
-                    model: DEFAULT_MODEL,
-                    contents: `Translate the following medical information for "${med.drug_name}" into ${PROMPT_LANGUAGE_MAP[lang]}. 
-                    Keep the structure exactly the same.
-                    Data: ${JSON.stringify(med)}`,
-                    config: {
-                        responseMimeType: "application/json",
-                    }
-                });
-                const translated = JSON.parse(response.text || "{}");
-                const finalMed = { ...translated, id: med.id, source: 'Verified Database' };
-                offlineService.saveMedicine(finalMed, `${med.drug_name}_${lang}`);
-                return finalMed;
-            } catch (err) {
-                console.warn("AI translation of local med failed, falling back to local English.", err);
-            }
-        }
-    }
-    
     if (auth.currentUser && med.source === 'Verified Database') {
       lazySeedToFirestore(med);
     }

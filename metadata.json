@@ -1,6 +1,6 @@
 {
   "name": "Aethelcare India",
-  "description": "Smart AI Medicine Scanner & Drug Safety India – Search 300+ medicines banned by CDSCO. Multi-language support (22 Indian languages). Accurate medication info, generic alternatives, and healthcare guides.",
+  "description": "Banned Drugs Search India — Search 300+ medicines banned by CDSCO. Support for all 22 scheduled Indian languages. Access accurate medication info, generic alternatives, and safety alerts. Privacy-first Indian healthcare platform.",
   "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
