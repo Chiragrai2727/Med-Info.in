@@ -174,14 +174,8 @@ export const AdminDashboard: React.FC = () => {
           if (statsData.success) {
             setDatasetStats(statsData);
           }
-        } else {
-          console.error("Failed to fetch dataset stats", statsRes.status, await statsRes.text());
         }
-      } catch (err) {
-        console.error("Failed to fetch dataset stats", err);
-      }
-
-      try {
+        
         setLoadingUnverified(true);
         const unverifiedRes = await fetch("/api/admin/unverified-list");
         if (unverifiedRes.ok) {
@@ -190,16 +184,12 @@ export const AdminDashboard: React.FC = () => {
             setUnverifiedList(uvData.list || []);
             setUnverifiedTotal(uvData.totalCount || 0);
           }
-        } else {
-          console.error("Failed to fetch unverified lists", unverifiedRes.status, await unverifiedRes.text());
         }
         setLoadingUnverified(false);
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+        showToast("Access failed. Check Firebase console permissions.", "error");
       }
-
-    } catch (error) {
-      console.error("Error fetching admin data:", error);
-      showToast("Access failed. Check Firebase console permissions.", "error");
-    } finally {
       setLoading(false);
     }
   }, [profile, showToast]);

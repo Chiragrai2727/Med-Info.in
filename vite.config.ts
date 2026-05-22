@@ -18,25 +18,25 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-      sitemap({
-        hostname: 'https://aethelcare.xyz',
-        dynamicRoutes: [
-          '/scan', 
-          '/about', 
-          '/banned-drugs', 
-          '/pricing', 
-          '/contact', 
-          '/conditions',
-          '/privacy',
-          '/dashboard',
-          '/medicine/Dolo 650',
-          '/medicine/Calpol 650',
-          '/medicine/Pan-D',
-          '/medicine/Combiflam',
-          '/medicine/Azithral 500'
-        ],
-        exclude: ['/google20f926fe5b04d78e']
-      }),
+      // sitemap({
+      //   hostname: 'https://aethelcare.xyz',
+      //   dynamicRoutes: [
+      //     '/scan', 
+      //     '/about', 
+      //     '/banned-drugs', 
+      //     '/pricing', 
+      //     '/contact', 
+      //     '/conditions',
+      //     '/privacy',
+      //     '/dashboard',
+      //     '/medicine/Dolo 650',
+      //     '/medicine/Calpol 650',
+      //     '/medicine/Pan-D',
+      //     '/medicine/Combiflam',
+      //     '/medicine/Azithral 500'
+      //   ],
+      //   exclude: ['/google20f926fe5b04d78e']
+      // }),
       VitePWA({
         registerType: 'autoUpdate',
         manifest: {
