@@ -131,13 +131,11 @@ export const AdminDashboard: React.FC = () => {
     try {
       // 1. Fetch Users
       const usersSnapshot = await getDocs(collection(db, 'users'));
-      console.log("DEBUG: Fetched users snapshot size:", usersSnapshot.size);
       const fetchedUsers: UserData[] = [];
       usersSnapshot.forEach((doc) => {
         const data = doc.data() as UserData;
         fetchedUsers.push({ ...data, uid: doc.id });
       });
-      console.log("DEBUG: Fetched users array length:", fetchedUsers.length);
       fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
 
@@ -176,6 +174,8 @@ export const AdminDashboard: React.FC = () => {
           if (statsData.success) {
             setDatasetStats(statsData);
           }
+        } else {
+          console.error("Failed to fetch dataset stats", statsRes.status, await statsRes.text());
         }
       } catch (err) {
         console.error("Failed to fetch dataset stats", err);
@@ -190,10 +190,9 @@ export const AdminDashboard: React.FC = () => {
             setUnverifiedList(uvData.list || []);
             setUnverifiedTotal(uvData.totalCount || 0);
           }
+        } else {
+          console.error("Failed to fetch unverified lists", unverifiedRes.status, await unverifiedRes.text());
         }
-      } catch (err) {
-        console.error("Failed to fetch unverified lists", err);
-      } finally {
         setLoadingUnverified(false);
       }
 
@@ -786,7 +785,7 @@ export const AdminDashboard: React.FC = () => {
 
                   {/* List Database */}
                   <div className="overflow-x-auto">
-                    {displayedUsersOfActiveTab().length === 0 ? (
+                    {finalFilteredUsers.length === 0 ? (
                       <p className="p-16 text-center text-sm text-text-secondary italic">No users found matching query or filters.</p>
                     ) : (
                       <table className="w-full text-left border-collapse font-sans">
@@ -799,7 +798,7 @@ export const AdminDashboard: React.FC = () => {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-border text-sm">
-                          {displayedUsersOfActiveTab().map(u => {
+                          {finalFilteredUsers.map(u => {
                             const isSelf = u.email === profile?.email;
                             const isActionLoadingThis = actionLoading === `premium-${u.uid}` || actionLoading === `delete-user-${u.uid}`;
                             

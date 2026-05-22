@@ -110,6 +110,7 @@ const translations: Record<Language, Record<string, string>> = {
     installApp: 'Install App',
     downloadApp: 'Download App',
     getMobileApp: 'Get Mobile App',
+/*
     checkBannedList: 'Check Banned List',
     scanFree: 'Scan Free',
     popularMedicines: 'Popular Medicines',
@@ -128,6 +129,7 @@ const translations: Record<Language, Record<string, string>> = {
     groundedInSearch: 'Grounded in Google Search',
     verifiedSources: 'Verified Sources',
     aiDisclaimerLong: 'AI-generated content should not replace professional medical advice.',
+*/
     backToMedicines: 'Back to Medicines',
     recentSearches: 'Recent Searches',
     clearAll: 'Clear All',
