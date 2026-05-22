@@ -90,6 +90,35 @@ router.post("/verify-payment", (req, res) => {
   }
 });
 
+router.post("/admin/trigger-data-update", (req, res) => {
+  return res.status(403).json({ 
+    success: false, 
+    message: "Dataset synchronization is disabled on serverless Edge networks (Netlify/Vercel). Please run the trigger locally or deploy a stateful backend container to manage background JSON dataset generation." 
+  });
+});
+
+router.get("/admin/dataset-stats", (req, res) => {
+  return res.json({
+    success: true,
+    totalRecords: 0,
+    totalMedicines: 0,
+    totalBanned: 0,
+    totalRawCrawled: 0,
+    schedulerLogs: []
+  });
+});
+
+router.get("/admin/unverified-list", (req, res) => {
+  return res.json({ success: true, list: [], total: 0 });
+});
+
+router.post("/admin/upload-raw-csv", (req, res) => {
+  return res.status(403).json({ 
+    success: false, 
+    message: "File uploads are disabled in serverless edge mode." 
+  });
+});
+
 // Catch all possible path variations that Netlify might use
 app.use("/", router);
 app.use("/api", router);
