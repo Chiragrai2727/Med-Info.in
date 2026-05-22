@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import {defineConfig, loadEnv} from 'vite';
-import sitemap from 'vite-plugin-sitemap';
 import { VitePWA } from 'vite-plugin-pwa';
 
 const require = createRequire(import.meta.url);
@@ -18,25 +17,6 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-      // sitemap({
-      //   hostname: 'https://aethelcare.xyz',
-      //   dynamicRoutes: [
-      //     '/scan', 
-      //     '/about', 
-      //     '/banned-drugs', 
-      //     '/pricing', 
-      //     '/contact', 
-      //     '/conditions',
-      //     '/privacy',
-      //     '/dashboard',
-      //     '/medicine/Dolo 650',
-      //     '/medicine/Calpol 650',
-      //     '/medicine/Pan-D',
-      //     '/medicine/Combiflam',
-      //     '/medicine/Azithral 500'
-      //   ],
-      //   exclude: ['/google20f926fe5b04d78e']
-      // }),
       VitePWA({
         registerType: 'autoUpdate',
         manifest: {

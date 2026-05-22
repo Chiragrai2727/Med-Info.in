@@ -207,10 +207,7 @@ const translations: Record<Language, Record<string, string>> = {
     uncertainIdentification: 'The identification is uncertain due to image quality. Please verify with the physical packaging.',
     result: 'Result',
     normal: 'Normal',
-    addedToCompare: 'Added to comparison',
-    removedFromCompare: 'Removed from comparison',
-    singleLineSummary: 'Summary',
-    compare: 'Compare',
+    // (Duplicates removed)
     myDashboard: 'My Dashboard',
     dashboardDesc: 'Manage your account, active plans, and payment history.',
     profile: 'Profile',

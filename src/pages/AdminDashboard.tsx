@@ -133,8 +133,14 @@ export const AdminDashboard: React.FC = () => {
       const usersSnapshot = await getDocs(collection(db, 'users'));
       const fetchedUsers: UserData[] = [];
       usersSnapshot.forEach((doc) => {
-        const data = doc.data() as UserData;
-        fetchedUsers.push({ ...data, uid: doc.id });
+        const data = doc.data();
+        let createdAt = '';
+        if (data.createdAt?.toDate) {
+          createdAt = data.createdAt.toDate().toISOString();
+        } else if (data.createdAt) {
+          createdAt = data.createdAt;
+        }
+        fetchedUsers.push({ ...data, uid: doc.id, createdAt } as UserData);
       });
       fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
@@ -144,7 +150,14 @@ export const AdminDashboard: React.FC = () => {
       const searchesSnapshot = await getDocs(searchesQuery);
       const fetchedSearches: SearchData[] = [];
       searchesSnapshot.forEach((doc) => {
-        fetchedSearches.push({ id: doc.id, ...doc.data() } as SearchData);
+        const data = doc.data();
+        let lastSearchedAt = '';
+        if (data.lastSearchedAt?.toDate) {
+          lastSearchedAt = data.lastSearchedAt.toDate().toISOString();
+        } else if (data.lastSearchedAt) {
+          lastSearchedAt = data.lastSearchedAt;
+        }
+        fetchedSearches.push({ ...data, id: doc.id, lastSearchedAt } as SearchData);
       });
       setSearches(fetchedSearches);
 
@@ -153,7 +166,14 @@ export const AdminDashboard: React.FC = () => {
       const feedbackSnapshot = await getDocs(feedbackQuery);
       const fetchedFeedbacks: FeedbackData[] = [];
       feedbackSnapshot.forEach((doc) => {
-        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as FeedbackData);
+        const data = doc.data();
+        let createdAt = '';
+        if (data.createdAt?.toDate) {
+          createdAt = data.createdAt.toDate().toISOString();
+        } else if (data.createdAt) {
+          createdAt = data.createdAt;
+        }
+        fetchedFeedbacks.push({ ...data, id: doc.id, createdAt } as FeedbackData);
       });
       setFeedbacks(fetchedFeedbacks);
 
@@ -162,7 +182,14 @@ export const AdminDashboard: React.FC = () => {
       const contactSnapshot = await getDocs(contactQuery);
       const fetchedContacts: ContactRequestData[] = [];
       contactSnapshot.forEach((doc) => {
-        fetchedContacts.push({ id: doc.id, ...doc.data() } as ContactRequestData);
+        const data = doc.data();
+        let createdAt = '';
+        if (data.createdAt?.toDate) {
+          createdAt = data.createdAt.toDate().toISOString();
+        } else if (data.createdAt) {
+          createdAt = data.createdAt;
+        }
+        fetchedContacts.push({ ...data, id: doc.id, createdAt } as ContactRequestData);
       });
       setContactRequests(fetchedContacts);
 
@@ -175,7 +202,11 @@ export const AdminDashboard: React.FC = () => {
             setDatasetStats(statsData);
           }
         }
-        
+      } catch (err) {
+        console.error("Failed to fetch dataset stats", err);
+      }
+      
+      try {
         setLoadingUnverified(true);
         const unverifiedRes = await fetch("/api/admin/unverified-list");
         if (unverifiedRes.ok) {
@@ -186,10 +217,15 @@ export const AdminDashboard: React.FC = () => {
           }
         }
         setLoadingUnverified(false);
-      } catch (error) {
-        console.error("Error fetching admin data:", error);
-        showToast("Access failed. Check Firebase console permissions.", "error");
+      } catch(err) {
+        console.error("Failed to fetch unverified list", err);
+        setLoadingUnverified(false);
       }
+
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+      showToast("Access failed. Check Firebase console permissions.", "error");
+    } finally {
       setLoading(false);
     }
   }, [profile, showToast]);
