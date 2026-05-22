@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               createdAt: serverTimestamp(),
               role: isAdmin ? 'admin' : 'user'
             };
-            setDoc(userRef, newProfileData).catch(console.error);
+            setDoc(userRef, newProfileData, { merge: true }).catch(console.error);
           }
           setLoading(false);
         }, (error) => {

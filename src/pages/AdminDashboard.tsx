@@ -197,8 +197,9 @@ export const AdminDashboard: React.FC = () => {
       // 5. Fetch Dataset Stats and Unverified List
       try {
         const statsRes = await fetch("/api/admin/dataset-stats");
-        if (statsRes.ok) {
-          const statsData = await statsRes.json();
+        const statsText = await statsRes.text();
+        if (!statsText.trim().startsWith('<')) {
+          const statsData = JSON.parse(statsText);
           if (statsData.success) {
             setDatasetStats(statsData);
           }
@@ -210,8 +211,9 @@ export const AdminDashboard: React.FC = () => {
       try {
         setLoadingUnverified(true);
         const unverifiedRes = await fetch("/api/admin/unverified-list");
-        if (unverifiedRes.ok) {
-          const uvData = await unverifiedRes.json();
+        const uvText = await unverifiedRes.text();
+        if (!uvText.trim().startsWith('<')) {
+          const uvData = JSON.parse(uvText);
           if (uvData.success) {
             setUnverifiedList(uvData.list || []);
             setUnverifiedTotal(uvData.totalCount || 0);
@@ -401,7 +403,13 @@ export const AdminDashboard: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({})
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      if (text.trim().startsWith('<')) {
+        data = { success: false, message: "Dataset synchronization is disabled on serverless edge networks. Run locally." };
+      } else {
+        data = JSON.parse(text);
+      }
       if (data.success) {
         showToast(data.message || "Dataset update started successfully.", "success");
         await fetchAdminData(); // Refresh UI stats
@@ -1097,17 +1105,19 @@ export const AdminDashboard: React.FC = () => {
                                  body: JSON.stringify({ csvContent: text })
                                });
                                
-                               if (res.ok) {
-                                 const data = await res.json();
-                                 if (data.success) {
+                               const resText = await res.text();
+                               let data;
+                               if (resText.trim().startsWith('<')) {
+                                 data = { success: false, message: "File uploads disabled on serverless." };
+                               } else {
+                                 data = JSON.parse(resText);
+                               }
+                               if (data.success) {
                                   showToast(data.message, "success");
                                   window.location.reload();
                                  } else {
                                   showToast("Upload failed server-side.", "error");
                                  }
-                               } else {
-                                  showToast("Upload endpoint failed.", "error");
-                               }
                              } catch (err) {
                                showToast("Network error during upload.", "error");
                              } finally {
