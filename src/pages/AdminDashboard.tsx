@@ -397,7 +397,9 @@ export const AdminDashboard: React.FC = () => {
     try {
       showToast("Triggering background AI data fetch...", "success");
       const res = await fetch("/api/admin/trigger-data-update", {
-        method: "POST"
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({})
       });
       const data = await res.json();
       if (data.success) {
