@@ -1,113 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-  <!-- ==================== CORE PAGES ==================== -->
-
-  <!-- Homepage — highest priority, crawled frequently -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aethelcare.xyz/</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-05-18</lastmod>
   </url>
-
-  <!-- AI Medicine Scanner — primary product feature -->
-  <url>
-    <loc>https://aethelcare.xyz/scan</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Banned Drugs — high-value SEO page, CDSCO queries -->
-  <url>
-    <loc>https://aethelcare.xyz/banned-drugs</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Pricing — conversion page -->
-  <url>
-    <loc>https://aethelcare.xyz/pricing</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- About -->
   <url>
     <loc>https://aethelcare.xyz/about</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-05-18</lastmod>
   </url>
-
-  <!-- Contact -->
   <url>
-    <loc>https://aethelcare.xyz/contact</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://aethelcare.xyz/banned-drugs</loc>
+    <lastmod>2026-05-18</lastmod>
   </url>
-
-  <!-- ==================== LEGAL PAGES ==================== -->
-
-  <!-- Terms & Conditions -->
+  <url>
+    <loc>https://aethelcare.xyz/compare</loc>
+    <lastmod>2026-05-18</lastmod>
+  </url>
   <url>
     <loc>https://aethelcare.xyz/conditions</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <lastmod>2026-05-18</lastmod>
   </url>
-
-  <!-- Privacy Policy -->
+  <url>
+    <loc>https://aethelcare.xyz/pricing</loc>
+    <lastmod>2026-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://aethelcare.xyz/contact</loc>
+    <lastmod>2026-05-18</lastmod>
+  </url>
   <url>
     <loc>https://aethelcare.xyz/privacy</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <lastmod>2026-05-18</lastmod>
   </url>
-
-  <!-- ==================== MEDICINE DETAIL PAGES ==================== -->
-  <!-- High-traffic Indian medicine search terms — update lastmod when drug data changes -->
-
   <url>
-    <loc>https://aethelcare.xyz/medicine/Dolo%20650</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <loc>https://aethelcare.xyz/terms</loc>
+    <lastmod>2026-05-21</lastmod>
   </url>
-
-  <url>
-    <loc>https://aethelcare.xyz/medicine/Calpol%20650</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://aethelcare.xyz/medicine/Pan-D</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://aethelcare.xyz/medicine/Combiflam</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://aethelcare.xyz/medicine/Azithral%20500</loc>
-    <lastmod>2026-05-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
 </urlset>

@@ -20,6 +20,7 @@ const MedicineDetail = lazy(() => import('./pages/MedicineDetail').then(m => ({ 
 const ConditionPage = lazy(() => import('./pages/ConditionPage').then(m => ({ default: m.ConditionPage })));
 const Compare = lazy(() => import('./pages/Compare').then(m => ({ default: m.Compare })));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
+const TermsOfService = lazy(() => import('./pages/TermsOfService').then(m => ({ default: m.TermsOfService })));
 const ScannerPage = lazy(() => import('./pages/ScannerPage').then(m => ({ default: m.ScannerPage })));
 const Timetable = lazy(() => import('./pages/Timetable').then(m => ({ default: m.Timetable })));
 const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
@@ -266,6 +267,7 @@ export default function App() {
                         } 
                       />
                       <Route path="/privacy" element={<PrivacyPolicy />} />
+                      <Route path="/terms" element={<TermsOfService />} />
                       
                       {/* Catch all other routes with a 404 page */}
                       <Route path="*" element={<NotFound />} />
@@ -364,6 +366,7 @@ export default function App() {
                         <Link to="/conditions" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">Conditions</Link>
                         <Link to="/contact" className="text-xs font-black text-primary hover:scale-105 transition-transform uppercase tracking-widest underline decoration-2 underline-offset-4 pointer-events-auto cursor-pointer">Contact Us</Link>
                         <Link to="/privacy" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">{t('privacyPolicy')}</Link>
+                        <Link to="/terms" className="text-xs text-text-secondary hover:text-text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">Terms of Service</Link>
                         <a href="https://cdsco.gov.in" target="_blank" rel="noopener noreferrer" className="text-xs text-text-secondary hover:text-primary transition-colors font-black uppercase tracking-widest pointer-events-auto cursor-pointer">
                           {t('cdscoOfficial')}
                         </a>

@@ -6,6 +6,7 @@ import { createRequire } from 'module';
 import {defineConfig, loadEnv} from 'vite';
 import sitemap from 'vite-plugin-sitemap';
 import { VitePWA } from 'vite-plugin-pwa';
+
 const require = createRequire(import.meta.url);
 const prerender = require('vite-plugin-prerender');
 const JSDOMRenderer = require('@prerenderer/renderer-jsdom');
@@ -17,36 +18,25 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-
-      // ✅ CHANGE 1: Fixed sitemap plugin config
       sitemap({
         hostname: 'https://aethelcare.xyz',
         dynamicRoutes: [
-          // Core pages
-          '/',
-          '/scan',
-          '/about',
-          '/banned-drugs',
-          '/pricing',
-          '/contact',
+          '/scan', 
+          '/about', 
+          '/banned-drugs', 
+          '/pricing', 
+          '/contact', 
           '/conditions',
           '/privacy',
-          // Medicine detail pages
+          '/dashboard',
           '/medicine/Dolo 650',
           '/medicine/Calpol 650',
           '/medicine/Pan-D',
           '/medicine/Combiflam',
-          '/medicine/Azithral 500',
+          '/medicine/Azithral 500'
         ],
-        // ✅ CHANGE 2: Exclude auth-gated + Google verification pages
-        exclude: [
-          '/google20f926fe5b04d78e',
-          '/dashboard',           // login-gated, Google shouldn't index
-        ],
-        // ✅ CHANGE 3: Don't let the plugin overwrite your robots.txt
-        generateRobotsTxt: false,
+        exclude: ['/google20f926fe5b04d78e']
       }),
-
       VitePWA({
         registerType: 'autoUpdate',
         manifest: {
@@ -77,7 +67,7 @@ export default defineConfig(({mode}) => {
                 cacheName: 'google-fonts-cache',
                 expiration: {
                   maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365 // 365 days
+                  maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
                 },
                 cacheableResponse: {
                   statuses: [0, 200]
@@ -87,9 +77,10 @@ export default defineConfig(({mode}) => {
           ]
         }
       }),
-
       /*prerender({
+        // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
+        // Required - Routes to render.
         routes: [
           '/', 
           '/scan', 
@@ -102,7 +93,7 @@ export default defineConfig(({mode}) => {
           '/dashboard'
         ],
         renderer: new JSDOMRenderer({
-          renderAfterDocumentEvent: 'render-event',
+          renderAfterDocumentEvent: 'render-event', // or just use fallback
         })
       }),*/
     ],
@@ -116,6 +107,8 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
+      // HMR is disabled in AI Studio via DISABLE_HMR env var.
+      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {

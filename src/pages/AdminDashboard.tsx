@@ -131,11 +131,13 @@ export const AdminDashboard: React.FC = () => {
     try {
       // 1. Fetch Users
       const usersSnapshot = await getDocs(collection(db, 'users'));
+      console.log("DEBUG: Fetched users snapshot size:", usersSnapshot.size);
       const fetchedUsers: UserData[] = [];
       usersSnapshot.forEach((doc) => {
         const data = doc.data() as UserData;
         fetchedUsers.push({ ...data, uid: doc.id });
       });
+      console.log("DEBUG: Fetched users array length:", fetchedUsers.length);
       fetchedUsers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       setUsers(fetchedUsers);
 
@@ -467,19 +469,13 @@ export const AdminDashboard: React.FC = () => {
               <Download className="w-4 h-4" />
               Export Records
             </button>
+            
             <button 
               onClick={handleTriggerDataUpdate}
               disabled={updatingData}
               className="px-4 py-3 bg-indigo-500/10 border border-indigo-500/25 text-indigo-500 rounded-xl text-xs font-semibold hover:bg-indigo-500 hover:text-white transition-all disabled:opacity-55"
             >
               {updatingData ? 'Syncing...' : 'Sync Datasets'}
-            </button>
-            <button 
-              onClick={handleClearOldUsers}
-              disabled={resetting}
-              className="px-4 py-3 bg-danger/10 border border-danger/25 text-danger rounded-xl text-xs font-semibold hover:bg-danger hover:text-white transition-all disabled:opacity-55"
-            >
-              {resetting ? 'Resetting...' : 'Factory Reset'}
             </button>
           </div>
         </div>
