@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import {defineConfig, loadEnv} from 'vite';
-import sitemap from 'vite-plugin-sitemap';
 
 const require = createRequire(import.meta.url);
 const prerender = require('vite-plugin-prerender');
@@ -17,25 +16,6 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
-      sitemap({
-        hostname: 'https://aethelcare.xyz',
-        dynamicRoutes: [
-          '/scan', 
-          '/about', 
-          '/banned-drugs', 
-          '/pricing', 
-          '/contact', 
-          '/conditions',
-          '/privacy',
-          '/dashboard',
-          '/medicine/Dolo 650',
-          '/medicine/Calpol 650',
-          '/medicine/Pan-D',
-          '/medicine/Combiflam',
-          '/medicine/Azithral 500'
-        ],
-        exclude: ['/google20f926fe5b04d78e']
-      }),
       /*prerender({
         // Required - The path to the vite-outputted static site to prerender.
         staticDir: path.join(__dirname, 'dist'),
