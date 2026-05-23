@@ -36,6 +36,7 @@ import {
 
 import { useCompare } from '../CompareContext';
 import { FeedbackModal } from '../components/FeedbackModal';
+import { MagicBento, MagicBentoCard } from '../components/MagicBento/MagicBento';
 
 export const MedicineDetail: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -445,8 +446,9 @@ export const MedicineDetail: React.FC = () => {
         </motion.div>
  
         {/* Detailed Sections */}
-        <div className="grid grid-cols-1 gap-8 mb-24">
+        <MagicBento className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
           <Section 
+            className="md:col-span-2"
             icon={<Activity className="w-6 h-6" />} 
             title={t('usesConditions')} 
             content={medicine.uses} 
@@ -455,26 +457,25 @@ export const MedicineDetail: React.FC = () => {
             isLoading={isTtsLoading}
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<Zap className="w-6 h-6" />} 
-              title={t('mechanismOfAction')} 
-              content={medicine.mechanism_of_action} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('mechanismOfAction')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<Stethoscope className="w-6 h-6" />} 
-              title={t('commonDosage')} 
-              content={medicine.dosage_common} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('commonDosage')}
-              isLoading={isTtsLoading}
-            />
-          </div>
+          <Section 
+            icon={<Zap className="w-6 h-6" />} 
+            title={t('mechanismOfAction')} 
+            content={medicine.mechanism_of_action} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('mechanismOfAction')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<Stethoscope className="w-6 h-6" />} 
+            title={t('commonDosage')} 
+            content={medicine.dosage_common} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('commonDosage')}
+            isLoading={isTtsLoading}
+          />
  
           <Section 
+            className="md:col-span-2"
             icon={<Info className="w-6 h-6" />} 
             title={t('howItWorksBody')} 
             content={medicine.how_it_works_in_body} 
@@ -483,47 +484,44 @@ export const MedicineDetail: React.FC = () => {
             isLoading={isTtsLoading}
           />
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<Clock className="w-6 h-6" />} 
-              title={t('onsetOfAction')} 
-              content={medicine.onset_of_action} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('onsetOfAction')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<Timer className="w-6 h-6" />} 
-              title={t('durationOfEffect')} 
-              content={medicine.duration_of_effect} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('durationOfEffect')}
-              isLoading={isTtsLoading}
-            />
-          </div>
+          <Section 
+            icon={<Clock className="w-6 h-6" />} 
+            title={t('onsetOfAction')} 
+            content={medicine.onset_of_action} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('onsetOfAction')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<Timer className="w-6 h-6" />} 
+            title={t('durationOfEffect')} 
+            content={medicine.duration_of_effect} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('durationOfEffect')}
+            isLoading={isTtsLoading}
+          />
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<UserCheck className="w-6 h-6" />} 
-              title={t('whoShouldTake')} 
-              content={medicine.who_should_take} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('whoShouldTake')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<UserX className="w-6 h-6" />} 
-              title={t('whoShouldNotTake')} 
-              content={medicine.who_should_not_take} 
-              variant="danger"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('whoShouldNotTake')}
-              isLoading={isTtsLoading}
-            />
-          </div>
+          <Section 
+            icon={<UserCheck className="w-6 h-6" />} 
+            title={t('whoShouldTake')} 
+            content={medicine.who_should_take} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('whoShouldTake')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<UserX className="w-6 h-6" />} 
+            title={t('whoShouldNotTake')} 
+            content={medicine.who_should_not_take} 
+            variant="danger"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('whoShouldNotTake')}
+            isLoading={isTtsLoading}
+          />
  
           {medicine.missed_dose && (
             <Section 
+              className="md:col-span-2"
               icon={<Clock className="w-6 h-6" />} 
               title={t('missedDose')} 
               content={medicine.missed_dose} 
@@ -535,6 +533,7 @@ export const MedicineDetail: React.FC = () => {
           )}
  
           <Section 
+            className="md:col-span-2"
             icon={<AlertCircle className="w-6 h-6" />} 
             title={t('commonSideEffects')} 
             content={medicine.side_effects_common} 
@@ -544,6 +543,7 @@ export const MedicineDetail: React.FC = () => {
           />
  
           <Section 
+            className="md:col-span-2"
             icon={<AlertTriangle className="w-6 h-6" />} 
             title={t('seriousSideEffects')} 
             content={medicine.side_effects_serious} 
@@ -553,28 +553,27 @@ export const MedicineDetail: React.FC = () => {
             isLoading={isTtsLoading}
           />
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<Baby className="w-6 h-6" />} 
-              title={t('pregnancySafety')} 
-              content={medicine.pregnancy_safety} 
-              variant="warning"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('pregnancySafety')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<Heart className="w-6 h-6" />} 
-              title={t('kidneyLiverWarning')} 
-              content={medicine.kidney_liver_warning} 
-              variant="warning"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('kidneyLiverWarning')}
-              isLoading={isTtsLoading}
-            />
-          </div>
+          <Section 
+            icon={<Baby className="w-6 h-6" />} 
+            title={t('pregnancySafety')} 
+            content={medicine.pregnancy_safety} 
+            variant="warning"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('pregnancySafety')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<Heart className="w-6 h-6" />} 
+            title={t('kidneyLiverWarning')} 
+            content={medicine.kidney_liver_warning} 
+            variant="warning"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('kidneyLiverWarning')}
+            isLoading={isTtsLoading}
+          />
  
           <Section 
+            className="md:col-span-2"
             icon={<ArrowRightLeft className="w-6 h-6" />} 
             title={t('drugInteractions')} 
             content={medicine.drug_interactions} 
@@ -584,47 +583,43 @@ export const MedicineDetail: React.FC = () => {
             isLoading={isTtsLoading}
           />
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<Utensils className="w-6 h-6" />} 
-              title={t('foodInteractions')} 
-              content={medicine.food_interactions} 
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('foodInteractions')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<Beer className="w-6 h-6" />} 
-              title={t('alcoholWarning')} 
-              content={medicine.alcohol_warning} 
-              variant="danger"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('alcoholWarning')}
-              isLoading={isTtsLoading}
-            />
-          </div>
+          <Section 
+            icon={<Utensils className="w-6 h-6" />} 
+            title={t('foodInteractions')} 
+            content={medicine.food_interactions} 
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('foodInteractions')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<Beer className="w-6 h-6" />} 
+            title={t('alcoholWarning')} 
+            content={medicine.alcohol_warning} 
+            variant="danger"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('alcoholWarning')}
+            isLoading={isTtsLoading}
+          />
  
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Section 
-              icon={<AlertTriangle className="w-6 h-6" />} 
-              title={t('overdoseEffects')} 
-              content={medicine.overdose_effects} 
-              variant="danger"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('overdoseEffects')}
-              isLoading={isTtsLoading}
-            />
-            <Section 
-              icon={<ShieldAlert className="w-6 h-6" />} 
-              title={t('contraindications')} 
-              content={medicine.contraindications} 
-              variant="danger"
-              onSpeak={handleSpeakSection}
-              isSpeaking={speakingSection === t('contraindications')}
-              isLoading={isTtsLoading}
-            />
-          </div>
-        </div>
+          <Section 
+            icon={<AlertTriangle className="w-6 h-6" />} 
+            title={t('overdoseEffects')} 
+            content={medicine.overdose_effects} 
+            variant="danger"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('overdoseEffects')}
+            isLoading={isTtsLoading}
+          />
+          <Section 
+            icon={<ShieldAlert className="w-6 h-6" />} 
+            title={t('contraindications')} 
+            content={medicine.contraindications} 
+            variant="danger"
+            onSpeak={handleSpeakSection}
+            isSpeaking={speakingSection === t('contraindications')}
+            isLoading={isTtsLoading}
+          />
+        </MagicBento>
  
         {/* Disclaimer Footer */}
         <motion.div 
@@ -667,8 +662,9 @@ const Section: React.FC<{
   onSpeak?: (title: string, content: string | string[]) => void;
   isSpeaking?: boolean;
   isLoading?: boolean;
+  className?: string;
 }> = ({ 
-  icon, title, content, variant = 'default', onSpeak, isSpeaking, isLoading 
+  icon, title, content, variant = 'default', onSpeak, isSpeaking, isLoading, className = ''
 }) => {
   const styles = {
     default: 'bg-surface/80 border-surface/50',
@@ -681,49 +677,60 @@ const Section: React.FC<{
     warning: 'text-amber-700',
     danger: 'text-danger'
   };
+
+  const glowColors = {
+    default: '59, 130, 246', // blue-500
+    warning: '245, 158, 11', // amber-500
+    danger: '239, 68, 68' // red-500
+  };
  
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.98 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      className={`p-12 md:p-14 backdrop-blur-xl rounded-[4rem] border shadow-[0_8px_32px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] transition-all duration-700 ${styles[variant]}`}
+      className={className}
     >
-      <div className="flex items-center justify-between mb-8">
-        <div className={`flex items-center gap-4 font-black uppercase tracking-[0.25em] text-[11px] ${titleStyles[variant]}`}>
-          <div className={`p-3 rounded-2xl backdrop-blur-md shadow-sm ${variant === 'default' ? 'bg-bg text-text-primary border border-border' : 'bg-current/10'}`}>
-            {icon}
+      <MagicBentoCard 
+        glowColor={glowColors[variant]} 
+        className={`p-12 md:p-14 backdrop-blur-xl border shadow-[0_8px_32px_rgba(0,0,0,0.03)] transition-all duration-700 ${styles[variant]} h-full`}
+      >
+        <div className="flex items-center justify-between mb-8">
+          <div className={`flex items-center gap-4 font-black uppercase tracking-[0.25em] text-[11px] ${titleStyles[variant]}`}>
+            <div className={`p-3 rounded-2xl backdrop-blur-md shadow-sm ${variant === 'default' ? 'bg-bg text-text-primary border border-border' : 'bg-current/10'}`}>
+              {icon}
+            </div>
+            {title}
           </div>
-          {title}
+          {onSpeak && (
+            <button 
+              onClick={(e) => { e.stopPropagation(); onSpeak(title, content); }}
+              disabled={isLoading && isSpeaking}
+              className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${isSpeaking ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'hover:bg-bg text-text-secondary hover:text-text-primary border border-transparent hover:border-border'} disabled:opacity-50 active:scale-90`}
+              title="Listen to this section"
+            >
+              {isLoading && isSpeaking ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : isSpeaking ? (
+                <Square className="w-5 h-5 fill-current" />
+              ) : (
+                <Volume2 className="w-5 h-5" />
+              )}
+            </button>
+          )}
         </div>
-        {onSpeak && (
-          <button 
-            onClick={(e) => { e.stopPropagation(); onSpeak(title, content); }}
-            disabled={isLoading && isSpeaking}
-            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all ${isSpeaking ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'hover:bg-bg text-text-secondary hover:text-text-primary border border-transparent hover:border-border'} disabled:opacity-50 active:scale-90`}
-            title="Listen to this section"
-          >
-            {isLoading && isSpeaking ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : isSpeaking ? (
-              <Square className="w-5 h-5 fill-current" />
-            ) : (
-              <Volume2 className="w-5 h-5" />
-            )}
-          </button>
+        {Array.isArray(content) ? (
+          <ul className="list-disc list-inside space-y-4">
+            {content.map((item, index) => (
+              <li key={index} className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">{content}</p>
         )}
-      </div>
-      {Array.isArray(content) ? (
-        <ul className="list-disc list-inside space-y-4">
-          {content.map((item, index) => (
-            <li key={index} className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">
-              {item}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-2xl text-text-primary font-black leading-[1.2] tracking-[-0.02em]">{content}</p>
-      )}
+      </MagicBentoCard>
     </motion.div>
   );
 };
